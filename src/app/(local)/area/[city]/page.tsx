@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Container from "@/components/common/Container";
@@ -10,14 +11,18 @@ export function generateStaticParams(): Params[] {
   return SUPPORTED_CITIES.map((city) => ({ city }));
 }
 
-export const revalidate = 86400; // literal numérico
+// Literal numérico (evita otros errores)
+export const revalidate = 86400; // 24h
 
-export function generateMetadata(
-  { params }: { params: Params }
-): Metadata {
-  const cityLc = params.city.toLowerCase();
+// Acepta params como any y usa await (vale para objeto o Promise)
+export async function generateMetadata(
+  { params }: { params: any }
+): Promise<Metadata> {
+  const { city } = (await params) as Params; // si es objeto, await devuelve el mismo objeto
+  const cityLc = city.toLowerCase();
   const cityName = cityLc.charAt(0).toUpperCase() + cityLc.slice(1);
   const path = `/area/${cityLc}`;
+
   return {
     title: titleTemplate(`Agencia de digitalización en ${cityName}`),
     description: `Diseño web, landings y marketing digital en ${cityName}. Estrategia, copy y SEO on-page.`,
@@ -26,8 +31,11 @@ export function generateMetadata(
   };
 }
 
-export default function CityPage({ params }: { params: Params }) {
-  const cityLc = params.city.toLowerCase();
+export default async function CityPage(
+  { params }: { params: any }
+) {
+  const { city } = (await params) as Params;
+  const cityLc = city.toLowerCase();
   if (!SUPPORTED_CITIES.includes(cityLc)) notFound();
 
   const cityName = cityLc.charAt(0).toUpperCase() + cityLc.slice(1);

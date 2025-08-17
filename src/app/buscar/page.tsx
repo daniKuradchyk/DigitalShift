@@ -12,7 +12,7 @@ function getQuery(sp: SearchParams, key: string) {
   return Array.isArray(raw) ? (raw[0] ?? "") : (raw ?? "");
 }
 
-export function generateMetadata(
+export async function generateMetadata(
   { searchParams }: { searchParams?: SearchParams }
 ): Metadata {
   const q = getQuery(searchParams ?? {}, "q").trim();
@@ -26,7 +26,7 @@ export function generateMetadata(
   };
 }
 
-export default function SearchPage(
+export default async function SearchPage(
   { searchParams }: { searchParams?: SearchParams }
 ) {
   const q = getQuery(searchParams ?? {}, "q").trim();

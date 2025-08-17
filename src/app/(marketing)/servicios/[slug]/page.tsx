@@ -34,7 +34,7 @@ export function generateStaticParams(): Params[] {
 
 export const revalidate = 86400;
 
-export function generateMetadata(
+export async function generateMetadata(
   { params }: { params: Params }
 ): Metadata {
   const { slug } = params;
@@ -48,7 +48,7 @@ export function generateMetadata(
   };
 }
 
-export default function ServicePage({ params }: { params: Params }) {
+export default async function ServicePage({ params }: { params: Params }) {
   const { slug } = params;
   if (!SLUGS.includes(slug)) notFound();
 
