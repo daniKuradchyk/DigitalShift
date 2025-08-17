@@ -1,0 +1,24 @@
+[
+  {
+    "client": "TODO: Empresa A",
+    "sector": "SaaS",
+    "period": "Q2 2025",
+    "challenge": "Landing para captar demos sin perder calidad de lead.",
+    "highlights": [
+      "+TODO:% tasa de conversión (autorización pendiente)",
+      "Arquitectura + copy orientado a pains/beneficios",
+      "Medición de microconversiones (scroll, CTA, formulario)"
+    ]
+  },
+  {
+    "client": "TODO: Empresa B",
+    "sector": "Servicios B2B",
+    "period": "Q1 2025",
+    "challenge": "Web corporativa para potenciar confianza y solicitud de propuesta.",
+    "highlights": [
+      "Mejora en Core Web Vitals",
+      "Secciones de prueba social y metodología claras",
+      "Formularios con validación y seguimiento de envíos"
+    ]
+  }
+]
