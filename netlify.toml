@@ -1,0 +1,13 @@
+# netlify.toml — configuración de build para Next.js en Netlify
+[build]
+  command = "npm run build"
+  publish = ".next"   # SSR: el runtime de Netlify maneja .next
+
+[build.environment]
+  NODE_VERSION = "20"
+  NEXT_PUBLIC_SITE_URL = "https://TU-SITIO.netlify.app"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Plugin oficial de Next en Netlify (imprescindible para SSR, middleware, images, etc.)
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
