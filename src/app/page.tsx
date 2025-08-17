@@ -9,7 +9,7 @@ import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import { faqJsonLd } from "@/lib/jsonld";
 
-export const revalidate = 60 * 60 * 24; // 24h
+export const revalidate = 86400;// 24h
 
 export default function Page() {
   const faqLd = faqJsonLd(faqItems);

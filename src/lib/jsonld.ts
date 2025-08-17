@@ -27,7 +27,6 @@ export function websiteJsonLd({ url, name }: { url: string; name: string }) {
     },
   } as const;
 }
-
 export function localBusinessJsonLd({
   name,
   url,
@@ -36,7 +35,18 @@ export function localBusinessJsonLd({
   address,
   sameAs = [] as string[],
 }: {
-  name: string; url: string; logoUrl: string; telephone: string; address: { streetAddress: string; addressLocality: string; postalCode: string; addressRegion: string; addressCountry: string; }; sameAs?: string[];
+  name: string;
+  url: string;
+  logoUrl: string;
+  telephone: string;
+  address: {
+    streetAddress: string;
+    addressLocality: string;
+    postalCode: string;
+    addressRegion: string;
+    addressCountry: string;
+  };
+  sameAs?: string[];
 }) {
   return {
     "@context": "https://schema.org",
@@ -48,6 +58,7 @@ export function localBusinessJsonLd({
     address: { "@type": "PostalAddress", ...address },
     areaServed: "ES",
     image: [logoUrl],
+    sameAs, // ✅ ahora sí se usa
   } as const;
 }
 
@@ -80,32 +91,5 @@ export function serviceJsonLd({ name, description, areaUrl }: { name: string; de
     description,
     areaServed: areaUrl ?? BASE_URL,
     provider: { "@type": "Organization", name: SITE_NAME, url: BASE_URL },
-  } as const;
-}
-export function articleJsonLd({
-  headline,
-  description,
-  authorName,
-  url,
-  datePublished,
-  image = "/images/og-cover.png",
-}: {
-  headline: string;
-  description: string;
-  authorName: string;
-  url: string;
-  datePublished: string; // YYYY-MM-DD
-  image?: string;
-}) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline,
-    description,
-    author: { "@type": "Person", name: authorName },
-    datePublished,
-    mainEntityOfPage: url,
-    image: [image],
-    publisher: { "@type": "Organization", name: "DigitalShift", logo: { "@type": "ImageObject", url: "/favicon.ico" } },
   } as const;
 }
