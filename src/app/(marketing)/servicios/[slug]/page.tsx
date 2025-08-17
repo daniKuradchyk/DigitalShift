@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Container from "@/components/common/Container";
@@ -7,24 +8,43 @@ type Slug = "landing-pages" | "web-corporativa" | "marketing-digital";
 type Params = { slug: Slug };
 
 const SLUGS: Slug[] = ["landing-pages", "web-corporativa", "marketing-digital"];
-const META: Record<Slug, { title: string; description: string; h1: string; bullets: string[] }> = {
+
+const META: Record<
+  Slug,
+  { title: string; description: string; h1: string; bullets: string[] }
+> = {
   "landing-pages": {
     title: "Landing pages de alto rendimiento",
-    description: "Arquitectura, copy y analítica listos desde el día uno para convertir visitas en leads.",
+    description:
+      "Arquitectura, copy y analítica listos desde el día uno para convertir visitas en leads.",
     h1: "Landing pages de alto rendimiento",
-    bullets: ["Arquitectura orientada a conversión","Copy SEO + pruebas sociales","Medición con eventos clave (GA4)"],
+    bullets: [
+      "Arquitectura orientada a conversión",
+      "Copy SEO + pruebas sociales",
+      "Medición con eventos clave (GA4)",
+    ],
   },
   "web-corporativa": {
     title: "Web corporativa que genera confianza",
-    description: "Estructura clara, diseño accesible y mensajes precisos para transmitir solvencia.",
+    description:
+      "Estructura clara, diseño accesible y mensajes precisos para transmitir solvencia.",
     h1: "Web corporativa que genera confianza",
-    bullets: ["Mapa de contenidos y UX","Componentes reutilizables","Rendimiento y accesibilidad"],
+    bullets: [
+      "Mapa de contenidos y UX",
+      "Componentes reutilizables",
+      "Rendimiento y accesibilidad",
+    ],
   },
   "marketing-digital": {
     title: "Marketing digital orientado a resultados",
-    description: "SEO on-page, analítica y soporte en campañas para captar demanda cualificada.",
+    description:
+      "SEO on-page, analítica y soporte en campañas para captar demanda cualificada.",
     h1: "Marketing digital orientado a resultados",
-    bullets: ["SEO técnico y contenidos","Tracking limpio (GA4/GSC)","Iteración basada en datos"],
+    bullets: [
+      "SEO técnico y contenidos",
+      "Tracking limpio (GA4/GSC)",
+      "Iteración basada en datos",
+    ],
   },
 };
 
@@ -32,12 +52,13 @@ export function generateStaticParams(): Params[] {
   return SLUGS.map((slug) => ({ slug }));
 }
 
-export const revalidate = 86400;
+export const revalidate = 86400; // 24h (literal numérico)
 
 export async function generateMetadata(
-  { params }: { params: Params }
-): Metadata {
-  const { slug } = params;
+  { params }: { params: any }
+): Promise<Metadata> {
+  const { slug } = (await params) as Params;
+  if (!SLUGS.includes(slug)) return {};
   const m = META[slug];
   const path = `/servicios/${slug}`;
   return {
@@ -48,8 +69,8 @@ export async function generateMetadata(
   };
 }
 
-export default async function ServicePage({ params }: { params: Params }) {
-  const { slug } = params;
+export default async function ServicePage({ params }: { params: any }) {
+  const { slug } = (await params) as Params;
   if (!SLUGS.includes(slug)) notFound();
 
   const m = META[slug];
@@ -59,6 +80,7 @@ export default async function ServicePage({ params }: { params: Params }) {
       <Container>
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{m.h1}</h1>
         <p className="mt-2 text-slate-700">{m.description}</p>
+
         <ul className="mt-6 space-y-2 text-slate-700">
           {m.bullets.map((b) => (
             <li key={b} className="flex gap-2">
@@ -67,8 +89,12 @@ export default async function ServicePage({ params }: { params: Params }) {
             </li>
           ))}
         </ul>
+
         <div className="mt-8">
-          <a href="#contacto" className="inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 text-white hover:bg-slate-800">
+          <a
+            href="#contacto"
+            className="inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 text-white hover:bg-slate-800"
+          >
             Solicitar propuesta
           </a>
         </div>
