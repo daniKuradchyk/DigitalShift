@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/types/app/page.tsx", ".next/types/app/buscar/page.tsx", ".next/types/app/(marketing)/servicios/[slug]/page.tsx", ".next/types/app/(local)/area/[city]/page.tsx"],
   "exclude": ["node_modules"]
 }

@@ -1,79 +1,78 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Container from "@/components/common/Container";
-import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/jsonld";
-import { canonical, openGraphImage, titleTemplate } from "@/lib/seo";
+import { canonical, titleTemplate } from "@/lib/seo";
 
-const services = {
+type Slug = "landing-pages" | "web-corporativa" | "marketing-digital";
+type Params = { slug: Slug };
+
+const SLUGS: Slug[] = ["landing-pages", "web-corporativa", "marketing-digital"];
+const META: Record<Slug, { title: string; description: string; h1: string; bullets: string[] }> = {
   "landing-pages": {
     title: "Landing pages de alto rendimiento",
-    description: "Diseñadas para captar leads cualificados con copy y analítica listos desde el día uno.",
-    h1: "Landing pages que convierten en Sevilla y toda España",
+    description: "Arquitectura, copy y analítica listos desde el día uno para convertir visitas en leads.",
+    h1: "Landing pages de alto rendimiento",
+    bullets: ["Arquitectura orientada a conversión","Copy SEO + pruebas sociales","Medición con eventos clave (GA4)"],
   },
   "web-corporativa": {
     title: "Web corporativa que genera confianza",
-    description: "Arquitectura clara, mensajes precisos y rendimiento para mejorar conversión.",
-    h1: "Web corporativa profesional en Sevilla y España",
+    description: "Estructura clara, diseño accesible y mensajes precisos para transmitir solvencia.",
+    h1: "Web corporativa que genera confianza",
+    bullets: ["Mapa de contenidos y UX","Componentes reutilizables","Rendimiento y accesibilidad"],
   },
   "marketing-digital": {
     title: "Marketing digital orientado a resultados",
-    description: "SEO on-page, medición y soporte en campañas para captar demanda.",
-    h1: "Marketing digital para crecer en Sevilla y España",
+    description: "SEO on-page, analítica y soporte en campañas para captar demanda cualificada.",
+    h1: "Marketing digital orientado a resultados",
+    bullets: ["SEO técnico y contenidos","Tracking limpio (GA4/GSC)","Iteración basada en datos"],
   },
-} as const;
+};
 
-export function generateStaticParams() {
-  return Object.keys(services).map((slug) => ({ slug }));
+export function generateStaticParams(): Params[] {
+  return SLUGS.map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: keyof typeof services } }): Metadata {
-  const s = services[params.slug];
-  const path = `/servicios/${params.slug}`;
+export const revalidate = 86400;
+
+export function generateMetadata(
+  { params }: { params: Params }
+): Metadata {
+  const { slug } = params;
+  const m = META[slug];
+  const path = `/servicios/${slug}`;
   return {
-    title: titleTemplate(s.title),
-    description: s.description,
+    title: titleTemplate(m.title),
+    description: m.description,
     alternates: { canonical: canonical(path) },
-    openGraph: { title: s.title, description: s.description, url: path, images: openGraphImage() },
+    openGraph: { title: m.title, description: m.description, url: path },
   };
 }
 
-export default function ServicePage({ params }: { params: { slug: keyof typeof services } }) {
-  const s = services[params.slug];
-  const crumbs = breadcrumbJsonLd([
-    { name: "Inicio", url: canonical("/") },
-    { name: "Servicios", url: canonical("/servicios") },
-    { name: s.title, url: canonical(`/servicios/${params.slug}`) },
-  ]);
-  const svc = serviceJsonLd({ name: s.title, description: s.description });
+export default function ServicePage({ params }: { params: Params }) {
+  const { slug } = params;
+  if (!SLUGS.includes(slug)) notFound();
+
+  const m = META[slug];
 
   return (
-    <main>
-      <section className="py-12 sm:py-16">
-        <Container>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{s.h1}</h1>
-          <p className="mt-3 text-slate-700 max-w-2xl">{s.description}</p>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {/* Reutiliza tarjetas/bullets de la sección general de Servicios o añade contenido más específico aquí */}
-            <article className="rounded-2xl border border-slate-200 p-6 shadow-sm">
-              <h2 className="font-semibold">Qué incluye</h2>
-              <ul className="mt-2 list-disc pl-5 text-slate-700">
-                <li>Arquitectura de información y copy orientado a conversión</li>
-                <li>SEO on-page y medición de eventos clave</li>
-                <li>Accesibilidad y rendimiento (Core Web Vitals)</li>
-              </ul>
-            </article>
-            <article className="rounded-2xl border border-slate-200 p-6 shadow-sm">
-              <h2 className="font-semibold">Proceso</h2>
-              <p className="mt-2 text-slate-700">Diagnóstico, estrategia, diseño, desarrollo, medición y mejora continua.</p>
-            </article>
-            <article className="rounded-2xl border border-slate-200 p-6 shadow-sm">
-              <h2 className="font-semibold">Resultados esperables</h2>
-              <p className="mt-2 text-slate-700">Mayor conversión, claridad de mensajes y datos para decidir.</p>
-            </article>
-          </div>
-        </Container>
-      </section>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbs) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(svc) }} />
+    <main className="py-12 sm:py-16">
+      <Container>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{m.h1}</h1>
+        <p className="mt-2 text-slate-700">{m.description}</p>
+        <ul className="mt-6 space-y-2 text-slate-700">
+          {m.bullets.map((b) => (
+            <li key={b} className="flex gap-2">
+              <span aria-hidden className="mt-2 inline-block h-2 w-2 rounded-full bg-emerald-600" />
+              <span>{b}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-8">
+          <a href="#contacto" className="inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 text-white hover:bg-slate-800">
+            Solicitar propuesta
+          </a>
+        </div>
+      </Container>
     </main>
   );
 }
