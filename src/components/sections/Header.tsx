@@ -22,7 +22,7 @@ export default function Header() {
         <div className="flex h-16 items-center justify-between">
           <a href="#" className="flex items-center gap-2 group" aria-label="Inicio - DigitalShift">
             <Logo />
-            <span className="font-semibold tracking-tight">DigitalShift</span>
+            
           </a>
           <nav aria-label="Principal" className="hidden md:flex items-center gap-6 text-sm">
             {[
