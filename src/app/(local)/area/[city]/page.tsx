@@ -1,58 +1,53 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Container from "@/components/common/Container";
-import { AREAS, getArea } from "@/lib/locations";
-import { breadcrumbJsonLd, localBusinessJsonLd } from "@/lib/jsonld";
-import { canonical, openGraphImage, titleTemplate } from "@/lib/seo";
+import { canonical, titleTemplate } from "@/lib/seo";
 
-export function generateStaticParams() { return AREAS.map((a) => ({ city: a.slug })); }
+type Params = { city: string };
 
-export function generateMetadata({ params }: { params: { city: string } }): Metadata {
-  const area = getArea(params.city);
-  const cityName = area?.name ?? params.city;
-  const title = `Agencia de digitalización en ${cityName}`;
-  const description = `Diseño web, landing pages y marketing digital en ${cityName}. Estrategia, copy y SEO para captar clientes.`;
-  const path = `/area/${params.city}`;
-  return { title: titleTemplate(title), description, alternates: { canonical: canonical(path) }, openGraph: { title, description, url: path, images: openGraphImage() } };
+// Lista de ciudades soportadas (amplía cuando quieras)
+const SUPPORTED_CITIES = ["sevilla"];
+
+export function generateStaticParams(): Params[] {
+  return SUPPORTED_CITIES.map((city) => ({ city }));
 }
 
-export default function AreaPage({ params }: { params: { city: string } }) {
-  const area = getArea(params.city);
-  const cityName = area?.name ?? params.city;
+export function generateMetadata(
+  { params }: { params: Params }
+): Metadata {
+  const city = params.city.toLowerCase();
+  const cityName = city.charAt(0).toUpperCase() + city.slice(1);
+  const path = `/area/${city}`;
+  return {
+    title: titleTemplate(`Agencia de digitalización en ${cityName}`),
+    description:
+      `Diseño web, landing pages y marketing digital en ${cityName}. Estrategia, copy y SEO on-page para captar clientes.`,
+    alternates: { canonical: canonical(path) },
+    openGraph: { title: `Agencia en ${cityName}`, description: `Soluciones de digitalización en ${cityName}`, url: path },
+  };
+}
 
-  const crumbs = breadcrumbJsonLd([
-    { name: "Inicio", url: canonical("/") },
-    { name: "Áreas", url: canonical("/area") },
-    { name: cityName, url: canonical(`/area/${params.city}`) },
-  ]);
+// Revalidación estática (literal numérico, no expresión)
+export const revalidate = 86400; // 24h
 
-  const local = localBusinessJsonLd({
-    name: "DigitalShift",
-    url: canonical(`/area/${params.city}`),
-    logoUrl: "/favicon.ico",
-    telephone: "TODO:+34-XXX-XXX-XXX",
-    address: {
-      streetAddress: "TODO: Dirección",
-      addressLocality: cityName,
-      postalCode: "TODO: CP",
-      addressRegion: params.city === "sevilla" ? "Sevilla" : "",
-      addressCountry: "ES",
-    },
-    sameAs: [],
-  });
+export default function CityPage({ params }: { params: Params }) {
+  const city = params.city.toLowerCase();
+  if (!SUPPORTED_CITIES.includes(city)) return notFound();
+
+  const cityName = city.charAt(0).toUpperCase() + city.slice(1);
 
   return (
     <main className="py-12 sm:py-16">
       <Container>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Agencia de digitalización en {cityName}</h1>
-        <p className="mt-3 text-slate-700 max-w-2xl">Creamos webs y campañas que convierten visitas en clientes. Trabajamos con PYMES y emprendedores en {cityName} y toda España.</p>
-        <ul className="mt-6 list-disc pl-5 text-slate-700 max-w-3xl">
-          <li>Diseño web y landing pages con foco en conversión</li>
-          <li>SEO on-page, medición (GA4/GSC) y rendimiento</li>
-          <li>Proceso por hitos, precio cerrado y transparencia</li>
-        </ul>
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+          Agencia de digitalización en {cityName}
+        </h1>
+        <p className="mt-2 text-slate-700">
+          Diseño web, landing pages y marketing digital en {cityName}. Proceso por hitos, SEO on-page y medición real.
+        </p>
+
+        {/* TODO: NAP real + mapa embebido + casos locales + LocalBusiness JSON-LD */}
       </Container>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(crumbs) }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(local) }} />
     </main>
   );
 }
