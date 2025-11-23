@@ -1,5 +1,20 @@
 [
-  { "name": "TODO: Nombre 1", "role": "Cargo", "company": "Empresa", "quote": "Profesionales y transparentes de principio a fin." },
-  { "name": "TODO: Nombre 2", "role": "Cargo", "company": "Empresa", "quote": "Mejoramos la captación con un mensaje más claro." },
-  { "name": "TODO: Nombre 3", "role": "Cargo", "company": "Empresa", "quote": "Proceso ágil y medición desde el día uno." }
+  {
+    "name": "Laura García",
+    "role": "Propietaria",
+    "company": "Café Alameda",
+    "quote": "El sistema de reservas nos dio visibilidad y redujo llamadas en horas punta."
+  },
+  {
+    "name": "Javier Torres",
+    "role": "Director de Operaciones",
+    "company": "AndalBike",
+    "quote": "La integración con el ERP cambió el juego: menos errores y decisiones con datos."
+  },
+  {
+    "name": "Dra. Marta Ruiz",
+    "role": "Coordinadora",
+    "company": "Clinisalud 24",
+    "quote": "Pasamos de Excel y WhatsApp a una app sencilla que nos ahorra tiempo cada día."
+  }
 ]

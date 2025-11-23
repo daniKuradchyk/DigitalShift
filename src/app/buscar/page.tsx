@@ -20,13 +20,12 @@ export async function generateMetadata(
   const q = getQuery(sp ?? {}, "q").trim();
   const title = q ? titleTemplate(`Buscar: ${q}`) : titleTemplate("Buscar");
   const path = q ? `/buscar?q=${encodeURIComponent(q)}` : "/buscar";
+  const descBase = "Busca en contenidos, servicios y productos de Qubelia.";
   return {
     title,
-    description: q
-      ? `Resultados de búsqueda para “${q}” en DigitalShift.`
-      : "Busca en contenidos y servicios de DigitalShift.",
+    description: q ? `Resultados de búsqueda para “${q}” en Qubelia.` : descBase,
     alternates: { canonical: canonical(path) },
-    openGraph: { title, description: q ? `Resultados para “${q}”.` : "Buscar en DigitalShift.", url: path },
+    openGraph: { title, description: q ? `Resultados para “${q}”.` : descBase, url: path },
   };
 }
 
@@ -36,7 +35,7 @@ export default async function SearchPage(
   const sp = (await searchParams) as SearchParams | undefined;
   const q = getQuery(sp ?? {}, "q").trim();
 
-  // TODO: Reemplaza por tu búsqueda real
+  // TODO: Reemplaza por tu búsqueda real (CMS/algolia/db)
   const results: Array<{ title: string; href: string; excerpt: string }> = [];
 
   return (
@@ -50,7 +49,7 @@ export default async function SearchPage(
               id="q"
               name="q"
               defaultValue={q}
-              placeholder="Ej. landing pages, SEO, Sevilla…"
+              placeholder="Ej. transformación digital, MVP, integraciones…"
               className="w-full rounded-xl border border-slate-300 px-3 py-2"
               autoComplete="off"
             />

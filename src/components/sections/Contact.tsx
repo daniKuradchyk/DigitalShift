@@ -33,7 +33,11 @@ export default function Contact() {
     }
     setStatus("loading");
     const payload = Object.fromEntries(form.entries());
-    const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
     if (res.ok) {
       setStatus("ok");
       setMessage("¡Gracias! Te responderemos en 24 h laborables.");
@@ -52,8 +56,8 @@ export default function Contact() {
             <h2 id="contact-title" className="text-2xl sm:text-3xl font-bold tracking-tight">¿Empezamos?</h2>
             <p className="mt-3 text-slate-700">Te respondemos en 24 h laborables. Sin compromiso.</p>
             <ul className="mt-6 space-y-2">
-              <li className="flex gap-2"><span aria-hidden className="mt-2 h-2 w-2 rounded-full bg-emerald-600" /><span className="text-slate-700">Precio y alcance cerrados por hitos.</span></li>
-              <li className="flex gap-2"><span aria-hidden className="mt-2 h-2 w-2 rounded-full bg-emerald-600" /><span className="text-slate-700">SEO on-page, rendimiento y accesibilidad incluidos.</span></li>
+              <li className="flex gap-2"><span aria-hidden className="mt-2 h-2 w-2 rounded-full bg-emerald-600" /><span className="text-slate-700">Plan por hitos con precio y entregables cerrados.</span></li>
+              <li className="flex gap-2"><span aria-hidden className="mt-2 h-2 w-2 rounded-full bg-emerald-600" /><span className="text-slate-700">Rendimiento, accesibilidad y analítica incluidos.</span></li>
               <li className="flex gap-2"><span aria-hidden className="mt-2 h-2 w-2 rounded-full bg-emerald-600" /><span className="text-slate-700">Código y cuentas a tu nombre.</span></li>
             </ul>
           </div>
@@ -78,20 +82,26 @@ export default function Contact() {
                 <label htmlFor="budget" className="block text-sm font-medium text-slate-900">Presupuesto orientativo</label>
                 <select id="budget" name="budget" className="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2">
                   <option value="">Selecciona un rango</option>
-                  <option>Hasta 1.500 €</option>
-                  <option>1.500–3.000 €</option>
+                  <option>Hasta 3.000 €</option>
                   <option>3.000–6.000 €</option>
-                  <option>Más de 6.000 €</option>
+                  <option>6.000–12.000 €</option>
+                  <option>Más de 12.000 €</option>
                 </select>
               </div>
               <div className="sm:col-span-2">
                 <label htmlFor="objective" className="block text-sm font-medium text-slate-900">Objetivo del proyecto*</label>
-                <textarea id="objective" name="objective" required rows={4} aria-invalid={!!errors.objective} aria-describedby={errors.objective ? "objective-error" : undefined} className={`mt-1 w-full rounded-xl border px-3 py-2 ${errors.objective ? "border-red-500" : "border-slate-300"}`} placeholder="Cuéntanos brevemente el objetivo y el contexto" />
+                <textarea id="objective" name="objective" required rows={4} aria-invalid={!!errors.objective} aria-describedby={errors.objective ? "objective-error" : undefined} className={`mt-1 w-full rounded-xl border px-3 py-2 ${errors.objective ? "border-red-500" : "border-slate-300"}`} placeholder="Cuéntanos brevemente el objetivo, usuarios, plazos y riesgos clave" />
                 {errors.objective && <p id="objective-error" className="mt-1 text-sm text-red-700">{errors.objective}</p>}
               </div>
+
+              {/* Honeypot anti-spam */}
+              <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+
               <div className="sm:col-span-2 flex items-start gap-2">
                 <input id="consent" name="consent" type="checkbox" required className="mt-1 h-4 w-4" aria-describedby="rgpd-note" />
-                <label htmlFor="consent" className="text-sm text-slate-700">Acepto el tratamiento de mis datos para responder a mi solicitud.</label>
+                <label htmlFor="consent" className="text-sm text-slate-700">
+                  Acepto el tratamiento de mis datos para responder a mi solicitud.
+                </label>
               </div>
             </div>
             <div className="mt-5 flex items-center gap-3">
@@ -100,7 +110,10 @@ export default function Contact() {
                 {status !== "idle" ? message : ""}
               </p>
             </div>
-            <p id="rgpd-note" className="mt-3 text-xs text-slate-600">Tus datos no se comparten con terceros. Puedes solicitar su eliminación en cualquier momento. TODO: enlazar Política de privacidad.</p>
+            <p id="rgpd-note" className="mt-3 text-xs text-slate-600">
+              Tus datos no se comparten con terceros. Puedes solicitar su eliminación en cualquier momento.{" "}
+              <a href="/legal/privacidad" className="underline">Política de privacidad</a>.
+            </p>
           </form>
         </div>
       </Container>

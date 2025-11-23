@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "calculadora-irpf-autonomos",
+    "title": "Calculadora IRPF para autónomos",
+    "desc": "Estima cuánto pagarás en la Renta según ingresos, gastos deducibles, cuotas y retenciones.",
+    "status": "prototipo",
+    "cta": "Calcular ahora",
+    "tags": ["finanzas", "autónomos", "fiscalidad"]
+  },
+  {
+    "slug": "generador-brief-proyecto",
+    "title": "Generador de brief de proyecto",
+    "desc": "Define objetivos, alcance, riesgos y métricas en minutos. Exporta a PDF o Notion.",
+    "status": "prototipo",
+    "cta": "Generar brief",
+    "tags": ["producto", "planificación"]
+  },
+  {
+    "slug": "checklist-rgpd-basico",
+    "title": "Checklist RGPD para webs y apps",
+    "desc": "Lista práctica de cumplimiento básico para empezar sin sustos. Incluye cookies y formularios.",
+    "status": "prototipo",
+    "cta": "Revisar checklist",
+    "tags": ["legal", "rgpd"]
+  }
+]

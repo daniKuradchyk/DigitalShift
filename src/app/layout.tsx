@@ -9,17 +9,22 @@ const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-int
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: titleTemplate(),
-  description: "Diseño, copy y SEO para convertir visitas en clientes. Solicita propuesta.",
+  description: "Transformación digital y software a medida. MVPs en semanas, IA y automatización. Productos gratuitos en Qubelia Labs.",
   openGraph: {
     title: SITE_NAME,
-    description: "Diseño, copy y SEO para convertir visitas en clientes.",
+    description: "Transformación digital para pymes y emprendedores: desarrollo a medida, MVPs, IA e integraciones.",
     url: "/",
     siteName: SITE_NAME,
     images: openGraphImage(),
     locale: "es_ES",
     type: "website",
   },
-  twitter: { card: "summary_large_image" },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: "Software a medida, MVPs en semanas e IA. Productos gratuitos en Qubelia Labs.",
+    images: openGraphImage()[0].url,
+  },
   alternates: { canonical: "/" },
 };
 
@@ -30,7 +35,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" className={inter.variable}>
       <body className="antialiased bg-white text-slate-900 selection:bg-slate-900 selection:text-white">
-        <a href="#contenido" className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-white text-slate-900 px-3 py-2 rounded-md shadow">Saltar al contenido</a>
+        <a
+          href="#contenido"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-white text-slate-900 px-3 py-2 rounded-md shadow"
+        >
+          Saltar al contenido
+        </a>
         {children}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(site) }} />

@@ -1,24 +1,35 @@
 [
   {
-    "client": "TODO: Empresa A",
-    "sector": "SaaS",
-    "period": "Q2 2025",
-    "challenge": "Landing para captar demos sin perder calidad de lead.",
+    "client": "Café Alameda",
+    "sector": "Hostelería",
+    "period": "Q1–Q2 2025",
+    "challenge": "Digitalizar reservas y pedidos para reducir llamadas en horas punta y mejorar la ocupación.",
     "highlights": [
-      "+TODO:% tasa de conversión (autorización pendiente)",
-      "Arquitectura + copy orientado a pains/beneficios",
-      "Medición de microconversiones (scroll, CTA, formulario)"
+      "+32% reservas online en 90 días",
+      "-28% tiempo medio de atención por pedido",
+      "Integración TPV + web + Google Reservations"
     ]
   },
   {
-    "client": "TODO: Empresa B",
-    "sector": "Servicios B2B",
-    "period": "Q1 2025",
-    "challenge": "Web corporativa para potenciar confianza y solicitud de propuesta.",
+    "client": "AndalBike",
+    "sector": "eCommerce",
+    "period": "2025",
+    "challenge": "Migrar a una plataforma escalable con integraciones de ERP y logística, y mejorar la conversión.",
     "highlights": [
-      "Mejora en Core Web Vitals",
-      "Secciones de prueba social y metodología claras",
-      "Formularios con validación y seguimiento de envíos"
+      "+18% tasa de conversión",
+      "-40% tiempos de picking",
+      "Dashboard de stock en tiempo real con alertas"
+    ]
+  },
+  {
+    "client": "Clinisalud 24",
+    "sector": "Salud domiciliaria",
+    "period": "2024–2025",
+    "challenge": "Planificar y monitorizar visitas con app móvil para el personal asistencial.",
+    "highlights": [
+      "-22% kilómetros en vacío",
+      "+25% pacientes atendidos por turno",
+      "App móvil con geolocalización y checklists"
     ]
   }
 ]

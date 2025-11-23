@@ -6,24 +6,39 @@ export default function Footer() {
     <footer className="mt-16 border-t border-slate-200 bg-white">
       <Container className="py-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <h3 className="font-semibold">DigitalShift</h3>
-          <p className="mt-2 text-sm text-slate-700">Resultados web medibles, sin humo ni sorpresas.</p>
+          <h3 className="font-semibold">Qubelia España</h3>
+          <p className="mt-2 text-sm text-slate-700">Transformación digital y software a medida. MVPs en semanas.</p>
         </div>
         <nav aria-label="Footer" className="grid gap-2 text-sm">
           <a href="#servicios" className="text-slate-700 hover:text-slate-900">Servicios</a>
           <a href="#metodologia" className="text-slate-700 hover:text-slate-900">Metodología</a>
           <a href="#resultados" className="text-slate-700 hover:text-slate-900">Resultados</a>
+          <a href="/labs" className="text-slate-700 hover:text-slate-900">Labs</a>
+          <a href="/blog" className="text-slate-700 hover:text-slate-900">Blog</a>
           <a href="#faqs" className="text-slate-700 hover:text-slate-900">FAQs</a>
         </nav>
         <div className="text-sm text-slate-700">
           <p><strong>Contacto</strong></p>
-          <p className="mt-1">TODO: dirección</p>
-          <p>TODO: email</p>
-          <p>TODO: teléfono</p>
+          <p className="mt-1">Sevilla, España</p>
+          <p>
+            <a className="hover:text-slate-900" href="mailto:xbydani99x@gmail.com">
+              xbydani99x@gmail.com
+            </a>
+          </p>
+          <p>
+            <a className="hover:text-slate-900" href="tel:+34674569372">
+              +34 674 569 372
+            </a>
+          </p>
+          <p>NIF: —</p>
         </div>
         <div className="text-sm text-slate-700">
-          <p><a className="hover:text-slate-900" href="#">Aviso legal</a> · <a className="hover:text-slate-900" href="#">Privacidad</a> · <a className="hover:text-slate-900" href="#">Cookies</a></p>
-          <p className="mt-2">© {new Date().getFullYear()} DigitalShift. Todos los derechos reservados.</p>
+          <p>
+            <a className="hover:text-slate-900" href="/legal/aviso-legal">Aviso legal</a> ·{" "}
+            <a className="hover:text-slate-900" href="/legal/privacidad">Privacidad</a> ·{" "}
+            <a className="hover:text-slate-900" href="/legal/cookies">Cookies</a>
+          </p>
+          <p className="mt-2">© {new Date().getFullYear()} Qubelia España. Todos los derechos reservados.</p>
         </div>
       </Container>
     </footer>

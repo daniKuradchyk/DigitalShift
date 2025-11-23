@@ -4,11 +4,11 @@ import Button from "@/components/common/Button";
 import Reveal from "@/components/common/Reveal";
 
 const steps = [
-  { n: 1, title: "Descubrimiento", text: "Objetivos, audiencia y propuesta de valor. Diagnóstico rápido y plan mínimo viable." },
-  { n: 2, title: "Estrategia", text: "Arquitectura de información, mensajes clave y SEO on-page." },
-  { n: 3, title: "Diseño", text: "UI accesible, componentes reutilizables y estados de interacción." },
-  { n: 4, title: "Desarrollo", text: "Next.js + Tailwind, rendimiento y analítica lista para medir." },
-  { n: 5, title: "Medición y mejora", text: "Eventos clave, lectura de datos y roadmap de iteración." },
+  { n: 1, title: "Descubrimiento", text: "Objetivos y KPIs, usuarios, mapa de procesos y riesgos. Plan mínimo viable priorizado por impacto." },
+  { n: 2, title: "Diseño & Prototipo", text: "UX/UI accesible, prototipo testeable y checklist técnico/seguridad." },
+  { n: 3, title: "MVP ágil", text: "Sprints quincenales, entregas continuas y analítica de uso desde el día uno." },
+  { n: 4, title: "Go-Live & Formación", text: "Despliegue, manuales, handover y gobierno básico (SLAs/SLOs)." },
+  { n: 5, title: "Evolución & Soporte", text: "Roadmap trimestral, mejoras por datos y soporte según criticidad." },
 ];
 
 export default function Methodology() {
@@ -35,7 +35,10 @@ export default function Methodology() {
             </Reveal>
           ))}
         </ol>
-        <div className="mt-8"><Button as="a" href="#contacto" variant="shine">Quiero mi plan</Button></div>
+        <div className="mt-8 flex gap-3">
+          <Button as="a" href="#contacto" variant="shine">Agenda diagnóstico gratis</Button>
+          <Button as="a" href="/labs" variant="ghost">Explorar Qubelia Labs</Button>
+        </div>
       </Container>
     </section>
   );

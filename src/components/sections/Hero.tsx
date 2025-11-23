@@ -21,27 +21,41 @@ export default function Hero() {
           <Reveal>
             <div>
               <h1 id="hero-title" className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900">
-                <span className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 bg-clip-text text-transparent">Resultados web medibles</span>
-                <span className="block text-slate-700">sin humo ni sorpresas.</span>
+                <span className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 bg-clip-text text-transparent">
+                  Transformamos ideas en software a medida
+                </span>
+                <span className="block text-slate-700">MVPs en semanas · IA y automatización</span>
               </h1>
-              <p className="mt-4 text-lg text-slate-700">Diseño, copy y SEO para convertir visitas en clientes.</p>
+              <p className="mt-4 text-lg text-slate-700">
+                Desarrollo 100% personalizado para pymes y emprendedores. De la estrategia al producto:
+                rápido, medible y sin humo.
+              </p>
               <ul className="mt-6 space-y-3" aria-label="Beneficios clave">
-                <li className="flex items-start gap-3"><span aria-hidden className="mt-1 h-5 w-5 text-emerald-600">✓</span><span className="text-slate-700">Más leads cualificados con arquitectura, copy y pruebas sociales.</span></li>
-                <li className="flex items-start gap-3"><span aria-hidden className="mt-1 h-5 w-5 text-emerald-600">✓</span><span className="text-slate-700">Menos fricción y más velocidad con procesos por hitos.</span></li>
-                <li className="flex items-start gap-3"><span aria-hidden className="mt-1 h-5 w-5 text-emerald-600">✓</span><span className="text-slate-700">Autonomía total: código y cuentas a tu nombre.</span></li>
+                <li className="flex items-start gap-3">
+                  <span aria-hidden className="mt-1 h-5 w-5 text-emerald-600">✓</span>
+                  <span className="text-slate-700">MVP lanzado en 8–10 semanas con analítica de uso.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span aria-hidden className="mt-1 h-5 w-5 text-emerald-600">✓</span>
+                  <span className="text-slate-700">Integraciones ERP/CRM, ETLs y dashboards en tiempo real.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span aria-hidden className="mt-1 h-5 w-5 text-emerald-600">✓</span>
+                  <span className="text-slate-700">IA aplicada: asistentes, RPA ligero y mejora de decisiones.</span>
+                </li>
               </ul>
               <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:items-center">
-                <Button as="a" href="#contacto" variant="shine" size="lg">Solicitar propuesta</Button>
-                <Button as="a" variant="ghost" href="#metodologia" size="lg">Ver metodología</Button>
+                <Button as="a" href="#contacto" variant="shine" size="lg">Agenda diagnóstico gratis</Button>
+                <Button as="a" variant="ghost" href="/labs" size="lg">Ver productos gratuitos</Button>
                 <p className="text-sm text-slate-600 sm:ml-2">Respuesta en 24 h laborables · Sin compromiso</p>
               </div>
 
-              {/* Métricas/Pruebas sociales — placeholders */}
+              {/* Métricas — placeholders */}
               <div className="mt-8 grid grid-cols-3 gap-4 max-w-md">
                 {[
-                  { k: "Proyectos", v: "+TODO" },
-                  { k: "Sectores", v: "TODO" },
-                  { k: "Satisfacción", v: "TODO%" },
+                  { k: "MVPs", v: "8–10 semanas" },
+                  { k: "Integraciones", v: "ERP/CRM" },
+                  { k: "SLAs", v: "A medida" },
                 ].map((m) => (
                   <div key={m.k} className="rounded-xl border border-slate-200 bg-white/70 backdrop-blur p-3 text-center shadow-card">
                     <div className="text-xl font-bold text-slate-900">{m.v}</div>
@@ -58,7 +72,7 @@ export default function Hero() {
               <div className="relative rounded-2xl border border-slate-200 bg-white/60 backdrop-blur p-2 shadow-card">
                 <Image
                   src="/images/hero-illustration.png" // TODO: añade imagen real
-                  alt="Soluciones de digitalización que convierten"
+                  alt="Soluciones de digitalización y software a medida"
                   width={1200}
                   height={900}
                   priority

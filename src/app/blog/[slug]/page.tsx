@@ -1,63 +1,120 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Container from "@/components/common/Container";
+import labs from "@/content/labs.json";
 import { canonical, titleTemplate } from "@/lib/seo";
 
-type Params = { city: string };
+type Tool = typeof labs[number];
+type Params = { slug: Tool["slug"] };
 
-// Lista de ciudades soportadas
-const SUPPORTED_CITIES = ["sevilla"];
+export const revalidate = 86400;
 
 export function generateStaticParams(): Params[] {
-  return SUPPORTED_CITIES.map((city) => ({ city }));
+  return labs.map((t) => ({ slug: t.slug as Params["slug"] }));
 }
 
-// revalidate debe ser literal numérico (no expresiones tipo 60*60*24)
-export const revalidate = 86400; // 24h
-
 export async function generateMetadata(
-  { params }: { params: Promise<Params> }
+  { params }: { params: any }
 ): Promise<Metadata> {
-  const { city } = await params;
-  const cityLc = city.toLowerCase();
-  const cityName = cityLc.charAt(0).toUpperCase() + cityLc.slice(1);
-  const path = `/area/${cityLc}`;
-
+  const { slug } = (await params) as Params;
+  const tool = labs.find((t) => t.slug === slug);
+  if (!tool) return {};
+  const path = `/labs/${tool.slug}`;
+  const title = `${tool.title} · Qubelia Labs`;
+  const description = tool.desc;
   return {
-    title: titleTemplate(`Agencia de digitalización en ${cityName}`),
-    description:
-      `Diseño web, landing pages y marketing digital en ${cityName}. Estrategia, copy y SEO on-page para captar clientes.`,
+    title: titleTemplate(title),
+    description,
     alternates: { canonical: canonical(path) },
-    openGraph: {
-      title: `Agencia en ${cityName}`,
-      description: `Soluciones de digitalización en ${cityName}`,
-      url: path,
-    },
+    openGraph: { title, description, url: path }
   };
 }
 
-export default async function CityPage(
-  { params }: { params: Promise<Params> }
-) {
-  const { city } = await params;
-  const cityLc = city.toLowerCase();
-  if (!SUPPORTED_CITIES.includes(cityLc)) {
-    notFound();
-  }
+export default async function ToolPage({ params }: { params: any }) {
+  const { slug } = (await params) as Params;
+  const tool = labs.find((t) => t.slug === slug);
+  if (!tool) notFound();
 
-  const cityName = cityLc.charAt(0).toUpperCase() + cityLc.slice(1);
+  const ld = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": tool.title,
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+    "publisher": { "@type": "Organization", "name": "Qubelia España" },
+    "url": `${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/labs/${tool.slug}`,
+    "description": tool.desc
+  };
 
   return (
     <main className="py-12 sm:py-16">
       <Container>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-          Agencia de digitalización en {cityName}
-        </h1>
-        <p className="mt-2 text-slate-700">
-          Diseño web, landing pages y marketing digital en {cityName}. Proceso por hitos, SEO on-page y medición real.
-        </p>
+        <nav aria-label="Breadcrumb" className="text-sm text-slate-600">
+          <a className="hover:underline" href="/labs">Labs</a>
+          <span aria-hidden className="mx-1">/</span>
+          <span className="text-slate-900">{tool.title}</span>
+        </nav>
 
-        {/* TODO: Añade NAP real + mapa + casos locales + LocalBusiness JSON-LD */}
+        <header className="mt-3 flex items-center gap-3">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{tool.title}</h1>
+          <span className="rounded-full bg-emerald-50 text-emerald-700 text-xs px-2 py-1 border border-emerald-200">
+            {tool.status}
+          </span>
+        </header>
+        <p className="mt-2 text-slate-700 max-w-2xl">{tool.desc}</p>
+
+        {/* Demo / contenido — próximamente */}
+        <div className="mt-8 rounded-2xl border border-dashed border-slate-300 p-6 text-slate-600 bg-slate-50">
+          <p className="font-medium">Demo próximamente</p>
+          <p className="mt-1 text-sm">
+            Estamos preparando una versión interactiva. Si quieres usarla ya o adaptarla a tu empresa, <a className="underline" href="#contacto">escríbenos</a>.
+          </p>
+        </div>
+
+        {/* Guía de uso y roadmap (plantilla genérica por ahora) */}
+        <section className="mt-10 grid gap-6 lg:grid-cols-2">
+          <article className="rounded-2xl border border-slate-200 p-6 bg-white">
+            <h2 className="text-lg font-semibold">Cómo funcionará</h2>
+            <ul className="mt-3 list-disc pl-5 text-slate-700">
+              {tool.slug === "calculadora-irpf-autonomos" ? (
+                <>
+                  <li>Introduce ingresos brutos, gastos deducibles, cuotas de autónomos y retenciones.</li>
+                  <li>El sistema estima base imponible, tramos y pago aproximado (no sustituye asesoría fiscal).</li>
+                  <li>Exporta resultados en PDF y guarda escenarios.</li>
+                </>
+              ) : tool.slug === "generador-brief-proyecto" ? (
+                <>
+                  <li>Completa objetivos, usuarios, alcance, riesgos y métricas.</li>
+                  <li>Genera un brief claro para alinear equipo y proveedores.</li>
+                  <li>Exporta a PDF o copia a Notion.</li>
+                </>
+              ) : (
+                <>
+                  <li>Checklist guiado por secciones: datos personales, cookies, formularios, derechos.</li>
+                  <li>Marca estado (OK, pendiente, no aplica) y obtén un reporte de acciones.</li>
+                  <li>Incluye enlaces a recursos y modelos.</li>
+                </>
+              )}
+            </ul>
+          </article>
+
+          <article className="rounded-2xl border border-slate-200 p-6 bg-white">
+            <h2 className="text-lg font-semibold">Roadmap</h2>
+            <ol className="mt-3 list-decimal pl-5 text-slate-700">
+              <li>Prototipo navegable.</li>
+              <li>Validación con 5–10 usuarios reales.</li>
+              <li>Versión pública con exportación.</li>
+              <li>Adaptaciones específicas por sector.</li>
+            </ol>
+            <a className="mt-4 inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 text-white hover:bg-slate-800" href="#contacto">
+              Quiero ser beta-tester
+            </a>
+          </article>
+        </section>
+
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       </Container>
     </main>
   );

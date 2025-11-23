@@ -16,28 +16,33 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const navItems: Array<[string, string]> = [
+    ["Servicios", "#servicios"],
+    ["Metodología", "#metodologia"],
+    ["Resultados", "#resultados"],
+    ["Labs", "/labs"],
+    ["Blog", "/blog"],
+    ["FAQs", "#faqs"],
+  ];
+
   return (
     <header className={`sticky top-0 z-40 border-b ${scrolled ? "bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-slate-200 shadow-sm" : "bg-white/60 backdrop-blur border-transparent"}`}>
       <Container>
         <div className="flex h-16 items-center justify-between">
-          <a href="#" className="flex items-center gap-2 group" aria-label="Inicio - DigitalShift">
+          <a href="/" className="flex items-center gap-2 group" aria-label="Inicio - Qubelia">
             <Logo />
-            
           </a>
           <nav aria-label="Principal" className="hidden md:flex items-center gap-6 text-sm">
-            {[
-              ["Servicios", "#servicios"],
-              ["Metodología", "#metodologia"],
-              ["Resultados", "#resultados"],
-              ["FAQs", "#faqs"],
-            ].map(([label, href]) => (
-              <a key={href as string} href={href as string} className="relative text-slate-700 hover:text-slate-900 py-1">
+            {navItems.map(([label, href]) => (
+              <a key={href} href={href} className="relative text-slate-700 hover:text-slate-900 py-1">
                 <span className="relative z-10">{label}</span>
                 <span aria-hidden className="absolute inset-x-0 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-brand-600/60 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform origin-center" />
               </a>
             ))}
           </nav>
-          <div className="hidden md:flex"><Button as="a" href="#contacto" variant="shine">Solicitar propuesta</Button></div>
+          <div className="hidden md:flex">
+            <Button as="a" href="#contacto" variant="shine">Agenda diagnóstico gratis</Button>
+          </div>
           <div className="md:hidden">
             <button
               type="button"
@@ -55,11 +60,14 @@ export default function Header() {
       {open && (
         <div className="md:hidden border-t border-slate-200" id={menuId}>
           <nav aria-label="Móvil" className="px-4 py-3 space-y-1">
-            <a className="block py-2 text-slate-700 hover:text-slate-900" href="#servicios" onClick={() => setOpen(false)}>Servicios</a>
-            <a className="block py-2 text-slate-700 hover:text-slate-900" href="#metodologia" onClick={() => setOpen(false)}>Metodología</a>
-            <a className="block py-2 text-slate-700 hover:text-slate-900" href="#resultados" onClick={() => setOpen(false)}>Resultados</a>
-            <a className="block py-2 text-slate-700 hover:text-slate-900" href="#faqs" onClick={() => setOpen(false)}>FAQs</a>
-            <Button as="a" href="#contacto" className="mt-2 inline-flex" onClick={() => setOpen(false)} variant="shine">Solicitar propuesta</Button>
+            {navItems.map(([label, href]) => (
+              <a key={href} className="block py-2 text-slate-700 hover:text-slate-900" href={href} onClick={() => setOpen(false)}>
+                {label}
+              </a>
+            ))}
+            <Button as="a" href="#contacto" className="mt-2 inline-flex" onClick={() => setOpen(false)} variant="shine">
+              Agenda diagnóstico gratis
+            </Button>
           </nav>
         </div>
       )}

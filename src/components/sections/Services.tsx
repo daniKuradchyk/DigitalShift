@@ -5,34 +5,34 @@ import Reveal from "@/components/common/Reveal";
 
 const services = [
   {
-    title: "Landing pages de alto rendimiento",
-    desc: "Diseñadas para campañas y validaciones rápidas. Copy y analítica listos desde el día uno.",
-    bullets: [
-      "Arquitectura orientada a conversión",
-      "Copy SEO + pruebas sociales",
-      "Rendimiento y accesibilidad",
-    ],
-    Icon: LandingIcon,
+    title: "Transformación digital para PYMEs",
+    desc: "Automatizamos procesos y conectamos tus sistemas para ganar eficiencia real desde el primer mes.",
+    bullets: ["Mapeo de procesos y oportunidades", "Integración ERP/CRM y automatizaciones", "Dashboards e indicadores en tiempo real"],
+    Icon: TransformIcon,
   },
   {
-    title: "Web corporativa que genera confianza",
-    desc: "Estructura clara, mensajes precisos y diseño accesible para transmitir solvencia.",
-    bullets: [
-      "Mapa de contenidos y UX",
-      "Componentes reutilizables",
-      "Medición y eventos clave",
-    ],
-    Icon: WebsiteIcon,
+    title: "Desarrollo de aplicaciones a medida",
+    desc: "Web y móvil, APIs y backends robustos, listos para escalar y con seguridad desde el diseño.",
+    bullets: ["Web apps y mobile", "APIs/microservicios y bases de datos", "Seguridad, rendimiento y observabilidad"],
+    Icon: AppIcon,
   },
   {
-    title: "Marketing digital orientado a resultados",
-    desc: "SEO on-page, analítica y soporte en campañas para captar demanda cualificada.",
-    bullets: [
-      "SEO técnico y contenidos",
-      "Tracking limpio (GA4/GSC)",
-      "Iteración basada en datos",
-    ],
-    Icon: MarketingIcon,
+    title: "MVP para emprendedores",
+    desc: "De idea a MVP en 8–10 semanas. Enfoque lean, hipótesis claras y medición desde el día uno.",
+    bullets: ["Discovery y prototipo", "Sprints quincenales y entregas continuas", "Analítica y aprendizajes accionables"],
+    Icon: RocketIcon,
+  },
+  {
+    title: "IA y automatización",
+    desc: "Asistentes, RPA ligero y análisis con IA para ahorrar tiempo y mejorar decisiones.",
+    bullets: ["Asistentes y flujos RPA", "Extracción y clasificación documental", "Analítica asistida por IA"],
+    Icon: AiIcon,
+  },
+  {
+    title: "Integraciones y Data",
+    desc: "Conecta tus herramientas y unifica datos para orquestar tu negocio con menos fricción.",
+    bullets: ["ETLs y conectores", "Data warehouse y calidad de datos", "Informes y alertas en tiempo real"],
+    Icon: DataIcon,
   },
 ];
 
@@ -42,7 +42,7 @@ export default function Services() {
       <Container>
         <div className="max-w-2xl">
           <h2 id="services-title" className="text-3xl font-bold tracking-tight">Servicios</h2>
-          <p className="mt-2 text-slate-700">Soluciones ajustadas a tus objetivos: de la captación directa a la confianza de marca.</p>
+          <p className="mt-2 text-slate-700">De la auditoría de procesos al software a medida y la automatización con IA.</p>
         </div>
         <div className="mt-10 grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s, i) => (
@@ -60,8 +60,9 @@ export default function Services() {
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-6">
-                    <Button as="a" href="#contacto" variant="shine">Solicitar propuesta</Button>
+                  <div className="mt-6 flex gap-2">
+                    <Button as="a" href="#contacto" variant="shine">Agenda diagnóstico gratis</Button>
+                    <Button as="a" href="/labs" variant="ghost">Ver productos gratuitos</Button>
                   </div>
                 </div>
                 <div aria-hidden className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition shadow-glow" />
@@ -74,27 +75,50 @@ export default function Services() {
   );
 }
 
-function LandingIcon() {
+function IconBase(props: React.SVGProps<SVGSVGElement>) {
+  return <svg aria-hidden className="h-10 w-10 text-slate-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props} />;
+}
+function TransformIcon() {
   return (
-    <svg aria-hidden className="h-10 w-10 text-slate-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <IconBase>
+      <rect x="3" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="3" width="7" height="7" rx="1" />
+      <rect x="3" y="14" width="7" height="7" rx="1" />
+      <path d="M14 17h7M14 21h4" />
+    </IconBase>
+  );
+}
+function AppIcon() {
+  return (
+    <IconBase>
       <rect x="3" y="4" width="18" height="14" rx="2" />
       <path d="M7 8h10M7 12h6M7 16h4" />
-    </svg>
+    </IconBase>
   );
 }
-function WebsiteIcon() {
+function RocketIcon() {
   return (
-    <svg aria-hidden className="h-10 w-10 text-slate-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <rect x="2" y="3" width="20" height="18" rx="2" />
-      <path d="M2 8h20M6 12h6M6 16h10" />
-    </svg>
+    <IconBase>
+      <path d="M5 19l4-1 7-7a4 4 0 10-5-5l-7 7-1 4 4-1" />
+      <path d="M15 9l-6 6" />
+      <circle cx="16" cy="8" r="1" />
+    </IconBase>
   );
 }
-function MarketingIcon() {
+function AiIcon() {
   return (
-    <svg aria-hidden className="h-10 w-10 text-slate-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M3 11h4l4-4 4 10 4-6h2" />
-      <circle cx="4" cy="19" r="2" />
-    </svg>
+    <IconBase>
+      <circle cx="12" cy="12" r="8" />
+      <path d="M8 12h8M12 8v8" />
+    </IconBase>
+  );
+}
+function DataIcon() {
+  return (
+    <IconBase>
+      <rect x="3" y="4" width="18" height="4" rx="1" />
+      <rect x="3" y="10" width="18" height="4" rx="1" />
+      <rect x="3" y="16" width="18" height="4" rx="1" />
+    </IconBase>
   );
 }
