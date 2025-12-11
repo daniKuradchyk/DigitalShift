@@ -3,7 +3,7 @@ import Container from "@/components/common/Container";
 
 export default function Footer() {
   return (
-    <footer className="mt-16 border-t border-slate-200 bg-white">
+    <footer className="mt-16 border-t border-brand-100 bg-white">
       <Container className="py-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         <div>
           <h3 className="font-semibold">Qubelia España</h3>

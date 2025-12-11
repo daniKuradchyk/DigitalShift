@@ -26,7 +26,7 @@ type NativeButton = Common &
 type ButtonProps = AnchorButton | NativeButton;
 
 const base =
-  "group inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-medium transition will-change-transform active:scale-[.98]";
+  "group inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold tracking-tight transition-all duration-200 will-change-transform active:translate-y-0";
 
 const sizes: Record<Sizes, string> = {
   sm: "px-3 py-1.5 text-sm",
@@ -36,13 +36,14 @@ const sizes: Record<Sizes, string> = {
 
 const variants: Record<Variants, string> = {
   primary:
-    "bg-slate-900 text-white hover:bg-slate-800 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 shadow-sm",
+    "text-white bg-brand-700 bg-[linear-gradient(115deg,#0e1d4a,#1c3994,#4168e1,#6389ff)] bg-[length:200%_100%] hover:bg-[position:100%_0] border border-brand-900/60 shadow-[0_18px_54px_-18px_rgba(14,29,74,0.7)] hover:-translate-y-0.5 hover:shadow-[0_22px_64px_-20px_rgba(65,104,225,0.7)] focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
   ghost:
-    "bg-transparent text-slate-900 border border-slate-300 hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2",
+    "text-brand-900 bg-[#f4f7ff] border border-brand-200 shadow-[0_12px_34px_-18px_rgba(14,29,74,0.4)] hover:bg-[#e8edff] hover:border-brand-300 hover:-translate-y-0.5 hover:shadow-[0_18px_46px_-18px_rgba(65,104,225,0.45)] focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
   shine: cn(
     "relative text-white",
-    "bg-gradient-to-r from-brand-600 via-emerald-600 to-brand-600 bg-[length:200%_100%] hover:bg-[position:100%_0]",
-    "shadow-glow focus-visible:ring-2 focus-visible:ring-brand-600 focus-visible:ring-offset-2"
+    "bg-brand-700 bg-[linear-gradient(120deg,#0e1d4a,#1c3994,#4168e1,#6389ff)] bg-[length:200%_100%] hover:bg-[position:100%_0]",
+    "border border-brand-900/80 shadow-[0_18px_52px_-18px_rgba(14,29,74,0.55)] hover:shadow-[0_24px_62px_-20px_rgba(65,104,225,0.5)] hover:-translate-y-0.5",
+    "hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2"
   ),
 };
 

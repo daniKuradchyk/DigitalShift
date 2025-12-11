@@ -84,7 +84,7 @@ export default async function ServicePage({ params }: { params: any }) {
         <ul className="mt-6 space-y-2 text-slate-700">
           {m.bullets.map((b) => (
             <li key={b} className="flex gap-2">
-              <span aria-hidden className="mt-2 inline-block h-2 w-2 rounded-full bg-emerald-600" />
+              <span aria-hidden className="mt-2 inline-block h-2 w-2 rounded-full bg-brand-500" />
               <span>{b}</span>
             </li>
           ))}
@@ -93,7 +93,7 @@ export default async function ServicePage({ params }: { params: any }) {
         <div className="mt-8">
           <a
             href="#contacto"
-            className="inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 text-white hover:bg-slate-800"
+            className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold tracking-tight text-white bg-[linear-gradient(115deg,#0e1d4a,#1c3994,#4168e1,#6389ff)] bg-[length:200%_100%] hover:bg-[position:100%_0] border border-brand-900/60 shadow-[0_18px_54px_-18px_rgba(14,29,74,0.7)] hover:-translate-y-0.5 hover:shadow-[0_22px_64px_-20px_rgba(65,104,225,0.7)] focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white transition-all"
           >
             Solicitar propuesta
           </a>

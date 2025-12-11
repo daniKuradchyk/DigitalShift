@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/jsonld";
 import { BASE_URL, SITE_NAME, SITE_TAGLINE, openGraphImage, titleTemplate } from "@/lib/seo";
+import InteractiveBackground from "@/components/common/InteractiveBackground";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 
@@ -34,7 +35,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="es" className={inter.variable}>
-      <body className="antialiased bg-white text-slate-900 selection:bg-slate-900 selection:text-white">
+      <body className="antialiased bg-white text-slate-900 selection:bg-brand-700 selection:text-white">
+        <InteractiveBackground />
         <a
           href="#contenido"
           className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-white text-slate-900 px-3 py-2 rounded-md shadow"

@@ -59,14 +59,14 @@ export default async function ToolPage({ params }: { params: any }) {
 
         <header className="mt-3 flex items-center gap-3">
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">{tool.title}</h1>
-          <span className="rounded-full bg-emerald-50 text-emerald-700 text-xs px-2 py-1 border border-emerald-200">
+          <span className="rounded-full bg-brand-50 text-brand-700 text-xs px-2 py-1 border border-brand-200">
             {tool.status}
           </span>
         </header>
         <p className="mt-2 text-slate-700 max-w-2xl">{tool.desc}</p>
 
         {/* Demo / contenido — próximamente */}
-        <div className="mt-8 rounded-2xl border border-dashed border-slate-300 p-6 text-slate-600 bg-slate-50">
+        <div className="mt-8 rounded-2xl border border-dashed border-brand-200 p-6 text-slate-600 bg-brand-50">
           <p className="font-medium">Demo próximamente</p>
           <p className="mt-1 text-sm">
             Estamos preparando una versión interactiva. Si quieres usarla ya o adaptarla a tu empresa, <a className="underline" href="#contacto">escríbenos</a>.
@@ -75,7 +75,7 @@ export default async function ToolPage({ params }: { params: any }) {
 
         {/* Guía de uso y roadmap (plantilla genérica por ahora) */}
         <section className="mt-10 grid gap-6 lg:grid-cols-2">
-          <article className="rounded-2xl border border-slate-200 p-6 bg-white">
+          <article className="rounded-2xl border border-brand-100 p-6 bg-white shadow-card">
             <h2 className="text-lg font-semibold">Cómo funcionará</h2>
             <ul className="mt-3 list-disc pl-5 text-slate-700">
               {tool.slug === "calculadora-irpf-autonomos" ? (
@@ -100,7 +100,7 @@ export default async function ToolPage({ params }: { params: any }) {
             </ul>
           </article>
 
-          <article className="rounded-2xl border border-slate-200 p-6 bg-white">
+          <article className="rounded-2xl border border-brand-100 p-6 bg-white shadow-card">
             <h2 className="text-lg font-semibold">Roadmap</h2>
             <ol className="mt-3 list-decimal pl-5 text-slate-700">
               <li>Prototipo navegable.</li>
@@ -108,7 +108,7 @@ export default async function ToolPage({ params }: { params: any }) {
               <li>Versión pública con exportación.</li>
               <li>Adaptaciones específicas por sector.</li>
             </ol>
-            <a className="mt-4 inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 text-white hover:bg-slate-800" href="#contacto">
+            <a className="mt-4 inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold tracking-tight text-white bg-[linear-gradient(115deg,#0e1d4a,#1c3994,#4168e1,#6389ff)] bg-[length:200%_100%] hover:bg-[position:100%_0] border border-brand-900/60 shadow-[0_18px_54px_-18px_rgba(14,29,74,0.7)] hover:-translate-y-0.5 hover:shadow-[0_22px_64px_-20px_rgba(65,104,225,0.7)] focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white transition-all" href="#contacto">
               Quiero ser beta-tester
             </a>
           </article>

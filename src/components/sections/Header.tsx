@@ -26,7 +26,7 @@ export default function Header() {
   ];
 
   return (
-    <header className={`sticky top-0 z-40 border-b ${scrolled ? "bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-slate-200 shadow-sm" : "bg-white/60 backdrop-blur border-transparent"}`}>
+    <header className={`sticky top-0 z-40 border-b ${scrolled ? "bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-brand-100 shadow-sm" : "bg-white/60 backdrop-blur border-transparent"}`}>
       <Container>
         <div className="flex h-16 items-center justify-between">
           <a href="/" className="flex items-center gap-2 group" aria-label="Inicio - Qubelia">
@@ -58,7 +58,7 @@ export default function Header() {
         </div>
       </Container>
       {open && (
-        <div className="md:hidden border-t border-slate-200" id={menuId}>
+        <div className="md:hidden border-t border-brand-100" id={menuId}>
           <nav aria-label="Móvil" className="px-4 py-3 space-y-1">
             {navItems.map(([label, href]) => (
               <a key={href} className="block py-2 text-slate-700 hover:text-slate-900" href={href} onClick={() => setOpen(false)}>

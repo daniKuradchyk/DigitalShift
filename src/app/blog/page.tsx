@@ -20,7 +20,7 @@ export default function BlogIndex() {
         </p>
         <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {postsMeta.map((p) => (
-            <li key={p.slug} className="rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <li key={p.slug} className="rounded-2xl border border-brand-100 p-6 shadow-card">
               <h2 className="text-lg font-semibold">
                 <Link className="hover:underline" href={`/blog/${p.slug}`}>{p.title}</Link>
               </h2>

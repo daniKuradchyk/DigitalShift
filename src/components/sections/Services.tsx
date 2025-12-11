@@ -44,28 +44,28 @@ export default function Services() {
           <h2 id="services-title" className="text-3xl font-bold tracking-tight">Servicios</h2>
           <p className="mt-2 text-slate-700">De la auditoría de procesos al software a medida y la automatización con IA.</p>
         </div>
-        <div className="mt-10 grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
           {services.map((s, i) => (
             <Reveal key={s.title} delay={i * 0.05}>
-              <article className="group relative rounded-2xl p-[1px] bg-gradient-to-br from-brand-600/60 via-slate-200 to-emerald-600/60 shadow-card">
-                <div className="rounded-2xl bg-white p-6 h-full">
+              <article className="group relative h-full rounded-2xl p-[1px] bg-gradient-to-br from-brand-700/60 via-brand-200/40 to-brand-500/60 shadow-card transition-transform duration-200 hover:-translate-y-1 hover:shadow-[0_16px_40px_-12px_rgba(15,23,42,0.3)]">
+                <div className="flex h-full flex-col rounded-2xl bg-white p-6">
                   <s.Icon />
                   <h3 className="mt-4 text-lg font-semibold">{s.title}</h3>
                   <p className="mt-2 text-slate-700">{s.desc}</p>
-                  <ul className="mt-4 space-y-2">
+                  <ul className="mt-4 flex-1 space-y-2">
                     {s.bullets.map((b) => (
                       <li key={b} className="flex gap-2">
-                        <span aria-hidden className="mt-2 inline-block h-2 w-2 rounded-full bg-emerald-600" />
+                        <span aria-hidden className="mt-2 inline-block h-2 w-2 rounded-full bg-brand-500" />
                         <span className="text-slate-700">{b}</span>
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-6 flex gap-2">
+                  <div className="mt-6 flex flex-wrap gap-2">
                     <Button as="a" href="#contacto" variant="shine">Agenda diagnóstico gratis</Button>
                     <Button as="a" href="/labs" variant="ghost">Ver productos gratuitos</Button>
                   </div>
                 </div>
-                <div aria-hidden className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition shadow-glow" />
+                <div aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-200 bg-gradient-to-br from-brand-700/10 via-transparent to-brand-500/15 shadow-glow" />
               </article>
             </Reveal>
           ))}

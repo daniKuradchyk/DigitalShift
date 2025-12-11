@@ -50,10 +50,10 @@ export default async function SearchPage(
               name="q"
               defaultValue={q}
               placeholder="Ej. transformación digital, MVP, integraciones…"
-              className="w-full rounded-xl border border-slate-300 px-3 py-2"
+              className="w-full rounded-xl border border-brand-200 px-3 py-2"
               autoComplete="off"
             />
-            <button className="rounded-xl bg-slate-900 px-4 py-2 text-white hover:bg-slate-800">
+            <button className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold tracking-tight text-white bg-[linear-gradient(115deg,#0e1d4a,#1c3994,#4168e1,#6389ff)] bg-[length:200%_100%] hover:bg-[position:100%_0] border border-brand-900/60 shadow-[0_18px_54px_-18px_rgba(14,29,74,0.7)] hover:-translate-y-0.5 hover:shadow-[0_22px_64px_-20px_rgba(65,104,225,0.7)] focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white transition-all">
               Buscar
             </button>
           </div>
@@ -69,7 +69,7 @@ export default async function SearchPage(
           {results.length > 0 && (
             <ul className="space-y-4">
               {results.map((r) => (
-                <li key={r.href} className="rounded-2xl border border-slate-200 p-4">
+                <li key={r.href} className="rounded-2xl border border-brand-100 p-4 shadow-card">
                   <a href={r.href} className="font-semibold hover:underline">{r.title}</a>
                   <p className="text-slate-700">{r.excerpt}</p>
                 </li>

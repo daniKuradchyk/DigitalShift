@@ -13,14 +13,14 @@ export default function TrustStrip() {
     { name: "OpenAI", abbr: "OpenAI" },
   ];
   return (
-    <section aria-labelledby="tools-title" className="py-6 border-y border-slate-200 bg-white/70 backdrop-blur">
+    <section aria-labelledby="tools-title" className="py-6 border-y border-brand-100 bg-white/70 backdrop-blur">
       <h2 id="tools-title" className="sr-only">Tecnologías que usamos</h2>
       <Container>
         <div className="flex gap-3 overflow-x-auto no-scrollbar py-1" aria-label="Tecnologías líderes">
           {tools.map((t) => (
             <span
               key={t.abbr}
-              className="relative inline-flex items-center justify-center rounded-full px-[1px] py-[1px] bg-gradient-to-r from-brand-600 via-emerald-600 to-brand-600 shrink-0"
+              className="relative inline-flex items-center justify-center rounded-full px-[1px] py-[1px] bg-gradient-to-r from-brand-700 via-brand-500 to-brand-700 shrink-0"
               aria-label={t.name}
               title={t.name}
             >

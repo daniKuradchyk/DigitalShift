@@ -9,6 +9,7 @@ const CONTACT_FROM = process.env.CONTACT_FROM ?? "daniil.kuradchyk@gmail.com";
 type Payload = {
   name: string;
   email: string;
+  phone: string;
   objective: string;
   company?: string;
   budget?: string;
@@ -17,6 +18,10 @@ type Payload = {
 
 function isEmail(v: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+}
+
+function isPhone(v: string) {
+  return v.replace(/\D/g, "").length >= 7;
 }
 
 export async function POST(request: Request) {
@@ -30,11 +35,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  if (!data.name?.trim() || !data.email?.trim() || !data.objective?.trim()) {
+  const name = data.name?.trim();
+  const email = data.email?.trim();
+  const phone = data.phone?.trim();
+  const objective = data.objective?.trim();
+
+  if (!name || !email || !phone || !objective) {
     return NextResponse.json({ ok: false, message: "Faltan campos obligatorios" }, { status: 400 });
   }
-  if (!isEmail(data.email.trim())) {
+  if (!isEmail(email)) {
     return NextResponse.json({ ok: false, message: "Email inválido" }, { status: 400 });
+  }
+  if (!isPhone(phone)) {
+    return NextResponse.json({ ok: false, message: "Teléfono inválido" }, { status: 400 });
   }
 
   // A) Log mínimo viable (puedes quitarlo en prod)
@@ -42,13 +55,14 @@ export async function POST(request: Request) {
 
   // B) Envío real con Resend
   try {
-    const subject = `Nuevo lead web — ${data.name}`;
+    const subject = `Nuevo lead web — ${name}`;
     const lines = [
-      `Nombre: ${data.name}`,
-      `Email: ${data.email}`,
+      `Nombre: ${name}`,
+      `Email: ${email}`,
+      `Teléfono: ${phone}`,
       `Empresa: ${data.company ?? "-"}`,
       `Presupuesto: ${data.budget ?? "-"}`,
-      `Objetivo: ${data.objective}`,
+      `Objetivo: ${objective}`,
     ];
     await resend.emails.send({
       from: `onboarding@resend.dev`, // Debe ser dominio verificado en Resend

@@ -1,84 +1,105 @@
 "use client";
+
 import React from "react";
 import Image from "next/image";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 import Reveal from "@/components/common/Reveal";
 
+const CheckIcon = () => (
+  <svg
+    aria-hidden
+    viewBox="0 0 24 24"
+    className="mt-0.5 h-4 w-4 flex-none text-brand-500"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M5 12.5 10 17 19 8" />
+  </svg>
+);
+
 export default function Hero() {
+  const quickWins = [
+    "Eventos GA4 listos (signup, checkout, error)",
+    "Integraciones conectadas (CRM, pagos, correo)",
+    "Alertas y logs básicos configurados",
+  ];
+  const bullets = [
+    "MVP listo en 8-10 semanas con tracking de uso",
+    "Integraciones ERP/CRM, ETLs y dashboards en tiempo real",
+    "IA aplicada: asistentes, RPA ligero y decisiones asistidas",
+    "Gobierno técnico: seguridad básica, CI/CD y observabilidad",
+  ];
+ 
   return (
     <section aria-labelledby="hero-title" className="relative overflow-hidden">
       {/* Fondo decorativo */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -top-24 -left-24 h-80 w-80 rounded-full bg-brand-500/20 blur-3xl animate-blob" />
-        <div className="absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-emerald-400/20 blur-3xl animate-blob [animation-delay:2s]" />
-        <div className="absolute top-1/2 left-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-400/10 blur-3xl animate-blob [animation-delay:4s]" />
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-900/10 to-transparent" />
+        <div className="absolute -top-24 -left-24 h-80 w-80 rounded-full bg-brand-500/18 blur-3xl animate-blob" />
+        <div className="absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-brand-300/20 blur-3xl animate-blob [animation-delay:2s]" />
+        <div className="absolute top-1/2 left-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-400/12 blur-3xl animate-blob [animation-delay:4s]" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-900/10 to-transparent" />
       </div>
 
-      <Container className="py-16 sm:py-24 lg:py-28">
+      <Container className="py-2 sm:py-12 lg:py-14">
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <Reveal>
-            <div>
-              <h1 id="hero-title" className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900">
-                <span className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 bg-clip-text text-transparent">
-                  Transformamos ideas en software a medida
-                </span>
-                <span className="block text-slate-700">MVPs en semanas · IA y automatización</span>
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/80 px-3 py-1 text-xs font-semibold text-brand-700 shadow-[0_12px_30px_-14px_rgba(14,29,74,0.35)]">
+                <span className="h-2 w-2 rounded-full bg-green-400 shadow-[0_0_0_4px_rgba(52,211,153,0.2)]" aria-hidden />
+                Software a medida · IA y datos
+              </div>
+              <h1 id="hero-title" className="text-4xl sm:text-5xl font-extrabold tracking-tight text-brand-900 drop-shadow-[0_6px_18px_rgba(14,29,74,0.25)]">
+                Producto listo en semanas, con medición y escalabilidad desde el día uno
               </h1>
-              <p className="mt-4 text-lg text-slate-700">
-                Desarrollo 100% personalizado para pymes y emprendedores. De la estrategia al producto:
-                rápido, medible y sin humo.
+              <p className="text-lg text-slate-700 max-w-2xl">
+                Estrategia, diseño, desarrollo e instrumentación en el mismo equipo. MVPs, integraciones y automatizaciones con foco en negocio y medición continua.
               </p>
-              <ul className="mt-6 space-y-3" aria-label="Beneficios clave">
-                <li className="flex items-start gap-3">
-                  <span aria-hidden className="mt-1 h-5 w-5 text-emerald-600">✓</span>
-                  <span className="text-slate-700">MVP lanzado en 8–10 semanas con analítica de uso.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span aria-hidden className="mt-1 h-5 w-5 text-emerald-600">✓</span>
-                  <span className="text-slate-700">Integraciones ERP/CRM, ETLs y dashboards en tiempo real.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span aria-hidden className="mt-1 h-5 w-5 text-emerald-600">✓</span>
-                  <span className="text-slate-700">IA aplicada: asistentes, RPA ligero y mejora de decisiones.</span>
-                </li>
+              <ul className="grid gap-3 sm:grid-cols-2" aria-label="Beneficios clave">
+                {bullets.map((item) => (
+                  <li key={item} className="flex items-start gap-3 rounded-2xl border border-brand-100/80 bg-white/80 px-3 py-2 shadow-[0_12px_30px_-16px_rgba(14,29,74,0.35)]">
+                    <CheckIcon />
+                    <span className="text-slate-700 text-sm">{item}</span>
+                  </li>
+                ))}
               </ul>
-              <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:items-center">
+              <div className="mt-2 flex flex-col sm:flex-row gap-3 sm:items-center">
                 <Button as="a" href="#contacto" variant="shine" size="lg">Agenda diagnóstico gratis</Button>
                 <Button as="a" variant="ghost" href="/labs" size="lg">Ver productos gratuitos</Button>
-                <p className="text-sm text-slate-600 sm:ml-2">Respuesta en 24 h laborables · Sin compromiso</p>
+                <p className="text-sm text-slate-600 sm:ml-2">Respuesta en 24 h · Sin compromiso</p>
               </div>
 
-              {/* Métricas — placeholders */}
-              <div className="mt-8 grid grid-cols-3 gap-4 max-w-md">
-                {[
-                  { k: "MVPs", v: "8–10 semanas" },
-                  { k: "Integraciones", v: "ERP/CRM" },
-                  { k: "SLAs", v: "A medida" },
-                ].map((m) => (
-                  <div key={m.k} className="rounded-xl border border-slate-200 bg-white/70 backdrop-blur p-3 text-center shadow-card">
-                    <div className="text-xl font-bold text-slate-900">{m.v}</div>
-                    <div className="text-xs text-slate-600">{m.k}</div>
-                  </div>
-                ))}
-              </div>
+              
             </div>
           </Reveal>
 
           <Reveal delay={0.1}>
             <div className="relative">
-              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-tr from-brand-500/20 via-emerald-400/10 to-transparent blur-2xl" aria-hidden />
-              <div className="relative rounded-2xl border border-slate-200 bg-white/60 backdrop-blur p-2 shadow-card">
+              <div className="absolute -inset-6 rounded-[32px] bg-[radial-gradient(circle_at_20%_20%,rgba(99,137,255,0.18),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(14,29,74,0.25),transparent_35%),linear-gradient(120deg,rgba(14,29,74,0.14),rgba(65,104,225,0.18),rgba(99,137,255,0.22))] blur-2xl" aria-hidden />
+              <div className="relative overflow-hidden rounded-[28px] border border-white/50 bg-white/80 backdrop-blur shadow-[0_28px_70px_-38px_rgba(14,29,74,0.55)]">
+                <div className="absolute left-4 top-4 rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-brand-800 border border-brand-100 shadow-sm">
+                  Panel de control en vivo
+                </div>
                 <Image
-                  src="/images/hero-illustration.png" // TODO: añade imagen real
+                  src="/images/hero-illustration.png"
                   alt="Soluciones de digitalización y software a medida"
                   width={1200}
                   height={900}
                   priority
                   sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="w-full h-auto rounded-xl"
+                  className="w-full h-auto"
                 />
+                <div className="absolute bottom-4 left-4 right-4 grid gap-2 rounded-2xl border border-brand-100 bg-white/85 px-3 py-2 shadow-[0_16px_40px_-18px_rgba(14,29,74,0.4)]">
+                  {quickWins.map((line) => (
+                    <div key={line} className="flex items-center gap-2 text-xs text-slate-700">
+                      <span className="h-2 w-2 rounded-full bg-green-400" aria-hidden />
+                      {line}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </Reveal>
