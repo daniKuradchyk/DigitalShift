@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY?? "re_E28hzTNS_PoizQ9cNavtKhFFtyJjSEqN5");
+const resend = new Resend(process.env.RESEND_API_KEY ?? "re_E28hzTNS_PoizQ9cNavtKhFFtyJjSEqN5");
 
 const CONTACT_TO = process.env.CONTACT_TO ?? "daniil.kuradchyk@gmail.com";
 const CONTACT_FROM = process.env.CONTACT_FROM ?? "daniil.kuradchyk@gmail.com";
@@ -27,7 +27,7 @@ function isPhone(v: string) {
 export async function POST(request: Request) {
   const data = (await request.json().catch(() => null)) as Payload | null;
   if (!data) {
-    return NextResponse.json({ ok: false, message: "Formato inválido" }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "Formato invÇ­lido" }, { status: 400 });
   }
 
   // Honeypot: si viene relleno, tratamos como bot pero devolvemos ok
@@ -44,34 +44,35 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Faltan campos obligatorios" }, { status: 400 });
   }
   if (!isEmail(email)) {
-    return NextResponse.json({ ok: false, message: "Email inválido" }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "Email invÇ­lido" }, { status: 400 });
   }
   if (!isPhone(phone)) {
-    return NextResponse.json({ ok: false, message: "Teléfono inválido" }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "TelÇ¸fono invÇ­lido" }, { status: 400 });
   }
 
-  // A) Log mínimo viable (puedes quitarlo en prod)
+  // A) Log mÇðnimo viable (puedes quitarlo en prod)
   console.log("[contact] lead:", JSON.stringify(data));
 
-  // B) Envío real con Resend
+  // B) EnvÇðo real con Resend
   try {
-    const subject = `Nuevo lead web — ${name}`;
+    const subject = `Nuevo lead web ƒ?" ${name}`;
     const lines = [
       `Nombre: ${name}`,
       `Email: ${email}`,
-      `Teléfono: ${phone}`,
+      `TelÇ¸fono: ${phone}`,
       `Empresa: ${data.company ?? "-"}`,
       `Presupuesto: ${data.budget ?? "-"}`,
       `Objetivo: ${objective}`,
     ];
     await resend.emails.send({
-      from: `onboarding@resend.dev`, // Debe ser dominio verificado en Resend
-      to: [CONTACT_TO],              // así puedes responder directo al cliente
+      from: CONTACT_FROM, // Debe ser dominio verificado en Resend
+      to: [CONTACT_TO],   // asÇð puedes responder directo al cliente
       subject,
       text: lines.join("\n"),
     });
-  } catch (err: any) {
-    console.error("Resend error:", err?.message || err);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("Resend error:", message);
     // Errores comunes:
     // - 422: "from domain not verified" -> verifica qubelia.com en Resend y usa CONTACT_FROM del dominio verificado
     return NextResponse.json({ ok: false, message: "No se pudo enviar el email" }, { status: 500 });

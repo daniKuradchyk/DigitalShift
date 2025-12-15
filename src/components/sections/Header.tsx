@@ -1,5 +1,6 @@
 "use client";
 import React, { useId, useState, useEffect } from "react";
+import Link from "next/link";
 import Container from "@/components/common/Container";
 import Logo from "@/components/common/Logo";
 import Button from "@/components/common/Button";
@@ -29,16 +30,29 @@ export default function Header() {
     <header className={`sticky top-0 z-40 border-b ${scrolled ? "bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-brand-100 shadow-sm" : "bg-white/60 backdrop-blur border-transparent"}`}>
       <Container>
         <div className="flex h-16 items-center justify-between">
-          <a href="/" className="flex items-center gap-2 group" aria-label="Inicio - Qubelia">
+          <Link href="/" className="flex items-center gap-2 group" aria-label="Inicio - Qubelia">
             <Logo />
-          </a>
+          </Link>
           <nav aria-label="Principal" className="hidden md:flex items-center gap-6 text-sm">
-            {navItems.map(([label, href]) => (
-              <a key={href} href={href} className="relative text-slate-700 hover:text-slate-900 py-1">
-                <span className="relative z-10">{label}</span>
-                <span aria-hidden className="absolute inset-x-0 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-brand-600/60 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform origin-center" />
-              </a>
-            ))}
+            {navItems.map(([label, href]) => {
+              const linkClasses = "relative text-slate-700 hover:text-slate-900 py-1";
+              const content = (
+                <>
+                  <span className="relative z-10">{label}</span>
+                  <span aria-hidden className="absolute inset-x-0 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-brand-600/60 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform origin-center" />
+                </>
+              );
+
+              return href.startsWith("/") ? (
+                <Link key={href} href={href} className={linkClasses}>
+                  {content}
+                </Link>
+              ) : (
+                <a key={href} href={href} className={linkClasses}>
+                  {content}
+                </a>
+              );
+            })}
           </nav>
           <div className="hidden md:flex">
             <Button as="a" href="#contacto" variant="shine">Agenda diagnóstico gratis</Button>
@@ -60,11 +74,18 @@ export default function Header() {
       {open && (
         <div className="md:hidden border-t border-brand-100" id={menuId}>
           <nav aria-label="Móvil" className="px-4 py-3 space-y-1">
-            {navItems.map(([label, href]) => (
-              <a key={href} className="block py-2 text-slate-700 hover:text-slate-900" href={href} onClick={() => setOpen(false)}>
-                {label}
-              </a>
-            ))}
+            {navItems.map(([label, href]) => {
+              const linkClasses = "block py-2 text-slate-700 hover:text-slate-900";
+              return href.startsWith("/") ? (
+                <Link key={href} className={linkClasses} href={href} onClick={() => setOpen(false)}>
+                  {label}
+                </Link>
+              ) : (
+                <a key={href} className={linkClasses} href={href} onClick={() => setOpen(false)}>
+                  {label}
+                </a>
+              );
+            })}
             <Button as="a" href="#contacto" className="mt-2 inline-flex" onClick={() => setOpen(false)} variant="shine">
               Agenda diagnóstico gratis
             </Button>

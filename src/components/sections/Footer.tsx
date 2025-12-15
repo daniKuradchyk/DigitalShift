@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import Container from "@/components/common/Container";
 
 export default function Footer() {
@@ -13,8 +14,8 @@ export default function Footer() {
           <a href="#servicios" className="text-slate-700 hover:text-slate-900">Servicios</a>
           <a href="#metodologia" className="text-slate-700 hover:text-slate-900">Metodología</a>
           <a href="#resultados" className="text-slate-700 hover:text-slate-900">Resultados</a>
-          <a href="/labs" className="text-slate-700 hover:text-slate-900">Labs</a>
-          <a href="/blog" className="text-slate-700 hover:text-slate-900">Blog</a>
+          <Link href="/labs" className="text-slate-700 hover:text-slate-900">Labs</Link>
+          <Link href="/blog" className="text-slate-700 hover:text-slate-900">Blog</Link>
           <a href="#faqs" className="text-slate-700 hover:text-slate-900">FAQs</a>
         </nav>
         <div className="text-sm text-slate-700">
@@ -30,13 +31,13 @@ export default function Footer() {
               +34 674 569 372
             </a>
           </p>
-          <p>NIF: —</p>
+          <p>NIF: -</p>
         </div>
         <div className="text-sm text-slate-700">
           <p>
-            <a className="hover:text-slate-900" href="/legal/aviso-legal">Aviso legal</a> ·{" "}
-            <a className="hover:text-slate-900" href="/legal/privacidad">Privacidad</a> ·{" "}
-            <a className="hover:text-slate-900" href="/legal/cookies">Cookies</a>
+            <Link className="hover:text-slate-900" href="/legal/aviso-legal">Aviso legal</Link> ·{" "}
+            <Link className="hover:text-slate-900" href="/legal/privacidad">Privacidad</Link> ·{" "}
+            <Link className="hover:text-slate-900" href="/legal/cookies">Cookies</Link>
           </p>
           <p className="mt-2">© {new Date().getFullYear()} Qubelia España. Todos los derechos reservados.</p>
         </div>

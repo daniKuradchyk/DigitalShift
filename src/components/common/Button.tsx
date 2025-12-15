@@ -24,6 +24,8 @@ type NativeButton = Common &
   };
 
 type ButtonProps = AnchorButton | NativeButton;
+type AnchorButtonProps = Omit<AnchorButton, "variant" | "size" | "className" | "children" | "as">;
+type NativeButtonProps = Omit<NativeButton, "variant" | "size" | "className" | "children" | "as">;
 
 const base =
   "group inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold tracking-tight transition-all duration-200 will-change-transform active:translate-y-0";
@@ -48,11 +50,11 @@ const variants: Record<Variants, string> = {
 };
 
 export default function Button(props: ButtonProps) {
-  const { variant = "primary", size = "md", className, children } = props;
+  const { variant = "primary", size = "md", className, children, ...rest } = props;
   const classes = cn(base, sizes[size], variants[variant], className);
 
   if (props.as === "a") {
-    const { href, ...anchorProps } = props;
+    const { href, ...anchorProps } = rest as AnchorButtonProps & { href: string };
     return (
       <a href={href} className={classes} {...anchorProps}>
         {children}
@@ -60,7 +62,7 @@ export default function Button(props: ButtonProps) {
     );
   }
 
-  const { as: _as, ...buttonProps } = props;
+  const buttonProps = rest as NativeButtonProps;
   return (
     <button className={classes} {...buttonProps}>
       {children}

@@ -67,7 +67,7 @@ export default function Faqs() {
         </div>
 
         <div className="mt-10 columns-1 lg:columns-2 gap-6 [column-fill:_balance]">
-          {faqItems.map((f, index) => {
+          {faqItems.map((f) => {
             const isOpen = f.id === openId;
             const panelId = `${f.id}-panel`;
 
