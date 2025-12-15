@@ -22,11 +22,7 @@ const CheckIcon = () => (
 );
 
 export default function Hero() {
-  const quickWins = [
-    "Eventos GA4 listos (signup, checkout, error)",
-    "Integraciones conectadas (CRM, pagos, correo)",
-    "Alertas y logs básicos configurados",
-  ];
+  const quickWins: string[] = [];
   const bullets = [
     "MVP listo en 8-10 semanas con tracking de uso",
     "Integraciones ERP/CRM, ETLs y dashboards en tiempo real",
@@ -50,7 +46,7 @@ export default function Hero() {
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/80 px-3 py-1 text-xs font-semibold text-brand-700 shadow-[0_12px_30px_-14px_rgba(14,29,74,0.35)]">
                 <span className="h-2 w-2 rounded-full bg-green-400 shadow-[0_0_0_4px_rgba(52,211,153,0.2)]" aria-hidden />
-                Software a medida · IA y datos
+                Qubelia · Producto listo, medible y escalable
               </div>
               <h1 id="hero-title" className="text-4xl sm:text-5xl font-extrabold tracking-tight text-brand-900 drop-shadow-[0_6px_18px_rgba(14,29,74,0.25)]">
                 Producto listo en semanas, con medición y escalabilidad desde el día uno
@@ -92,14 +88,16 @@ export default function Hero() {
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className="w-full h-auto"
                 />
-                <div className="absolute bottom-4 left-4 right-4 grid gap-2 rounded-2xl border border-brand-100 bg-white/85 px-3 py-2 shadow-[0_16px_40px_-18px_rgba(14,29,74,0.4)]">
-                  {quickWins.map((line) => (
-                    <div key={line} className="flex items-center gap-2 text-xs text-slate-700">
-                      <span className="h-2 w-2 rounded-full bg-green-400" aria-hidden />
-                      {line}
-                    </div>
-                  ))}
-                </div>
+                {quickWins.length > 0 && (
+                  <div className="absolute bottom-4 left-4 right-4 grid gap-2 rounded-2xl border border-brand-100 bg-white/85 px-3 py-2 shadow-[0_16px_40px_-18px_rgba(14,29,74,0.4)]">
+                    {quickWins.map((line) => (
+                      <div key={line} className="flex items-center gap-2 text-xs text-slate-700">
+                        <span className="h-2 w-2 rounded-full bg-green-400" aria-hidden />
+                        {line}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </Reveal>
