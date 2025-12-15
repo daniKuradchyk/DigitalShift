@@ -61,7 +61,7 @@ export default function Services() {
                     ))}
                   </ul>
                   <div className="mt-6 flex flex-wrap gap-2">
-                    <Button as="a" href="#contacto" variant="shine">Agenda diagnóstico gratis</Button>
+                    <Button as="a" href="/#contacto" variant="shine">Agenda diagnóstico gratis</Button>
                     <Button as="a" href="/labs" variant="ghost">Ver productos gratuitos</Button>
                   </div>
                 </div>

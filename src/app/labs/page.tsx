@@ -9,7 +9,7 @@ export default function LabsPage() {
       <Container>
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Qubelia Labs · Productos gratuitos</h1>
         <p className="mt-3 text-slate-700 max-w-2xl">
-          Herramientas y plantillas útiles para pymes y emprendedores. Gratis, sin registro. Si quieres adaptar cualquiera a tu empresa, <a className="underline" href="#contacto">contáctanos</a>.
+          Herramientas y plantillas útiles para pymes y emprendedores. Gratis, sin registro. Si quieres adaptar cualquiera a tu empresa, <a className="underline" href="/#contacto">contáctanos</a>.
         </p>
 
         <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -36,7 +36,7 @@ export default function LabsPage() {
                 >
                   {t.cta}
                 </a>
-                <a className="text-sm text-slate-700 hover:text-slate-900" href="#contacto">
+                <a className="text-sm text-slate-700 hover:text-slate-900" href="/#contacto">
                   Quiero adaptar esto a mi empresa
                 </a>
               </div>

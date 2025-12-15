@@ -67,7 +67,7 @@ export default function Hero() {
                 ))}
               </ul>
               <div className="mt-2 flex flex-col sm:flex-row gap-3 sm:items-center">
-                <Button as="a" href="#contacto" variant="shine" size="lg">Agenda diagnóstico gratis</Button>
+                <Button as="a" href="/#contacto" variant="shine" size="lg">Agenda diagnóstico gratis</Button>
                 <Button as="a" variant="ghost" href="/labs" size="lg">Ver productos gratuitos</Button>
                 <p className="text-sm text-slate-600 sm:ml-2">Respuesta en 24 h · Sin compromiso</p>
               </div>

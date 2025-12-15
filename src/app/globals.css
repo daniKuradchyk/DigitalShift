@@ -1,13 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --color-bg-page: #f6f8ff;
+  --color-bg-hero: radial-gradient(circle at 15% 20%, rgba(99, 137, 255, 0.12), transparent 30%), radial-gradient(circle at 85% 15%, rgba(14, 29, 74, 0.1), transparent 25%), linear-gradient(140deg, #f9fbff 0%, #f1f5ff 45%, #fafcff 100%);
+  --color-bg-surface: #ffffff;
+  --color-bg-card: #ffffff;
+  --color-bg-muted: #f0f4ff;
+  --color-text: #0f172a;
+  --color-text-muted: #475569;
+  --color-border: rgba(14, 29, 74, 0.14);
+  --color-border-strong: rgba(14, 29, 74, 0.24);
+  --shadow-soft: 0 22px 60px -40px rgba(14, 29, 74, 0.35);
+  --shadow-strong: 0 26px 80px -40px rgba(14, 29, 74, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --color-bg-page: #0c111d;
+    --color-bg-hero: radial-gradient(circle at 15% 20%, rgba(99, 137, 255, 0.08), transparent 32%), radial-gradient(circle at 82% 18%, rgba(65, 104, 225, 0.12), transparent 30%), linear-gradient(140deg, #0c111d 0%, #0f1626 45%, #0b0f1a 100%);
+    --color-bg-surface: #0f1626;
+    --color-bg-card: #121b2d;
+    --color-bg-muted: #0f1a2f;
+    --color-text: #e5ecff;
+    --color-text-muted: #c6d3f2;
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-border-strong: rgba(255, 255, 255, 0.14);
+    --shadow-soft: 0 22px 60px -40px rgba(0, 0, 0, 0.6);
+    --shadow-strong: 0 26px 80px -40px rgba(0, 0, 0, 0.75);
+  }
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--color-bg-page);
+  --color-foreground: var(--color-text);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -20,12 +47,10 @@
 html { scroll-behavior: smooth; }
 body {
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  background: radial-gradient(circle at 15% 20%, rgba(99, 137, 255, 0.12), transparent 30%),
-              radial-gradient(circle at 85% 15%, rgba(14, 29, 74, 0.1), transparent 25%),
-              linear-gradient(140deg, #f9fbff 0%, #f1f5ff 45%, #fafcff 100%);
+  background: var(--color-bg-hero);
   position: relative;
   overflow-x: hidden;
-  color: var(--foreground);
+  color: var(--color-text);
 }
 
 /* Capa superior con blobs en movimiento */
@@ -142,4 +167,18 @@ body :where(.border-brand-100, .border-brand-200, .border-slate-200, .border-sla
 }
 body :where(.rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl) {
   border-radius: 14px !important;
+}
+
+/* Ajustes rápidos de tema oscuro sobre utilidades comunes */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: var(--color-bg-hero);
+    color: var(--color-text);
+  }
+  body :where(.text-slate-900, .text-slate-800) { color: var(--color-text) !important; }
+  body :where(.text-slate-700, .text-slate-600, .text-slate-500) { color: var(--color-text-muted) !important; }
+  body :where(.bg-white, .bg-white\/90, .bg-white\/80, .bg-white\/70, .bg-white\/60, .bg-white\/50) { background-color: var(--color-bg-card) !important; color: var(--color-text); }
+  body :where(.bg-brand-50, .bg-brand-100, .bg-[#f4f7ff], .bg-brand-50\/80) { background-color: var(--color-bg-muted) !important; }
+  body :where(.border-brand-50, .border-brand-100, .border-brand-200, .border-slate-200, .border-slate-300, .border, .border-dashed) { border-color: var(--color-border) !important; }
+  body :where(.shadow-card) { box-shadow: var(--shadow-soft) !important; }
 }

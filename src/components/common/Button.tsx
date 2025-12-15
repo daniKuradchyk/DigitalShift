@@ -38,14 +38,18 @@ const sizes: Record<Sizes, string> = {
 
 const variants: Record<Variants, string> = {
   primary:
-    "text-white bg-brand-700 bg-[linear-gradient(115deg,#0e1d4a,#1c3994,#4168e1,#6389ff)] bg-[length:200%_100%] hover:bg-[position:100%_0] border border-brand-900/60 shadow-[0_18px_54px_-18px_rgba(14,29,74,0.7)] hover:-translate-y-0.5 hover:shadow-[0_22px_64px_-20px_rgba(65,104,225,0.7)] focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
-  ghost:
-    "text-brand-900 bg-[#f4f7ff] border border-brand-200 shadow-[0_12px_34px_-18px_rgba(14,29,74,0.4)] hover:bg-[#e8edff] hover:border-brand-300 hover:-translate-y-0.5 hover:shadow-[0_18px_46px_-18px_rgba(65,104,225,0.45)] focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+    "text-white bg-brand-700 bg-[linear-gradient(115deg,#0e1d4a,#1c3994,#4168e1,#6389ff)] bg-[length:200%_100%] hover:bg-[position:100%_0] border border-brand-900/60 shadow-[0_18px_54px_-18px_rgba(14,29,74,0.7)] hover:-translate-y-0.5 hover:shadow-[0_22px_64px_-20px_rgba(65,104,225,0.7)] focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-card,white)]",
+  ghost: cn(
+    "text-[color:var(--color-text)]",
+    "bg-[color:var(--color-bg-card)] border border-[color:var(--color-border)]",
+    "shadow-[0_12px_34px_-18px_rgba(14,29,74,0.25)] hover:-translate-y-0.5 hover:shadow-[0_18px_46px_-18px_rgba(65,104,225,0.35)]",
+    "hover:bg-[color:var(--color-bg-muted)] focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-card,white)]"
+  ),
   shine: cn(
     "relative text-white",
     "bg-brand-700 bg-[linear-gradient(120deg,#0e1d4a,#1c3994,#4168e1,#6389ff)] bg-[length:200%_100%] hover:bg-[position:100%_0]",
     "border border-brand-900/80 shadow-[0_18px_52px_-18px_rgba(14,29,74,0.55)] hover:shadow-[0_24px_62px_-20px_rgba(65,104,225,0.5)] hover:-translate-y-0.5",
-    "hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2"
+    "hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-card,white)]"
   ),
 };
 

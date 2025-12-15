@@ -55,7 +55,7 @@ export default function Header() {
             })}
           </nav>
           <div className="hidden md:flex">
-            <Button as="a" href="#contacto" variant="shine">Agenda diagnóstico gratis</Button>
+            <Button as="a" href="/#contacto" variant="shine">Agenda diagnóstico gratis</Button>
           </div>
           <div className="md:hidden">
             <button
@@ -86,7 +86,7 @@ export default function Header() {
                 </a>
               );
             })}
-            <Button as="a" href="#contacto" className="mt-2 inline-flex" onClick={() => setOpen(false)} variant="shine">
+            <Button as="a" href="/#contacto" className="mt-2 inline-flex" onClick={() => setOpen(false)} variant="shine">
               Agenda diagnóstico gratis
             </Button>
           </nav>

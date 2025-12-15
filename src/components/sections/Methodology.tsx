@@ -46,7 +46,7 @@ export default function Methodology() {
           ))}
         </ol>
         <div className="mt-8 flex gap-3">
-          <Button as="a" href="#contacto" variant="shine">Agenda diagnóstico gratis</Button>
+          <Button as="a" href="/#contacto" variant="shine">Agenda diagnóstico gratis</Button>
           <Button as="a" href="/labs" variant="ghost">Explorar Qubelia Labs</Button>
         </div>
       </Container>
