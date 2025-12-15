@@ -6,8 +6,9 @@ export default function Logo() {
     <div className="flex items-center gap-2">
       <Image
         src="/brand/logo-qubelia-512.png"
-        width={126}
-        height={126}
+        width={200}
+        height={200}
+        className="h-14 w-auto sm:h-16"
         alt="Qubelia"
         priority
       />
