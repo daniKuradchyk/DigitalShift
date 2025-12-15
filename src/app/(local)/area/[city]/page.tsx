@@ -46,7 +46,7 @@ export default async function CityPage({ params }: { params: any }) {
     "@type": "LocalBusiness",
     "name": "Qubelia España",
     "url": `${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/area/${cityLc}`,
-    "email": "xbydani99x@gmail.com",
+    "email": "social.networks.qubelia@gmail.com",
     "telephone": "+34674569372",
     "address": {
       "@type": "PostalAddress",

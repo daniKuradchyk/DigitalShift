@@ -9,7 +9,7 @@ export default function Privacidad() {
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Política de privacidad</h1>
         <div className="prose prose-slate mt-6">
           <p><strong>Responsable:</strong> Qubelia España (Sevilla, España).</p>
-          <p><strong>Contacto:</strong> <a className="underline" href="mailto:xbydani99x@gmail.com">xbydani99x@gmail.com</a>.</p>
+          <p><strong>Contacto:</strong> <a className="underline" href="mailto:social.networks.qubelia@gmail.com">social.networks.qubelia@gmail.com</a>.</p>
           <p><strong>Finalidad:</strong> Atender solicitudes enviadas a través del formulario de contacto.</p>
           <p><strong>Legitimación:</strong> Consentimiento del interesado.</p>
           <p><strong>Conservación:</strong> Durante el tiempo necesario para atender la solicitud y obligaciones legales.</p>

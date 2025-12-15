@@ -22,8 +22,8 @@ export default function Footer() {
           <p><strong>Contacto</strong></p>
           <p className="mt-1">Sevilla, España</p>
           <p>
-            <a className="hover:text-slate-900" href="mailto:xbydani99x@gmail.com">
-              xbydani99x@gmail.com
+            <a className="hover:text-slate-900" href="mailto:social.networks.qubelia@gmail.com">
+              social.networks.qubelia@gmail.com
             </a>
           </p>
           <p>

@@ -8,7 +8,7 @@ export default function AvisoLegal() {
       <Container>
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Aviso legal</h1>
         <p className="mt-3 text-slate-700">
-          Qubelia España · Sevilla, España · <a className="underline" href="mailto:xbydani99x@gmail.com">xbydani99x@gmail.com</a> ·
+          Qubelia España · Sevilla, España · <a className="underline" href="mailto:social.networks.qubelia@gmail.com">social.networks.qubelia@gmail.com</a> ·
           <a className="underline ml-1" href="tel:+34674569372">+34 674 569 372</a>
         </p>
         <div className="prose prose-slate mt-6">
