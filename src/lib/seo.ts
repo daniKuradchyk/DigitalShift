@@ -1,4 +1,4 @@
-export const SITE_NAME = "DigitalShift" as const;
+export const SITE_NAME = "Qubelia" as const;
 export const SITE_TAGLINE = "Resultados web medibles, sin humo ni sorpresas" as const;
 export const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 

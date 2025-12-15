@@ -16,7 +16,7 @@ export const postsMeta: PostMeta[] = [
       "Descubre cuánto cuesta una web en Sevilla: rangos de precios, factores clave y qué incluir para no pagar de más ni de menos.",
     h1: "¿Cuánto cuesta una web en Sevilla? Rangos y factores",
     date: "2025-08-17",
-    author: { name: "Equipo DigitalShift", url: "https://www.linkedin.com/" },
+    author: { name: "Equipo Qubelia", url: "https://www.linkedin.com/" },
     tags: ["Sevilla", "Diseño web", "Presupuesto"],
   },
   {
@@ -26,7 +26,7 @@ export const postsMeta: PostMeta[] = [
       "La guía práctica de 15 puntos para aumentar la conversión de tus landing pages. Priorizada y accionable.",
     h1: "Checklist para landings que convierten: 15 puntos prácticos",
     date: "2025-08-17",
-    author: { name: "Equipo DigitalShift", url: "https://www.linkedin.com/" },
+    author: { name: "Equipo Qubelia", url: "https://www.linkedin.com/" },
     tags: ["Landing pages", "CRO", "Checklist"],
   },
   {
@@ -36,7 +36,7 @@ export const postsMeta: PostMeta[] = [
       "Optimiza tu SEO local: Title/Meta, H1-H3, enlazado interno, datos estructurados, NAP y rendimiento.",
     h1: "SEO on-page para negocios locales: guía práctica",
     date: "2025-08-17",
-    author: { name: "Equipo DigitalShift", url: "https://www.linkedin.com/" },
+    author: { name: "Equipo Qubelia", url: "https://www.linkedin.com/" },
     tags: ["SEO", "Local", "On-page"],
   },
 ];
