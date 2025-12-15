@@ -22,14 +22,13 @@ const CheckIcon = () => (
 );
 
 export default function Hero() {
-  const quickWins: string[] = [];
   const bullets = [
     "MVP listo en 8-10 semanas con tracking de uso",
     "Integraciones ERP/CRM, ETLs y dashboards en tiempo real",
     "IA aplicada: asistentes, RPA ligero y decisiones asistidas",
     "Gobierno técnico: seguridad básica, CI/CD y observabilidad",
   ];
- 
+
   return (
     <section aria-labelledby="hero-title" className="relative overflow-hidden">
       {/* Fondo decorativo */}
@@ -49,7 +48,7 @@ export default function Hero() {
                 Qubelia · Producto listo, medible y escalable
               </div>
               <h1 id="hero-title" className="text-4xl sm:text-5xl font-extrabold tracking-tight text-brand-900 drop-shadow-[0_6px_18px_rgba(14,29,74,0.25)]">
-                Producto listo en semanas, con medición y escalabilidad desde el día uno
+                Producto listo en semanas, medible y escalable desde el primer día
               </h1>
               <p className="text-lg text-slate-700 max-w-2xl">
                 Estrategia, diseño, desarrollo e instrumentación en el mismo equipo. MVPs, integraciones y automatizaciones con foco en negocio y medición continua.
@@ -67,8 +66,6 @@ export default function Hero() {
                 <Button as="a" variant="ghost" href="/labs" size="lg">Ver productos gratuitos</Button>
                 <p className="text-sm text-slate-600 sm:ml-2">Respuesta en 24 h · Sin compromiso</p>
               </div>
-
-              
             </div>
           </Reveal>
 
@@ -77,7 +74,7 @@ export default function Hero() {
               <div className="absolute -inset-6 rounded-[32px] bg-[radial-gradient(circle_at_20%_20%,rgba(99,137,255,0.18),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(14,29,74,0.25),transparent_35%),linear-gradient(120deg,rgba(14,29,74,0.14),rgba(65,104,225,0.18),rgba(99,137,255,0.22))] blur-2xl" aria-hidden />
               <div className="relative overflow-hidden rounded-[28px] border border-white/50 bg-white/80 backdrop-blur shadow-[0_28px_70px_-38px_rgba(14,29,74,0.55)]">
                 <div className="absolute left-4 top-4 rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-brand-800 border border-brand-100 shadow-sm">
-                  Panel de control en vivo
+                  El futuro es ahora
                 </div>
                 <Image
                   src="/images/hero-illustration.png"
@@ -88,16 +85,6 @@ export default function Hero() {
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className="w-full h-auto"
                 />
-                {quickWins.length > 0 && (
-                  <div className="absolute bottom-4 left-4 right-4 grid gap-2 rounded-2xl border border-brand-100 bg-white/85 px-3 py-2 shadow-[0_16px_40px_-18px_rgba(14,29,74,0.4)]">
-                    {quickWins.map((line) => (
-                      <div key={line} className="flex items-center gap-2 text-xs text-slate-700">
-                        <span className="h-2 w-2 rounded-full bg-green-400" aria-hidden />
-                        {line}
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
           </Reveal>
