@@ -1,10 +1,7 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
-import Reveal from "@/components/common/Reveal";
 
 const CheckIcon = () => (
   <svg
@@ -41,54 +38,50 @@ export default function Hero() {
 
       <Container className="py-2 sm:py-12 lg:py-14">
         <div className="grid items-center gap-12 lg:grid-cols-2">
-          <Reveal>
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/80 px-3 py-1 text-xs font-semibold text-brand-700 shadow-[0_12px_30px_-14px_rgba(14,29,74,0.35)]">
-                <span className="h-2 w-2 rounded-full bg-green-400 shadow-[0_0_0_4px_rgba(52,211,153,0.2)]" aria-hidden />
-                Qubelia - Producto listo, medible y escalable
-              </div>
-              <h1 id="hero-title" className="text-4xl sm:text-5xl font-extrabold tracking-tight text-brand-900 drop-shadow-[0_6px_18px_rgba(14,29,74,0.25)]">
-                Desarrollo de software a medida e IA para pymes en Sevilla
-              </h1>
-              <p className="text-lg text-slate-700 max-w-2xl">
-                Estrategia, diseno, desarrollo e instrumentacion en el mismo equipo. MVPs, integraciones y automatizacion con IA para lanzar rapido, medir el
-                uso y escalar sin sorpresas.
-              </p>
-              <ul className="grid gap-3 sm:grid-cols-2" aria-label="Beneficios clave">
-                {bullets.map((item) => (
-                  <li key={item} className="flex items-start gap-3 rounded-2xl border border-brand-100/80 bg-white/80 px-3 py-2 shadow-[0_12px_30px_-16px_rgba(14,29,74,0.35)]">
-                    <CheckIcon />
-                    <span className="text-slate-700 text-sm">{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-2 flex flex-col sm:flex-row gap-3 sm:items-center">
-                <Button as="a" href="/#contacto" variant="shine" size="lg">Agenda diagnostico gratis</Button>
-                <Button as="a" variant="ghost" href="/labs" size="lg">Ver productos gratuitos</Button>
-                <p className="text-sm text-slate-600 sm:ml-2">Respuesta en 24 h - Sin compromiso</p>
-              </div>
+          <div className="space-y-6">
+            <div className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/80 px-3 py-1 text-xs font-semibold text-brand-700 shadow-[0_12px_30px_-14px_rgba(14,29,74,0.35)]">
+              <span className="h-2 w-2 rounded-full bg-green-400 shadow-[0_0_0_4px_rgba(52,211,153,0.2)]" aria-hidden />
+              Qubelia - Producto listo, medible y escalable
             </div>
-          </Reveal>
+            <h1 id="hero-title" className="text-4xl sm:text-5xl font-extrabold tracking-tight text-brand-900 drop-shadow-[0_6px_18px_rgba(14,29,74,0.25)]">
+              Desarrollo de software a medida e IA para pymes en Sevilla
+            </h1>
+            <p className="text-lg text-slate-700 max-w-2xl">
+              Estrategia, diseno, desarrollo e instrumentacion en el mismo equipo. MVPs, integraciones y automatizacion con IA para lanzar rapido, medir el uso
+              y escalar sin sorpresas.
+            </p>
+            <ul className="grid gap-3 sm:grid-cols-2" aria-label="Beneficios clave">
+              {bullets.map((item) => (
+                <li key={item} className="flex items-start gap-3 rounded-2xl border border-brand-100/80 bg-white/80 px-3 py-2 shadow-[0_12px_30px_-16px_rgba(14,29,74,0.35)]">
+                  <CheckIcon />
+                  <span className="text-slate-700 text-sm">{item}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-2 flex flex-col sm:flex-row gap-3 sm:items-center">
+              <Button as="a" href="/#contacto" variant="shine" size="lg">Agenda diagnostico gratis</Button>
+              <Button as="a" variant="ghost" href="/labs" size="lg">Ver productos gratuitos</Button>
+              <p className="text-sm text-slate-600 sm:ml-2">Respuesta en 24 h - Sin compromiso</p>
+            </div>
+          </div>
 
-        <Reveal delay={0.1}>
-            <div className="relative">
-              <div className="absolute -inset-6 rounded-[32px] bg-[radial-gradient(circle_at_20%_20%,rgba(99,137,255,0.18),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(14,29,74,0.25),transparent_35%),linear-gradient(120deg,rgba(14,29,74,0.14),rgba(65,104,225,0.18),rgba(99,137,255,0.22))] blur-2xl" aria-hidden />
-              <div className="relative overflow-hidden rounded-[28px] border border-white/50 bg-white/80 backdrop-blur shadow-[0_28px_70px_-38px_rgba(14,29,74,0.55)]">
-                <div className="absolute left-4 top-4 rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-brand-800 border border-brand-100 shadow-sm">
-                  El futuro es ahora
-                </div>
-                <Image
-                  src="/images/hero-illustration.png"
-                  alt="Soluciones de digitalizacion y software a medida"
-                  width={1200}
-                  height={900}
-                  priority
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="w-full h-auto"
-                />
+          <div className="relative">
+            <div className="absolute -inset-6 rounded-[32px] bg-[radial-gradient(circle_at_20%_20%,rgba(99,137,255,0.18),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(14,29,74,0.25),transparent_35%),linear-gradient(120deg,rgba(14,29,74,0.14),rgba(65,104,225,0.18),rgba(99,137,255,0.22))] blur-2xl" aria-hidden />
+            <div className="relative overflow-hidden rounded-[28px] border border-white/50 bg-white/80 backdrop-blur shadow-[0_28px_70px_-38px_rgba(14,29,74,0.55)]">
+              <div className="absolute left-4 top-4 rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-brand-800 border border-brand-100 shadow-sm">
+                El futuro es ahora
               </div>
+              <Image
+                src="/images/hero-illustration.png"
+                alt="Soluciones de digitalizacion y software a medida"
+                width={1200}
+                height={900}
+                priority
+                sizes="(min-width: 1280px) 640px, (min-width: 1024px) 520px, 100vw"
+                className="w-full h-auto"
+              />
             </div>
-          </Reveal>
+          </div>
         </div>
       </Container>
     </section>

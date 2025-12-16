@@ -7,8 +7,23 @@ import { titleTemplate, canonical } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: titleTemplate("Blog de Qubelia"),
-  description: "Transformación digital, desarrollo a medida, MVPs, IA y automatización. Guías prácticas sin humo.",
+  description: "Transformacion digital, desarrollo a medida, MVPs, IA y automatizacion. Guias practicas sin humo.",
   alternates: { canonical: canonical("/blog") },
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: titleTemplate("Blog de Qubelia"),
+    description: "Transformacion digital, desarrollo a medida, MVPs, IA y automatizacion. Guias practicas sin humo.",
+    url: canonical("/blog"),
+    siteName: "Qubelia",
+    images: [{ url: canonical("/images/og-cover.png"), width: 1200, height: 630 }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: titleTemplate("Blog de Qubelia"),
+    description: "Transformacion digital, desarrollo a medida, MVPs, IA y automatizacion. Guias practicas sin humo.",
+    images: [canonical("/images/og-cover.png")],
+  },
 };
 
 export default function BlogIndex() {
@@ -18,10 +33,7 @@ export default function BlogIndex() {
 
   return (
     <main className="pb-16">
-      <div
-        className="relative border-b overflow-hidden"
-        style={{ background: "var(--color-bg-hero)" }}
-      >
+      <div className="relative border-b overflow-hidden" style={{ background: "var(--color-bg-hero)" }}>
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <div className="absolute -left-10 top-6 h-44 w-44 rounded-full bg-brand-300/25 blur-3xl" />
           <div className="absolute right-0 bottom-0 h-56 w-56 rounded-full bg-brand-500/15 blur-3xl" />
@@ -45,21 +57,19 @@ export default function BlogIndex() {
 
           <div className="max-w-4xl space-y-5 relative text-[color:var(--color-text)]">
             <p className="text-sm font-semibold uppercase tracking-[0.08em] text-brand-700">Blog · Estrategia y delivery digital</p>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[color:var(--color-text)]">
-              Playbooks, checklists y guías sin humo para lanzar y escalar producto
-            </h1>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[color:var(--color-text)]">Playbooks, checklists y guias sin humo para lanzar y escalar producto</h1>
             <p className="text-lg text-[color:var(--color-text-muted)]">
-              Go-to-market, CRO, SEO técnico, migraciones y operaciones comerciales. Contenidos accionables para founders, marketing y equipos de producto.
+              Go-to-market, CRO, SEO tecnico, migraciones y operaciones comerciales. Contenidos accionables para founders, marketing y equipos de producto.
             </p>
             <div className="flex flex-wrap gap-3 text-sm text-[color:var(--color-text-muted)]">
               <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 border border-brand-100 shadow-card">
-                ✅ Checklists listas para ejecutar
+                • Checklists listas para ejecutar
               </span>
               <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 border border-brand-100 shadow-card">
-                📊 Métricas y benchmarks claros
+                • Metricas y benchmarks claros
               </span>
               <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 border border-brand-100 shadow-card">
-                🛠️ Enfoque técnico + negocio
+                • Enfoque tecnico + negocio
               </span>
             </div>
             {tags.length > 0 && (
@@ -107,7 +117,7 @@ export default function BlogIndex() {
                   className="inline-flex items-center justify-center rounded-full bg-brand-700 px-4 py-2 text-sm font-semibold text-white shadow-[0_18px_54px_-18px_rgba(14,29,74,0.7)] hover:-translate-y-0.5 hover:shadow-[0_22px_64px_-20px_rgba(65,104,225,0.7)] transition"
                   href={`/blog/${featured.slug}`}
                 >
-                  Leer artículo completo
+                  Leer articulo completo
                 </Link>
                 <Link
                   className="inline-flex items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] px-4 py-2 text-sm font-semibold text-[color:var(--color-text)] hover:-translate-y-0.5 hover:shadow-card transition"
@@ -176,7 +186,7 @@ export default function BlogIndex() {
                 <span className="flex items-center gap-1 font-semibold text-brand-700">
                   {p.readingTime} min ·{" "}
                   <Link className="hover:text-brand-900" href={`/blog/${p.slug}`}>
-                    Leer →
+                    Leer
                   </Link>
                 </span>
               </div>
@@ -187,8 +197,8 @@ export default function BlogIndex() {
         <section className="rounded-3xl border border-dashed border-[var(--color-border)] bg-[var(--color-bg-muted)] p-7 shadow-[var(--shadow-soft)]">
           <div className="grid gap-4 md:grid-cols-[2fr_1fr] md:items-center">
             <div className="space-y-2">
-              <p className="text-sm font-semibold uppercase tracking-[0.08em] text-brand-700">Acción inmediata</p>
-              <h2 className="text-xl font-bold text-slate-900">Te acompañamos a aplicar el playbook en 45 minutos</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.08em] text-brand-700">Accion inmediata</p>
+              <h2 className="text-xl font-bold text-slate-900">Te acompanamos a aplicar el playbook en 45 minutos</h2>
               <p className="text-slate-700">
                 Revisamos tu caso, priorizamos acciones y dejamos un checklist medible. Sin compromiso inicial.
               </p>
@@ -198,7 +208,7 @@ export default function BlogIndex() {
                 className="inline-flex items-center justify-center rounded-full bg-brand-700 px-4 py-2 text-sm font-semibold text-white shadow-[0_18px_54px_-18px_rgba(14,29,74,0.7)] hover:-translate-y-0.5 hover:shadow-[0_22px_64px_-20px_rgba(65,104,225,0.7)] transition"
                 href="/#contacto"
               >
-                Agenda diagnóstico
+                Agenda diagnostico
               </Link>
               <Link
                 className="inline-flex items-center justify-center rounded-full border border-brand-200 bg-white px-4 py-2 text-sm font-semibold text-brand-800 hover:-translate-y-0.5 hover:shadow-card transition"

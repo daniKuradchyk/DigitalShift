@@ -1,4 +1,13 @@
+import type { Metadata } from "next";
 import Container from "@/components/common/Container";
+import { canonical, titleTemplate } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: titleTemplate("Aviso legal"),
+  description: "Aviso legal de Qubelia: titular, condiciones de uso, responsabilidades y datos de contacto.",
+  alternates: { canonical: canonical("/legal/aviso-legal") },
+  robots: { index: true, follow: true },
+};
 
 export const revalidate = 86400;
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Container from "@/components/common/Container";
 import Logo from "@/components/common/Logo";
-import { canonical, titleTemplate } from "@/lib/seo";
+import { BASE_URL, canonical, titleTemplate } from "@/lib/seo";
 import { estimateReadingTime, getPost, getRelatedPosts, posts } from "@/lib/posts";
 
 type Params = { slug: string };
@@ -18,11 +18,12 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return {};
-  const url = `/blog/${post.slug}`;
+  const url = canonical(`/blog/${post.slug}`);
   return {
     title: titleTemplate(post.title),
     description: post.description,
-    alternates: { canonical: canonical(url) },
+    alternates: { canonical: url },
+    robots: { index: true, follow: true },
     openGraph: {
       title: post.title,
       description: post.description,
@@ -31,11 +32,13 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
       authors: [post.author.name],
       tags: post.tags,
       publishedTime: new Date(post.date).toISOString(),
+      images: [{ url: canonical("/images/og-cover.png"), width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
+      images: [canonical("/images/og-cover.png")],
     },
   };
 }
@@ -49,32 +52,56 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
   const readingTime = estimateReadingTime(post);
   const related = getRelatedPosts(post.slug, 3);
   const takeaways = post.sections.slice(0, 3).map((s) => s.title);
+  const canonicalUrl = canonical(`/blog/${post.slug}`);
+  const imageUrl = `${BASE_URL}/images/og-cover.png`;
 
   const ld = {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     headline: post.title,
     description: post.description,
+    mainEntityOfPage: canonicalUrl,
+    url: canonicalUrl,
+    author: { "@type": "Person", name: "Daniil Kuradchik Pekarskaya" },
     datePublished: published.toISOString(),
-    author: { "@type": "Organization", name: post.author.name, url: post.author.url },
-    publisher: { "@type": "Organization", name: "Qubelia" },
-    url: `${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/blog/${post.slug}`,
+    dateModified: published.toISOString(),
+    publisher: { "@type": "Organization", name: "Qubelia", url: BASE_URL },
+    image: [imageUrl],
     inLanguage: "es",
     keywords: post.tags.join(", "),
   };
 
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: canonical("/") },
+      { "@type": "ListItem", position: 2, name: "Blog", item: canonical("/blog") },
+      { "@type": "ListItem", position: 3, name: post.title, item: canonicalUrl },
+    ],
+  };
+
+  const serviceCta: Record<string, { href: string; label: string }> = {
+    "presupuesto-diseno-web-sevilla": { href: "/servicios/diseno-web-sevilla", label: "Diseno web en Sevilla" },
+    "checklist-landing-conversion": { href: "/servicios/mvp-emprendedores", label: "MVP para emprendedores" },
+    "seo-onpage-negocios-locales": { href: "/servicios/diseno-web-sevilla", label: "Diseno web en Sevilla" },
+    "go-to-market-saas-90-dias": { href: "/servicios/mvp-emprendedores", label: "MVP para emprendedores" },
+    "brief-tecnico-proyecto-digital": { href: "/servicios/software-medida", label: "Software a medida" },
+    "kpis-producto-b2b": { href: "/servicios/software-medida", label: "Software a medida" },
+    "migrar-wordpress-a-nextjs": { href: "/servicios/diseno-web-sevilla", label: "Migracion y diseno web" },
+    "automatizacion-comercial-b2b": { href: "/servicios/ia-automatizacion", label: "Automatizacion con IA" },
+  };
+  const mainService = serviceCta[post.slug] ?? { href: "/servicios/software-medida", label: "Servicios de Qubelia" };
+
   const sectionId = (title: string) =>
     title
       .toLowerCase()
-      .replace(/[^a-z0-9áéíóúüñ]+/g, "-")
+      .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "");
 
   return (
     <main className="pb-14">
-      <div
-        className="relative border-b overflow-hidden"
-        style={{ background: "var(--color-bg-hero)" }}
-      >
+      <div className="relative border-b overflow-hidden" style={{ background: "var(--color-bg-hero)" }}>
         <div aria-hidden className="pointer-events-none absolute inset-0">
           <div className="absolute -left-16 top-8 h-48 w-48 rounded-full bg-brand-300/25 blur-3xl" />
           <div className="absolute right-4 bottom-0 h-64 w-64 rounded-full bg-brand-500/18 blur-3xl" />
@@ -88,7 +115,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
               <span className="text-sm font-semibold text-[color:var(--color-text-muted)]">Volver a inicio</span>
             </Link>
             <Link className="text-sm text-brand-700 hover:text-brand-900 inline-flex items-center gap-2" href="/blog">
-              <span aria-hidden>←</span> Volver al blog
+              <span aria-hidden>→</span> Volver al blog
             </Link>
           </div>
           <div className="grid gap-6 lg:grid-cols-[3fr_1.2fr] lg:items-start">
@@ -121,7 +148,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                 ))}
               </ul>
               <div className="flex flex-wrap gap-2 text-xs text-[color:var(--color-text-muted)]">
-                <span className="rounded-full bg-[var(--color-bg-muted)] px-3 py-1 border border-[var(--color-border)]">Revisión express en 72 h</span>
+                <span className="rounded-full bg-[var(--color-bg-muted)] px-3 py-1 border border-[var(--color-border)]">Revision express en 72 h</span>
                 <span className="rounded-full bg-[var(--color-bg-muted)] px-3 py-1 border border-[var(--color-border)]">Checklist accionable</span>
               </div>
             </div>
@@ -186,20 +213,20 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
             )}
 
             <div className="not-prose mt-8 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-muted)] p-6 shadow-[var(--shadow-soft)]">
-              <p className="text-sm font-semibold uppercase tracking-[0.08em] text-brand-700">¿Lo aplicamos juntos?</p>
-              <p className="mt-2 text-[color:var(--color-text-muted)]">Preparamos un plan accionable para tu caso y lo dejamos medible desde el día 1.</p>
-              <div className="mt-4 flex gap-3">
+              <p className="text-sm font-semibold uppercase tracking-[0.08em] text-brand-700">Lo aplicamos juntos?</p>
+              <p className="mt-2 text-[color:var(--color-text-muted)]">Preparamos un plan accionable para tu caso, enlazamos con el servicio adecuado y dejamos todo medible desde el dia 1.</p>
+              <div className="mt-4 flex flex-wrap gap-3">
                 <Link
                   className="inline-flex items-center justify-center rounded-full bg-brand-700 px-4 py-2 text-sm font-semibold text-white shadow-[0_18px_54px_-18px_rgba(14,29,74,0.7)] hover:-translate-y-0.5 hover:shadow-[0_22px_64px_-20px_rgba(65,104,225,0.7)] transition"
                   href="/#contacto"
                 >
-                  Agenda diagnóstico
+                  Agenda diagnostico
                 </Link>
                 <Link
                   className="inline-flex items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] px-4 py-2 text-sm font-semibold text-[color:var(--color-text)] hover:-translate-y-0.5 hover:shadow-card transition"
-                  href="/labs"
+                  href={mainService.href}
                 >
-                  Ver herramientas
+                  Ver servicio: {mainService.label}
                 </Link>
               </div>
             </div>
@@ -207,7 +234,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
 
           <aside className="space-y-4">
             <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-5 shadow-[var(--shadow-soft)]">
-              <p className="text-sm font-semibold text-[color:var(--color-text)]">Resumen rápido</p>
+              <p className="text-sm font-semibold text-[color:var(--color-text)]">Resumen rapido</p>
               <ul className="mt-3 space-y-2 text-sm text-[color:var(--color-text-muted)]">
                 {post.sections.slice(0, 4).map((section) => (
                   <li key={section.title} className="flex gap-2">
@@ -218,7 +245,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
               </ul>
             </div>
             <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-5 shadow-[var(--shadow-soft)]">
-              <p className="text-sm font-semibold text-[color:var(--color-text)]">Ficha del artículo</p>
+              <p className="text-sm font-semibold text-[color:var(--color-text)]">Ficha del articulo</p>
               <ul className="mt-2 space-y-2 text-sm text-[color:var(--color-text-muted)]">
                 <li className="flex justify-between gap-2">
                   <span>Autor</span>
@@ -235,15 +262,15 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
               </ul>
             </div>
             <div className="rounded-2xl border border-dashed border-[var(--color-border)] bg-[var(--color-bg-muted)] p-5 text-sm text-[color:var(--color-text-muted)] shadow-[var(--shadow-soft)]">
-              <p className="font-semibold text-[color:var(--color-text)]">¿Necesitas ayuda ahora?</p>
-              <p className="mt-2">Hacemos auditoría express y entregamos un checklist priorizado en 72 h.</p>
+              <p className="font-semibold text-[color:var(--color-text)]">Necesitas ayuda ahora?</p>
+              <p className="mt-2">Hacemos auditoria express y entregamos un checklist priorizado en 72 h.</p>
               <Link className="mt-3 inline-flex text-brand-700 font-semibold hover:text-brand-900" href="/#contacto">
-                Solicitar auditoría →
+                Solicitar auditoria →
               </Link>
             </div>
             {related.length > 0 && (
               <div className="rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] p-5 shadow-[var(--shadow-soft)]">
-                <p className="text-sm font-semibold text-[color:var(--color-text)]">También te puede interesar</p>
+                <p className="text-sm font-semibold text-[color:var(--color-text)]">Tambien te puede interesar</p>
                 <ul className="mt-3 space-y-3 text-sm text-[color:var(--color-text-muted)]">
                   {related.map((item) => (
                     <li key={item.slug}>
@@ -259,6 +286,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
           </aside>
         </article>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
       </Container>
     </main>
   );

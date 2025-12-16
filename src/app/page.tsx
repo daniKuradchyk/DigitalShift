@@ -10,6 +10,8 @@ import Faqs from "@/components/sections/Faqs";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import Script from "next/script";
+import { canonical, openGraphImage } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/urls";
 
 export const revalidate = 86400;
 
@@ -17,6 +19,24 @@ export const metadata: Metadata = {
   title: "Qubelia - Desarrollo de software a medida e IA en Sevilla",
   description:
     "Consultoria tecnologica en Sevilla especializada en desarrollo de software a medida, automatizacion con IA y diseno web para pymes y emprendedores. Resultados medibles.",
+  alternates: { canonical: canonical("/") },
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: "Qubelia - Desarrollo de software a medida e IA en Sevilla",
+    description:
+      "Consultoria tecnologica en Sevilla especializada en desarrollo de software a medida, automatizacion con IA y diseno web para pymes y emprendedores.",
+    url: canonical("/"),
+    siteName: "Qubelia",
+    images: openGraphImage(),
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Qubelia - Desarrollo de software a medida e IA en Sevilla",
+    description:
+      "Consultoria tecnologica en Sevilla especializada en desarrollo de software a medida, automatizacion con IA y diseno web para pymes y emprendedores.",
+    images: openGraphImage(),
+  },
 };
 
 export default function Page() {
@@ -24,8 +44,8 @@ export default function Page() {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     name: "Qubelia",
-    image: "https://qubelia.es/icon.png",
-    url: "https://qubelia.es",
+    image: absoluteUrl("/icon.png"),
+    url: absoluteUrl("/"),
     telephone: "+34 674 569 372",
     email: "daniil.kuradchyk@gmail.com",
     address: {

@@ -25,6 +25,7 @@ export async function generateMetadata(
     title,
     description: q ? `Resultados de búsqueda para “${q}” en Qubelia.` : descBase,
     alternates: { canonical: canonical(path) },
+    robots: { index: false, follow: false },
     openGraph: { title, description: q ? `Resultados para “${q}”.` : descBase, url: path },
   };
 }

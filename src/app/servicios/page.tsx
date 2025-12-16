@@ -1,5 +1,26 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Container from "@/components/common/Container";
+import { canonical, titleTemplate } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: titleTemplate("Servicios"),
+  description: "Servicios de Qubelia: transformacion digital, software a medida, IA y automatizacion, MVP y data.",
+  alternates: { canonical: canonical("/servicios") },
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: titleTemplate("Servicios"),
+    description: "Servicios de Qubelia: transformacion digital, software a medida, IA y automatizacion, MVP y data.",
+    url: canonical("/servicios"),
+    images: [{ url: canonical("/images/og-cover.png"), width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: titleTemplate("Servicios"),
+    description: "Servicios de Qubelia: transformacion digital, software a medida, IA y automatizacion, MVP y data.",
+    images: [canonical("/images/og-cover.png")],
+  },
+};
 
 export default function ServicesIndex() {
   return (

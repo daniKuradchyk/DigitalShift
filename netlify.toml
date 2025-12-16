@@ -1,13 +1,57 @@
-# netlify.toml — configuración de build para Next.js en Netlify
+# netlify.toml — Configuración optimizada para Qubelia (Next.js en Netlify)
+
 [build]
   command = "npm run build"
-  publish = ".next"   # SSR: el runtime de Netlify maneja .next
+  publish = ".next"  # El runtime de Netlify para Next se encarga del resto
 
 [build.environment]
   NODE_VERSION = "20"
-  NEXT_PUBLIC_SITE_URL = "https://TU-SITIO.netlify.app"
+  NEXT_PUBLIC_SITE_URL = "https://qubelia.es"
   NEXT_TELEMETRY_DISABLED = "1"
 
-# Plugin oficial de Next en Netlify (imprescindible para SSR, middleware, images, etc.)
+# Plugin oficial de Next.js en Netlify (SSR, middleware, images, etc.)
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+######################################################
+# REDIRECCIONES CANÓNICAS (SEO)
+######################################################
+
+# qubelia.com / www.qubelia.com / www.qubelia.es -> qubelia.es
+[[redirects]]
+  from = "/*"
+  to = "https://qubelia.es/:splat"
+  status = 301
+  force = true
+  conditions = { Host = ["qubelia.com", "www.qubelia.com", "www.qubelia.es"] }
+
+######################################################
+# CABECERAS DE SEGURIDAD (SEO + confianza)
+######################################################
+
+# Cabeceras de seguridad básicas para todo
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-XSS-Protection = "1; mode=block"
+
+######################################################
+# CACHE AGRESIVA PARA ESTÁTICOS (RENDIMIENTO)
+######################################################
+
+# Assets estáticos generados por Next (_next/static)
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# (Opcional) carpeta de imágenes estáticas públicas
+# Ajusta la ruta si tus imágenes están en otra (por ejemplo /assets/img/*)
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

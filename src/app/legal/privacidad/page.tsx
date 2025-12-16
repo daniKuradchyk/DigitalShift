@@ -1,4 +1,13 @@
+import type { Metadata } from "next";
 import Container from "@/components/common/Container";
+import { canonical, titleTemplate } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: titleTemplate("Politica de privacidad"),
+  description: "Politica de privacidad de Qubelia: tratamiento de datos, derechos y contactos.",
+  alternates: { canonical: canonical("/legal/privacidad") },
+  robots: { index: true, follow: true },
+};
 
 export const revalidate = 86400;
 

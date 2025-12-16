@@ -3,6 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/jsonld";
 import { BASE_URL, SITE_NAME, SITE_TAGLINE, openGraphImage, titleTemplate } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/urls";
 import InteractiveBackground from "@/components/common/InteractiveBackground";
 import { CookieConsentProvider } from "@/components/cookies/CookieConsentProvider";
 import CookieBanner from "@/components/cookies/CookieBanner";
@@ -12,11 +13,11 @@ const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-int
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: titleTemplate(),
-  description: "Transformación digital y software a medida. MVPs en semanas, IA y automatización. Productos gratuitos en Qubelia Labs.",
+  description: "Transformacion digital y software a medida. MVPs en semanas, IA y automatizacion. Productos gratuitos en Qubelia Labs.",
   openGraph: {
     title: SITE_NAME,
-    description: "Transformación digital para pymes y emprendedores: desarrollo a medida, MVPs, IA e integraciones.",
-    url: "/",
+    description: "Transformacion digital para pymes y emprendedores: desarrollo a medida, MVPs, IA e integraciones.",
+    url: absoluteUrl("/"),
     siteName: SITE_NAME,
     images: openGraphImage(),
     locale: "es_ES",
@@ -26,19 +27,18 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SITE_NAME,
     description: "Software a medida, MVPs en semanas e IA. Productos gratuitos en Qubelia Labs.",
-    images: openGraphImage()[0].url,
+    images: openGraphImage(),
   },
-  alternates: { canonical: "/" },
+  alternates: { canonical: absoluteUrl("/") },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const org = organizationJsonLd({ name: SITE_NAME, url: BASE_URL, logoUrl: "/favicon.ico", sameAs: [] });
-  const site = websiteJsonLd({ name: `${SITE_NAME} · ${SITE_TAGLINE}`, url: BASE_URL });
+  const org = organizationJsonLd({ name: SITE_NAME, url: absoluteUrl("/"), logoUrl: absoluteUrl("/favicon.ico"), sameAs: [] });
+  const site = websiteJsonLd({ name: `${SITE_NAME} | ${SITE_TAGLINE}`, url: absoluteUrl("/") });
 
   return (
     <html lang="es" className={inter.variable}>
       <head>
-        {/* Evita el auto-darkening de Safari/iOS que invierte los colores del texto */}
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
         <meta name="theme-color" content="#ffffff" />
