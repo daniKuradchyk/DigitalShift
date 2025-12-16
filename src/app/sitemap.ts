@@ -18,12 +18,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const areaPages: MetadataRoute.Sitemap = [
     { url: `${base}/area`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
-    ...AREAS.map((a) => ({
-      url: `${base}/area/${a.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    })),
+    ...AREAS.map(
+      (a): MetadataRoute.Sitemap[number] => ({
+        url: `${base}/area/${a.slug}`,
+        lastModified: now,
+        changeFrequency: "monthly",
+        priority: 0.7,
+      }),
+    ),
   ];
 
   const servicePages: MetadataRoute.Sitemap = [
