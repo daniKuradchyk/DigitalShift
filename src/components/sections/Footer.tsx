@@ -1,8 +1,13 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Container from "@/components/common/Container";
+import { useCookieConsent } from "@/components/cookies/CookieConsentProvider";
 
 export default function Footer() {
+  const { openPreferences } = useCookieConsent();
+
   return (
     <footer className="mt-16 border-t border-brand-100 bg-white">
       <Container className="py-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -20,10 +25,10 @@ export default function Footer() {
         </nav>
         <div className="text-sm text-slate-700">
           <p><strong>Contacto</strong></p>
-          <p className="mt-1">Sevilla, España</p>
+          <p className="mt-1">Calle Torrelodones 84B, 41016 Sevilla, Sevilla, España</p>
           <p>
-            <a className="hover:text-slate-900" href="mailto:social.networks.qubelia@gmail.com">
-              social.networks.qubelia@gmail.com
+            <a className="hover:text-slate-900" href="mailto:daniil.kuradchyk@gmail.com">
+              daniil.kuradchyk@gmail.com
             </a>
           </p>
           <p>
@@ -31,13 +36,18 @@ export default function Footer() {
               +34 674 569 372
             </a>
           </p>
-          <p>NIF: -</p>
+          <p>NIF: 30865688X</p>
         </div>
         <div className="text-sm text-slate-700">
           <p>
-            <Link className="hover:text-slate-900" href="/legal/aviso-legal">Aviso legal</Link> ·{" "}
-            <Link className="hover:text-slate-900" href="/legal/privacidad">Privacidad</Link> ·{" "}
+            <Link className="hover:text-slate-900" href="/legal/aviso-legal">Aviso legal</Link>{" · "}
+            <Link className="hover:text-slate-900" href="/legal/privacidad">Privacidad</Link>{" · "}
             <Link className="hover:text-slate-900" href="/legal/cookies">Cookies</Link>
+          </p>
+          <p className="mt-2">
+            <button type="button" onClick={openPreferences} className="underline hover:text-slate-900">
+              Configurar cookies
+            </button>
           </p>
           <p className="mt-2">© {new Date().getFullYear()} Qubelia España. Todos los derechos reservados.</p>
         </div>

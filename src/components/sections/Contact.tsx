@@ -3,14 +3,16 @@ import React, { useState } from "react";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 
-type Errors = { name?: string; email?: string; phone?: string; objective?: string };
+type Errors = { name?: string; email?: string; phone?: string; objective?: string; privacyAccepted?: string };
 
 export default function Contact() {
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
   const [message, setMessage] = useState<string>("");
   const [errors, setErrors] = useState<Errors>({});
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [privacyInfoOpen, setPrivacyInfoOpen] = useState(false);
 
-  function validate(form: FormData): Errors {
+  function validate(form: FormData, consent: boolean): Errors {
     const e: Errors = {};
     if (!String(form.get("name") || "").trim()) e.name = "El nombre es obligatorio";
     const email = String(form.get("email") || "").trim();
@@ -20,6 +22,7 @@ export default function Contact() {
     if (!phone) e.phone = "El teléfono es obligatorio";
     else if (phone.replace(/\D/g, "").length < 7) e.phone = "Introduce un teléfono válido";
     if (!String(form.get("objective") || "").trim()) e.objective = "Cuéntanos el objetivo del proyecto";
+    if (!consent) e.privacyAccepted = "Debes aceptar la Política de privacidad para enviar el formulario.";
     return e;
   }
 
@@ -27,7 +30,7 @@ export default function Contact() {
     e.preventDefault();
     const formEl = e.currentTarget;
     const form = new FormData(formEl);
-    const v = validate(form);
+    const v = validate(form, privacyAccepted);
     setErrors(v);
     if (Object.keys(v).length > 0) {
       setStatus("error");
@@ -35,7 +38,7 @@ export default function Contact() {
       return;
     }
     setStatus("loading");
-    const payload = Object.fromEntries(form.entries());
+    const payload = { ...Object.fromEntries(form.entries()), privacyAccepted };
     const res = await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -45,6 +48,7 @@ export default function Contact() {
       setStatus("ok");
       setMessage("¡Gracias! Te responderemos en 24 h laborables.");
       formEl.reset();
+      setPrivacyAccepted(false);
     } else {
       setStatus("error");
       setMessage("Ha ocurrido un error. Inténtalo de nuevo.");
@@ -106,11 +110,27 @@ export default function Contact() {
               <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
 
               <div className="sm:col-span-2 flex items-start gap-2">
-                <input id="consent" name="consent" type="checkbox" required className="mt-1 h-4 w-4" aria-describedby="rgpd-note" />
-                <label htmlFor="consent" className="text-sm text-slate-700">
-                  Acepto el tratamiento de mis datos para responder a mi solicitud.
+                <input
+                  id="privacyAccepted"
+                  name="privacyAccepted"
+                  type="checkbox"
+                  checked={privacyAccepted}
+                  onChange={(ev) => {
+                    setPrivacyAccepted(ev.target.checked);
+                    if (ev.target.checked) setPrivacyInfoOpen(true);
+                  }}
+                  className="mt-1 h-4 w-4"
+                  aria-describedby={errors.privacyAccepted ? "privacy-error rgpd-note" : "rgpd-note"}
+                />
+                <label htmlFor="privacyAccepted" className="text-sm text-slate-700">
+                  He leído y acepto la{" "}
+                  <a className="underline" href="/legal/privacidad">
+                    Política de privacidad
+                  </a>
+                  .
                 </label>
               </div>
+              {errors.privacyAccepted && <p id="privacy-error" className="sm:col-span-2 text-sm text-red-700">{errors.privacyAccepted}</p>}
             </div>
             <div className="mt-5 flex items-center gap-3">
               <Button type="submit" disabled={status === "loading"}>{status === "loading" ? "Enviando…" : "Enviar"}</Button>
@@ -118,10 +138,31 @@ export default function Contact() {
                 {status !== "idle" ? message : ""}
               </p>
             </div>
-            <p id="rgpd-note" className="mt-3 text-xs text-slate-600">
-              Tus datos no se comparten con terceros. Puedes solicitar su eliminación en cualquier momento.{" "}
-              <a href="/legal/privacidad" className="underline">Política de privacidad</a>.
-            </p>
+            <div className="mt-3 text-xs text-slate-600 dark:text-slate-300">
+              <button
+                type="button"
+                onClick={() => setPrivacyInfoOpen((v) => !v)}
+                className="flex items-center gap-2 font-semibold text-slate-700 hover:text-slate-900 dark:text-slate-100 dark:hover:text-white"
+                aria-expanded={privacyInfoOpen}
+                aria-controls="rgpd-note"
+              >
+                {privacyInfoOpen ? "Ocultar información de privacidad" : "Ver información de privacidad"}
+              </button>
+              <div
+                id="rgpd-note"
+                className={`${privacyInfoOpen ? "mt-2" : "mt-2 hidden"} rounded-lg border border-slate-200 bg-slate-50/80 p-3 leading-relaxed dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-100`}
+              >
+                <p>
+                  <strong>Responsable:</strong> Daniil Kuradchik Pekarskaya. <strong>Finalidad:</strong> atender tu consulta, gestionar solicitudes de
+                  información y presupuestos y, en su caso, la relación precontractual. <strong>Legitimación:</strong> consentimiento y aplicación de medidas
+                  precontractuales. <strong>Destinatarios:</strong> sin cesiones salvo obligación legal o proveedores que prestan servicios a Qubelia
+                  (alojamiento web, etc.) con contrato de encargo. <strong>Derechos:</strong> acceso, rectificación, supresión, oposición, limitación,
+                  portabilidad y retirada del consentimiento en{" "}
+                  <a className="underline dark:text-white" href="mailto:daniil.kuradchyk@gmail.com">daniil.kuradchyk@gmail.com</a>; reclamación ante la AEPD (www.aepd.es). Más
+                  info en la <a className="underline dark:text-white" href="/legal/privacidad">Política de privacidad</a>.
+                </p>
+              </div>
+            </div>
           </form>
         </div>
       </Container>

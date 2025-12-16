@@ -5,32 +5,32 @@ import Reveal from "@/components/common/Reveal";
 
 const services = [
   {
-    title: "Transformación digital para PYMEs",
-    desc: "Automatizamos procesos y conectamos tus sistemas para ganar eficiencia real desde el primer mes.",
-    bullets: ["Mapeo de procesos y oportunidades", "Integración ERP/CRM y automatizaciones", "Dashboards e indicadores en tiempo real"],
+    title: "Transformacion digital para PYMEs",
+    desc: "Automatizamos procesos y conectamos tus sistemas para ganar eficiencia real desde el primer mes. Detectamos cuellos de botella y orquestamos integraciones para que los datos fluyan sin duplicidades. Cada entrega se orienta a impacto medible en negocio.",
+    bullets: ["Mapeo de procesos y oportunidades", "Integracion ERP/CRM y automatizaciones", "Dashboards e indicadores en tiempo real"],
     Icon: TransformIcon,
   },
   {
-    title: "Desarrollo de aplicaciones a medida",
-    desc: "Web y móvil, APIs y backends robustos, listos para escalar y con seguridad desde el diseño.",
+    title: "Desarrollo de software a medida",
+    desc: "Aplicaciones web y moviles, APIs y backends robustos con seguridad desde el diseno. Creamos software a medida listo para escalar y mantener, con observabilidad, rendimiento y soporte a negocio.",
     bullets: ["Web apps y mobile", "APIs/microservicios y bases de datos", "Seguridad, rendimiento y observabilidad"],
     Icon: AppIcon,
   },
   {
     title: "MVP para emprendedores",
-    desc: "De idea a MVP en 8–10 semanas. Enfoque lean, hipótesis claras y medición desde el día uno.",
-    bullets: ["Discovery y prototipo", "Sprints quincenales y entregas continuas", "Analítica y aprendizajes accionables"],
+    desc: "De idea a MVP en 8-10 semanas con enfoque lean y metricas desde el dia uno. Validamos hipotesis rapido y entregamos un producto utilizable para primeras ventas o inversion, con trazabilidad de uso.",
+    bullets: ["Discovery y prototipo", "Sprints quincenales y entregas continuas", "Analitica y aprendizajes accionables"],
     Icon: RocketIcon,
   },
   {
-    title: "IA y automatización",
-    desc: "Asistentes, RPA ligero y análisis con IA para ahorrar tiempo y mejorar decisiones.",
-    bullets: ["Asistentes y flujos RPA", "Extracción y clasificación documental", "Analítica asistida por IA"],
+    title: "IA y automatizacion de procesos",
+    desc: "Asistentes, RPA ligero y analitica asistida por IA para ahorrar tiempo y mejorar decisiones. Disenamos flujos de automatizacion con control humano, seguridad y medicion del ROI.",
+    bullets: ["Asistentes y flujos RPA", "Extraccion y clasificacion documental", "Analitica asistida por IA"],
     Icon: AiIcon,
   },
   {
     title: "Integraciones y Data",
-    desc: "Conecta tus herramientas y unifica datos para orquestar tu negocio con menos fricción.",
+    desc: "Conectamos tus herramientas internas y unificamos datos para orquestar tu operacion con menos friccion. ETLs, conectores y alertas en tiempo real para reducir errores y acelerar decisiones.",
     bullets: ["ETLs y conectores", "Data warehouse y calidad de datos", "Informes y alertas en tiempo real"],
     Icon: DataIcon,
   },
@@ -41,8 +41,10 @@ export default function Services() {
     <section id="servicios" aria-labelledby="services-title" className="py-20">
       <Container>
         <div className="max-w-2xl">
-          <h2 id="services-title" className="text-3xl font-bold tracking-tight">Servicios</h2>
-          <p className="mt-2 text-slate-700">De la auditoría de procesos al software a medida y la automatización con IA.</p>
+          <h2 id="services-title" className="text-3xl font-bold tracking-tight">Servicios de desarrollo y consultoria tecnologica</h2>
+          <p className="mt-2 text-slate-700">
+            De la auditoria de procesos al desarrollo de software a medida, automatizacion con IA e integraciones para pymes y emprendedores en Sevilla y toda Espana.
+          </p>
         </div>
         <div className="mt-10 grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">
           {services.map((s, i) => (
@@ -61,7 +63,7 @@ export default function Services() {
                     ))}
                   </ul>
                   <div className="mt-6 flex flex-wrap gap-2">
-                    <Button as="a" href="/#contacto" variant="shine">Agenda diagnóstico gratis</Button>
+                    <Button as="a" href="/#contacto" variant="shine">Agenda diagnostico gratis</Button>
                     <Button as="a" href="/labs" variant="ghost">Ver productos gratuitos</Button>
                   </div>
                 </div>

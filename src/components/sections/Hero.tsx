@@ -26,7 +26,7 @@ export default function Hero() {
     "MVP listo en 8-10 semanas con tracking de uso",
     "Integraciones ERP/CRM, ETLs y dashboards en tiempo real",
     "IA aplicada: asistentes, RPA ligero y decisiones asistidas",
-    "Gobierno técnico: seguridad básica, CI/CD y observabilidad",
+    "Gobierno tecnico: seguridad basica, CI/CD y observabilidad",
   ];
 
   return (
@@ -45,13 +45,14 @@ export default function Hero() {
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/80 px-3 py-1 text-xs font-semibold text-brand-700 shadow-[0_12px_30px_-14px_rgba(14,29,74,0.35)]">
                 <span className="h-2 w-2 rounded-full bg-green-400 shadow-[0_0_0_4px_rgba(52,211,153,0.2)]" aria-hidden />
-                Qubelia · Producto listo, medible y escalable
+                Qubelia - Producto listo, medible y escalable
               </div>
               <h1 id="hero-title" className="text-4xl sm:text-5xl font-extrabold tracking-tight text-brand-900 drop-shadow-[0_6px_18px_rgba(14,29,74,0.25)]">
-                Producto listo en semanas, medible y escalable desde el primer día
+                Desarrollo de software a medida e IA para pymes en Sevilla
               </h1>
               <p className="text-lg text-slate-700 max-w-2xl">
-                Estrategia, diseño, desarrollo e instrumentación en el mismo equipo. MVPs, integraciones y automatizaciones con foco en negocio y medición continua.
+                Estrategia, diseno, desarrollo e instrumentacion en el mismo equipo. MVPs, integraciones y automatizacion con IA para lanzar rapido, medir el
+                uso y escalar sin sorpresas.
               </p>
               <ul className="grid gap-3 sm:grid-cols-2" aria-label="Beneficios clave">
                 {bullets.map((item) => (
@@ -62,14 +63,14 @@ export default function Hero() {
                 ))}
               </ul>
               <div className="mt-2 flex flex-col sm:flex-row gap-3 sm:items-center">
-                <Button as="a" href="/#contacto" variant="shine" size="lg">Agenda diagnóstico gratis</Button>
+                <Button as="a" href="/#contacto" variant="shine" size="lg">Agenda diagnostico gratis</Button>
                 <Button as="a" variant="ghost" href="/labs" size="lg">Ver productos gratuitos</Button>
-                <p className="text-sm text-slate-600 sm:ml-2">Respuesta en 24 h · Sin compromiso</p>
+                <p className="text-sm text-slate-600 sm:ml-2">Respuesta en 24 h - Sin compromiso</p>
               </div>
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
+        <Reveal delay={0.1}>
             <div className="relative">
               <div className="absolute -inset-6 rounded-[32px] bg-[radial-gradient(circle_at_20%_20%,rgba(99,137,255,0.18),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(14,29,74,0.25),transparent_35%),linear-gradient(120deg,rgba(14,29,74,0.14),rgba(65,104,225,0.18),rgba(99,137,255,0.22))] blur-2xl" aria-hidden />
               <div className="relative overflow-hidden rounded-[28px] border border-white/50 bg-white/80 backdrop-blur shadow-[0_28px_70px_-38px_rgba(14,29,74,0.55)]">
@@ -78,7 +79,7 @@ export default function Hero() {
                 </div>
                 <Image
                   src="/images/hero-illustration.png"
-                  alt="Soluciones de digitalización y software a medida"
+                  alt="Soluciones de digitalizacion y software a medida"
                   width={1200}
                   height={900}
                   priority

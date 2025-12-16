@@ -1,24 +1,43 @@
+import type { MetadataRoute } from "next";
 import { AREAS } from "@/lib/locations";
 import { postsMeta } from "@/lib/posts";
 
-export default function sitemap() {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+export default function sitemap(): MetadataRoute.Sitemap {
+  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://qubelia.es").replace(/\/$/, "");
   const now = new Date().toISOString();
-  const urls = [
-    { url: `${base}/`, changeFrequency: "monthly", priority: 1.0, lastModified: now },
-    { url: `${base}/servicios`, changeFrequency: "monthly", priority: 0.8, lastModified: now },
-    { url: `${base}/servicios/landing-pages`, changeFrequency: "monthly", priority: 0.8, lastModified: now },
-    { url: `${base}/servicios/web-corporativa`, changeFrequency: "monthly", priority: 0.8, lastModified: now },
-    { url: `${base}/servicios/marketing-digital`, changeFrequency: "monthly", priority: 0.8, lastModified: now },
-    { url: `${base}/area`, changeFrequency: "monthly", priority: 0.6, lastModified: now },
-    ...AREAS.map((a) => ({ url: `${base}/area/${a.slug}`, changeFrequency: "monthly", priority: 0.7, lastModified: now })),
-    { url: `${base}/blog`, changeFrequency: "weekly", priority: 0.7, lastModified: now },
-    ...postsMeta.map((p) => ({
-      url: `${base}/blog/${p.slug}`,
-      changeFrequency: "weekly",
+
+  const staticPages: MetadataRoute.Sitemap = [
+    { url: `${base}/`, lastModified: now, changeFrequency: "monthly", priority: 1.0 },
+    { url: `${base}/labs`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/servicios`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/legal/aviso-legal`, lastModified: now, changeFrequency: "yearly", priority: 0.6 },
+    { url: `${base}/legal/privacidad`, lastModified: now, changeFrequency: "yearly", priority: 0.6 },
+    { url: `${base}/legal/cookies`, lastModified: now, changeFrequency: "yearly", priority: 0.6 },
+    { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+  ];
+
+  const areaPages: MetadataRoute.Sitemap = [
+    { url: `${base}/area`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    ...AREAS.map((a) => ({
+      url: `${base}/area/${a.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.7,
-      lastModified: p.date,
     })),
   ];
-  return urls;
+
+  const servicePages: MetadataRoute.Sitemap = [
+    { url: `${base}/servicios/landing-pages`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/servicios/web-corporativa`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/servicios/marketing-digital`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+  ];
+
+  const blogPages: MetadataRoute.Sitemap = postsMeta.map((p) => ({
+    url: `${base}/blog/${p.slug}`,
+    lastModified: p.date,
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...areaPages, ...servicePages, ...blogPages];
 }

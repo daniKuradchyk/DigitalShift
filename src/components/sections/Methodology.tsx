@@ -4,11 +4,11 @@ import Button from "@/components/common/Button";
 import Reveal from "@/components/common/Reveal";
 
 const steps = [
-  { n: 1, title: "Descubrimiento", text: "Objetivos y KPIs, usuarios, mapa de procesos y riesgos. Plan mínimo viable priorizado por impacto." },
-  { n: 2, title: "Diseño & Prototipo", text: "UX/UI accesible, prototipo testeable y checklist técnico/seguridad." },
-  { n: 3, title: "MVP ágil", text: "Sprints quincenales, entregas continuas y analítica de uso desde el día uno." },
-  { n: 4, title: "Go-Live & Formación", text: "Despliegue, manuales, handover y gobierno básico (SLAs/SLOs)." },
-  { n: 5, title: "Evolución & Soporte", text: "Roadmap trimestral, mejoras por datos y soporte según criticidad." },
+  { n: 1, title: "Descubrimiento", text: "Objetivos y KPIs, usuarios, mapa de procesos y riesgos. Plan minimo viable priorizado por impacto." },
+  { n: 2, title: "Diseno & Prototipo", text: "UX/UI accesible, prototipo testeable y checklist tecnico/seguridad." },
+  { n: 3, title: "MVP agil", text: "Sprints quincenales, entregas continuas y analitica de uso desde el dia uno." },
+  { n: 4, title: "Go-Live & Formacion", text: "Despliegue, manuales, handover y gobierno basico (SLAs/SLOs)." },
+  { n: 5, title: "Evolucion & Soporte", text: "Roadmap trimestral, mejoras por datos y soporte segun criticidad." },
 ];
 
 export default function Methodology() {
@@ -16,7 +16,7 @@ export default function Methodology() {
     <section id="metodologia" aria-labelledby="method-title" className="py-20 bg-brand-50">
       <Container>
         <div className="max-w-2xl">
-          <h2 id="method-title" className="text-3xl font-bold tracking-tight">Nuestra metodología en 5 pasos</h2>
+          <h2 id="method-title" className="text-3xl font-bold tracking-tight">Como trabajamos: metodologia en 5 pasos</h2>
           <p className="mt-2 text-slate-700">Proceso claro, entregables por hito y visibilidad del avance en todo momento.</p>
         </div>
         <ol className="relative mt-10 grid gap-6 lg:grid-cols-5">
@@ -46,7 +46,7 @@ export default function Methodology() {
           ))}
         </ol>
         <div className="mt-8 flex gap-3">
-          <Button as="a" href="/#contacto" variant="shine">Agenda diagnóstico gratis</Button>
+          <Button as="a" href="/#contacto" variant="shine">Agenda diagnostico gratis</Button>
           <Button as="a" href="/labs" variant="ghost">Explorar Qubelia Labs</Button>
         </div>
       </Container>

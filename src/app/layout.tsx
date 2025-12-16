@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/jsonld";
 import { BASE_URL, SITE_NAME, SITE_TAGLINE, openGraphImage, titleTemplate } from "@/lib/seo";
 import InteractiveBackground from "@/components/common/InteractiveBackground";
+import { CookieConsentProvider } from "@/components/cookies/CookieConsentProvider";
+import CookieBanner from "@/components/cookies/CookieBanner";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 
@@ -42,16 +44,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body className="antialiased bg-white text-slate-900 selection:bg-brand-700 selection:text-white">
-        <InteractiveBackground />
-        <a
-          href="#contenido"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-white text-slate-900 px-3 py-2 rounded-md shadow"
-        >
-          Saltar al contenido
-        </a>
-        {children}
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(site) }} />
+        <CookieConsentProvider>
+          <InteractiveBackground />
+          <a
+            href="#contenido"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 bg-white text-slate-900 px-3 py-2 rounded-md shadow"
+          >
+            Saltar al contenido
+          </a>
+          {children}
+          <CookieBanner />
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(site) }} />
+        </CookieConsentProvider>
       </body>
     </html>
   );
