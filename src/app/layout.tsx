@@ -9,11 +9,19 @@ import { CookieConsentProvider } from "@/components/cookies/CookieConsentProvide
 import CookieBanner from "@/components/cookies/CookieBanner";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
+const SITE_ORIGIN = "https://qubelia.es";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(BASE_URL),
+  metadataBase: new URL(SITE_ORIGIN), // Ensures absolute URLs (incluye <link rel="icon">) apuntan a https://qubelia.es
   title: titleTemplate(),
   description: "Transformacion digital y software a medida. MVPs en semanas, IA y automatizacion. Productos gratuitos en Qubelia Labs.",
+  icons: {
+    icon: [
+      { url: "/favicon-48.png", sizes: "48x48", type: "image/png" }, // <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+      { url: "/favicon.ico" }, // <link rel="icon" href="/favicon.ico">
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }], // <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon.png">
+  },
   openGraph: {
     title: SITE_NAME,
     description: "Transformacion digital para pymes y emprendedores: desarrollo a medida, MVPs, IA e integraciones.",
