@@ -16,15 +16,15 @@ import { absoluteUrl } from "@/lib/urls";
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: "Qubelia - Desarrollo de software a medida e IA en Sevilla",
+  title: "Qubelia · Desarrollo de software a medida e IA en Sevilla",
   description:
-    "Consultoria tecnologica en Sevilla especializada en desarrollo de software a medida, automatizacion con IA y diseno web para pymes y emprendedores. Resultados medibles.",
+    "Qubelia · desarrollo de software a medida en Sevilla con IA y automatizacion para pymes. MVPs, integraciones y diseno web orientados a resultados medibles.",
   alternates: { canonical: canonical("/") },
   robots: { index: true, follow: true },
   openGraph: {
-    title: "Qubelia - Desarrollo de software a medida e IA en Sevilla",
+    title: "Qubelia · Desarrollo de software a medida e IA en Sevilla",
     description:
-      "Consultoria tecnologica en Sevilla especializada en desarrollo de software a medida, automatizacion con IA y diseno web para pymes y emprendedores.",
+      "Qubelia · desarrollo de software a medida en Sevilla con IA y automatizacion para pymes. MVPs, integraciones y diseno web orientados a resultados medibles.",
     url: canonical("/"),
     siteName: "Qubelia",
     images: openGraphImage(),
@@ -32,9 +32,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Qubelia - Desarrollo de software a medida e IA en Sevilla",
+    title: "Qubelia · Desarrollo de software a medida e IA en Sevilla",
     description:
-      "Consultoria tecnologica en Sevilla especializada en desarrollo de software a medida, automatizacion con IA y diseno web para pymes y emprendedores.",
+      "Qubelia · desarrollo de software a medida en Sevilla con IA y automatizacion para pymes. MVPs, integraciones y diseno web orientados a resultados medibles.",
     images: openGraphImage(),
   },
 };

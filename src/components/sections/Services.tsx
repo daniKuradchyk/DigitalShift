@@ -4,33 +4,33 @@ import Button from "@/components/common/Button";
 
 const services = [
   {
-    title: "Transformacion digital para PYMEs",
-    desc: "Automatizamos procesos y conectamos tus sistemas para ganar eficiencia real desde el primer mes. Detectamos cuellos de botella y orquestamos integraciones para que los datos fluyan sin duplicidades. Cada entrega se orienta a impacto medible en negocio.",
-    bullets: ["Mapeo de procesos y oportunidades", "Integracion ERP/CRM y automatizaciones", "Dashboards e indicadores en tiempo real"],
+    title: "Consultoria tecnologica y transformacion para PYMEs",
+    desc: "Tu equipo sigue atrapado en excels, correos y tareas duplicadas. Actuamos como consultoria tecnologica para mapear procesos, eliminar cuellos de botella y priorizar automatizacion con foco en negocio. Resultado: menos incidencias, mas horas productivas y visibilidad diaria.",
+    bullets: ["Diagnostico y backlog por impacto", "Workflows sin copias ni dobles cargas", "Indicadores de servicio y eficiencia"],
     Icon: TransformIcon,
   },
   {
-    title: "Desarrollo de software a medida",
-    desc: "Aplicaciones web y moviles, APIs y backends robustos con seguridad desde el diseno. Creamos software a medida listo para escalar y mantener, con observabilidad, rendimiento y soporte a negocio.",
-    bullets: ["Web apps y mobile", "APIs/microservicios y bases de datos", "Seguridad, rendimiento y observabilidad"],
+    title: "Desarrollo de aplicaciones a medida",
+    desc: "Si el SaaS no encaja o las licencias se disparan, construimos desarrollo de aplicaciones a medida y backends robustos. Disenamos arquitectura, QA y despliegues para crecer sin rehacer. Resultado: procesos propios digitalizados y equipos trabajando sobre una sola fuente de verdad.",
+    bullets: ["Web apps y paneles de operaciones", "APIs/microservicios y seguridad", "Rendimiento, observabilidad y soporte"],
     Icon: AppIcon,
   },
   {
     title: "MVP para emprendedores",
-    desc: "De idea a MVP en 8-10 semanas con enfoque lean y metricas desde el dia uno. Validamos hipotesis rapido y entregamos un producto utilizable para primeras ventas o inversion, con trazabilidad de uso.",
-    bullets: ["Discovery y prototipo", "Sprints quincenales y entregas continuas", "Analitica y aprendizajes accionables"],
+    desc: "Para founders que necesitan validar mercado sin quemar caja. Aterrizamos propuesta, prototipo y desarrollo en 8-10 semanas con eventos de uso. Sales con un MVP vendible, metricas claras y un roadmap basado en datos, no en opiniones.",
+    bullets: ["Discovery y prototipo con usuarios", "Sprints quincenales y demos", "Analitica y mejoras accionables"],
     Icon: RocketIcon,
   },
   {
     title: "IA y automatizacion de procesos",
-    desc: "Asistentes, RPA ligero y analitica asistida por IA para ahorrar tiempo y mejorar decisiones. Disenamos flujos de automatizacion con control humano, seguridad y medicion del ROI.",
-    bullets: ["Asistentes y flujos RPA", "Extraccion y clasificacion documental", "Analitica asistida por IA"],
+    desc: "Si tu equipo copia datos entre herramientas o revisa correos uno a uno, disenamos automatizacion de procesos con IA y RPA ligero. Asistentes, clasificacion documental y flujos con control humano para mantener la calidad. Resultado: menos tareas repetitivas y decisiones mas rapidas.",
+    bullets: ["Asistentes y flujos RPA con IA", "Extraccion y clasificacion de documentos", "Alertas y aprobaciones automatizadas"],
     Icon: AiIcon,
   },
   {
     title: "Integraciones y Data",
-    desc: "Conectamos tus herramientas internas y unificamos datos para orquestar tu operacion con menos friccion. ETLs, conectores y alertas en tiempo real para reducir errores y acelerar decisiones.",
-    bullets: ["ETLs y conectores", "Data warehouse y calidad de datos", "Informes y alertas en tiempo real"],
+    desc: "Conectamos ERP, CRM, soporte y BI para que todos trabajen con el mismo dato. ETLs y conectores limpian la informacion antes de llegar a los equipos. Resultado: reportes fiables, menos rework y operaciones sincronizadas.",
+    bullets: ["ETLs y conectores a medida", "Data warehouse y calidad de dato", "Informes y dashboards en tiempo real"],
     Icon: DataIcon,
   },
 ];
@@ -40,9 +40,10 @@ export default function Services() {
     <section id="servicios" aria-labelledby="services-title" className="py-20">
       <Container>
         <div className="max-w-2xl">
-          <h2 id="services-title" className="text-3xl font-bold tracking-tight">Servicios de desarrollo y consultoria tecnologica</h2>
+          <h2 id="services-title" className="text-3xl font-bold tracking-tight">Servicios de desarrollo y consultoria tecnologica en Sevilla</h2>
           <p className="mt-2 text-slate-700">
-            De la auditoria de procesos al desarrollo de software a medida, automatizacion con IA e integraciones para pymes y emprendedores en Sevilla y toda Espana.
+            Desarrollo de software a medida en Sevilla, diseno web para pymes, automatizacion de procesos con IA e integraciones. Trabajamos con equipos que
+            necesitan resultados rapidos y medibles en ventas y operaciones.
           </p>
         </div>
         <div className="mt-10 grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr">

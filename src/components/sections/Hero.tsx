@@ -20,10 +20,10 @@ const CheckIcon = () => (
 
 export default function Hero() {
   const bullets = [
-    "MVP listo en 8-10 semanas con tracking de uso",
-    "Integraciones ERP/CRM, ETLs y dashboards en tiempo real",
-    "IA aplicada: asistentes, RPA ligero y decisiones asistidas",
-    "Gobierno tecnico: seguridad basica, CI/CD y observabilidad",
+    "MVP en 8-10 semanas con metricas de uso desde el dia uno",
+    "Integraciones ERP/CRM y automatizacion de procesos con IA para quitar tareas manuales",
+    "Diseno web para pymes orientado a conversion y captacion de leads",
+    "Gobierno tecnico y soporte para que el equipo no se detenga",
   ];
 
   return (
@@ -41,14 +41,15 @@ export default function Hero() {
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/80 px-3 py-1 text-xs font-semibold text-brand-700 shadow-[0_12px_30px_-14px_rgba(14,29,74,0.35)]">
               <span className="h-2 w-2 rounded-full bg-green-400 shadow-[0_0_0_4px_rgba(52,211,153,0.2)]" aria-hidden />
-              Qubelia - Producto listo, medible y escalable
+              Qubelia - Consultoria tecnologica sin humo
             </div>
             <h1 id="hero-title" className="text-4xl sm:text-5xl font-extrabold tracking-tight text-brand-900 drop-shadow-[0_6px_18px_rgba(14,29,74,0.25)]">
-              Desarrollo de software a medida e IA para pymes en Sevilla
+              Desarrollo de software a medida en Sevilla para pymes que quieren menos caos y mas ventas
             </h1>
             <p className="text-lg text-slate-700 max-w-2xl">
-              Estrategia, diseno, desarrollo e instrumentacion en el mismo equipo. MVPs, integraciones y automatizacion con IA para lanzar rapido, medir el uso
-              y escalar sin sorpresas.
+              Qubelia es un equipo en Sevilla que une consultoria tecnologica, diseno web para pymes y desarrollo de aplicaciones a medida. Trabajamos con pymes
+              y equipos fundadores que necesitan lanzar rapido sin friccion. Automatizamos procesos con IA e integramos tus sistemas para que ganes tiempo,
+              reduzcas errores operativos y generes ventas.
             </p>
             <ul className="grid gap-3 sm:grid-cols-2" aria-label="Beneficios clave">
               {bullets.map((item) => (

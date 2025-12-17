@@ -6,14 +6,14 @@ export default function LocalSeo() {
     <section aria-labelledby="seo-local-heading" className="py-16 sm:py-20">
       <Container className="space-y-4">
         <div className="max-w-3xl space-y-3">
-          <h2 id="seo-local-heading" className="text-3xl font-bold tracking-tight">Consultoria tecnologica y desarrollo de software en Sevilla</h2>
+          <h2 id="seo-local-heading" className="text-3xl font-bold tracking-tight">Desarrollo de software a medida en Sevilla, trabajando para toda Espana</h2>
           <p className="text-slate-700">
-            En Qubelia ayudamos a pymes y emprendedores de Sevilla y del resto de Espana a disenar, desarrollar y lanzar soluciones digitales a medida:
-            aplicaciones web, automatizacion de procesos con IA e integraciones con tus herramientas internas para que los datos fluyan sin friccion.
+            En Qubelia combinamos desarrollo de software a medida, diseno web para pymes y automatizacion de procesos con IA desde Sevilla. Construimos
+            aplicaciones, integraciones y flujos que conectan tus herramientas y evitan errores operativos.
           </p>
           <p className="text-slate-700">
-            Si necesitas un equipo cercano, que hable tu idioma de negocio y entregue resultados medibles, estamos en Sevilla y trabajamos en remoto con clientes
-            de cualquier punto de Espana.
+            Podemos vernos en Sevilla cuando lo necesites y operamos en remoto con equipos de toda Espana. Respuesta rapida, documentacion clara y entregables
+            que se miden en ahorro de tiempo y ventas.
           </p>
         </div>
         <div className="rounded-2xl border border-brand-100 bg-white/80 p-6 shadow-sm sm:flex sm:items-center sm:justify-between">
