@@ -54,6 +54,8 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
   const takeaways = post.sections.slice(0, 3).map((s) => s.title);
   const canonicalUrl = canonical(`/blog/${post.slug}`);
   const imageUrl = `${BASE_URL}/images/og-cover.png`;
+  const landingLinkSlugs = new Set(["seo-onpage-negocios-locales", "presupuesto-diseno-web-sevilla"]);
+  const shouldLinkLanding = landingLinkSlugs.has(post.slug);
 
   const ld = {
     "@context": "https://schema.org",
@@ -172,6 +174,19 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                 ))}
               </ul>
             </div>
+
+            {shouldLinkLanding && (
+              <div className="not-prose mb-8 rounded-2xl border border-brand-100 bg-white/80 p-5 shadow-sm">
+                <p className="text-sm font-semibold text-brand-700">Recurso relacionado</p>
+                <p className="mt-1 text-[color:var(--color-text-muted)]">
+                  Consulta nuestra landing de{" "}
+                  <Link className="underline decoration-brand-500 underline-offset-4" href="/sevilla/desarrollo-software-a-medida">
+                    desarrollo de software a medida en Sevilla
+                  </Link>{" "}
+                  con proceso, precios orientativos y FAQs.
+                </p>
+              </div>
+            )}
 
             {post.sections.map((section, idx) => (
               <section key={section.title} id={sectionId(section.title)} className="scroll-mt-24 space-y-3">

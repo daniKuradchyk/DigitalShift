@@ -27,6 +27,13 @@ export default function LocalSeo() {
             <p>Consultoria tecnologica - Desarrollo de software a medida - Automatizacion con IA - Integraciones</p>
           </div>
         </div>
+        <div className="rounded-2xl border border-brand-200 bg-white/90 p-6 shadow-card">
+          <p className="text-sm font-semibold text-brand-700">Servicios locales</p>
+          <p className="text-slate-700 mt-2">
+            Si buscas <a className="underline decoration-brand-500 underline-offset-4" href="/sevilla/desarrollo-software-a-medida">desarrollo de software a medida en Sevilla</a>,
+            aqui tienes el detalle del servicio local con proceso, precios y FAQs.
+          </p>
+        </div>
       </Container>
     </section>
   );

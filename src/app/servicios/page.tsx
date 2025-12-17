@@ -31,6 +31,7 @@ export default function ServicesIndex() {
           Soluciones enfocadas a impacto: de la auditoria de procesos al software a medida, IA y automatizacion para pymes.
         </p>
         <ul className="mt-6 grid gap-3 sm:grid-cols-3">
+          <li><Link className="underline hover:no-underline" href="/sevilla/desarrollo-software-a-medida">Software a medida en Sevilla</Link></li>
           <li><Link className="underline hover:no-underline" href="/servicios/software-medida">Software a medida</Link></li>
           <li><Link className="underline hover:no-underline" href="/servicios/diseno-web-sevilla">Diseno web en Sevilla</Link></li>
           <li><Link className="underline hover:no-underline" href="/servicios/ia-automatizacion">IA y automatizacion</Link></li>
