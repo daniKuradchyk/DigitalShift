@@ -5,7 +5,6 @@ import TrustStrip from "@/components/sections/TrustStrip";
 import Services from "@/components/sections/Services";
 import Methodology from "@/components/sections/Methodology";
 import Results from "@/components/sections/Results";
-import LocalSeo from "@/components/sections/LocalSeo";
 import Faqs from "@/components/sections/Faqs";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
@@ -129,7 +128,6 @@ export default function Page() {
         <Services />
         <Methodology />
         <Results />
-        <LocalSeo />
         <Faqs />
         <Contact />
       </main>

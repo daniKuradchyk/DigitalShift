@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend( "re_KS22b3gU_Pm3zXp9CGmsyveB1JqidifZk");
+const resend = new Resend(process.env.RESEND_API_KEY ?? "");
 
 const CONTACT_TO = process.env.CONTACT_TO ?? "daniil.kuradchyk@gmail.com";
 const CONTACT_FROM = process.env.CONTACT_FROM ?? "onboarding@resend.dev";

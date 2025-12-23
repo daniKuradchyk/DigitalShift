@@ -54,10 +54,10 @@ export default function Faqs() {
   const [openId, setOpenId] = useState<string | null>(faqItems[0]?.id ?? null);
 
   return (
-    <section id="faqs" aria-labelledby="faqs-title" className="relative overflow-hidden py-20 bg-gradient-to-br from-brand-50 via-white to-brand-50">
+    <section id="faqs" aria-labelledby="faqs-title" className="relative overflow-hidden py-20 bg-gradient-to-br from-brand-50/40 via-white/20 to-brand-50/40 dark:from-slate-950/40 dark:via-slate-900/20 dark:to-slate-950/40">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-20 top-10 h-64 w-64 rounded-full bg-brand-300/20 blur-3xl" />
-        <div className="absolute right-0 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-brand-500/10 blur-3xl" />
+        <div className="absolute -left-20 top-10 h-64 w-64 rounded-full bg-brand-300/10 blur-3xl dark:bg-brand-500/10" />
+        <div className="absolute right-0 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-brand-500/5 blur-3xl dark:bg-brand-700/10" />
       </div>
 
       <Container>

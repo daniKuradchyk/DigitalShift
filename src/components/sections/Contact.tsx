@@ -56,7 +56,11 @@ export default function Contact() {
   }
 
   return (
-    <section id="contacto" aria-labelledby="contact-title" className="py-16 sm:py-20">
+    <section id="contacto" aria-labelledby="contact-title" className="relative overflow-hidden py-16 sm:py-20 bg-gradient-to-br from-brand-50/40 via-white/20 to-brand-50/40 dark:from-slate-950/40 dark:via-slate-900/20 dark:to-slate-950/40">
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -left-20 top-12 h-64 w-64 rounded-full bg-brand-300/10 blur-3xl dark:bg-brand-500/10" />
+        <div className="absolute right-0 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-brand-500/5 blur-3xl dark:bg-brand-700/10" />
+      </div>
       <Container>
         <div className="grid gap-8 lg:grid-cols-2 items-start">
           <div>
