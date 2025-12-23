@@ -9,8 +9,8 @@ export default function Results() {
     <section id="resultados" aria-labelledby="results-title" className="py-20">
       <Container>
         <div className="max-w-2xl">
-          <h2 id="results-title" className="text-3xl font-bold tracking-tight">Casos de éxito y resultados de negocio</h2>
-          <p className="mt-2 text-slate-700">Mostramos el antes y el después con métricas reales (con permiso del cliente).</p>
+          <h2 id="results-title" className="text-3xl font-bold tracking-tight">Casos de exito y resultados de negocio</h2>
+          <p className="mt-2 text-slate-700">Antes y despues con metricas reales de cliente.</p>
         </div>
 
         <div className="mt-8 grid gap-6 sm:grid-cols-2">
@@ -55,14 +55,13 @@ export default function Results() {
             <Reveal key={t.name + i} delay={i * 0.05}>
               <figure className="relative overflow-hidden rounded-3xl p-[1px] bg-[radial-gradient(circle_at_80%_20%,rgba(99,137,255,0.22),transparent_40%),linear-gradient(120deg,rgba(14,29,74,0.12),rgba(65,104,225,0.16),rgba(99,137,255,0.2))] shadow-[0_24px_70px_-44px_rgba(14,29,74,0.6)]">
                 <svg aria-hidden className="absolute -top-3 -left-3 h-10 w-10 text-brand-200" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V22h8v-8H6.5c0-3 2.67-3.5 3.67-3.5V6H7.17Zm10 0A5.17 5.17 0 0 0 12 11.17V22h8v-8h-3.5c0-3 2.67-3.5 3.67-3.5V6h-3Z"/>
+                  <path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V22h8v-8H6.5c0-3 2.67-3.5 3.67-3.5V6H7.17Zm10 0A5.17 5.17 0 0 0 12 11.17V22h8v-8h-3.5c0-3 2.67-3.5 3.67-3.5V6h-3Z" />
                 </svg>
                 <div className="relative rounded-3xl bg-white/90 backdrop-blur-sm border border-white/50 p-6">
-                  <blockquote className="text-slate-800 relative">
-                    “{t.quote}”
-                  </blockquote>
+                  <blockquote className="text-slate-800 relative">"{t.quote}"</blockquote>
                   <figcaption className="mt-3 text-sm text-slate-700">
-                    {t.name} · {t.role}{t.company ? ` · ${t.company}` : ""}
+                    {t.name} · {t.role}
+                    {t.company ? ` · ${t.company}` : ""}
                   </figcaption>
                   <div className="mt-4 flex items-center gap-2 text-xs text-brand-700">
                     <span className="h-1.5 w-1.5 rounded-full bg-brand-500 animate-pulse" aria-hidden />

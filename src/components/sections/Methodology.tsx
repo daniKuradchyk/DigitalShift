@@ -3,11 +3,11 @@ import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 
 const steps = [
-  { n: 1, title: "Diagnostico express", text: "Negocio, usuarios y KPIs en 1-2 sesiones. Detectamos cuellos de botella y priorizamos backlog en 72h." },
-  { n: 2, title: "Prototipo y alcance", text: "Flujos clave, prototipo y diseno funcional ligero para que todos sepan que se va a construir y por que." },
-  { n: 3, title: "Sprints de entrega", text: "Desarrollo en sprints quincenales con demos. Analitica y eventos de uso activos desde la primera version." },
-  { n: 4, title: "Puesta en produccion", text: "Hardening basico, despliegue controlado y formacion del equipo. Manuales y checklist listos para operar." },
-  { n: 5, title: "Soporte y mejora continua", text: "Mantenimiento con SLA, monitoreo y roadmap trimestral basado en datos reales, no en suposiciones." },
+  { n: 1, title: "Diagnostico express", text: "Objetivos, KPIs y riesgos en 1-2 sesiones. Backlog priorizado en 72h." },
+  { n: 2, title: "Prototipo y alcance", text: "Flujos clave y prototipo ligero con criterios de seguridad y aceptacion." },
+  { n: 3, title: "Sprints de entrega", text: "Sprints quincenales con demos y eventos de uso activos desde la primera version." },
+  { n: 4, title: "Puesta en produccion", text: "Despliegue controlado, checklist de QA y formacion del equipo." },
+  { n: 5, title: "Soporte y mejora continua", text: "SLA, monitoreo y roadmap trimestral guiado por datos reales." },
 ];
 
 export default function Methodology() {
@@ -16,7 +16,7 @@ export default function Methodology() {
       <Container>
         <div className="max-w-2xl">
           <h2 id="method-title" className="text-3xl font-bold tracking-tight">Como trabajamos: pasos claros y medibles</h2>
-          <p className="mt-2 text-slate-700">Sin humo: que haremos, cuando y con que entregable. Seguimiento visible en todo momento.</p>
+          <p className="mt-2 text-slate-700">Que haremos, cuando y con que entregable. Seguimiento visible en cada hito.</p>
         </div>
         <ol className="relative mt-10 grid gap-6 lg:grid-cols-5">
           <div aria-hidden className="pointer-events-none absolute left-0 right-0 top-1/2 hidden h-px bg-gradient-to-r from-transparent via-brand-200 to-transparent lg:block" />

@@ -20,8 +20,8 @@ const CheckIcon = () => (
 
 export default function Hero() {
   const bullets = [
-    "MVP en 8-10 semanas con metricas de uso desde el dia uno",
-    "Integraciones ERP/CRM y automatizacion de procesos con IA para quitar tareas manuales",
+    "MVP en 8-10 semanas con metricas desde el primer dia",
+    "Integraciones ERP/CRM y automatizacion con IA para quitar tareas manuales",
     "Diseno web para pymes orientado a conversion y captacion de leads",
     "Gobierno tecnico y soporte para que el equipo no se detenga",
   ];
@@ -46,11 +46,10 @@ export default function Hero() {
             <h1 id="hero-title" className="text-4xl sm:text-5xl font-extrabold tracking-tight text-brand-900 drop-shadow-[0_6px_18px_rgba(14,29,74,0.25)]">
               Desarrollo de software a medida en Sevilla para pymes que quieren menos caos y mas ventas
             </h1>
-            <p className="text-lg text-slate-700 max-w-2xl">
-              Qubelia es un equipo en Sevilla que une consultoria tecnologica, diseno web para pymes y desarrollo de aplicaciones a medida. Trabajamos con pymes
-              y equipos fundadores que necesitan lanzar rapido sin friccion. Automatizamos procesos con IA e integramos tus sistemas para que ganes tiempo,
-              reduzcas errores operativos y generes ventas.
-            </p>
+          <p className="text-lg text-slate-700 max-w-2xl hidden sm:block">
+            Equipo en Sevilla que une consultoria tecnologica, diseno web para pymes y desarrollo de software a medida. Lanzamos rapido, integramos tus sistemas
+            y automatizamos procesos con IA para ganar tiempo, reducir errores y vender mas.
+          </p>
             <ul className="grid gap-3 sm:grid-cols-2" aria-label="Beneficios clave">
               {bullets.map((item) => (
                 <li key={item} className="flex items-start gap-3 rounded-2xl border border-brand-100/80 bg-white/80 px-3 py-2 shadow-[0_12px_30px_-16px_rgba(14,29,74,0.35)]">
