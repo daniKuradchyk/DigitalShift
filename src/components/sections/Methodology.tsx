@@ -84,7 +84,6 @@ export default function Methodology() {
             </div>
             <div className="flex flex-wrap gap-3">
               <Button as="a" href="/#contacto" variant="shine">Agenda diagnostico gratis</Button>
-              <Button as="a" href="/labs" variant="ghost">Explorar Qubelia Labs</Button>
             </div>
           </div>
 

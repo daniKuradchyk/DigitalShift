@@ -47,8 +47,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" className={inter.variable}>
       <head>
-        <meta name="color-scheme" content="light" />
-        <meta name="supported-color-schemes" content="light" />
+        <meta name="color-scheme" content="light dark" />
+        <meta name="supported-color-schemes" content="light dark" />
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body className="antialiased bg-white text-slate-900 selection:bg-brand-700 selection:text-white">

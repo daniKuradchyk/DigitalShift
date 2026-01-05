@@ -1,0 +1,66 @@
+{
+  "year": 2025,
+  "generalScaleState": [
+    { "upto": 12450, "rate": 0.095 },
+    { "upto": 20200, "rate": 0.12 },
+    { "upto": 35200, "rate": 0.15 },
+    { "upto": 60000, "rate": 0.185 },
+    { "upto": 300000, "rate": 0.225 },
+    { "upto": null, "rate": 0.245 }
+  ],
+  "combinedFactor": 2,
+  "savingsScale": [
+    { "upto": 6000, "rate": 0.19 },
+    { "upto": 50000, "rate": 0.21 },
+    { "upto": 200000, "rate": 0.23 },
+    { "upto": 300000, "rate": 0.27 },
+    { "upto": null, "rate": 0.3 }
+  ],
+  "workReduction": {
+    "maxNet": 19747.5,
+    "maxOtherIncome": 6500,
+    "tramo1Max": 14852,
+    "tramo2Max": 17673.52,
+    "tramo3Max": 19747.5,
+    "tramo1Amount": 7302,
+    "tramo2Base": 14852,
+    "tramo2Rate": 1.75,
+    "tramo3Base": 17673.52,
+    "tramo3Rate": 1.14,
+    "tramo3StartAmount": 2364.34
+  },
+  "autonomo": {
+    "difficultJustificationRate": 0.05,
+    "difficultJustificationMax": 2000
+  },
+  "jointReduction": {
+    "marriage": 3400,
+    "singleParent": 2150
+  },
+  "personalMinimum": {
+    "base": 5550,
+    "over65": 1150,
+    "over75Extra": 1400
+  },
+  "descendantsMinimum": {
+    "first": 2400,
+    "second": 2700,
+    "third": 4000,
+    "fourth": 4500,
+    "under3Extra": 2800
+  },
+  "deduction340": {
+    "threshold1": 16576,
+    "threshold2": 18276,
+    "max": 340,
+    "slope": 0.2,
+    "maxOtherIncome": 6500
+  },
+  "defaultWorkExpense": 2000,
+  "mealLimits": {
+    "spainNoOvernight": 26.67,
+    "spainOvernight": 53.34,
+    "abroadNoOvernight": 48.08,
+    "abroadOvernight": 91.35
+  }
+}

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
   --color-bg-page: #f6f8ff;
   --color-bg-hero: radial-gradient(circle at 15% 20%, rgba(99, 137, 255, 0.12), transparent 30%), radial-gradient(circle at 85% 15%, rgba(14, 29, 74, 0.1), transparent 25%), linear-gradient(140deg, #f9fbff 0%, #f1f5ff 45%, #fafcff 100%);
   --color-bg-surface: #ffffff;
@@ -13,6 +13,8 @@
   --color-border-strong: rgba(14, 29, 74, 0.24);
   --shadow-soft: 0 22px 60px -40px rgba(14, 29, 74, 0.35);
   --shadow-strong: 0 26px 80px -40px rgba(14, 29, 74, 0.5);
+  --select-option-bg: var(--color-bg-card);
+  --select-option-color: var(--color-text);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -43,7 +45,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: light; }
+:root { color-scheme: light dark; }
 html { scroll-behavior: smooth; }
 body {
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji";
