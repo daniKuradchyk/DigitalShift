@@ -161,7 +161,7 @@ export default function Contact() {
               </a>
               <a
                 className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-brand-200 hover:text-brand-700 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200 dark:hover:border-brand-400 dark:hover:text-brand-200"
-                href="https://www.instagram.com/qubelia"
+                href="https://www.instagram.com/qubelia.tech"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Instagram de Qubelia"
