@@ -1,5 +1,13 @@
 [
   {
+    "slug": "analisis-gratis",
+    "title": "Analisis gratuito de tu negocio",
+    "desc": "Detecta puntos flojos y recibe un plan de 30-90 dias en minutos.",
+    "status": "disponible",
+    "cta": "Analizar ahora",
+    "tags": ["digitalizacion", "pymes", "operaciones", "ventas", "web"]
+  },
+  {
     "slug": "calculadora-irpf-autonomos",
     "title": "Calculadora IRPF para autonomos",
     "desc": "Estima cuanto pagaras en la Renta segun ingresos, gastos deducibles, cuotas y retenciones.",

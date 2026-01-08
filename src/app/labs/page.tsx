@@ -33,6 +33,15 @@ function LabIcon({ slug }: { slug: string }) {
       </svg>
     );
   }
+  if (slug === "analisis-gratis") {
+    return (
+      <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 3v18h18" />
+        <path d="m7 15 3-4 4 3 4-6" />
+        <circle cx="10" cy="11" r="1" />
+      </svg>
+    );
+  }
   if (slug === "generador-brief-proyecto") {
     return (
       <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
