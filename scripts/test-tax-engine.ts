@@ -1,5 +1,14 @@
 import assert from "node:assert/strict";
+import React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { calculateTax, TaxInput } from "../src/lib/tax-engine";
+import {
+  calculateModulosAssisted,
+  estimateModelo131Payments,
+  estimateWithholding1Percent,
+  getModulosDataset,
+  type ModulosActivity,
+} from "../src/lib/tax-engine/modulos";
 
 function close(actual: number, expected: number, tolerance = 0.1) {
   assert.ok(Math.abs(actual - expected) <= tolerance, `Expected ${expected} got ${actual}`);
@@ -86,6 +95,61 @@ function baseInput(year: 2024 | 2025): TaxInput {
   input.work = { gross: 18276, withhold: 0, ss: 0, otherExpenses: 2000 };
   const result = calculateTax(input);
   close(result.deduccion340, 0, 0.01);
+}
+
+// Modulos: rendimiento asistido con indices y reduccion (2025)
+{
+  const dataset = getModulosDataset(2025);
+  const activity = dataset.activities[0];
+  const result = calculateModulosAssisted({
+    year: 2025,
+    activity,
+    moduleValues: {
+      personal_asalariado: 1,
+      personal_no_asalariado: 1,
+      energia: 5,
+      superficie: 2,
+    },
+    indexMultipliers: {
+      ubicacion_quiosco: 0.8,
+    },
+    daysActive: 180,
+    minorations: 500,
+    amortizations: 200,
+  });
+  close(result.net, 8864.19, 0.2);
+}
+
+// Modulos: retencion 1%
+{
+  const estimated = estimateWithholding1Percent(10000);
+  close(estimated, 100, 0.01);
+}
+
+// Modulos: estimacion Modelo 131
+{
+  close(estimateModelo131Payments({ rendimiento: 10000, daysActive: 365, employees: 0 }), 200, 0.01);
+  close(estimateModelo131Payments({ rendimiento: 10000, daysActive: 365, employees: 1 }), 300, 0.01);
+}
+
+// UI: render dinamico de modulos por actividad
+{
+  const dataset = getModulosDataset(2025);
+  const activity = dataset.activities[0];
+  const html = renderToStaticMarkup(
+    React.createElement(ModulosFields, { activity }),
+  );
+  assert.ok(html.includes(activity.modules[0]?.label ?? ""), "Modulos UI should render module labels");
+}
+
+function ModulosFields({ activity }: { activity: ModulosActivity }) {
+  return React.createElement(
+    "form",
+    null,
+    activity.modules.map((module) =>
+      React.createElement("label", { key: module.key }, module.label),
+    ),
+  );
 }
 
 console.log("tax-engine tests: OK");

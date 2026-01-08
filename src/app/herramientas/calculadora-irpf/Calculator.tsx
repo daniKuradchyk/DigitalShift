@@ -1,8 +1,19 @@
-"use client";
+﻿"use client";
 
 import React, { useMemo, useState } from "react";
 import Button from "@/components/common/Button";
 import { calculateTax, getRules, type Bracket, type TaxYear } from "@/lib/tax-engine";
+import {
+  calculateModulosAssisted,
+  calculateModulosSimple,
+  estimateModelo131Payments,
+  estimateWithholding1Percent,
+  getModulosDataset,
+  isWithholding1PercentActivity,
+  listWithholdingActivities,
+  type ModulosActivity,
+  type ModulosYear,
+} from "@/lib/tax-engine/modulos";
 
 type Situation = "employee" | "autonomo" | "pluri";
 type RetaMode = "annual" | "monthly";
@@ -233,6 +244,52 @@ function NumberField({
   );
 }
 
+type TextFieldProps = {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  help?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  listId?: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
+};
+
+function TextField({
+  id,
+  label,
+  value,
+  onChange,
+  help,
+  placeholder,
+  disabled,
+  listId,
+  inputMode = "text",
+}: TextFieldProps) {
+  return (
+    <div className="space-y-1.5">
+      <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
+        {label}
+      </label>
+      <div className="relative flex h-11 items-center rounded-2xl border border-slate-200 bg-white/80 shadow-sm transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/70">
+        <input
+          id={id}
+          type="text"
+          inputMode={inputMode}
+          value={value}
+          disabled={disabled}
+          list={listId}
+          onChange={(event) => onChange(event.target.value)}
+          placeholder={placeholder}
+          className="h-full w-full bg-transparent px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none disabled:opacity-60 dark:text-slate-100 dark:placeholder:text-slate-500"
+        />
+      </div>
+      {help ? <p className="text-xs text-slate-500 dark:text-slate-400">{help}</p> : null}
+    </div>
+  );
+}
+
 type SelectFieldProps = {
   id: string;
   label: string;
@@ -387,6 +444,26 @@ export default function Calculator() {
   const [autoExpenses, setAutoExpenses] = useState("");
   const [autoWithhold, setAutoWithhold] = useState("");
   const [autoModelo130, setAutoModelo130] = useState("");
+  const [autonomoMode, setAutonomoMode] = useState<"directa" | "modulos">("directa");
+  const [modulosMode, setModulosMode] = useState<"simple" | "asistido">("simple");
+  const [modulosYear, setModulosYear] = useState<ModulosYear>(2025);
+  const [modulosNetAnnual, setModulosNetAnnual] = useState("");
+  const [modulosDays, setModulosDays] = useState("365");
+  const [modulosNetProrated, setModulosNetProrated] = useState(false);
+  const [modulosPayments131, setModulosPayments131] = useState("");
+  const [modulosRetentions, setModulosRetentions] = useState("");
+  const [modulosWithholdingApplies, setModulosWithholdingApplies] = useState(false);
+  const [modulosWithholdingBase, setModulosWithholdingBase] = useState("");
+  const [modulosWithholdingSearch, setModulosWithholdingSearch] = useState("");
+  const [modulosEmployeeCount, setModulosEmployeeCount] = useState("0");
+  const [modulosIncomeTotal, setModulosIncomeTotal] = useState("");
+  const [modulosInvoiceTotal, setModulosInvoiceTotal] = useState("");
+  const [modulosActivityQuery, setModulosActivityQuery] = useState("");
+  const [modulosActivityIae, setModulosActivityIae] = useState("");
+  const [modulosModuleValues, setModulosModuleValues] = useState<Record<string, string>>({});
+  const [modulosIndexValues, setModulosIndexValues] = useState<Record<string, string>>({});
+  const [modulosMinorations, setModulosMinorations] = useState("");
+  const [modulosAmortizations, setModulosAmortizations] = useState("");
   const [retaMode, setRetaMode] = useState<RetaMode>("annual");
   const [retaAnnual, setRetaAnnual] = useState("");
   const [retaMonthly, setRetaMonthly] = useState("");
@@ -411,6 +488,13 @@ export default function Calculator() {
   const rules = getRules(year);
   const showWork = situation === "employee" || situation === "pluri";
   const showAutonomo = situation === "autonomo" || situation === "pluri";
+  const isModulos = showAutonomo && autonomoMode === "modulos";
+  const modulosDataset = useMemo(() => getModulosDataset(modulosYear), [modulosYear]);
+  const modulosActivities = modulosDataset.activities;
+  const modulosActivity = useMemo<ModulosActivity | null>(() => {
+    if (!modulosActivityIae) return null;
+    return modulosActivities.find((activity) => activity.iae === modulosActivityIae) ?? null;
+  }, [modulosActivityIae, modulosActivities]);
 
   const otherTotals = useMemo(() => {
     return otherPayers.reduce(
@@ -427,6 +511,83 @@ export default function Calculator() {
   const workGrossTotal = toPositiveNumber(workGross) + otherTotals.gross;
   const workWithholdTotal = toPositiveNumber(workWithhold) + otherTotals.withhold;
   const workSsTotal = toPositiveNumber(workSs) + otherTotals.ss;
+  const modulosDaysValue = clampInt(modulosDays, 0, 365);
+  const modulosEmployeesValue = clampInt(modulosEmployeeCount, 0, 99);
+  const modulosWithholdingList = useMemo(() => listWithholdingActivities(modulosYear), [modulosYear]);
+  const modulosWithholdingMatches = useMemo(() => {
+    const query = modulosWithholdingSearch.trim().toLowerCase();
+    if (!query) return [];
+    return modulosWithholdingList.filter((item) => {
+      return item.iaeGroupOrEpigrafe.toLowerCase().includes(query) || item.name.toLowerCase().includes(query);
+    }).slice(0, 6);
+  }, [modulosWithholdingList, modulosWithholdingSearch]);
+  const modulosActivityOptions = useMemo(() => {
+    return modulosActivities.map((activity) => `${activity.iae} - ${activity.name}`);
+  }, [modulosActivities]);
+  const modulosWithholdingOptions = useMemo(() => {
+    return modulosWithholdingList.map((item) => `${item.iaeGroupOrEpigrafe} - ${item.name}`);
+  }, [modulosWithholdingList]);
+  const modulosActivityHasWithholding = modulosActivity ? isWithholding1PercentActivity(modulosActivity.iae, modulosYear) : false;
+  const modulosModuleValuesNumeric = useMemo(() => {
+    if (!modulosActivity) return {};
+    return modulosActivity.modules.reduce<Record<string, number>>((acc, module) => {
+      acc[module.key] = toPositiveNumber(modulosModuleValues[module.key] ?? "");
+      return acc;
+    }, {});
+  }, [modulosActivity, modulosModuleValues]);
+  const modulosIndexMultipliers = useMemo(() => {
+    if (!modulosActivity?.specialIndices?.length) return {};
+    return modulosActivity.specialIndices.reduce<Record<string, number>>((acc, index) => {
+      const fallback = index.options[0]?.multiplier ?? 1;
+      acc[index.key] = toPositiveNumber(modulosIndexValues[index.key] ?? String(fallback)) || fallback;
+      return acc;
+    }, {});
+  }, [modulosActivity, modulosIndexValues]);
+  const modulosAssistedResult = useMemo(() => {
+    if (!modulosActivity) return null;
+    return calculateModulosAssisted({
+      year: modulosYear,
+      activity: modulosActivity,
+      moduleValues: modulosModuleValuesNumeric,
+      indexMultipliers: modulosIndexMultipliers,
+      daysActive: modulosDaysValue,
+      minorations: toPositiveNumber(modulosMinorations),
+      amortizations: toPositiveNumber(modulosAmortizations),
+    });
+  }, [
+    modulosActivity,
+    modulosYear,
+    modulosModuleValuesNumeric,
+    modulosIndexMultipliers,
+    modulosDaysValue,
+    modulosMinorations,
+    modulosAmortizations,
+  ]);
+  const modulosSimpleResult = useMemo(() => {
+    return calculateModulosSimple({
+      netAnnual: toPositiveNumber(modulosNetAnnual),
+      daysActive: modulosDaysValue,
+      isProrated: modulosNetProrated,
+    });
+  }, [modulosNetAnnual, modulosDaysValue, modulosNetProrated]);
+  const modulosNetValue = isModulos
+    ? (modulosMode === "simple" ? modulosSimpleResult.net : modulosAssistedResult?.net ?? 0)
+    : 0;
+  const modulosWithholdingManual = toPositiveNumber(modulosRetentions);
+  const modulosWithholdingManualProvided = modulosRetentions.trim() !== "";
+  const modulosWithholdingEstimate = modulosWithholdingApplies
+    ? estimateWithholding1Percent(toPositiveNumber(modulosWithholdingBase))
+    : 0;
+  const modulosWithholdingTotal = modulosWithholdingManualProvided ? modulosWithholdingManual : modulosWithholdingEstimate;
+  const modulosPaymentsManual = toPositiveNumber(modulosPayments131);
+  const modulosPaymentsManualProvided = modulosPayments131.trim() !== "";
+  const modulosPaymentBase = modulosMode === "simple" ? modulosSimpleResult.base : modulosAssistedResult?.reduced ?? 0;
+  const modulosPaymentsEstimate = estimateModelo131Payments({
+    rendimiento: modulosPaymentBase,
+    daysActive: modulosMode === "simple" && modulosNetProrated ? 365 : modulosDaysValue,
+    employees: modulosEmployeesValue,
+  });
+  const modulosPaymentsTotal = modulosPaymentsManualProvided ? modulosPaymentsManual : modulosPaymentsEstimate;
 
   const officeDeduction = useMemo(() => {
     const supplies = toPositiveNumber(homeSupplies);
@@ -448,17 +609,19 @@ export default function Calculator() {
       + abroadOver * limits.abroadOvernight;
   }, [mealsSpainNoOvernight, mealsSpainOvernight, mealsAbroadNoOvernight, mealsAbroadOvernight, rules]);
 
-  const helpersTotal = (includeOffice ? officeDeduction : 0) + (includeMeals ? mealsDeduction : 0);
-  const autoExpensesTotal = toPositiveNumber(autoExpenses) + helpersTotal;
+  const helpersTotal = autonomoMode === "directa" ? (includeOffice ? officeDeduction : 0) + (includeMeals ? mealsDeduction : 0) : 0;
+  const autoExpensesTotal = autonomoMode === "directa" ? toPositiveNumber(autoExpenses) + helpersTotal : 0;
 
   const retaAnnualValue = retaMode === "monthly" ? toPositiveNumber(retaMonthly) * 12 : toPositiveNumber(retaAnnual);
+  const retaValue = autonomoMode === "directa" ? retaAnnualValue : 0;
   const dependentsCount = clampInt(dependents, 0, 4);
   const dependentsUnder3Count = clampInt(dependentsUnder3, 0, dependentsCount);
 
   const ccaaScale = ccaa ? CCAA_SCALES[ccaa] : undefined;
   const useCombinedScale = !ccaaScale;
 
-  const canCalculate = region === "comun" && (workGrossTotal > 0 || toPositiveNumber(autoIncome) > 0 || toPositiveNumber(savingsIncome) > 0);
+  const autoIncomeValue = autonomoMode === "modulos" ? modulosNetValue : toPositiveNumber(autoIncome);
+  const canCalculate = region === "comun" && (workGrossTotal > 0 || autoIncomeValue > 0 || toPositiveNumber(savingsIncome) > 0);
 
   const taxInput = useMemo(() => {
     return {
@@ -475,13 +638,24 @@ export default function Calculator() {
           }
         : null,
       autonomo: showAutonomo
-        ? {
-            income: toPositiveNumber(autoIncome),
-            expenses: autoExpensesTotal,
-            withhold: toPositiveNumber(autoWithhold),
-            modelo130: toPositiveNumber(autoModelo130),
-            reta: retaAnnualValue,
-          }
+        ? isModulos
+          ? {
+              income: 0,
+              expenses: 0,
+              withhold: modulosWithholdingTotal,
+              modelo130: modulosPaymentsTotal,
+              reta: 0,
+              mode: "modulos",
+              netOverride: modulosNetValue,
+            }
+          : {
+              income: toPositiveNumber(autoIncome),
+              expenses: autoExpensesTotal,
+              withhold: toPositiveNumber(autoWithhold),
+              modelo130: toPositiveNumber(autoModelo130),
+              reta: retaValue,
+              mode: "directa",
+            }
         : null,
       personal: {
         age: Math.max(0, Math.floor(toPositiveNumber(age))),
@@ -506,7 +680,11 @@ export default function Calculator() {
     autoExpensesTotal,
     autoWithhold,
     autoModelo130,
-    retaAnnualValue,
+    retaValue,
+    isModulos,
+    modulosWithholdingTotal,
+    modulosPaymentsTotal,
+    modulosNetValue,
     age,
     dependentsCount,
     dependentsUnder3Count,
@@ -529,6 +707,17 @@ export default function Calculator() {
     } else if (!ccaaScale) {
       list.push("CCAA seleccionada sin tabla real: se usa escala combinada aproximada.");
     }
+    if (isModulos) {
+      list.push("Modulo seleccionado: el rendimiento se estima por parametros, no por ingresos y gastos reales.");
+      const totalIncome = toPositiveNumber(modulosIncomeTotal);
+      const invoiceIncome = toPositiveNumber(modulosInvoiceTotal);
+      if (totalIncome > 150000) {
+        list.push("Aviso: ingresos totales superiores a 150.000 EUR pueden excluir de modulos.");
+      }
+      if (invoiceIncome > 75000) {
+        list.push("Aviso: ingresos a empresas/profesionales superiores a 75.000 EUR pueden excluir de modulos.");
+      }
+    }
     if (includeOffice || includeMeals) {
       list.push("Helpers aplicados: revisa que los importes sean correctos y justificables.");
     }
@@ -536,7 +725,7 @@ export default function Calculator() {
       list.push(...result.warnings);
     }
     return list;
-  }, [region, ccaa, ccaaScale, includeOffice, includeMeals, result]);
+  }, [region, ccaa, ccaaScale, includeOffice, includeMeals, isModulos, modulosIncomeTotal, modulosInvoiceTotal, result]);
 
   function addOtherPayer() {
     setOtherPayers((prev) => [...prev, { id: createId(), gross: "", withhold: "", ss: "" }]);
@@ -550,13 +739,33 @@ export default function Calculator() {
     setOtherPayers((prev) => prev.filter((payer) => payer.id !== id));
   }
 
+  function handleModulosActivityChange(value: string) {
+    setModulosActivityQuery(value);
+    const iae = value.split(" - ")[0]?.trim();
+    if (modulosActivities.some((activity) => activity.iae === iae)) {
+      setModulosActivityIae(iae);
+    } else {
+      setModulosActivityIae("");
+    }
+  }
+
   function validateStep(current: number) {
     if (current === 1) {
       if (showWork && workGrossTotal <= 0) {
         return "Introduce el salario bruto anual para cuenta ajena.";
       }
-      if (showAutonomo && toPositiveNumber(autoIncome) <= 0) {
-        return "Introduce los ingresos anuales de autonomo.";
+      if (showAutonomo) {
+        if (autonomoMode === "directa" && toPositiveNumber(autoIncome) <= 0) {
+          return "Introduce los ingresos anuales de autonomo.";
+        }
+        if (autonomoMode === "modulos") {
+          if (modulosMode === "simple" && toPositiveNumber(modulosNetAnnual) <= 0) {
+            return "Introduce el rendimiento neto anual para modulos.";
+          }
+          if (modulosMode === "asistido" && !modulosActivity) {
+            return "Selecciona una actividad IAE para el modo asistido.";
+          }
+        }
       }
     }
     if (current === 2) {
@@ -584,6 +793,13 @@ export default function Calculator() {
 
   const nextLabel = step === steps.length - 2 ? "Ver resultado" : "Siguiente";
   const progress = Math.round((step / (steps.length - 1)) * 100);
+  const autonomoLabel = autonomoMode === "modulos" ? "modulos" : "directa";
+  const situationLabel =
+    situation === "employee"
+      ? "Cuenta ajena"
+      : situation === "autonomo"
+        ? `Autonomo (${autonomoLabel})`
+        : `Pluriactividad (${autonomoLabel})`;
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] items-start">
@@ -676,7 +892,7 @@ export default function Calculator() {
                   checked={situation === "autonomo"}
                   onChange={() => setSituation("autonomo")}
                   title="Autonomo"
-                  description="Estimacion directa simplificada."
+                  description="Directa o modulos."
                   icon={Icons.bolt}
                 />
                 <RadioCard
@@ -824,72 +1040,366 @@ export default function Calculator() {
                     <div className="flex items-start gap-3">
                       <IconBadge>{Icons.bolt}</IconBadge>
                       <div>
-                        <h5 className="text-base font-semibold text-slate-900 dark:text-slate-100">Autonomo (estimacion directa simplificada)</h5>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">No incluye modulos ni deducciones autonomicas.</p>
+                        <h5 className="text-base font-semibold text-slate-900 dark:text-slate-100">Autonomo</h5>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">Selecciona si tributas en estimacion directa o por modulos.</p>
                       </div>
                     </div>
                     <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-600 dark:text-brand-200">Actividad</span>
                   </div>
 
-                    <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                      <NumberField id="auto-income" label="Ingresos integros (sin IVA)" value={autoIncome} onChange={setAutoIncome} suffix="EUR" />
-                      <NumberField
-                        id="auto-expenses"
-                        label="Gastos deducibles (total anual)"
-                        value={autoExpenses}
-                        onChange={setAutoExpenses}
-                        suffix="EUR"
-                        help="Incluye gastos afectos y justificados. Helpers se suman en el paso D."
-                      />
-                      <NumberField id="auto-withhold" label="Retenciones en facturas (IRPF)" value={autoWithhold} onChange={setAutoWithhold} suffix="EUR" />
-                      <NumberField id="auto-modelo130" label="Pagos fraccionados Modelo 130" value={autoModelo130} onChange={setAutoModelo130} suffix="EUR" />
-                    </div>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setAutonomoMode("directa")}
+                      className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                        autonomoMode === "directa"
+                          ? "border-brand-400 bg-brand-50/80 text-brand-700 dark:border-brand-400/60 dark:bg-brand-500/10 dark:text-brand-200"
+                          : "border-slate-200 bg-white/70 text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
+                      }`}
+                    >
+                      Estimacion directa
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAutonomoMode("modulos");
+                        setIncludeOffice(false);
+                        setIncludeMeals(false);
+                      }}
+                      className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                        autonomoMode === "modulos"
+                          ? "border-brand-400 bg-brand-50/80 text-brand-700 dark:border-brand-400/60 dark:bg-brand-500/10 dark:text-brand-200"
+                          : "border-slate-200 bg-white/70 text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
+                      }`}
+                    >
+                      Modulos (estimacion objetiva)
+                    </button>
+                  </div>
 
-                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                      <div className="space-y-2">
-                        <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Cuota RETA</p>
-                        <div className="flex flex-wrap gap-2">
-                          <button
-                            type="button"
-                            onClick={() => setRetaMode("annual")}
-                            className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                              retaMode === "annual"
-                                ? "border-brand-400 bg-brand-50/80 text-brand-700 dark:border-brand-400/60 dark:bg-brand-500/10 dark:text-brand-200"
-                                : "border-slate-200 bg-white/70 text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
-                            }`}
-                          >
-                            Total anual
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setRetaMode("monthly")}
-                            className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                              retaMode === "monthly"
-                                ? "border-brand-400 bg-brand-50/80 text-brand-700 dark:border-brand-400/60 dark:bg-brand-500/10 dark:text-brand-200"
-                                : "border-slate-200 bg-white/70 text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
-                            }`}
-                          >
-                            Estimar con cuota mensual
-                          </button>
+                  {autonomoMode === "directa" ? (
+                    <div className="mt-4 space-y-4">
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        <NumberField id="auto-income" label="Ingresos integros (sin IVA)" value={autoIncome} onChange={setAutoIncome} suffix="EUR" />
+                        <NumberField
+                          id="auto-expenses"
+                          label="Gastos deducibles (total anual)"
+                          value={autoExpenses}
+                          onChange={setAutoExpenses}
+                          suffix="EUR"
+                          help="Incluye gastos afectos y justificados. Helpers se suman en el paso D."
+                        />
+                        <NumberField id="auto-withhold" label="Retenciones en facturas (IRPF)" value={autoWithhold} onChange={setAutoWithhold} suffix="EUR" />
+                        <NumberField id="auto-modelo130" label="Pagos fraccionados Modelo 130" value={autoModelo130} onChange={setAutoModelo130} suffix="EUR" />
+                      </div>
+
+                      <div className="grid gap-3 sm:grid-cols-2">
+                        <div className="space-y-2">
+                          <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Cuota RETA</p>
+                          <div className="flex flex-wrap gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setRetaMode("annual")}
+                              className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                                retaMode === "annual"
+                                  ? "border-brand-400 bg-brand-50/80 text-brand-700 dark:border-brand-400/60 dark:bg-brand-500/10 dark:text-brand-200"
+                                  : "border-slate-200 bg-white/70 text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
+                              }`}
+                            >
+                              Total anual
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setRetaMode("monthly")}
+                              className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                                retaMode === "monthly"
+                                  ? "border-brand-400 bg-brand-50/80 text-brand-700 dark:border-brand-400/60 dark:bg-brand-500/10 dark:text-brand-200"
+                                  : "border-slate-200 bg-white/70 text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
+                              }`}
+                            >
+                              Estimar con cuota mensual
+                            </button>
+                          </div>
+                        </div>
+                        {retaMode === "annual" ? (
+                          <NumberField id="auto-reta-annual" label="Total anual pagado" value={retaAnnual} onChange={setRetaAnnual} suffix="EUR" />
+                        ) : (
+                          <NumberField
+                            id="auto-reta-monthly"
+                            label="Cuota mensual estimada"
+                            value={retaMonthly}
+                            onChange={setRetaMonthly}
+                            suffix="EUR"
+                            help="Se calcula anual = mensual x 12. Consulta la tabla oficial si lo necesitas."
+                          />
+                        )}
+                      </div>
+
+                      <div className="rounded-2xl border border-brand-100 bg-brand-50/70 px-4 py-3 text-xs text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+                        Gastos totales con helpers aplicados: {formatCurrency(autoExpensesTotal)}.
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="mt-4 space-y-4">
+                      <div className="rounded-2xl border border-brand-100 bg-brand-50/70 px-4 py-3 text-xs text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+                        En modulos, el beneficio se calcula por parametros objetivos. El 1% en factura es una retencion a cuenta, no el impuesto final.
+                      </div>
+
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        <SelectField
+                          id="modulos-year"
+                          label="Año fiscal (modulos)"
+                          value={String(modulosYear)}
+                          onChange={(value) => setModulosYear(Number(value) as ModulosYear)}
+                          options={[{ value: "2025", label: "2025" }]}
+                        />
+                        <div className="space-y-2">
+                          <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Modo de entrada</p>
+                          <div className="flex flex-wrap gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setModulosMode("simple")}
+                              className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                                modulosMode === "simple"
+                                  ? "border-brand-400 bg-brand-50/80 text-brand-700 dark:border-brand-400/60 dark:bg-brand-500/10 dark:text-brand-200"
+                                  : "border-slate-200 bg-white/70 text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
+                              }`}
+                            >
+                              Simple (recomendado)
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setModulosMode("asistido")}
+                              className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                                modulosMode === "asistido"
+                                  ? "border-brand-400 bg-brand-50/80 text-brand-700 dark:border-brand-400/60 dark:bg-brand-500/10 dark:text-brand-200"
+                                  : "border-slate-200 bg-white/70 text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
+                              }`}
+                            >
+                              Asistido
+                            </button>
+                          </div>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">El modo simple usa tu rendimiento anual del Modelo 131.</p>
                         </div>
                       </div>
-                      {retaMode === "annual" ? (
-                        <NumberField id="auto-reta-annual" label="Total anual pagado" value={retaAnnual} onChange={setRetaAnnual} suffix="EUR" />
-                      ) : (
-                        <NumberField
-                          id="auto-reta-monthly"
-                          label="Cuota mensual estimada"
-                          value={retaMonthly}
-                          onChange={setRetaMonthly}
-                          suffix="EUR"
-                          help="Se calcula anual = mensual x 12. Consulta la tabla oficial si lo necesitas."
-                        />
-                      )}
-                    </div>
 
-                    <div className="mt-4 rounded-2xl border border-brand-100 bg-brand-50/70 px-4 py-3 text-xs text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
-                      Gastos totales con helpers aplicados: {formatCurrency(autoExpensesTotal)}.
+                      {modulosMode === "simple" ? (
+                        <div className="space-y-4">
+                          <div className="grid gap-4 sm:grid-cols-2">
+                            <NumberField
+                              id="modulos-net-annual"
+                              label="Rendimiento neto anual a efectos de pago fraccionado"
+                              value={modulosNetAnnual}
+                              onChange={setModulosNetAnnual}
+                              suffix="EUR"
+                            />
+                            <NumberField
+                              id="modulos-days"
+                              label="Dias de actividad en el año"
+                              value={modulosDays}
+                              onChange={setModulosDays}
+                              step="1"
+                            />
+                          </div>
+                          <Toggle
+                            label="El rendimiento ya esta prorrateado por dias"
+                            description="Si es asi, no se prorratea de nuevo."
+                            checked={modulosNetProrated}
+                            onChange={() => setModulosNetProrated((prev) => !prev)}
+                          />
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          <TextField
+                            id="modulos-activity"
+                            label="Buscar actividad (IAE + nombre)"
+                            value={modulosActivityQuery}
+                            onChange={handleModulosActivityChange}
+                            listId="modulos-activity-list"
+                            placeholder="Ej: 659.4 - Quioscos"
+                            help="Selecciona un epigrafe para desplegar los modulos."
+                          />
+                          <datalist id="modulos-activity-list">
+                            {modulosActivityOptions.map((option) => (
+                              <option key={option} value={option} />
+                            ))}
+                          </datalist>
+
+                          {modulosActivity ? (
+                            <div className="space-y-4">
+                              <div className="grid gap-4 sm:grid-cols-2">
+                                {modulosActivity.modules.map((module) => (
+                                  <NumberField
+                                    key={module.key}
+                                    id={`modulo-${module.key}`}
+                                    label={module.label}
+                                    value={modulosModuleValues[module.key] ?? ""}
+                                    onChange={(value) => setModulosModuleValues((prev) => ({ ...prev, [module.key]: value }))}
+                                    suffix={module.unit}
+                                    step="0.01"
+                                  />
+                                ))}
+                              </div>
+
+                              {modulosActivity.specialIndices?.length ? (
+                                <div className="grid gap-4 sm:grid-cols-2">
+                                  {modulosActivity.specialIndices.map((index) => (
+                                    <SelectField
+                                      key={index.key}
+                                      id={`indice-${index.key}`}
+                                      label={index.label}
+                                      value={modulosIndexValues[index.key] ?? String(index.options[0]?.multiplier ?? 1)}
+                                      onChange={(value) => setModulosIndexValues((prev) => ({ ...prev, [index.key]: value }))}
+                                      options={index.options.map((option) => ({
+                                        value: String(option.multiplier),
+                                        label: `${option.label} (${formatPercent(option.multiplier)})`,
+                                      }))}
+                                    />
+                                  ))}
+                                </div>
+                              ) : null}
+
+                              <div className="grid gap-4 sm:grid-cols-2">
+                                <NumberField
+                                  id="modulos-minorations"
+                                  label="Minoraciones por incentivos (opcional)"
+                                  value={modulosMinorations}
+                                  onChange={setModulosMinorations}
+                                  suffix="EUR"
+                                />
+                                <NumberField
+                                  id="modulos-amortizations"
+                                  label="Amortizaciones deducibles (opcional)"
+                                  value={modulosAmortizations}
+                                  onChange={setModulosAmortizations}
+                                  suffix="EUR"
+                                />
+                              </div>
+
+                              <div className="grid gap-4 sm:grid-cols-2">
+                                <NumberField
+                                  id="modulos-days-assisted"
+                                  label="Dias de actividad en el año"
+                                  value={modulosDays}
+                                  onChange={setModulosDays}
+                                  step="1"
+                                />
+                                <NumberField
+                                  id="modulos-employee-count"
+                                  label="Personas asalariadas (para estimar pagos 131)"
+                                  value={modulosEmployeeCount}
+                                  onChange={setModulosEmployeeCount}
+                                  step="1"
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
+                              Selecciona una actividad para mostrar los modulos. El listado es parcial y ampliable en el dataset.
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      <div className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Pagos a cuenta</span>
+                        </div>
+                        <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                          <NumberField
+                            id="modulos-payments"
+                            label="Pagos Modelo 131 ingresados (opcional)"
+                            value={modulosPayments131}
+                            onChange={setModulosPayments131}
+                            suffix="EUR"
+                            help="Si lo dejas vacio, se estiman segun el rendimiento."
+                          />
+                          <NumberField
+                            id="modulos-retentions"
+                            label="Retenciones IRPF soportadas (opcional)"
+                            value={modulosRetentions}
+                            onChange={setModulosRetentions}
+                            suffix="EUR"
+                          />
+                          {modulosMode === "simple" ? (
+                            <NumberField
+                              id="modulos-employee-count-simple"
+                              label="Personas asalariadas (para estimar pagos 131)"
+                              value={modulosEmployeeCount}
+                              onChange={setModulosEmployeeCount}
+                              step="1"
+                            />
+                          ) : null}
+                        </div>
+
+                        <div className="mt-3">
+                          <Toggle
+                            label="Mi actividad aplica retencion del 1% en modulos"
+                            description="Solo algunas actividades empresariales."
+                            checked={modulosWithholdingApplies}
+                            onChange={() => setModulosWithholdingApplies((prev) => !prev)}
+                          />
+                        </div>
+
+                        <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                          <TextField
+                            id="modulos-withholding-search"
+                            label="Buscar actividad con retencion 1% (opcional)"
+                            value={modulosWithholdingSearch}
+                            onChange={setModulosWithholdingSearch}
+                            listId="modulos-withholding-list"
+                            placeholder="IAE o actividad"
+                          />
+                          {modulosWithholdingApplies ? (
+                            <NumberField
+                              id="modulos-withholding-base"
+                              label="Base facturada sujeta a retencion 1%"
+                              value={modulosWithholdingBase}
+                              onChange={setModulosWithholdingBase}
+                              suffix="EUR"
+                            />
+                          ) : null}
+                        </div>
+                        <datalist id="modulos-withholding-list">
+                          {modulosWithholdingOptions.map((option) => (
+                            <option key={option} value={option} />
+                          ))}
+                        </datalist>
+
+                        {modulosWithholdingMatches.length > 0 ? (
+                          <div className="mt-3 rounded-2xl border border-slate-200 bg-slate-50/80 px-3 py-2 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
+                            Coincidencias:{" "}
+                            {modulosWithholdingMatches.map((item) => `${item.iaeGroupOrEpigrafe} ${item.name}`).join(" | ")}
+                          </div>
+                        ) : null}
+                        {modulosActivityHasWithholding ? (
+                          <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50/80 px-3 py-2 text-xs text-amber-700 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
+                            Esta actividad aparece en la lista de retencion 1%. Activa la retencion si aplica a tu facturacion.
+                          </div>
+                        ) : null}
+                      </div>
+
+                      <div className="grid gap-4 sm:grid-cols-2">
+                        <NumberField
+                          id="modulos-income-total"
+                          label="Ingresos totales anuales (opcional)"
+                          value={modulosIncomeTotal}
+                          onChange={setModulosIncomeTotal}
+                          suffix="EUR"
+                        />
+                        <NumberField
+                          id="modulos-invoice-total"
+                          label="Ingresos facturados a empresas/profesionales (opcional)"
+                          value={modulosInvoiceTotal}
+                          onChange={setModulosInvoiceTotal}
+                          suffix="EUR"
+                        />
+                      </div>
+
+                      <div className="rounded-2xl border border-brand-100 bg-brand-50/70 px-4 py-3 text-xs text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+                        Rendimiento estimado: {formatCurrency(modulosNetValue)}. Pagos 131 estimados: {formatCurrency(modulosPaymentsManualProvided ? modulosPaymentsManual : modulosPaymentsEstimate)}.
+                      </div>
                     </div>
+                  )}
                   </div>
                 ) : null}
               </div>
@@ -965,98 +1475,108 @@ export default function Calculator() {
                 </div>
               ) : null}
 
-              <div className="grid gap-4 lg:grid-cols-2">
-                <div className="rounded-2xl border border-slate-200 bg-white/85 p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
-                  <div className="flex items-start gap-3">
-                    <IconBadge>{Icons.home}</IconBadge>
-                    <div>
-                      <h5 className="text-base font-semibold text-slate-900 dark:text-slate-100">Oficina en casa</h5>
-                      <p className="text-xs text-slate-500 dark:text-slate-400">
-                        Deducible = suministros x (m2 afectos / m2 vivienda) x 30%.
-                      </p>
+              {isModulos ? (
+                <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
+                  Los helpers no aplican al regimen de modulos. Puedes continuar al siguiente paso.
+                </div>
+              ) : null}
+
+              {showAutonomo && !isModulos ? (
+                <>
+                  <div className="grid gap-4 lg:grid-cols-2">
+                    <div className="rounded-2xl border border-slate-200 bg-white/85 p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+                      <div className="flex items-start gap-3">
+                        <IconBadge>{Icons.home}</IconBadge>
+                        <div>
+                          <h5 className="text-base font-semibold text-slate-900 dark:text-slate-100">Oficina en casa</h5>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">
+                            Deducible = suministros x (m2 afectos / m2 vivienda) x 30%.
+                          </p>
+                        </div>
+                      </div>
+                      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                        <NumberField id="office-area" label="m2 afectos" value={officeArea} onChange={setOfficeArea} step="0.1" />
+                        <NumberField id="home-area" label="m2 vivienda" value={homeArea} onChange={setHomeArea} step="0.1" />
+                        <NumberField
+                          id="home-supplies"
+                          label="Gasto anual suministros"
+                          value={homeSupplies}
+                          onChange={setHomeSupplies}
+                          suffix="EUR"
+                        />
+                      </div>
+                      <div className="mt-3 rounded-2xl border border-slate-200 bg-slate-50/80 px-3 py-2 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
+                        Deducible estimado: {formatCurrency(officeDeduction)}.
+                      </div>
+                      <div className="mt-3">
+                        <Toggle
+                          label="Incluir oficina en gastos deducibles"
+                          description="Se suma al total de gastos de autonomo."
+                          checked={includeOffice}
+                          onChange={() => setIncludeOffice((prev) => !prev)}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl border border-slate-200 bg-white/85 p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+                      <div className="flex items-start gap-3">
+                        <IconBadge>{Icons.meal}</IconBadge>
+                        <div>
+                          <h5 className="text-base font-semibold text-slate-900 dark:text-slate-100">Manutencion (maximos)</h5>
+                          <p className="text-xs text-slate-500 dark:text-slate-400">
+                            Calcula el limite deducible segun dias y pernocta.
+                          </p>
+                        </div>
+                      </div>
+                      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                        <NumberField
+                          id="meals-spain-no"
+                          label="Dias sin pernocta (Espana)"
+                          value={mealsSpainNoOvernight}
+                          onChange={setMealsSpainNoOvernight}
+                          step="1"
+                        />
+                        <NumberField
+                          id="meals-spain-yes"
+                          label="Dias con pernocta (Espana)"
+                          value={mealsSpainOvernight}
+                          onChange={setMealsSpainOvernight}
+                          step="1"
+                        />
+                        <NumberField
+                          id="meals-abroad-no"
+                          label="Dias sin pernocta (Extranjero)"
+                          value={mealsAbroadNoOvernight}
+                          onChange={setMealsAbroadNoOvernight}
+                          step="1"
+                        />
+                        <NumberField
+                          id="meals-abroad-yes"
+                          label="Dias con pernocta (Extranjero)"
+                          value={mealsAbroadOvernight}
+                          onChange={setMealsAbroadOvernight}
+                          step="1"
+                        />
+                      </div>
+                      <div className="mt-3 rounded-2xl border border-slate-200 bg-slate-50/80 px-3 py-2 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
+                        Limite deducible: {formatCurrency(mealsDeduction)}.
+                      </div>
+                      <div className="mt-3">
+                        <Toggle
+                          label="Incluir manutencion en gastos deducibles"
+                          description="Solo si cumple requisitos de factura y medio de pago."
+                          checked={includeMeals}
+                          onChange={() => setIncludeMeals((prev) => !prev)}
+                        />
+                      </div>
                     </div>
                   </div>
-                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                    <NumberField id="office-area" label="m2 afectos" value={officeArea} onChange={setOfficeArea} step="0.1" />
-                    <NumberField id="home-area" label="m2 vivienda" value={homeArea} onChange={setHomeArea} step="0.1" />
-                    <NumberField
-                      id="home-supplies"
-                      label="Gasto anual suministros"
-                      value={homeSupplies}
-                      onChange={setHomeSupplies}
-                      suffix="EUR"
-                    />
-                  </div>
-                  <div className="mt-3 rounded-2xl border border-slate-200 bg-slate-50/80 px-3 py-2 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
-                    Deducible estimado: {formatCurrency(officeDeduction)}.
-                  </div>
-                  <div className="mt-3">
-                    <Toggle
-                      label="Incluir oficina en gastos deducibles"
-                      description="Se suma al total de gastos de autonomo."
-                      checked={includeOffice}
-                      onChange={() => setIncludeOffice((prev) => !prev)}
-                    />
-                  </div>
-                </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-white/85 p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
-                  <div className="flex items-start gap-3">
-                    <IconBadge>{Icons.meal}</IconBadge>
-                    <div>
-                      <h5 className="text-base font-semibold text-slate-900 dark:text-slate-100">Manutencion (maximos)</h5>
-                      <p className="text-xs text-slate-500 dark:text-slate-400">
-                        Calcula el limite deducible segun dias y pernocta.
-                      </p>
-                    </div>
+                  <div className="rounded-2xl border border-brand-100 bg-brand-50/70 px-4 py-3 text-xs text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+                    Total helpers aplicados: {formatCurrency(helpersTotal)}. Gastos totales de autonomo: {formatCurrency(autoExpensesTotal)}.
                   </div>
-                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                    <NumberField
-                      id="meals-spain-no"
-                      label="Dias sin pernocta (Espana)"
-                      value={mealsSpainNoOvernight}
-                      onChange={setMealsSpainNoOvernight}
-                      step="1"
-                    />
-                    <NumberField
-                      id="meals-spain-yes"
-                      label="Dias con pernocta (Espana)"
-                      value={mealsSpainOvernight}
-                      onChange={setMealsSpainOvernight}
-                      step="1"
-                    />
-                    <NumberField
-                      id="meals-abroad-no"
-                      label="Dias sin pernocta (Extranjero)"
-                      value={mealsAbroadNoOvernight}
-                      onChange={setMealsAbroadNoOvernight}
-                      step="1"
-                    />
-                    <NumberField
-                      id="meals-abroad-yes"
-                      label="Dias con pernocta (Extranjero)"
-                      value={mealsAbroadOvernight}
-                      onChange={setMealsAbroadOvernight}
-                      step="1"
-                    />
-                  </div>
-                  <div className="mt-3 rounded-2xl border border-slate-200 bg-slate-50/80 px-3 py-2 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
-                    Limite deducible: {formatCurrency(mealsDeduction)}.
-                  </div>
-                  <div className="mt-3">
-                    <Toggle
-                      label="Incluir manutencion en gastos deducibles"
-                      description="Solo si cumple requisitos de factura y medio de pago."
-                      checked={includeMeals}
-                      onChange={() => setIncludeMeals((prev) => !prev)}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-brand-100 bg-brand-50/70 px-4 py-3 text-xs text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
-                Total helpers aplicados: {formatCurrency(helpersTotal)}. Gastos totales de autonomo: {formatCurrency(autoExpensesTotal)}.
-              </div>
+                </>
+              ) : null}
             </div>
           )}
             {step === 4 && (
@@ -1207,7 +1727,7 @@ export default function Calculator() {
             <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Resumen rapido</p>
           </div>
           <div className="mt-4 space-y-2 text-sm">
-            <SummaryRow label="Situacion" value={situation === "employee" ? "Cuenta ajena" : situation === "autonomo" ? "Autonomo" : "Pluriactividad"} />
+            <SummaryRow label="Situacion" value={situationLabel} />
             <SummaryRow label="Año fiscal" value={String(year)} />
             <SummaryRow label="Residencia" value={region === "comun" ? "Regimen comun" : "Foral (no soportado)"} />
             <SummaryRow label="Paso actual" value={`${steps[step].id}. ${steps[step].title}`} />

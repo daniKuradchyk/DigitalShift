@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import Container from "@/components/common/Container";
@@ -78,7 +78,7 @@ export default function CalculatorPage() {
             <div className="max-w-xl space-y-3">
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Calculadora IRPF / Autonomo</h1>
               <p className="text-slate-700 dark:text-slate-300">
-                Estimacion rapida para cuenta ajena, autonomo o pluriactividad. Incluye desglose por tramos, deducciones basicas
+                Estimacion rapida para cuenta ajena, autonomo (directa o modulos) o pluriactividad. Incluye desglose por tramos, deducciones basicas
                 y avisos de precision.
               </p>
             </div>
@@ -106,7 +106,7 @@ export default function CalculatorPage() {
               <ul className="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-300">
                 <li className="flex items-start gap-2">
                   <span aria-hidden className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
-                  <span>Cuenta ajena, autonomo y pluriactividad.</span>
+                  <span>Cuenta ajena, autonomo (directa o modulos) y pluriactividad.</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span aria-hidden className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />

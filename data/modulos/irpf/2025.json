@@ -1,0 +1,130 @@
+{
+    "year":  2025,
+    "generalReductionRate":  0.05,
+    "activities":  [
+                       {
+                           "iae":  "659.4",
+                           "name":  "Comercio al por menor de prensa, revistas y libros en quioscos",
+                           "modules":  [
+                                           {
+                                               "key":  "personal_asalariado",
+                                               "label":  "Personal asalariado",
+                                               "unit":  "persona",
+                                               "annualYieldPerUnit":  3476.83
+                                           },
+                                           {
+                                               "key":  "personal_no_asalariado",
+                                               "label":  "Personal no asalariado",
+                                               "unit":  "persona",
+                                               "annualYieldPerUnit":  17220.39
+                                           },
+                                           {
+                                               "key":  "energia",
+                                               "label":  "Consumo energia electrica",
+                                               "unit":  "100kWh",
+                                               "annualYieldPerUnit":  403.11
+                                           },
+                                           {
+                                               "key":  "superficie",
+                                               "label":  "Superficie del local",
+                                               "unit":  "m2",
+                                               "annualYieldPerUnit":  844.02
+                                           }
+                                       ],
+                           "specialIndices":  [
+                                                  {
+                                                      "key":  "ubicacion_quiosco",
+                                                      "label":  "Ubicacion del quiosco",
+                                                      "type":  "select",
+                                                      "options":  [
+                                                                      {
+                                                                          "label":  "Madrid/Barcelona",
+                                                                          "multiplier":  1
+                                                                      },
+                                                                      {
+                                                                          "label":  "Municipios \u003e100.000 hab.",
+                                                                          "multiplier":  0.95
+                                                                      },
+                                                                      {
+                                                                          "label":  "Resto",
+                                                                          "multiplier":  0.8
+                                                                      }
+                                                                  ]
+                                                  }
+                                              ],
+                           "withholdingRule":  {
+                                                   "type":  "none_or_unknown"
+                                               }
+                       }
+                   ],
+    "withholding1PercentActivities":  [
+                                          {
+                                              "iaeGroupOrEpigrafe":  "314 y 315",
+                                              "name":  "Carpinteria metalica y fabricacion de estructuras metalicas y caldereria."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "316.2, 3, 4 y 9",
+                                              "name":  "Fabricacion de articulos de ferreteria, cerrajeria, tornilleria, derivados del alambre, menaje y otros articulos en metales N.C.O.P."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "453",
+                                              "name":  "Confeccion en serie de prendas de vestir y sus complementos, excepto cuando su ejecucion se efectue mayoritariamente por encargo a terceros."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "453",
+                                              "name":  "Confeccion en serie de prendas de vestir y sus complementos ejecutada directamente por la propia empresa, cuando se realice exclusivamente para terceros y por encargo."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "463",
+                                              "name":  "Fabricacion en serie de piezas de carpinteria, parque y estructuras de madera para la construccion."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "468",
+                                              "name":  "Industria del mueble de madera."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "474.1",
+                                              "name":  "Impresion de textos o imagenes."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "501.3",
+                                              "name":  "Albanileria y pequenos trabajos de construccion en general."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "504.1",
+                                              "name":  "Instalaciones y montajes (excepto fontaneria, frio, calor y acondicionamiento de aire)."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "504.2 y 3",
+                                              "name":  "Instalaciones de fontaneria, frio, calor y acondicionamiento de aire."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "504.4, 5, 6, 7 y 8",
+                                              "name":  "Instalacion de pararrayos y similares. Montaje e instalacion de cocinas de todo tipo y clase, con todos sus accesorios. Montaje e instalacion de aparatos elevadores de cualquier clase y tipo. Instalaciones telefonicas, telegraficas, telegraficas sin hilos y de television, en edificios y construcciones de cualquier clase. Montajes metalicos e instalaciones industriales completas, sin vender ni aportar la maquinaria ni los elementos objeto de instalacion o montaje."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "505.1, 2, 3 y 4",
+                                              "name":  "Revestimientos, solados y pavimentos y colocacion de aislamientos."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "505.5",
+                                              "name":  "Carpinteria y cerrajeria."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "505.6",
+                                              "name":  "Pintura de cualquier tipo y clase y revestimientos con papel, tejido o plasticos y terminacion y decoracion de edificios y locales."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "505.7",
+                                              "name":  "Trabajos en yeso y escayola y decoracion de edificios y locales."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "722",
+                                              "name":  "Transporte de mercancias por carretera."
+                                          },
+                                          {
+                                              "iaeGroupOrEpigrafe":  "757",
+                                              "name":  "Servicios de mudanzas."
+                                          }
+                                      ]
+}

@@ -34,3 +34,9 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## IRPF calculator notes
+
+- Yearly tax rules live in `tax-rules/2024.json` and `tax-rules/2025.json`; add a new year file and extend `src/lib/tax-engine/index.ts`.
+- Modulos dataset lives in `data/modulos/irpf/2025.json`; add activities or a new year file and wire it in `src/lib/tax-engine/modulos.ts`.
+- To add real CCAA scales, fill `CCAA_SCALES` in `src/app/herramientas/calculadora-irpf/Calculator.tsx` or load them from a new dataset and map by CCAA key.

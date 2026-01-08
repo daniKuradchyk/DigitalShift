@@ -88,6 +88,8 @@ export type AutonomoInput = {
   withhold: number;
   modelo130: number;
   reta: number;
+  mode?: "directa" | "modulos";
+  netOverride?: number;
 };
 
 export type PersonalInput = {
@@ -239,12 +241,16 @@ export function calculateTax(input: TaxInput): TaxResult {
   const autoWithhold = auto?.withhold ?? 0;
   const autoModelo130 = auto?.modelo130 ?? 0;
 
-  const autonomoNetBefore = Math.max(0, autoIncome - autoExpenses - autoReta);
-  const difficultJustification = Math.min(
-    rules.autonomo.difficultJustificationMax,
-    autonomoNetBefore * rules.autonomo.difficultJustificationRate,
-  );
-  const autonomoNet = Math.max(0, autonomoNetBefore - difficultJustification);
+  const autoMode = auto?.mode ?? "directa";
+  const hasOverride = autoMode === "modulos" && Number.isFinite(auto?.netOverride ?? Number.NaN);
+  const autonomoNetBefore = hasOverride ? Math.max(0, auto?.netOverride ?? 0) : Math.max(0, autoIncome - autoExpenses - autoReta);
+  const difficultJustification = hasOverride
+    ? 0
+    : Math.min(
+        rules.autonomo.difficultJustificationMax,
+        autonomoNetBefore * rules.autonomo.difficultJustificationRate,
+      );
+  const autonomoNet = hasOverride ? autonomoNetBefore : Math.max(0, autonomoNetBefore - difficultJustification);
 
   const baseGeneral = workTaxable + autonomoNet;
   const baseSavings = Math.max(0, input.savingsIncome);
