@@ -135,7 +135,7 @@ export function calculateModulosAssisted(input: ModulosAssistedInput): ModulosCa
   const minorations = safeNumber(input.minorations);
   const amortizations = safeNumber(input.amortizations);
   const afterMinorations = Math.max(0, base - minorations);
-  const multiplier = Object.values(input.indexMultipliers ?? {}).reduce((acc, value) => {
+  const multiplier = Object.values(input.indexMultipliers ?? {}).reduce<number>((acc, value) => {
     const safe = Number.isFinite(value ?? 1) ? (value ?? 1) : 1;
     return acc * safe;
   }, 1);
