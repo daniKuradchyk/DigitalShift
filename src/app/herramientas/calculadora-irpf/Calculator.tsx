@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import Button from "@/components/common/Button";
-import { calculateTax, getRules, type Bracket, type TaxYear } from "@/lib/tax-engine";
+import { calculateTax, getRules, type Bracket, type TaxInput, type TaxYear } from "@/lib/tax-engine";
 import {
   calculateModulosAssisted,
   calculateModulosSimple,
@@ -623,7 +623,7 @@ export default function Calculator() {
   const autoIncomeValue = autonomoMode === "modulos" ? modulosNetValue : toPositiveNumber(autoIncome);
   const canCalculate = region === "comun" && (workGrossTotal > 0 || autoIncomeValue > 0 || toPositiveNumber(savingsIncome) > 0);
 
-  const taxInput = useMemo(() => {
+  const taxInput = useMemo<TaxInput>(() => {
     return {
       year,
       useCombinedScale,
