@@ -5,6 +5,7 @@ import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 import Logo from "@/components/common/Logo";
 import Calculator from "./Calculator";
+import FeedbackForm from "./FeedbackForm";
 import { canonical, openGraphImage, titleTemplate } from "@/lib/seo";
 import { faqJsonLd } from "@/lib/jsonld";
 
@@ -178,6 +179,35 @@ export default function CalculatorPage() {
               Si necesitas adaptar la calculadora a un caso real o integrar tus datos, escribenos desde el formulario de contacto.
             </div>
           </div>
+        </section>
+
+        <section id="feedback" className="mt-12 grid gap-6 lg:grid-cols-[1.05fr_0.95fr] items-start">
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <h2 className="text-2xl font-bold tracking-tight">Feedback para mejorar la calculadora</h2>
+              <p className="text-sm text-slate-600 dark:text-slate-300">
+                Si detectas un error en el calculo o en los datos, cuentanoslo aqui. Revisamos cada mensaje y ajustamos la herramienta.
+              </p>
+            </div>
+            <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 text-sm text-slate-700 shadow-sm dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200">
+              <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Que necesitamos</p>
+              <ul className="mt-3 space-y-2">
+                <li className="flex items-start gap-2">
+                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
+                  <span>El paso donde viste el error (si lo sabes).</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
+                  <span>Una descripcion breve con el caso.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
+                  <span>Tu email solo si quieres respuesta.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <FeedbackForm />
         </section>
 
         <section id="faq" className="mt-12">
