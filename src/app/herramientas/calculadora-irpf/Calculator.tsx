@@ -220,7 +220,7 @@ function NumberField({
       <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
         {label}
       </label>
-      <div className="relative flex h-11 items-center rounded-2xl border border-slate-200 bg-white/80 shadow-sm transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/70">
+      <div className="relative flex h-11 items-center rounded-2xl border border-slate-200 bg-white/85 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75">
         <input
           id={id}
           type="number"
@@ -272,7 +272,7 @@ function TextField({
       <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
         {label}
       </label>
-      <div className="relative flex h-11 items-center rounded-2xl border border-slate-200 bg-white/80 shadow-sm transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/70">
+      <div className="relative flex h-11 items-center rounded-2xl border border-slate-200 bg-white/85 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75">
         <input
           id={id}
           type="text"
@@ -305,7 +305,7 @@ function SelectField({ id, label, value, onChange, options, help }: SelectFieldP
       <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
         {label}
       </label>
-      <div className="relative flex h-11 items-center rounded-2xl border border-slate-200 bg-white/80 shadow-sm transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/70">
+      <div className="relative flex h-11 items-center rounded-2xl border border-slate-200 bg-white/85 px-2 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75">
         <select
           id={id}
           value={value}
@@ -346,15 +346,19 @@ type RadioCardProps = {
 function RadioCard({ name, value, checked, onChange, title, description, icon }: RadioCardProps) {
   return (
     <label
-      className={`group flex cursor-pointer flex-col gap-2 rounded-2xl border px-4 py-3 text-sm transition focus-within:ring-2 focus-within:ring-brand-200 ${
+      className={`group relative flex cursor-pointer flex-col gap-2 overflow-hidden rounded-2xl border px-4 py-3 text-sm transition focus-within:ring-2 focus-within:ring-brand-200 ${
         checked
-          ? "border-brand-400 bg-brand-50/80 text-slate-900 shadow-[0_16px_40px_-26px_rgba(14,29,74,0.45)] dark:border-brand-400/60 dark:bg-brand-500/10 dark:text-white"
-          : "border-slate-200 bg-white/70 text-slate-700 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-sm dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
+          ? "border-brand-400 bg-white/90 text-slate-900 shadow-[0_16px_40px_-26px_rgba(14,29,74,0.45)] dark:border-brand-500/50 dark:bg-slate-900/80 dark:text-white"
+          : "border-slate-200 bg-white/70 text-slate-700 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
       }`}
     >
       <input type="radio" name={name} value={value} checked={checked} onChange={onChange} className="sr-only" />
+      <span
+        aria-hidden
+        className={`absolute left-0 top-0 h-full w-1 ${checked ? "bg-[linear-gradient(180deg,#0e1d4a,#4168e1,#6389ff)]" : "bg-transparent"}`}
+      />
       <div className="flex items-center gap-2">
-        <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-white/80 text-brand-700 ring-1 ring-brand-100 dark:bg-slate-900/70 dark:text-brand-200 dark:ring-brand-500/30">
+        <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-brand-100 bg-brand-50 text-brand-700 shadow-sm dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
           {icon}
         </span>
         <span className="text-sm font-semibold">{title}</span>
@@ -373,12 +377,32 @@ type ToggleProps = {
 
 function Toggle({ label, description, checked, onChange }: ToggleProps) {
   return (
-    <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-white/70 px-4 py-3 text-sm shadow-sm transition hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/70">
-      <input type="checkbox" checked={checked} onChange={onChange} className="mt-1 h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500" />
+    <label
+      className={`group flex cursor-pointer items-center justify-between gap-4 rounded-2xl border px-4 py-3 text-sm shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] transition hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-brand-200 ${
+        checked
+          ? "border-brand-400 bg-brand-50/70 text-slate-900 dark:border-brand-500/50 dark:bg-brand-500/10 dark:text-slate-100"
+          : "border-slate-200 bg-white/80 text-slate-700 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200"
+      }`}
+    >
       <span>
-        <span className="block font-semibold text-slate-700 dark:text-slate-200">{label}</span>
+        <span className="block font-semibold">{label}</span>
         {description ? <span className="block text-xs text-slate-500 dark:text-slate-400">{description}</span> : null}
       </span>
+      <span
+        aria-hidden
+        className={`relative h-6 w-11 rounded-full border transition ${
+          checked
+            ? "border-brand-500/70 bg-brand-500/20"
+            : "border-slate-300 bg-slate-200/70 dark:border-slate-700 dark:bg-slate-800"
+        }`}
+      >
+        <span
+          className={`absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full shadow transition ${
+            checked ? "translate-x-6 bg-white" : "translate-x-1 bg-white"
+          } dark:bg-slate-900`}
+        />
+      </span>
+      <input type="checkbox" checked={checked} onChange={onChange} className="sr-only" />
     </label>
   );
 }
@@ -399,7 +423,7 @@ function SummaryRow({ label, value }: SummaryRowProps) {
 
 function IconBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-brand-50 text-brand-700 ring-1 ring-brand-100 dark:bg-brand-500/10 dark:text-brand-200 dark:ring-brand-500/30">
+    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-brand-100 bg-brand-50 text-brand-700 shadow-sm dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
       {children}
     </span>
   );
@@ -414,12 +438,15 @@ type StepHeaderProps = {
 
 function StepHeader({ stepId, title, description, icon }: StepHeaderProps) {
   return (
-    <div className="flex items-start gap-3">
-      <IconBadge>{icon}</IconBadge>
-      <div className="space-y-2">
-        <p className="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Paso {stepId}</p>
-        <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100">{title}</h4>
-        <p className="text-sm text-slate-600 dark:text-slate-300">{description}</p>
+    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/85 p-5 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/80">
+      <div aria-hidden className="absolute inset-y-0 left-0 w-1.5 bg-[linear-gradient(180deg,#0e1d4a,#4168e1,#6389ff)]" />
+      <div className="relative flex items-start gap-4">
+        <IconBadge>{icon}</IconBadge>
+        <div className="space-y-1">
+          <p className="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Paso {stepId}</p>
+          <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100">{title}</h4>
+          <p className="text-sm text-slate-600 dark:text-slate-300">{description}</p>
+        </div>
       </div>
     </div>
   );
@@ -802,35 +829,14 @@ export default function Calculator() {
         : `Pluriactividad (${autonomoLabel})`;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] items-start">
-      <div className="space-y-6">
-        <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-[0_28px_70px_-48px_rgba(14,29,74,0.55)] backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80 lg:p-8">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div className="space-y-2">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Formulario guiado</p>
-              <h3 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Estimacion IRPF paso a paso</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-300">
-                Completa cada bloque con importes anuales. El resultado se actualiza al finalizar.
-              </p>
-            </div>
-            <div className="flex flex-col items-end gap-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-brand-100 bg-brand-50/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
-                Paso {steps[step].id} de {steps.length}
-              </div>
-              <span className="text-xs text-slate-500 dark:text-slate-400">Progreso {progress}%</span>
-            </div>
+    <div className="grid gap-6 xl:grid-cols-[220px_minmax(0,1fr)_340px] items-start">
+      <nav className="order-1 xl:order-none">
+        <div className="rounded-3xl border border-slate-200 bg-white/85 p-4 shadow-[0_18px_50px_-40px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/80">
+          <div className="flex items-center justify-between">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Ruta de calculo</p>
+            <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">{progress}%</span>
           </div>
-
-          <div className="mt-5">
-            <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200/70 dark:bg-slate-700/60" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
-              <div
-                className="h-full origin-left rounded-full bg-brand-500/80 transition-transform"
-                style={{ transform: `scaleX(${progress / 100})` }}
-              />
-            </div>
-          </div>
-
-          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-4 flex gap-2 overflow-x-auto pb-2 xl:block xl:space-y-2 xl:overflow-visible xl:pb-0">
             {steps.map((s, index) => {
               const isActive = index === step;
               const isDone = index < step;
@@ -839,17 +845,21 @@ export default function Calculator() {
                   key={s.id}
                   type="button"
                   onClick={() => setStep(index)}
-                  className={`group flex items-start gap-3 rounded-2xl border px-3 py-3 text-left text-xs transition ${
+                  className={`group relative flex min-w-[170px] items-start gap-3 overflow-hidden rounded-2xl border px-3 py-3 text-left text-xs transition xl:min-w-0 ${
                     isActive
-                      ? "border-brand-400 bg-brand-50/80 text-brand-700 shadow-sm dark:border-brand-500/60 dark:bg-brand-500/10 dark:text-brand-200"
-                      : "border-slate-200 bg-white/70 text-slate-600 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-sm dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
+                      ? "border-brand-400 bg-brand-50/80 text-brand-700 shadow-[0_16px_36px_-26px_rgba(14,29,74,0.45)] dark:border-brand-500/60 dark:bg-brand-500/10 dark:text-brand-200"
+                      : "border-slate-200 bg-white/75 text-slate-600 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
                   }`}
                   aria-current={isActive ? "step" : undefined}
                 >
                   <span
-                    className={`flex h-9 w-9 flex-none items-center justify-center rounded-full border text-[11px] font-semibold ${
+                    aria-hidden
+                    className={`absolute left-0 top-0 h-full w-1 ${isActive || isDone ? "bg-[linear-gradient(180deg,#0e1d4a,#4168e1,#6389ff)]" : "bg-transparent"}`}
+                  />
+                  <span
+                    className={`flex h-9 w-9 flex-none items-center justify-center rounded-xl border text-[11px] font-semibold ${
                       isActive
-                        ? "border-brand-400 bg-brand-500/10 text-brand-700 dark:border-brand-400/60 dark:text-brand-200"
+                        ? "border-brand-400 bg-white text-brand-700 dark:border-brand-500/60 dark:bg-slate-900 dark:text-brand-200"
                         : isDone
                           ? "border-brand-300 bg-brand-50 text-brand-700 dark:border-brand-400/60 dark:bg-brand-500/10 dark:text-brand-200"
                           : "border-slate-200 bg-white text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
@@ -866,8 +876,40 @@ export default function Calculator() {
               );
             })}
           </div>
+        </div>
+        <div className="mt-4 rounded-2xl border border-slate-200 bg-white/85 px-4 py-3 text-xs text-slate-600 shadow-[0_12px_30px_-26px_rgba(14,29,74,0.3)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
+          Calculadora sin registro. Los calculos se ejecutan localmente y no guardan datos.
+        </div>
+      </nav>
 
-          <div className="mt-8 space-y-6">
+      <div className="order-2 xl:order-none space-y-6">
+        <div className="relative overflow-hidden rounded-[32px] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.94))] p-6 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.6)] dark:border-slate-700 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,0.95))] lg:p-8">
+          <div aria-hidden className="pointer-events-none absolute inset-0">
+            <div className="absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_12%_12%,rgba(99,137,255,0.18),transparent_55%),radial-gradient(circle_at_88%_0%,rgba(14,29,74,0.14),transparent_45%)]" />
+            <div className="absolute inset-0 opacity-40 bg-[linear-gradient(rgba(15,23,42,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.08)_1px,transparent_1px)] [background-size:32px_32px] dark:bg-[linear-gradient(rgba(148,163,184,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.1)_1px,transparent_1px)]" />
+          </div>
+          <div className="relative space-y-6">
+            <header className="space-y-3">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Formulario guiado</p>
+              <h3 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Estimacion IRPF paso a paso</h3>
+              <p className="text-sm text-slate-600 dark:text-slate-300">
+                Completa cada bloque con importes anuales. El resultado se actualiza al finalizar.
+              </p>
+              <div className="rounded-2xl border border-slate-200 bg-white/75 px-4 py-3 text-xs shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70">
+                <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
+                  <span>Paso {steps[step].id} de {steps.length}</span>
+                  <span>{steps[step].title} - {progress}%</span>
+                </div>
+                <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slate-200/70 dark:bg-slate-700/60" role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progress}>
+                  <div
+                    className="h-full rounded-full bg-[linear-gradient(90deg,#0e1d4a,#4168e1,#6389ff)] shadow-[0_6px_16px_-10px_rgba(65,104,225,0.9)] transition-[width] duration-300"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              </div>
+            </header>
+
+            <div className="space-y-6">
             {step === 0 && (
             <div className="space-y-6">
               <StepHeader
@@ -949,7 +991,7 @@ export default function Calculator() {
 
               <div className={`grid gap-4 ${showWork && showAutonomo ? "lg:grid-cols-2" : ""}`}>
                 {showWork ? (
-                  <div className="rounded-2xl border border-slate-200 bg-white/85 p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+                  <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-[0_16px_40px_-30px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/70">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-start gap-3">
                       <IconBadge>{Icons.briefcase}</IconBadge>
@@ -1027,7 +1069,7 @@ export default function Calculator() {
                     </div>
 
                     {otherPayers.length > 0 ? (
-                      <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
+                      <div className="mt-4 rounded-2xl border border-dashed border-slate-200 bg-white/85 px-4 py-3 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
                         Totales extras: {formatCurrency(otherTotals.gross)} bruto, {formatCurrency(otherTotals.withhold)} retenciones, {formatCurrency(otherTotals.ss)} SS.
                       </div>
                     ) : null}
@@ -1035,7 +1077,7 @@ export default function Calculator() {
                 ) : null}
 
                 {showAutonomo ? (
-                  <div className="rounded-2xl border border-slate-200 bg-white/85 p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+                  <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-[0_16px_40px_-30px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/70">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-start gap-3">
                       <IconBadge>{Icons.bolt}</IconBadge>
@@ -1293,14 +1335,14 @@ export default function Calculator() {
                               </div>
                             </div>
                           ) : (
-                            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
+                            <div className="rounded-2xl border border-dashed border-slate-200 bg-white/85 px-4 py-3 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
                               Selecciona una actividad para mostrar los modulos. El listado es parcial y ampliable en el dataset.
                             </div>
                           )}
                         </div>
                       )}
 
-                      <div className="rounded-2xl border border-slate-200 bg-white/70 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/60">
+                      <div className="rounded-2xl border border-slate-200 bg-white/85 p-4 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/75">
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Pagos a cuenta</span>
                         </div>
@@ -1366,7 +1408,7 @@ export default function Calculator() {
                         </datalist>
 
                         {modulosWithholdingMatches.length > 0 ? (
-                          <div className="mt-3 rounded-2xl border border-slate-200 bg-slate-50/80 px-3 py-2 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
+                          <div className="mt-3 rounded-2xl border border-dashed border-slate-200 bg-white/85 px-3 py-2 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
                             Coincidencias:{" "}
                             {modulosWithholdingMatches.map((item) => `${item.iaeGroupOrEpigrafe} ${item.name}`).join(" | ")}
                           </div>
@@ -1404,7 +1446,7 @@ export default function Calculator() {
                 ) : null}
               </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-white/85 p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+              <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-[0_16px_40px_-30px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/70">
                 <div className="flex items-start gap-3">
                   <IconBadge>{Icons.banknote}</IconBadge>
                   <div>
@@ -1470,13 +1512,13 @@ export default function Calculator() {
               />
 
               {!showAutonomo ? (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
+                <div className="rounded-2xl border border-dashed border-slate-200 bg-white/85 p-4 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
                   Los helpers aplican solo a autonomo. Puedes avanzar sin completar esta seccion.
                 </div>
               ) : null}
 
               {isModulos ? (
-                <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
+                <div className="rounded-2xl border border-dashed border-slate-200 bg-white/85 p-4 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
                   Los helpers no aplican al regimen de modulos. Puedes continuar al siguiente paso.
                 </div>
               ) : null}
@@ -1484,7 +1526,7 @@ export default function Calculator() {
               {showAutonomo && !isModulos ? (
                 <>
                   <div className="grid gap-4 lg:grid-cols-2">
-                    <div className="rounded-2xl border border-slate-200 bg-white/85 p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+                    <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-[0_16px_40px_-30px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/70">
                       <div className="flex items-start gap-3">
                         <IconBadge>{Icons.home}</IconBadge>
                         <div>
@@ -1505,7 +1547,7 @@ export default function Calculator() {
                           suffix="EUR"
                         />
                       </div>
-                      <div className="mt-3 rounded-2xl border border-slate-200 bg-slate-50/80 px-3 py-2 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
+                      <div className="mt-3 rounded-2xl border border-dashed border-slate-200 bg-white/85 px-3 py-2 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
                         Deducible estimado: {formatCurrency(officeDeduction)}.
                       </div>
                       <div className="mt-3">
@@ -1518,7 +1560,7 @@ export default function Calculator() {
                       </div>
                     </div>
 
-                    <div className="rounded-2xl border border-slate-200 bg-white/85 p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+                    <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-[0_16px_40px_-30px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/70">
                       <div className="flex items-start gap-3">
                         <IconBadge>{Icons.meal}</IconBadge>
                         <div>
@@ -1558,7 +1600,7 @@ export default function Calculator() {
                           step="1"
                         />
                       </div>
-                      <div className="mt-3 rounded-2xl border border-slate-200 bg-slate-50/80 px-3 py-2 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
+                      <div className="mt-3 rounded-2xl border border-dashed border-slate-200 bg-white/85 px-3 py-2 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
                         Limite deducible: {formatCurrency(mealsDeduction)}.
                       </div>
                       <div className="mt-3">
@@ -1596,47 +1638,52 @@ export default function Calculator() {
 
               {canCalculate && result ? (
                 <div className="space-y-6">
-                  <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-[0_26px_70px_-44px_rgba(14,29,74,0.6)] dark:border-slate-700 dark:bg-slate-900/80">
-                    <div className="flex items-center gap-3">
-                      <IconBadge>{Icons.chart}</IconBadge>
-                      <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Resultado final</p>
+                  <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-[0_26px_70px_-44px_rgba(14,29,74,0.6)] dark:border-slate-700 dark:bg-slate-900/80">
+                    <div aria-hidden className="pointer-events-none absolute inset-0">
+                      <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-brand-500/10 blur-2xl" />
                     </div>
-                    <div className="mt-3 flex flex-wrap items-baseline gap-3">
-                      <p className="text-3xl font-bold text-slate-900 dark:text-slate-100">
-                        {formatCurrency(Math.abs(result.cuotaDiferencial))}
+                    <div className="relative">
+                      <div className="flex items-center gap-3">
+                        <IconBadge>{Icons.chart}</IconBadge>
+                        <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Resultado final</p>
+                      </div>
+                      <div className="mt-3 flex flex-wrap items-baseline gap-3">
+                        <p className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+                          {formatCurrency(Math.abs(result.cuotaDiferencial))}
+                        </p>
+                        <span className="rounded-full border border-brand-100 bg-brand-50/80 px-3 py-1 text-xs font-semibold text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+                          {result.cuotaDiferencial >= 0 ? "A pagar" : "A devolver"}
+                        </span>
+                      </div>
+                      <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                        Cuota diferencial = cuota liquida - retenciones/pagos a cuenta.
                       </p>
-                      <span className="rounded-full border border-brand-100 bg-brand-50/80 px-3 py-1 text-xs font-semibold text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
-                        {result.cuotaDiferencial >= 0 ? "A pagar" : "A devolver"}
-                      </span>
                     </div>
-                    <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                      Cuota diferencial = cuota liquida - retenciones/pagos a cuenta.
-                    </p>
                   </div>
 
                   <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+                    <div className="rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70">
                       <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Base general</p>
                       <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
                         {formatCurrency(result.baseGeneralAfterJoint)}
                       </p>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Cuota general: {formatCurrency(result.quotaGeneral)}</p>
                     </div>
-                    <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+                    <div className="rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70">
                       <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Base ahorro</p>
                       <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
                         {formatCurrency(result.baseSavingsAfterJoint)}
                       </p>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Cuota ahorro: {formatCurrency(result.quotaSavings)}</p>
                     </div>
-                    <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+                    <div className="rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70">
                       <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Deducciones</p>
                       <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
                         {formatCurrency(result.deduccion340)}
                       </p>
                       <p className="text-xs text-slate-500 dark:text-slate-400">Cuota liquida: {formatCurrency(result.cuotaLiquida)}</p>
                     </div>
-                    <div className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+                    <div className="rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70">
                       <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Pagos a cuenta</p>
                       <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
                         {formatCurrency(result.totalWithheld)}
@@ -1645,7 +1692,7 @@ export default function Calculator() {
                     </div>
                   </div>
 
-                  <details className="rounded-2xl border border-slate-200 bg-white/80 p-4 text-sm text-slate-700 shadow-sm dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200">
+                  <details className="rounded-2xl border border-slate-200 bg-white/90 p-4 text-sm text-slate-700 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200">
                     <summary className="cursor-pointer text-sm font-semibold">Detalle del calculo</summary>
                     <div className="mt-3 space-y-3">
                       <SummaryRow label="Rendimiento neto trabajo" value={formatCurrency(result.workNet)} />
@@ -1657,7 +1704,7 @@ export default function Calculator() {
                     </div>
                   </details>
 
-                  <details className="rounded-2xl border border-slate-200 bg-white/80 p-4 text-sm text-slate-700 shadow-sm dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200">
+                  <details className="rounded-2xl border border-slate-200 bg-white/90 p-4 text-sm text-slate-700 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200">
                     <summary className="cursor-pointer text-sm font-semibold">Desglose por tramos</summary>
                     <div className="mt-3 space-y-4">
                       <div>
@@ -1702,7 +1749,7 @@ export default function Calculator() {
         </div>
 
         {error ? (
-          <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50/80 px-4 py-3 text-sm text-amber-700 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
+          <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50/90 px-4 py-3 text-sm text-amber-700 shadow-[0_12px_30px_-24px_rgba(120,53,15,0.35)] dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
             {error}
           </div>
         ) : null}
@@ -1720,8 +1767,8 @@ export default function Calculator() {
         </div>
       </div>
 
-      <aside className="space-y-4 lg:sticky lg:top-24">
-        <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+      <aside className="order-3 xl:order-none space-y-4 lg:sticky lg:top-24">
+        <div className="rounded-3xl border border-slate-200 bg-white/85 p-6 shadow-[0_18px_50px_-36px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/75">
           <div className="flex items-center gap-3">
             <IconBadge>{Icons.list}</IconBadge>
             <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Resumen rapido</p>
@@ -1736,7 +1783,7 @@ export default function Calculator() {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+        <div className="rounded-3xl border border-slate-200 bg-white/85 p-6 shadow-[0_16px_46px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75">
           <div className="flex items-center gap-3">
             <IconBadge>{Icons.alert}</IconBadge>
             <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Avisos de precision</p>
@@ -1753,11 +1800,12 @@ export default function Calculator() {
               ))
             )}
           </ul>
-          <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/80 px-3 py-2 text-xs text-slate-500 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-400">
+          <div className="mt-4 rounded-2xl border border-slate-200 bg-white/80 px-3 py-2 text-xs text-slate-500 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-400">
             No almacenamos datos personales. El calculo se ejecuta en tu navegador.
           </div>
         </div>
       </aside>
     </div>
+  </div>
   );
 }

@@ -651,10 +651,10 @@ export default function AuditWizard() {
                     {steps[step]?.title ?? "Resultado"} · {progress}%
                   </span>
                 </div>
-                <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slate-200/70 dark:bg-slate-700/60">
+                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-200/70 dark:bg-slate-700/60">
                   <div
-                    className="h-full origin-left rounded-full bg-brand-500/80 transition-transform"
-                    style={{ transform: `scaleX(${progress / 100})` }}
+                    className="h-full rounded-full bg-[linear-gradient(90deg,#0e1d4a,#4168e1,#6389ff)] shadow-[0_6px_16px_-10px_rgba(65,104,225,0.9)] transition-[width] duration-300"
+                    style={{ width: `${progress}%` }}
                   />
                 </div>
               </div>
