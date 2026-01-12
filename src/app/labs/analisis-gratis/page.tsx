@@ -79,25 +79,31 @@ export default function AuditPage() {
               <Button as="a" href="/#contacto" variant="ghost">Adaptar a mi empresa</Button>
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
-              {stats.map((s) => (
-                <div key={s.label} className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
-                  <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{s.label}</p>
+              {stats.map((s, index) => (
+                <div
+                  key={s.label}
+                  className="rounded-2xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 shadow-[0_16px_40px_-30px_rgba(14,29,74,0.35)] dark:border-slate-700"
+                >
+                  <p className="text-[10px] uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">0{index + 1}</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{s.label}</p>
                   <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">{s.value}</p>
                 </div>
               ))}
             </div>
-            <div className="rounded-2xl border border-brand-100 bg-brand-50/70 px-4 py-3 text-xs text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+            <div className="rounded-2xl border border-brand-100 bg-brand-50/80 px-4 py-3 text-xs text-brand-700 shadow-[0_12px_30px_-24px_rgba(65,104,225,0.35)] dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
               Te llevara 5-8 min. Resultado inmediato. Sin registro. Email opcional.
             </div>
           </div>
 
           <aside className="space-y-4">
-            <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-[0_20px_60px_-40px_rgba(14,29,74,0.45)] backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80">
+            <div className="rounded-3xl border border-slate-200 bg-white/90 dark:bg-slate-900/80 p-6 shadow-[0_20px_60px_-40px_rgba(14,29,74,0.45)] backdrop-blur-sm dark:border-slate-700">
               <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Incluye</p>
               <ul className="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-300">
-                {benefits.map((b) => (
-                  <li key={b} className="flex items-start gap-2">
-                    <span aria-hidden className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
+                {benefits.map((b, index) => (
+                  <li key={b} className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white/80 p-3 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+                    <span className="mt-0.5 inline-flex h-7 w-7 flex-none items-center justify-center rounded-full border border-brand-100 bg-brand-50 text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-700 dark:border-brand-500/30 dark:bg-brand-500/10 dark:text-brand-200">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
                     <span>{b}</span>
                   </li>
                 ))}
@@ -107,7 +113,7 @@ export default function AuditPage() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80">
+            <div className="rounded-3xl border border-slate-200 bg-white/90 dark:bg-slate-900/80 p-6 shadow-sm backdrop-blur-sm dark:border-slate-700">
               <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Privacidad</p>
               <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">
                 Cumplimos RGPD. Tus datos se usan solo para generar el informe y, si lo pides, enviarte el PDF.
@@ -123,3 +129,4 @@ export default function AuditPage() {
     </main>
   );
 }
+
