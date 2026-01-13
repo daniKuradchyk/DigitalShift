@@ -220,7 +220,7 @@ function NumberField({
       <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
         {label}
       </label>
-      <div className="relative flex h-11 items-center rounded-2xl border border-slate-200 bg-white/85 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75">
+      <div className="relative flex h-10 items-center rounded-2xl border border-slate-200 bg-white/85 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75 sm:h-11">
         <input
           id={id}
           type="number"
@@ -272,7 +272,7 @@ function TextField({
       <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
         {label}
       </label>
-      <div className="relative flex h-11 items-center rounded-2xl border border-slate-200 bg-white/85 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75">
+      <div className="relative flex h-10 items-center rounded-2xl border border-slate-200 bg-white/85 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75 sm:h-11">
         <input
           id={id}
           type="text"
@@ -305,7 +305,7 @@ function SelectField({ id, label, value, onChange, options, help }: SelectFieldP
       <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
         {label}
       </label>
-      <div className="relative flex h-11 items-center rounded-2xl border border-slate-200 bg-white/85 px-2 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75">
+      <div className="relative flex h-10 items-center rounded-2xl border border-slate-200 bg-white/85 px-2 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75 sm:h-11">
         <select
           id={id}
           value={value}
@@ -346,7 +346,7 @@ type RadioCardProps = {
 function RadioCard({ name, value, checked, onChange, title, description, icon }: RadioCardProps) {
   return (
     <label
-      className={`group relative flex cursor-pointer flex-col gap-2 overflow-hidden rounded-2xl border px-4 py-3 text-sm transition focus-within:ring-2 focus-within:ring-brand-200 ${
+      className={`group relative flex cursor-pointer flex-col gap-2 overflow-hidden rounded-2xl border px-3 py-3 text-sm transition focus-within:ring-2 focus-within:ring-brand-200 sm:px-4 sm:py-3 ${
         checked
           ? "border-brand-400 bg-white/90 text-slate-900 shadow-[0_16px_40px_-26px_rgba(14,29,74,0.45)] dark:border-brand-500/50 dark:bg-slate-900/80 dark:text-white"
           : "border-slate-200 bg-white/70 text-slate-700 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
@@ -358,7 +358,7 @@ function RadioCard({ name, value, checked, onChange, title, description, icon }:
         className={`absolute left-0 top-0 h-full w-1 ${checked ? "bg-[linear-gradient(180deg,#0e1d4a,#4168e1,#6389ff)]" : "bg-transparent"}`}
       />
       <div className="flex items-center gap-2">
-        <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-brand-100 bg-brand-50 text-brand-700 shadow-sm dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+        <span className="inline-flex h-7 w-7 items-center justify-center rounded-xl border border-brand-100 bg-brand-50 text-brand-700 shadow-sm dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200 sm:h-8 sm:w-8">
           {icon}
         </span>
         <span className="text-sm font-semibold">{title}</span>
@@ -378,7 +378,7 @@ type ToggleProps = {
 function Toggle({ label, description, checked, onChange }: ToggleProps) {
   return (
     <label
-      className={`group flex cursor-pointer items-center justify-between gap-4 rounded-2xl border px-4 py-3 text-sm shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] transition hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-brand-200 ${
+      className={`group flex cursor-pointer flex-col gap-3 rounded-2xl border px-4 py-3 text-sm shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] transition hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-brand-200 sm:flex-row sm:items-center sm:justify-between sm:gap-4 ${
         checked
           ? "border-brand-400 bg-brand-50/70 text-slate-900 dark:border-brand-500/50 dark:bg-brand-500/10 dark:text-slate-100"
           : "border-slate-200 bg-white/80 text-slate-700 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200"
@@ -423,7 +423,7 @@ function SummaryRow({ label, value }: SummaryRowProps) {
 
 function IconBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-brand-100 bg-brand-50 text-brand-700 shadow-sm dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+    <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl border border-brand-100 bg-brand-50 text-brand-700 shadow-sm dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200 sm:h-10 sm:w-10">
       {children}
     </span>
   );
@@ -440,9 +440,9 @@ function StepHeader({ stepId, title, description, icon }: StepHeaderProps) {
   return (
     <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/85 p-4 sm:p-5 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/80">
       <div aria-hidden className="absolute inset-y-0 left-0 w-1.5 bg-[linear-gradient(180deg,#0e1d4a,#4168e1,#6389ff)]" />
-      <div className="relative flex items-start gap-4">
+      <div className="relative flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
         <IconBadge>{icon}</IconBadge>
-        <div className="space-y-1">
+        <div className="min-w-0 space-y-1">
           <p className="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Paso {stepId}</p>
           <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100">{title}</h4>
           <p className="text-sm text-slate-600 dark:text-slate-300">{description}</p>
@@ -830,7 +830,7 @@ export default function Calculator() {
 
   return (
     <div className="grid gap-5 sm:gap-6 xl:grid-cols-[220px_minmax(0,1fr)_340px] items-start">
-      <nav className="order-1 xl:order-none">
+      <nav className="order-1 min-w-0 xl:order-none">
         <div className="rounded-3xl border border-slate-200 bg-white/85 p-4 sm:p-5 shadow-[0_18px_50px_-40px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/80">
           <div className="flex items-center justify-between">
             <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Ruta de calculo</p>
@@ -882,8 +882,8 @@ export default function Calculator() {
         </div>
       </nav>
 
-      <div className="order-2 xl:order-none space-y-6">
-        <div className="relative overflow-hidden rounded-[28px] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.94))] p-4 sm:p-6 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.6)] dark:border-slate-700 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,0.95))] lg:p-8 sm:rounded-[32px]">
+      <div className="order-2 min-w-0 space-y-6 xl:order-none">
+        <div className="relative w-full max-w-full overflow-hidden rounded-[24px] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.94))] p-3 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.6)] dark:border-slate-700 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,0.95))] sm:rounded-[28px] sm:p-5 lg:p-6 xl:rounded-[32px] xl:p-8">
           <div aria-hidden className="pointer-events-none absolute inset-0">
             <div className="absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_12%_12%,rgba(99,137,255,0.18),transparent_55%),radial-gradient(circle_at_88%_0%,rgba(14,29,74,0.14),transparent_45%)]" />
             <div className="absolute inset-0 opacity-40 bg-[linear-gradient(rgba(15,23,42,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.08)_1px,transparent_1px)] [background-size:32px_32px] dark:bg-[linear-gradient(rgba(148,163,184,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.1)_1px,transparent_1px)]" />
@@ -891,7 +891,7 @@ export default function Calculator() {
           <div className="relative space-y-6">
             <header className="space-y-3">
               <p className="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Formulario guiado</p>
-              <h3 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Estimacion IRPF paso a paso</h3>
+              <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 sm:text-2xl">Estimacion IRPF paso a paso</h3>
               <p className="text-sm text-slate-600 dark:text-slate-300">
                 Completa cada bloque con importes anuales. El resultado se actualiza al finalizar.
               </p>
@@ -918,7 +918,7 @@ export default function Calculator() {
                 description="Define tu escenario fiscal y la residencia para orientar el calculo."
                 icon={Icons.user}
               />
-              <fieldset className="grid gap-3 lg:grid-cols-3">
+              <fieldset className="grid gap-3 xl:grid-cols-3">
                 <RadioCard
                   name="situation"
                   value="employee"
@@ -948,7 +948,7 @@ export default function Calculator() {
                 />
               </fieldset>
 
-              <div className="grid gap-4 lg:grid-cols-2">
+              <div className="grid gap-4 xl:grid-cols-2">
                 <SelectField
                   id="tax-year"
                   label="Año fiscal"
@@ -989,7 +989,7 @@ export default function Calculator() {
                 icon={Icons.wallet}
               />
 
-              <div className={`grid gap-4 ${showWork && showAutonomo ? "lg:grid-cols-2" : ""}`}>
+              <div className={`grid gap-4 ${showWork && showAutonomo ? "xl:grid-cols-2" : ""}`}>
                 {showWork ? (
                   <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-[0_16px_40px_-30px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/70">
                   <div className="flex items-start justify-between gap-3">
@@ -1003,7 +1003,7 @@ export default function Calculator() {
                     <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-600 dark:text-brand-200">Nomina</span>
                   </div>
 
-                    <div className="mt-4 grid gap-4 lg:grid-cols-2">
+                    <div className="mt-4 grid gap-4 xl:grid-cols-2">
                       <NumberField id="work-gross" label="Salario bruto anual" value={workGross} onChange={setWorkGross} suffix="EUR" />
                       <NumberField id="work-withhold" label="Retenciones IRPF (total anual)" value={workWithhold} onChange={setWorkWithhold} suffix="EUR" />
                       <NumberField id="work-ss" label="Cotizaciones SS trabajador" value={workSs} onChange={setWorkSs} suffix="EUR" />
@@ -1033,7 +1033,7 @@ export default function Calculator() {
                       ) : (
                         <div className="space-y-3">
                           {otherPayers.map((payer, index) => (
-                            <div key={payer.id} className="grid gap-3 lg:grid-cols-[1fr_1fr_1fr_auto] items-end">
+                            <div key={payer.id} className="grid gap-3 xl:grid-cols-[1fr_1fr_1fr_auto] items-end">
                               <NumberField
                                 id={`payer-${payer.id}-gross`}
                                 label={`Pagador ${index + 2} - bruto`}
@@ -1120,7 +1120,7 @@ export default function Calculator() {
 
                   {autonomoMode === "directa" ? (
                     <div className="mt-4 space-y-4">
-                      <div className="grid gap-4 lg:grid-cols-2">
+                      <div className="grid gap-4 xl:grid-cols-2">
                         <NumberField id="auto-income" label="Ingresos integros (sin IVA)" value={autoIncome} onChange={setAutoIncome} suffix="EUR" />
                         <NumberField
                           id="auto-expenses"
@@ -1134,7 +1134,7 @@ export default function Calculator() {
                         <NumberField id="auto-modelo130" label="Pagos fraccionados Modelo 130" value={autoModelo130} onChange={setAutoModelo130} suffix="EUR" />
                       </div>
 
-                      <div className="grid gap-3 lg:grid-cols-2">
+                      <div className="grid gap-3 xl:grid-cols-2">
                         <div className="space-y-2">
                           <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Cuota RETA</p>
                           <div className="flex flex-wrap gap-2">
@@ -1186,7 +1186,7 @@ export default function Calculator() {
                         En modulos, el beneficio se calcula por parametros objetivos. El 1% en factura es una retencion a cuenta, no el impuesto final.
                       </div>
 
-                      <div className="grid gap-4 lg:grid-cols-2">
+                      <div className="grid gap-4 xl:grid-cols-2">
                         <SelectField
                           id="modulos-year"
                           label="Año fiscal (modulos)"
@@ -1226,7 +1226,7 @@ export default function Calculator() {
 
                       {modulosMode === "simple" ? (
                         <div className="space-y-4">
-                          <div className="grid gap-4 lg:grid-cols-2">
+                          <div className="grid gap-4 xl:grid-cols-2">
                             <NumberField
                               id="modulos-net-annual"
                               label="Rendimiento neto anual a efectos de pago fraccionado"
@@ -1268,7 +1268,7 @@ export default function Calculator() {
 
                           {modulosActivity ? (
                             <div className="space-y-4">
-                              <div className="grid gap-4 lg:grid-cols-2">
+                              <div className="grid gap-4 xl:grid-cols-2">
                                 {modulosActivity.modules.map((module) => (
                                   <NumberField
                                     key={module.key}
@@ -1283,7 +1283,7 @@ export default function Calculator() {
                               </div>
 
                               {modulosActivity.specialIndices?.length ? (
-                                <div className="grid gap-4 lg:grid-cols-2">
+                                <div className="grid gap-4 xl:grid-cols-2">
                                   {modulosActivity.specialIndices.map((index) => (
                                     <SelectField
                                       key={index.key}
@@ -1300,7 +1300,7 @@ export default function Calculator() {
                                 </div>
                               ) : null}
 
-                              <div className="grid gap-4 lg:grid-cols-2">
+                              <div className="grid gap-4 xl:grid-cols-2">
                                 <NumberField
                                   id="modulos-minorations"
                                   label="Minoraciones por incentivos (opcional)"
@@ -1317,7 +1317,7 @@ export default function Calculator() {
                                 />
                               </div>
 
-                              <div className="grid gap-4 lg:grid-cols-2">
+                              <div className="grid gap-4 xl:grid-cols-2">
                                 <NumberField
                                   id="modulos-days-assisted"
                                   label="Dias de actividad en el año"
@@ -1346,7 +1346,7 @@ export default function Calculator() {
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Pagos a cuenta</span>
                         </div>
-                        <div className="mt-3 grid gap-4 lg:grid-cols-2">
+                        <div className="mt-3 grid gap-4 xl:grid-cols-2">
                           <NumberField
                             id="modulos-payments"
                             label="Pagos Modelo 131 ingresados (opcional)"
@@ -1382,7 +1382,7 @@ export default function Calculator() {
                           />
                         </div>
 
-                        <div className="mt-3 grid gap-4 lg:grid-cols-2">
+                        <div className="mt-3 grid gap-4 xl:grid-cols-2">
                           <TextField
                             id="modulos-withholding-search"
                             label="Buscar actividad con retencion 1% (opcional)"
@@ -1420,7 +1420,7 @@ export default function Calculator() {
                         ) : null}
                       </div>
 
-                      <div className="grid gap-4 lg:grid-cols-2">
+                      <div className="grid gap-4 xl:grid-cols-2">
                         <NumberField
                           id="modulos-income-total"
                           label="Ingresos totales anuales (opcional)"
@@ -1469,7 +1469,7 @@ export default function Calculator() {
                 icon={Icons.users}
               />
 
-              <div className="grid gap-4 lg:grid-cols-2">
+              <div className="grid gap-4 xl:grid-cols-2">
                 <NumberField id="age" label="Edad" value={age} onChange={setAge} step="1" suffix="años" />
                 <SelectField
                   id="joint"
@@ -1525,7 +1525,7 @@ export default function Calculator() {
 
               {showAutonomo && !isModulos ? (
                 <>
-                  <div className="grid gap-4 lg:grid-cols-2">
+                  <div className="grid gap-4 xl:grid-cols-2">
                     <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-[0_16px_40px_-30px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/70">
                       <div className="flex items-start gap-3">
                         <IconBadge>{Icons.home}</IconBadge>
@@ -1536,7 +1536,7 @@ export default function Calculator() {
                           </p>
                         </div>
                       </div>
-                      <div className="mt-3 grid gap-3 lg:grid-cols-2">
+                      <div className="mt-3 grid gap-3 xl:grid-cols-2">
                         <NumberField id="office-area" label="m2 afectos" value={officeArea} onChange={setOfficeArea} step="0.1" />
                         <NumberField id="home-area" label="m2 vivienda" value={homeArea} onChange={setHomeArea} step="0.1" />
                         <NumberField
@@ -1570,7 +1570,7 @@ export default function Calculator() {
                           </p>
                         </div>
                       </div>
-                      <div className="mt-3 grid gap-3 lg:grid-cols-2">
+                      <div className="mt-3 grid gap-3 xl:grid-cols-2">
                         <NumberField
                           id="meals-spain-no"
                           label="Dias sin pernocta (Espana)"
@@ -1661,7 +1661,7 @@ export default function Calculator() {
                     </div>
                   </div>
 
-                  <div className="grid gap-4 lg:grid-cols-2">
+                  <div className="grid gap-4 xl:grid-cols-2">
                     <div className="rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70">
                       <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Base general</p>
                       <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
@@ -1767,7 +1767,7 @@ export default function Calculator() {
         </div>
       </div>
 
-      <aside className="order-3 xl:order-none space-y-4 lg:sticky lg:top-24">
+      <aside className="order-3 min-w-0 space-y-4 lg:sticky lg:top-24 xl:order-none">
         <div className="rounded-3xl border border-slate-200 bg-white/85 p-4 sm:p-6 shadow-[0_18px_50px_-36px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/75">
           <div className="flex items-center gap-3">
             <IconBadge>{Icons.list}</IconBadge>
@@ -1809,5 +1809,6 @@ export default function Calculator() {
   </div>
   );
 }
+
 
 
