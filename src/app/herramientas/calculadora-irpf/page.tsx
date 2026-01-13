@@ -9,9 +9,9 @@ import FeedbackForm from "./FeedbackForm";
 import { canonical, openGraphImage, titleTemplate } from "@/lib/seo";
 import { faqJsonLd } from "@/lib/jsonld";
 
-const pageTitle = "Calculadora IRPF y gastos autonomo";
+const pageTitle = "Estimador de cuota IRPF anual";
 const pageDescription =
-  "Calculadora IRPF para cuenta ajena, autonomos y pluriactividad. Estima cuota diferencial con desglose y avisos legales. No guarda datos.";
+  "Estimador de cuota IRPF para cuenta ajena, autonomos y pluriactividad. Calcula cuota diferencial con desglose y avisos legales. No guarda datos.";
 
 export const metadata: Metadata = {
   title: titleTemplate(pageTitle),
@@ -40,7 +40,7 @@ const faqItems = [
     a: "No. Es una estimacion orientativa para entender tu situacion. Para casos complejos consulta a un asesor o la AEAT.",
   },
   {
-    q: "Que regimen incluye la calculadora?",
+    q: "Que regimen incluye el estimador?",
     a: "Solo regimen comun (AEAT). Pais Vasco y Navarra no estan soportados.",
   },
   {
@@ -71,26 +71,26 @@ export default function CalculatorPage() {
           </div>
         </div>
 
-        <section className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start">
+        <section className="grid gap-8 sm:gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start">
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-brand-100 bg-brand-50/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-brand-700 dark:border-brand-500/30 dark:bg-brand-500/10 dark:text-brand-200">
               Herramienta gratuita
             </div>
             <div className="max-w-xl space-y-3">
-              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Calculadora IRPF / Autonomo</h1>
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Estimador de cuota IRPF anual</h1>
               <p className="text-slate-700 dark:text-slate-300">
                 Estimacion rapida para cuenta ajena, autonomo (directa o modulos) o pluriactividad. Incluye desglose por tramos, deducciones basicas
                 y avisos de precision.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Button as="a" href="#calculadora" variant="shine">Ir a la calculadora</Button>
-              <Button as="a" href="#metodologia" variant="ghost">Fuentes y metodologia</Button>
+              <Button as="a" href="#calculadora" variant="shine" className="w-full sm:w-auto">Ir al estimador</Button>
+              <Button as="a" href="#metodologia" variant="ghost" className="w-full sm:w-auto">Fuentes y metodologia</Button>
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
               {[
                 { label: "Modo", value: "Estimador" },
-                { label: "Años", value: "2024-2025" },
+                { label: "Ejercicio", value: "2024-2025" },
                 { label: "Datos", value: "No guardados" },
               ].map((s) => (
                 <div key={s.label} className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
@@ -102,7 +102,7 @@ export default function CalculatorPage() {
           </div>
 
           <aside className="space-y-4">
-            <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-[0_20px_60px_-40px_rgba(14,29,74,0.45)] backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80">
+            <div className="rounded-3xl border border-slate-200 bg-white/90 p-4 sm:p-6 shadow-[0_20px_60px_-40px_rgba(14,29,74,0.45)] backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80">
               <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Incluye</p>
               <ul className="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-300">
                 <li className="flex items-start gap-2">
@@ -123,7 +123,7 @@ export default function CalculatorPage() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80">
+            <div className="rounded-3xl border border-slate-200 bg-white/90 p-4 sm:p-6 shadow-sm backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80">
               <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Nota legal</p>
               <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">
                 Estimacion orientativa. No sustituye asesoramiento profesional. Normativa cambia por año y CCAA.
@@ -175,8 +175,8 @@ export default function CalculatorPage() {
                 </li>
               </ul>
             </div>
-            <div className="rounded-3xl border border-brand-100 bg-brand-50/80 p-6 text-sm text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
-              Si necesitas adaptar la calculadora a un caso real o integrar tus datos, escribenos desde el formulario de contacto.
+            <div className="rounded-3xl border border-brand-100 bg-brand-50/80 p-4 sm:p-6 text-sm text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+              Si necesitas adaptar el estimador a un caso real o integrar tus datos, escribenos desde el formulario de contacto.
             </div>
           </div>
         </section>
@@ -184,12 +184,12 @@ export default function CalculatorPage() {
         <section id="feedback" className="mt-12 grid gap-6 lg:grid-cols-[1.05fr_0.95fr] items-start">
           <div className="space-y-4">
             <div className="space-y-2">
-              <h2 className="text-2xl font-bold tracking-tight">Feedback para mejorar la calculadora</h2>
+              <h2 className="text-2xl font-bold tracking-tight">Feedback para mejorar el estimador</h2>
               <p className="text-sm text-slate-600 dark:text-slate-300">
                 Si detectas un error en el calculo o en los datos, cuentanoslo aqui. Revisamos cada mensaje y ajustamos la herramienta.
               </p>
             </div>
-            <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 text-sm text-slate-700 shadow-sm dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200">
+            <div className="rounded-3xl border border-slate-200 bg-white/90 p-4 sm:p-6 text-sm text-slate-700 shadow-sm dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200">
               <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Que necesitamos</p>
               <ul className="mt-3 space-y-2">
                 <li className="flex items-start gap-2">

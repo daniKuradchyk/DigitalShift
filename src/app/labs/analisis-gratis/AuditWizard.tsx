@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useMemo, useState } from "react";
 import Button from "@/components/common/Button";
@@ -198,7 +198,7 @@ type RadioCardProps = {
 function RadioCard({ name, value, checked, onChange, title, description, icon }: RadioCardProps) {
   return (
     <label
-      className={`group relative flex cursor-pointer flex-col gap-3 overflow-hidden rounded-2xl border px-4 py-4 text-sm transition focus-within:ring-2 focus-within:ring-brand-200 ${
+      className={`group relative flex cursor-pointer flex-col gap-2 overflow-hidden rounded-2xl border px-3 py-3 text-sm transition focus-within:ring-2 focus-within:ring-brand-200 sm:gap-3 sm:px-4 sm:py-4 ${
         checked
           ? "border-brand-400 bg-white/90 text-slate-900 shadow-[0_18px_40px_-28px_rgba(14,29,74,0.55)] dark:border-brand-500/50 dark:bg-slate-900/80 dark:text-white"
           : "border-slate-200 bg-white/70 text-slate-700 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-300"
@@ -210,7 +210,7 @@ function RadioCard({ name, value, checked, onChange, title, description, icon }:
         className={`absolute left-0 top-0 h-full w-1 ${checked ? "bg-[linear-gradient(180deg,#0e1d4a,#4168e1,#6389ff)]" : "bg-transparent"}`}
       />
       <div className="flex items-center gap-2">
-        <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-brand-100 bg-brand-50 text-brand-700 shadow-sm dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+        <span className="inline-flex h-7 w-7 items-center justify-center rounded-xl border border-brand-100 bg-brand-50 text-brand-700 shadow-sm dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200 sm:h-8 sm:w-8">
           {icon}
         </span>
         <span className="text-sm font-semibold">{title}</span>
@@ -235,7 +235,7 @@ function SelectField({ id, label, value, onChange, options, help }: SelectFieldP
       <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
         {label}
       </label>
-      <div className="relative flex h-11 items-center rounded-2xl border border-slate-200 bg-white/85 px-2 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75">
+      <div className="relative flex h-10 items-center rounded-2xl border border-slate-200 bg-white/85 px-2 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75 sm:h-11">
         <select
           id={id}
           value={value}
@@ -269,19 +269,19 @@ type ToggleProps = {
 function Toggle({ label, description, checked, onChange }: ToggleProps) {
   return (
     <label
-      className={`group flex cursor-pointer items-center justify-between gap-4 rounded-2xl border px-4 py-3 text-sm shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] transition hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-brand-200 ${
+      className={`group flex cursor-pointer flex-col gap-3 rounded-2xl border px-4 py-3 text-sm shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] transition hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-brand-200 sm:flex-row sm:items-center sm:justify-between sm:gap-4 ${
         checked
           ? "border-brand-400 bg-brand-50/70 text-slate-900 dark:border-brand-500/50 dark:bg-brand-500/10 dark:text-slate-100"
           : "border-slate-200 bg-white/80 text-slate-700 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200"
       }`}
     >
-      <span>
+      <span className="min-w-0 flex-1">
         <span className="block font-semibold">{label}</span>
         {description ? <span className="block text-xs text-slate-500 dark:text-slate-400">{description}</span> : null}
       </span>
       <span
         aria-hidden
-        className={`relative h-6 w-11 rounded-full border transition ${
+        className={`relative h-6 w-11 flex-none rounded-full border transition ${
           checked
             ? "border-brand-500/70 bg-brand-500/20"
             : "border-slate-300 bg-slate-200/70 dark:border-slate-700 dark:bg-slate-800"
@@ -314,7 +314,7 @@ function TextField({ id, label, value, onChange, placeholder, inputMode = "text"
       <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
         {label}
       </label>
-      <div className="relative flex h-11 items-center rounded-2xl border border-slate-200 bg-white/85 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75">
+      <div className="relative flex h-10 items-center rounded-2xl border border-slate-200 bg-white/85 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75 sm:h-11">
         <input
           id={id}
           type="text"
@@ -374,7 +374,7 @@ function SummaryRow({ label, value }: SummaryRowProps) {
 
 function IconBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-brand-100 bg-brand-50 text-brand-700 shadow-sm dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+    <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl border border-brand-100 bg-brand-50 text-brand-700 shadow-sm dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200 sm:h-10 sm:w-10">
       {children}
     </span>
   );
@@ -389,11 +389,11 @@ type StepHeaderProps = {
 
 function StepHeader({ stepId, title, description, icon }: StepHeaderProps) {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/85 p-5 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/80">
+    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/85 p-4 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/80 sm:p-5">
       <div aria-hidden className="absolute inset-y-0 left-0 w-1.5 bg-[linear-gradient(180deg,#0e1d4a,#4168e1,#6389ff)]" />
-      <div className="relative flex items-start gap-4">
+      <div className="relative flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
         <IconBadge>{icon}</IconBadge>
-        <div className="space-y-1">
+        <div className="min-w-0 space-y-1">
           <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Paso {stepId}</p>
           <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100">{title}</h4>
           <p className="text-sm text-slate-600 dark:text-slate-300">{description}</p>
@@ -560,14 +560,14 @@ export default function AuditWizard() {
   }, [result]);
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[220px_minmax(0,1fr)_320px] items-start">
-      <nav className="order-2 xl:order-none">
-        <div className="rounded-3xl border border-slate-200 bg-white/85 p-4 shadow-[0_18px_50px_-40px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/80">
+    <div className="grid gap-5 sm:gap-6 xl:grid-cols-[220px_minmax(0,1fr)_320px] items-start">
+      <nav className="order-1 min-w-0 xl:order-none">
+        <div className="rounded-3xl border border-slate-200 bg-white/85 p-4 sm:p-5 shadow-[0_18px_50px_-40px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/80">
           <div className="flex items-center justify-between">
             <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Ruta del analisis</p>
             <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">{progress}%</span>
           </div>
-          <div className="mt-4 flex gap-2 overflow-x-auto pb-2 xl:block xl:space-y-2 xl:overflow-visible xl:pb-0">
+          <div className="mt-4 flex gap-2 overflow-x-auto pb-2 snap-x snap-mandatory scroll-px-4 xl:block xl:space-y-2 xl:overflow-visible xl:pb-0 xl:snap-none">
             {steps.map((s, index) => {
               const isActive = index === step;
               const isDone = index < step;
@@ -576,7 +576,7 @@ export default function AuditWizard() {
                   key={s.id}
                   type="button"
                   onClick={() => setStep(index)}
-                  className={`group relative flex min-w-[170px] items-start gap-3 overflow-hidden rounded-2xl border px-3 py-3 text-left text-xs transition xl:min-w-0 ${
+                  className={`group relative flex min-w-[150px] snap-start items-start gap-3 overflow-hidden rounded-2xl border px-3 py-3 text-left text-xs transition sm:min-w-[170px] xl:min-w-0 ${
                     isActive
                       ? "border-brand-400 bg-brand-50/80 text-brand-800 shadow-[0_16px_36px_-26px_rgba(14,29,74,0.45)] dark:border-brand-500/60 dark:bg-brand-500/10 dark:text-brand-200"
                       : "border-slate-200 bg-white/75 text-slate-600 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
@@ -613,20 +613,20 @@ export default function AuditWizard() {
         </div>
       </nav>
 
-      <div className="order-1 xl:order-none space-y-6">
-        <div className="relative overflow-hidden rounded-[32px] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.94))] p-6 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.6)] dark:border-slate-700 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,0.95))] lg:p-8">
+      <div className="order-2 min-w-0 space-y-6 xl:order-none">
+        <div className="relative w-full max-w-full overflow-hidden rounded-[24px] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.94))] p-3 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.6)] dark:border-slate-700 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,0.95))] sm:rounded-[28px] sm:p-5 lg:p-6 xl:rounded-[32px] xl:p-8">
           <div aria-hidden className="pointer-events-none absolute inset-0">
             <div className="absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_12%_12%,rgba(99,137,255,0.18),transparent_55%),radial-gradient(circle_at_88%_0%,rgba(14,29,74,0.14),transparent_45%)]" />
             <div className="absolute inset-0 opacity-40 bg-[linear-gradient(rgba(15,23,42,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.08)_1px,transparent_1px)] [background-size:32px_32px] dark:bg-[linear-gradient(rgba(148,163,184,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.1)_1px,transparent_1px)]" />
           </div>
           <div className="relative space-y-6">
             <header className="space-y-4">
-              <div className="flex flex-wrap items-start justify-between gap-6">
+              <div className="flex flex-wrap items-start justify-between gap-4 sm:gap-6">
                 <div className="space-y-3">
                   <p className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
                     Diagnostico guiado
                   </p>
-                  <h3 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Analisis rapido en 5-8 min</h3>
+                  <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 sm:text-2xl">Analisis rapido en 5-8 min</h3>
                   <p className="text-sm text-slate-600 dark:text-slate-300">
                     Marca las respuestas mas cercanas a tu realidad. El resultado aparece al instante.
                   </p>
@@ -642,13 +642,13 @@ export default function AuditWizard() {
                   </div>
                 </div>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-white/75 px-4 py-3 text-xs shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70">
+              <div className="rounded-2xl border border-slate-200 bg-white/75 px-3 py-2.5 text-xs shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 sm:px-4 sm:py-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
                     Paso {steps[step]?.id ?? "9"} de {steps.length}
                   </span>
                   <span className="text-xs text-slate-500 dark:text-slate-400">
-                    {steps[step]?.title ?? "Resultado"} · {progress}%
+                    {steps[step]?.title ?? "Resultado"} Â· {progress}%
                   </span>
                 </div>
                 <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-200/70 dark:bg-slate-700/60">
@@ -669,7 +669,7 @@ export default function AuditWizard() {
                   description="Selecciona el perfil que mas se parezca a tu negocio."
                   icon={Icons.user}
                 />
-                <fieldset className="grid gap-3 sm:grid-cols-2">
+                <fieldset className="grid gap-3 xl:grid-cols-2">
                   {verticalOptions.map((option) => (
                     <RadioCard
                       key={option.value}
@@ -694,7 +694,7 @@ export default function AuditWizard() {
                   description="Elige la prioridad para este trimestre."
                   icon={Icons.target}
                 />
-                <fieldset className="grid gap-3 sm:grid-cols-2">
+                <fieldset className="grid gap-3 xl:grid-cols-2">
                   {goalOptions.map((option) => (
                     <RadioCard
                       key={option.value}
@@ -719,7 +719,7 @@ export default function AuditWizard() {
                   description="Web, redes, tracking y canal principal."
                   icon={Icons.globe}
                 />
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-4 xl:grid-cols-2">
                   <SelectField
                     id="websiteStatus"
                     label="Estado de la web"
@@ -813,7 +813,7 @@ export default function AuditWizard() {
                   description={`Como gestionas ${pipelineLabel} y seguimiento.`}
                   icon={Icons.sales}
                 />
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-4 xl:grid-cols-2">
                   <SelectField
                     id="leadTool"
                     label={`Herramienta para ${pipelineLabel}`}
@@ -877,7 +877,7 @@ export default function AuditWizard() {
                   description="Procesos, repeticion y errores."
                   icon={Icons.settings}
                 />
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-4 xl:grid-cols-2">
                   <SelectField
                     id="repetition"
                     label="Nivel de tareas repetitivas"
@@ -963,7 +963,7 @@ export default function AuditWizard() {
                   description="KPIs, reporting y herramientas."
                   icon={Icons.chart}
                 />
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-4 xl:grid-cols-2">
                   <SelectField
                     id="kpiUsage"
                     label="Uso de KPIs"
@@ -1025,7 +1025,7 @@ export default function AuditWizard() {
                   description="Seguridad basica y RGPD."
                   icon={Icons.shield}
                 />
-                <div className="grid gap-3 sm:grid-cols-2">
+                <div className="grid gap-3 xl:grid-cols-2">
                   <Toggle
                     label="Backups automaticos"
                     description="Copias programadas y verificadas."
@@ -1094,7 +1094,7 @@ export default function AuditWizard() {
                   }
                 />
                 {draft.contact.wantsEmail ? (
-                  <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="grid gap-4 xl:grid-cols-2">
                     <TextField
                       id="contactName"
                       label="Nombre"
@@ -1128,7 +1128,7 @@ export default function AuditWizard() {
                       onChange={(value) => setDraft((prev) => ({ ...prev, contact: { ...prev.contact, phone: value } }))}
                       inputMode="tel"
                     />
-                    <div className="sm:col-span-2 flex items-start gap-2">
+                    <div className="xl:col-span-2 flex items-start gap-2">
                       <input
                         id="consent"
                         type="checkbox"
@@ -1198,7 +1198,7 @@ export default function AuditWizard() {
                   </div>
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid gap-4 xl:grid-cols-2">
                   {scoreCards.map((item) => (
                     <div
                       key={item.label}
@@ -1210,7 +1210,7 @@ export default function AuditWizard() {
                   ))}
                 </div>
 
-                <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+                <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
                   <div className="space-y-4">
                     <div className="rounded-2xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 text-sm text-slate-700 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200">
                       <h5 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Resumen ejecutivo</h5>
@@ -1267,7 +1267,7 @@ export default function AuditWizard() {
 
                 <div className="rounded-2xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 text-sm text-slate-700 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200">
                   <h5 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Matriz impacto vs esfuerzo</h5>
-                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  <div className="mt-3 grid gap-3 xl:grid-cols-2">
                     {result.report.impactMatrix.map((group) => (
                       <div
                         key={group.label}
@@ -1287,14 +1287,14 @@ export default function AuditWizard() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-3">
-                  <Button as="a" href="/#contacto" variant="shine">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <Button as="a" href="/#contacto" variant="shine" className="w-full sm:w-auto">
                     Agendar diagnostico gratis
                   </Button>
-                  <Button as="a" href="/#contacto" variant="ghost">
+                  <Button as="a" href="/#contacto" variant="ghost" className="w-full sm:w-auto">
                     Hablar por DM / Contactar
                   </Button>
-                  <Button variant="ghost" onClick={handlePdfDownload} disabled={pdfStatus === "loading"}>
+                  <Button variant="ghost" onClick={handlePdfDownload} disabled={pdfStatus === "loading"} className="w-full sm:w-auto">
                     {pdfStatus === "loading" ? "Generando PDF..." : "Descargar PDF"}
                   </Button>
                 </div>
@@ -1318,16 +1318,16 @@ export default function AuditWizard() {
             </div>
           ) : null}
 
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-            <Button variant="ghost" onClick={goBack} disabled={step === 0}>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <Button variant="ghost" onClick={goBack} disabled={step === 0} className="w-full sm:w-auto">
               Anterior
             </Button>
             {step < steps.length - 1 ? (
-              <Button variant="shine" onClick={goNext}>
+              <Button variant="shine" onClick={goNext} className="w-full sm:w-auto">
                 {nextLabel}
               </Button>
             ) : (
-              <Button variant="ghost" onClick={() => setStep(0)}>
+              <Button variant="ghost" onClick={() => setStep(0)} className="w-full sm:w-auto">
                 Reiniciar
               </Button>
             )}
@@ -1336,8 +1336,8 @@ export default function AuditWizard() {
         </div>
       </div>
 
-      <aside className="order-3 xl:order-none space-y-4 lg:sticky lg:top-24">
-        <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-6 shadow-[0_18px_50px_-36px_rgba(14,29,74,0.5)] dark:border-slate-700 dark:bg-slate-900/70">
+      <aside className="order-3 min-w-0 space-y-4 lg:sticky lg:top-24 xl:order-none">
+        <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 sm:p-6 shadow-[0_18px_50px_-36px_rgba(14,29,74,0.5)] dark:border-slate-700 dark:bg-slate-900/70">
           <div className="flex items-center gap-3">
             <IconBadge>{Icons.chart}</IconBadge>
             <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Resumen rapido</p>
@@ -1359,7 +1359,7 @@ export default function AuditWizard() {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-6 shadow-[0_16px_46px_-32px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/70">
+        <div className="rounded-3xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 sm:p-6 shadow-[0_16px_46px_-32px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/70">
           <div className="flex items-center gap-3">
             <IconBadge>{Icons.mail}</IconBadge>
             <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Privacidad</p>
@@ -1375,4 +1375,7 @@ export default function AuditWizard() {
     </div>
   );
 }
+
+
+
 

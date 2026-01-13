@@ -384,13 +384,13 @@ function Toggle({ label, description, checked, onChange }: ToggleProps) {
           : "border-slate-200 bg-white/80 text-slate-700 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200"
       }`}
     >
-      <span>
+      <span className="min-w-0 flex-1">
         <span className="block font-semibold">{label}</span>
         {description ? <span className="block text-xs text-slate-500 dark:text-slate-400">{description}</span> : null}
       </span>
       <span
         aria-hidden
-        className={`relative h-6 w-11 rounded-full border transition ${
+        className={`relative h-6 w-11 flex-none rounded-full border transition ${
           checked
             ? "border-brand-500/70 bg-brand-500/20"
             : "border-slate-300 bg-slate-200/70 dark:border-slate-700 dark:bg-slate-800"
@@ -438,7 +438,7 @@ type StepHeaderProps = {
 
 function StepHeader({ stepId, title, description, icon }: StepHeaderProps) {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/85 p-5 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/80">
+    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/85 p-4 sm:p-5 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/80">
       <div aria-hidden className="absolute inset-y-0 left-0 w-1.5 bg-[linear-gradient(180deg,#0e1d4a,#4168e1,#6389ff)]" />
       <div className="relative flex items-start gap-4">
         <IconBadge>{icon}</IconBadge>
@@ -727,7 +727,7 @@ export default function Calculator() {
   const warnings = useMemo(() => {
     const list: string[] = [];
     if (region !== "comun") {
-      list.push("Regimen foral no soportado. Esta calculadora solo cubre regimen comun (AEAT).");
+      list.push("Regimen foral no soportado. Este estimador solo cubre regimen comun (AEAT).");
     }
     if (!ccaa) {
       list.push("CCAA no seleccionada: se usa escala combinada aproximada.");
@@ -829,14 +829,14 @@ export default function Calculator() {
         : `Pluriactividad (${autonomoLabel})`;
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[220px_minmax(0,1fr)_340px] items-start">
+    <div className="grid gap-5 sm:gap-6 xl:grid-cols-[220px_minmax(0,1fr)_340px] items-start">
       <nav className="order-1 xl:order-none">
-        <div className="rounded-3xl border border-slate-200 bg-white/85 p-4 shadow-[0_18px_50px_-40px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/80">
+        <div className="rounded-3xl border border-slate-200 bg-white/85 p-4 sm:p-5 shadow-[0_18px_50px_-40px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/80">
           <div className="flex items-center justify-between">
             <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Ruta de calculo</p>
             <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">{progress}%</span>
           </div>
-          <div className="mt-4 flex gap-2 overflow-x-auto pb-2 xl:block xl:space-y-2 xl:overflow-visible xl:pb-0">
+          <div className="mt-4 flex gap-2 overflow-x-auto pb-2 snap-x snap-mandatory scroll-px-4 xl:block xl:space-y-2 xl:overflow-visible xl:pb-0 xl:snap-none">
             {steps.map((s, index) => {
               const isActive = index === step;
               const isDone = index < step;
@@ -845,7 +845,7 @@ export default function Calculator() {
                   key={s.id}
                   type="button"
                   onClick={() => setStep(index)}
-                  className={`group relative flex min-w-[170px] items-start gap-3 overflow-hidden rounded-2xl border px-3 py-3 text-left text-xs transition xl:min-w-0 ${
+                  className={`group relative flex min-w-[150px] snap-start items-start gap-3 overflow-hidden rounded-2xl border px-3 py-3 text-left text-xs transition sm:min-w-[170px] xl:min-w-0 ${
                     isActive
                       ? "border-brand-400 bg-brand-50/80 text-brand-700 shadow-[0_16px_36px_-26px_rgba(14,29,74,0.45)] dark:border-brand-500/60 dark:bg-brand-500/10 dark:text-brand-200"
                       : "border-slate-200 bg-white/75 text-slate-600 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
@@ -878,12 +878,12 @@ export default function Calculator() {
           </div>
         </div>
         <div className="mt-4 rounded-2xl border border-slate-200 bg-white/85 px-4 py-3 text-xs text-slate-600 shadow-[0_12px_30px_-26px_rgba(14,29,74,0.3)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
-          Calculadora sin registro. Los calculos se ejecutan localmente y no guardan datos.
+          Estimador sin registro. Los calculos se ejecutan localmente y no guardan datos.
         </div>
       </nav>
 
       <div className="order-2 xl:order-none space-y-6">
-        <div className="relative overflow-hidden rounded-[32px] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.94))] p-6 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.6)] dark:border-slate-700 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,0.95))] lg:p-8">
+        <div className="relative overflow-hidden rounded-[28px] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.94))] p-4 sm:p-6 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.6)] dark:border-slate-700 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,0.95))] lg:p-8 sm:rounded-[32px]">
           <div aria-hidden className="pointer-events-none absolute inset-0">
             <div className="absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_12%_12%,rgba(99,137,255,0.18),transparent_55%),radial-gradient(circle_at_88%_0%,rgba(14,29,74,0.14),transparent_45%)]" />
             <div className="absolute inset-0 opacity-40 bg-[linear-gradient(rgba(15,23,42,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.08)_1px,transparent_1px)] [background-size:32px_32px] dark:bg-[linear-gradient(rgba(148,163,184,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.1)_1px,transparent_1px)]" />
@@ -895,7 +895,7 @@ export default function Calculator() {
               <p className="text-sm text-slate-600 dark:text-slate-300">
                 Completa cada bloque con importes anuales. El resultado se actualiza al finalizar.
               </p>
-              <div className="rounded-2xl border border-slate-200 bg-white/75 px-4 py-3 text-xs shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70">
+              <div className="rounded-2xl border border-slate-200 bg-white/75 px-3 py-2.5 text-xs shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 sm:px-4 sm:py-3">
                 <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
                   <span>Paso {steps[step].id} de {steps.length}</span>
                   <span>{steps[step].title} - {progress}%</span>
@@ -918,7 +918,7 @@ export default function Calculator() {
                 description="Define tu escenario fiscal y la residencia para orientar el calculo."
                 icon={Icons.user}
               />
-              <fieldset className="grid gap-3 sm:grid-cols-3">
+              <fieldset className="grid gap-3 lg:grid-cols-3">
                 <RadioCard
                   name="situation"
                   value="employee"
@@ -948,7 +948,7 @@ export default function Calculator() {
                 />
               </fieldset>
 
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 lg:grid-cols-2">
                 <SelectField
                   id="tax-year"
                   label="Año fiscal"
@@ -1003,7 +1003,7 @@ export default function Calculator() {
                     <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-600 dark:text-brand-200">Nomina</span>
                   </div>
 
-                    <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                    <div className="mt-4 grid gap-4 lg:grid-cols-2">
                       <NumberField id="work-gross" label="Salario bruto anual" value={workGross} onChange={setWorkGross} suffix="EUR" />
                       <NumberField id="work-withhold" label="Retenciones IRPF (total anual)" value={workWithhold} onChange={setWorkWithhold} suffix="EUR" />
                       <NumberField id="work-ss" label="Cotizaciones SS trabajador" value={workSs} onChange={setWorkSs} suffix="EUR" />
@@ -1033,7 +1033,7 @@ export default function Calculator() {
                       ) : (
                         <div className="space-y-3">
                           {otherPayers.map((payer, index) => (
-                            <div key={payer.id} className="grid gap-3 sm:grid-cols-[1fr_1fr_1fr_auto] items-end">
+                            <div key={payer.id} className="grid gap-3 lg:grid-cols-[1fr_1fr_1fr_auto] items-end">
                               <NumberField
                                 id={`payer-${payer.id}-gross`}
                                 label={`Pagador ${index + 2} - bruto`}
@@ -1120,7 +1120,7 @@ export default function Calculator() {
 
                   {autonomoMode === "directa" ? (
                     <div className="mt-4 space-y-4">
-                      <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="grid gap-4 lg:grid-cols-2">
                         <NumberField id="auto-income" label="Ingresos integros (sin IVA)" value={autoIncome} onChange={setAutoIncome} suffix="EUR" />
                         <NumberField
                           id="auto-expenses"
@@ -1134,7 +1134,7 @@ export default function Calculator() {
                         <NumberField id="auto-modelo130" label="Pagos fraccionados Modelo 130" value={autoModelo130} onChange={setAutoModelo130} suffix="EUR" />
                       </div>
 
-                      <div className="grid gap-3 sm:grid-cols-2">
+                      <div className="grid gap-3 lg:grid-cols-2">
                         <div className="space-y-2">
                           <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Cuota RETA</p>
                           <div className="flex flex-wrap gap-2">
@@ -1186,7 +1186,7 @@ export default function Calculator() {
                         En modulos, el beneficio se calcula por parametros objetivos. El 1% en factura es una retencion a cuenta, no el impuesto final.
                       </div>
 
-                      <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="grid gap-4 lg:grid-cols-2">
                         <SelectField
                           id="modulos-year"
                           label="Año fiscal (modulos)"
@@ -1226,7 +1226,7 @@ export default function Calculator() {
 
                       {modulosMode === "simple" ? (
                         <div className="space-y-4">
-                          <div className="grid gap-4 sm:grid-cols-2">
+                          <div className="grid gap-4 lg:grid-cols-2">
                             <NumberField
                               id="modulos-net-annual"
                               label="Rendimiento neto anual a efectos de pago fraccionado"
@@ -1268,7 +1268,7 @@ export default function Calculator() {
 
                           {modulosActivity ? (
                             <div className="space-y-4">
-                              <div className="grid gap-4 sm:grid-cols-2">
+                              <div className="grid gap-4 lg:grid-cols-2">
                                 {modulosActivity.modules.map((module) => (
                                   <NumberField
                                     key={module.key}
@@ -1283,7 +1283,7 @@ export default function Calculator() {
                               </div>
 
                               {modulosActivity.specialIndices?.length ? (
-                                <div className="grid gap-4 sm:grid-cols-2">
+                                <div className="grid gap-4 lg:grid-cols-2">
                                   {modulosActivity.specialIndices.map((index) => (
                                     <SelectField
                                       key={index.key}
@@ -1300,7 +1300,7 @@ export default function Calculator() {
                                 </div>
                               ) : null}
 
-                              <div className="grid gap-4 sm:grid-cols-2">
+                              <div className="grid gap-4 lg:grid-cols-2">
                                 <NumberField
                                   id="modulos-minorations"
                                   label="Minoraciones por incentivos (opcional)"
@@ -1317,7 +1317,7 @@ export default function Calculator() {
                                 />
                               </div>
 
-                              <div className="grid gap-4 sm:grid-cols-2">
+                              <div className="grid gap-4 lg:grid-cols-2">
                                 <NumberField
                                   id="modulos-days-assisted"
                                   label="Dias de actividad en el año"
@@ -1346,7 +1346,7 @@ export default function Calculator() {
                         <div className="flex items-center gap-2">
                           <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Pagos a cuenta</span>
                         </div>
-                        <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                        <div className="mt-3 grid gap-4 lg:grid-cols-2">
                           <NumberField
                             id="modulos-payments"
                             label="Pagos Modelo 131 ingresados (opcional)"
@@ -1382,7 +1382,7 @@ export default function Calculator() {
                           />
                         </div>
 
-                        <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                        <div className="mt-3 grid gap-4 lg:grid-cols-2">
                           <TextField
                             id="modulos-withholding-search"
                             label="Buscar actividad con retencion 1% (opcional)"
@@ -1420,7 +1420,7 @@ export default function Calculator() {
                         ) : null}
                       </div>
 
-                      <div className="grid gap-4 sm:grid-cols-2">
+                      <div className="grid gap-4 lg:grid-cols-2">
                         <NumberField
                           id="modulos-income-total"
                           label="Ingresos totales anuales (opcional)"
@@ -1469,7 +1469,7 @@ export default function Calculator() {
                 icon={Icons.users}
               />
 
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 lg:grid-cols-2">
                 <NumberField id="age" label="Edad" value={age} onChange={setAge} step="1" suffix="años" />
                 <SelectField
                   id="joint"
@@ -1507,7 +1507,7 @@ export default function Calculator() {
               <StepHeader
                 stepId="D"
                 title="Gastos helper (opcional)"
-                description="Calculadoras rapidas para gastos deducibles."
+                description="Helpers rapidos para gastos deducibles."
                 icon={Icons.tools}
               />
 
@@ -1536,7 +1536,7 @@ export default function Calculator() {
                           </p>
                         </div>
                       </div>
-                      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                      <div className="mt-3 grid gap-3 lg:grid-cols-2">
                         <NumberField id="office-area" label="m2 afectos" value={officeArea} onChange={setOfficeArea} step="0.1" />
                         <NumberField id="home-area" label="m2 vivienda" value={homeArea} onChange={setHomeArea} step="0.1" />
                         <NumberField
@@ -1570,7 +1570,7 @@ export default function Calculator() {
                           </p>
                         </div>
                       </div>
-                      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                      <div className="mt-3 grid gap-3 lg:grid-cols-2">
                         <NumberField
                           id="meals-spain-no"
                           label="Dias sin pernocta (Espana)"
@@ -1661,7 +1661,7 @@ export default function Calculator() {
                     </div>
                   </div>
 
-                  <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="grid gap-4 lg:grid-cols-2">
                     <div className="rounded-2xl border border-slate-200 bg-white/90 p-4 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70">
                       <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Base general</p>
                       <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
@@ -1754,12 +1754,12 @@ export default function Calculator() {
           </div>
         ) : null}
 
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
-            <Button variant="ghost" onClick={goBack} disabled={step === 0}>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <Button variant="ghost" onClick={goBack} disabled={step === 0} className="w-full sm:w-auto">
               Anterior
             </Button>
             {step < steps.length - 1 ? (
-              <Button variant="shine" onClick={goNext}>
+              <Button variant="shine" onClick={goNext} className="w-full sm:w-auto">
                 {nextLabel}
               </Button>
             ) : null}
@@ -1768,7 +1768,7 @@ export default function Calculator() {
       </div>
 
       <aside className="order-3 xl:order-none space-y-4 lg:sticky lg:top-24">
-        <div className="rounded-3xl border border-slate-200 bg-white/85 p-6 shadow-[0_18px_50px_-36px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/75">
+        <div className="rounded-3xl border border-slate-200 bg-white/85 p-4 sm:p-6 shadow-[0_18px_50px_-36px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/75">
           <div className="flex items-center gap-3">
             <IconBadge>{Icons.list}</IconBadge>
             <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Resumen rapido</p>
@@ -1783,7 +1783,7 @@ export default function Calculator() {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-slate-200 bg-white/85 p-6 shadow-[0_16px_46px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75">
+        <div className="rounded-3xl border border-slate-200 bg-white/85 p-4 sm:p-6 shadow-[0_16px_46px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75">
           <div className="flex items-center gap-3">
             <IconBadge>{Icons.alert}</IconBadge>
             <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Avisos de precision</p>
@@ -1809,3 +1809,5 @@ export default function Calculator() {
   </div>
   );
 }
+
+

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Button from "@/components/common/Button";
@@ -95,11 +95,11 @@ export default function FeedbackForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-[0_20px_60px_-40px_rgba(14,29,74,0.45)] backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80">
+    <form onSubmit={onSubmit} className="rounded-3xl border border-slate-200 bg-white/90 p-4 sm:p-6 shadow-[0_20px_60px_-40px_rgba(14,29,74,0.45)] backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Feedback</p>
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Detectaste un error en la calculadora?</h3>
+          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Detectaste un error en el estimador?</h3>
           <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Tu feedback nos ayuda a mejorar el resultado.</p>
         </div>
         <span className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white/80 px-2.5 py-1 text-xs font-semibold text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
@@ -107,7 +107,7 @@ export default function FeedbackForm() {
         </span>
       </div>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+      <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <div>
           <label htmlFor="category" className="block text-sm font-medium text-slate-900 dark:text-slate-200">Categoria*</label>
           <select
@@ -137,7 +137,7 @@ export default function FeedbackForm() {
           </select>
         </div>
 
-        <div className="sm:col-span-2">
+        <div className="lg:col-span-2">
           <label htmlFor="details" className="block text-sm font-medium text-slate-900 dark:text-slate-200">Describe el error*</label>
           <textarea
             id="details"
@@ -174,7 +174,7 @@ export default function FeedbackForm() {
           {errors.email && <p className="mt-1 text-xs text-red-700">{errors.email}</p>}
         </div>
 
-        <div className="sm:col-span-2 flex items-start gap-2">
+        <div className="lg:col-span-2 flex items-start gap-2">
           <input
             id="consent"
             type="checkbox"
@@ -190,7 +190,7 @@ export default function FeedbackForm() {
             .
           </label>
         </div>
-        {errors.consent && <p className="sm:col-span-2 text-xs text-red-700">{errors.consent}</p>}
+        {errors.consent && <p className="lg:col-span-2 text-xs text-red-700">{errors.consent}</p>}
 
         <input
           type="text"
@@ -204,8 +204,10 @@ export default function FeedbackForm() {
         />
       </div>
 
-      <div className="mt-5 flex items-center gap-3">
-        <Button type="submit" disabled={status === "loading"}>{status === "loading" ? "Enviando..." : "Enviar feedback"}</Button>
+      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <Button type="submit" disabled={status === "loading"} className="w-full sm:w-auto">
+          {status === "loading" ? "Enviando..." : "Enviar feedback"}
+        </Button>
         <p aria-live="polite" className={`${status === "error" ? "text-red-700" : status === "ok" ? "text-brand-700" : "text-slate-600"} text-sm`}>
           {message}
         </p>
@@ -214,3 +216,4 @@ export default function FeedbackForm() {
     </form>
   );
 }
+

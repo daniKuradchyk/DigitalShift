@@ -9,8 +9,8 @@
   },
   {
     "slug": "calculadora-irpf-autonomos",
-    "title": "Calculadora IRPF para autonomos",
-    "desc": "Estima cuanto pagaras en la Renta segun ingresos, gastos deducibles, cuotas y retenciones.",
+    "title": "Estimador de cuota IRPF",
+    "desc": "Simula la cuota diferencial anual segun ingresos, gastos deducibles, cuotas y retenciones.",
     "href": "/herramientas/calculadora-irpf",
     "status": "disponible",
     "cta": "Calcular ahora",

@@ -11,21 +11,21 @@ type AuditReportPdfProps = {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 36,
-    fontSize: 11,
+    padding: 30,
+    fontSize: 10.5,
     fontFamily: "Helvetica",
     color: "#0f172a",
     lineHeight: 1.45,
     backgroundColor: "#ffffff",
   },
   headerBand: {
-    height: 8,
+    height: 6,
     backgroundColor: "#4168e1",
-    borderRadius: 6,
-    marginBottom: 14,
+    borderRadius: 5,
+    marginBottom: 12,
   },
   header: {
-    marginBottom: 16,
+    marginBottom: 12,
   },
   brandRow: {
     flexDirection: "row",
@@ -33,44 +33,44 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   brand: {
-    fontSize: 10,
+    fontSize: 9,
     textTransform: "uppercase",
     letterSpacing: 2,
     color: "#1c3994",
   },
   meta: {
-    fontSize: 9,
+    fontSize: 8.5,
     color: "#64748b",
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
-    marginTop: 6,
+    marginTop: 4,
   },
   subtitle: {
-    fontSize: 11,
+    fontSize: 10,
     color: "#475569",
     marginTop: 4,
   },
   pillRow: {
     flexDirection: "row",
-    marginTop: 8,
+    marginTop: 6,
   },
   pill: {
     backgroundColor: "#eef2ff",
     color: "#1e3a8a",
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 10,
-    fontSize: 9,
-    marginRight: 6,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 9,
+    fontSize: 8,
+    marginRight: 4,
   },
   scorePanel: {
-    marginTop: 10,
-    borderRadius: 12,
+    marginTop: 8,
+    borderRadius: 10,
     border: "1px solid #e2e8f0",
     backgroundColor: "#f8fafc",
-    padding: 10,
+    padding: 8,
   },
   scoreLine: {
     flexDirection: "row",
@@ -78,95 +78,95 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   scoreLabel: {
-    fontSize: 10,
+    fontSize: 9,
     color: "#475569",
   },
   scoreValue: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     color: "#0f172a",
   },
   scoreBarTrack: {
-    height: 6,
+    height: 5,
     borderRadius: 999,
     backgroundColor: "#e2e8f0",
-    marginTop: 6,
+    marginTop: 4,
   },
   scoreBarFill: {
-    height: 6,
+    height: 5,
     borderRadius: 999,
     backgroundColor: "#4168e1",
   },
   scoreGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    marginTop: 6,
+    marginTop: 4,
   },
   scoreChip: {
     border: "1px solid #e2e8f0",
-    borderRadius: 8,
-    paddingHorizontal: 6,
-    paddingVertical: 4,
-    marginRight: 6,
-    marginTop: 6,
+    borderRadius: 7,
+    paddingHorizontal: 5,
+    paddingVertical: 3,
+    marginRight: 5,
+    marginTop: 4,
     backgroundColor: "#ffffff",
   },
   scoreChipText: {
-    fontSize: 9,
+    fontSize: 8,
     color: "#1f2937",
   },
   sectionGrid: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 12,
+    marginBottom: 10,
   },
   sectionCard: {
     width: "48%",
     border: "1px solid #e2e8f0",
-    borderRadius: 10,
-    padding: 8,
+    borderRadius: 9,
+    padding: 7,
     backgroundColor: "#ffffff",
   },
   cardTitle: {
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: "bold",
     textTransform: "uppercase",
     letterSpacing: 1,
     color: "#1e293b",
-    marginBottom: 4,
+    marginBottom: 3,
   },
   section: {
-    marginBottom: 14,
+    marginBottom: 12,
   },
   sectionTitle: {
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: "bold",
     letterSpacing: 1,
     textTransform: "uppercase",
     color: "#1e293b",
-    marginBottom: 6,
+    marginBottom: 5,
     backgroundColor: "#eef2ff",
-    paddingVertical: 4,
-    paddingHorizontal: 6,
-    borderRadius: 6,
+    paddingVertical: 3,
+    paddingHorizontal: 5,
+    borderRadius: 5,
   },
   bulletRow: {
     flexDirection: "row",
-    marginBottom: 4,
+    marginBottom: 3,
   },
   bullet: {
-    width: 10,
+    width: 8,
     color: "#4168e1",
   },
   bulletText: {
     flex: 1,
   },
   roadmapRow: {
-    marginBottom: 6,
+    marginBottom: 4,
     paddingLeft: 6,
   },
   roadmapTitle: {
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: "bold",
     color: "#1e293b",
   },
@@ -178,37 +178,46 @@ const styles = StyleSheet.create({
   matrixCard: {
     width: "48%",
     border: "1px solid #e2e8f0",
-    borderRadius: 8,
-    padding: 6,
-    marginBottom: 8,
+    borderRadius: 7,
+    padding: 5,
+    marginBottom: 6,
     backgroundColor: "#ffffff",
   },
   matrixLabel: {
-    fontSize: 9,
+    fontSize: 8,
     textTransform: "uppercase",
     letterSpacing: 1,
     color: "#475569",
-    marginBottom: 4,
+    marginBottom: 3,
   },
-  ctaBox: {
+  contactBox: {
     border: "1px solid #e2e8f0",
     borderRadius: 8,
     padding: 8,
     backgroundColor: "#f8fafc",
   },
-  ctaLine: {
+  contactIntro: {
     fontSize: 9,
-    color: "#1f2937",
+    color: "#475569",
     marginBottom: 4,
   },
-  ctaLink: {
-    color: "#1c3994",
+  contactLine: {
+    fontSize: 9,
+    color: "#1f2937",
+    marginBottom: 3,
+  },
+  contactLabel: {
+    fontWeight: "bold",
+    color: "#0f172a",
+  },
+  contactValue: {
+    color: "#0f172a",
   },
   footer: {
-    marginTop: 10,
-    paddingTop: 8,
+    marginTop: 8,
+    paddingTop: 6,
     borderTop: "1px solid #e2e8f0",
-    fontSize: 9,
+    fontSize: 8.5,
     color: "#64748b",
   },
 });
@@ -303,13 +312,28 @@ export default function AuditReportPdf({ report, scores, verticalLabel, goalLabe
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Siguiente paso</Text>
-          <View style={styles.ctaBox}>
-            <Text style={styles.ctaLine}>
-              Agendar diagnostico gratis: <Text style={styles.ctaLink}>https://qubelia.es/#contacto</Text>
+          <Text style={styles.sectionTitle}>Contacto profesional</Text>
+          <View style={styles.contactBox}>
+            <Text style={styles.contactIntro}>Si quieres revisar el plan o agendar una llamada, contactanos:</Text>
+            <Text style={styles.contactLine}>
+              <Text style={styles.contactLabel}>Email: </Text>
+              <Text style={styles.contactValue}>daniil.kuradchyk@gmail.com</Text>
             </Text>
-            <Text style={styles.ctaLine}>
-              Hablar por DM / Contactar: <Text style={styles.ctaLink}>https://qubelia.es/#contacto</Text>
+            <Text style={styles.contactLine}>
+              <Text style={styles.contactLabel}>Telefono: </Text>
+              <Text style={styles.contactValue}>+34 674 569 372</Text>
+            </Text>
+            <Text style={styles.contactLine}>
+              <Text style={styles.contactLabel}>Web: </Text>
+              <Text style={styles.contactValue}>https://qubelia.es</Text>
+            </Text>
+            <Text style={styles.contactLine}>
+              <Text style={styles.contactLabel}>Direccion: </Text>
+              <Text style={styles.contactValue}>Calle Torrelodones 84B, 41016 Sevilla, Sevilla, Espana</Text>
+            </Text>
+            <Text style={styles.contactLine}>
+              <Text style={styles.contactLabel}>NIF: </Text>
+              <Text style={styles.contactValue}>30865688X</Text>
             </Text>
           </View>
         </View>

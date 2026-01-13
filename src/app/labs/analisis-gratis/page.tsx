@@ -63,7 +63,7 @@ export default function AuditPage() {
           </div>
         </div>
 
-        <section className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start">
+        <section className="grid gap-8 sm:gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start">
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-brand-100 bg-brand-50/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-brand-700 dark:border-brand-500/30 dark:bg-brand-500/10 dark:text-brand-200">
               Herramienta gratuita
@@ -75,8 +75,8 @@ export default function AuditPage() {
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Button as="a" href="#analisis" variant="shine">Analizar ahora</Button>
-              <Button as="a" href="/#contacto" variant="ghost">Adaptar a mi empresa</Button>
+              <Button as="a" href="#analisis" variant="shine" className="w-full sm:w-auto">Analizar ahora</Button>
+              <Button as="a" href="/#contacto" variant="ghost" className="w-full sm:w-auto">Adaptar a mi empresa</Button>
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
               {stats.map((s, index) => (
@@ -96,7 +96,7 @@ export default function AuditPage() {
           </div>
 
           <aside className="space-y-4">
-            <div className="rounded-3xl border border-slate-200 bg-white/90 dark:bg-slate-900/80 p-6 shadow-[0_20px_60px_-40px_rgba(14,29,74,0.45)] backdrop-blur-sm dark:border-slate-700">
+            <div className="rounded-3xl border border-slate-200 bg-white/90 dark:bg-slate-900/80 p-4 sm:p-6 shadow-[0_20px_60px_-40px_rgba(14,29,74,0.45)] backdrop-blur-sm dark:border-slate-700">
               <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Incluye</p>
               <ul className="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-300">
                 {benefits.map((b, index) => (
@@ -113,7 +113,7 @@ export default function AuditPage() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-slate-200 bg-white/90 dark:bg-slate-900/80 p-6 shadow-sm backdrop-blur-sm dark:border-slate-700">
+            <div className="rounded-3xl border border-slate-200 bg-white/90 dark:bg-slate-900/80 p-4 sm:p-6 shadow-sm backdrop-blur-sm dark:border-slate-700">
               <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Privacidad</p>
               <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">
                 Cumplimos RGPD. Tus datos se usan solo para generar el informe y, si lo pides, enviarte el PDF.
