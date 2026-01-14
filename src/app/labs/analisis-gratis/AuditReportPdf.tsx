@@ -12,7 +12,7 @@ type AuditReportPdfProps = {
 const styles = StyleSheet.create({
   page: {
     padding: 32,
-    fontSize: 10,
+    fontSize: 10.2,
     fontFamily: "Helvetica",
     color: "#0f172a",
     lineHeight: 1.45,
@@ -350,10 +350,7 @@ export default function AuditReportPdf({ report, scores, verticalLabel, goalLabe
           </View>
           <View style={styles.scorePanel}>
             <View style={styles.scoreLine}>
-              <View>
-                <Text style={styles.scoreLabel}>Score total</Text>
-                <Text style={styles.scoreValue}>{scores.total}/100</Text>
-              </View>
+             
               <View style={[styles.scoreBadge, { backgroundColor: tier.background, borderColor: tier.border }]}>
                 <Text style={[styles.badgeLabel, { color: tier.color }]}>Nivel</Text>
                 <Text style={[styles.badgeValue, { color: tier.color }]}>{tier.label}</Text>
