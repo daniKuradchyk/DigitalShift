@@ -11,24 +11,24 @@ type AuditReportPdfProps = {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 32,
-    fontSize: 10.2,
+    padding: 28,
+    fontSize: 10,
     fontFamily: "Helvetica",
     color: "#0f172a",
-    lineHeight: 1.45,
+    lineHeight: 1.4,
     backgroundColor: "#f8fafc",
   },
   headerBand: {
     height: 8,
     backgroundColor: "#0e1d4a",
     borderRadius: 6,
-    marginBottom: 10,
+    marginBottom: 8,
   },
   headerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 6,
   },
   brand: {
     fontSize: 9,
@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     border: "1px solid #e2e8f0",
     backgroundColor: "#ffffff",
-    padding: 12,
-    marginBottom: 10,
+    padding: 10,
+    marginBottom: 8,
   },
   eyebrow: {
     fontSize: 8,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     color: "#64748b",
   },
   title: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "bold",
     marginTop: 3,
   },
@@ -79,11 +79,11 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   scorePanel: {
-    marginTop: 10,
+    marginTop: 8,
     borderRadius: 10,
     border: "1px solid #e2e8f0",
     backgroundColor: "#f8fafc",
-    padding: 10,
+    padding: 8,
   },
   scoreLine: {
     flexDirection: "row",
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     color: "#475569",
   },
   scoreValue: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "bold",
     color: "#0f172a",
   },
@@ -129,8 +129,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     border: "1px solid #e2e8f0",
     backgroundColor: "#ffffff",
-    padding: 10,
-    marginBottom: 10,
+    padding: 8,
+    marginBottom: 8,
   },
   sectionLabel: {
     fontSize: 8,
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   scoreRow: {
-    marginTop: 6,
+    marginTop: 4,
   },
   scoreRowHeader: {
     flexDirection: "row",
@@ -169,13 +169,13 @@ const styles = StyleSheet.create({
   sectionGrid: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: 8,
   },
   sectionCard: {
     width: "48%",
     border: "1px solid #e2e8f0",
     borderRadius: 10,
-    padding: 8,
+    padding: 7,
     backgroundColor: "#ffffff",
   },
   cardTitle: {
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     marginBottom: 3,
   },
   section: {
-    marginBottom: 12,
+    marginBottom: 10,
   },
   sectionTitle: {
     fontSize: 10,
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textTransform: "uppercase",
     color: "#1e293b",
-    marginBottom: 5,
+    marginBottom: 4,
     backgroundColor: "#eef2ff",
     paddingVertical: 3,
     paddingHorizontal: 5,
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     border: "1px solid #e2e8f0",
     borderRadius: 8,
     padding: 6,
-    marginBottom: 6,
+    marginBottom: 5,
     backgroundColor: "#ffffff",
   },
   matrixLabel: {
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
   contactBox: {
     border: "1px solid #e2e8f0",
     borderRadius: 10,
-    padding: 10,
+    padding: 9,
     backgroundColor: "#ffffff",
   },
   contactIntro: {
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     color: "#0f172a",
   },
   footer: {
-    marginTop: 8,
+    marginTop: 6,
     paddingTop: 6,
     borderTop: "1px solid #e2e8f0",
     fontSize: 8.5,
@@ -339,7 +339,7 @@ export default function AuditReportPdf({ report, scores, verticalLabel, goalLabe
           <Text style={styles.meta}>Generado {generatedOn}</Text>
         </View>
 
-        <View style={styles.heroCard}>
+        <View style={styles.heroCard} wrap={false}>
           <Text style={styles.eyebrow}>Diagnostico ejecutivo</Text>
           <Text style={styles.title}>Analisis gratuito de tu negocio</Text>
           <Text style={styles.subtitle}>Perfil: {verticalLabel} / Objetivo: {goalLabel}</Text>
@@ -350,7 +350,10 @@ export default function AuditReportPdf({ report, scores, verticalLabel, goalLabe
           </View>
           <View style={styles.scorePanel}>
             <View style={styles.scoreLine}>
-             
+              <View>
+                <Text style={styles.scoreLabel}>Score total</Text>
+                <Text style={styles.scoreValue}>{scores.total}/100</Text>
+              </View>
               <View style={[styles.scoreBadge, { backgroundColor: tier.background, borderColor: tier.border }]}>
                 <Text style={[styles.badgeLabel, { color: tier.color }]}>Nivel</Text>
                 <Text style={[styles.badgeValue, { color: tier.color }]}>{tier.label}</Text>
@@ -362,30 +365,30 @@ export default function AuditReportPdf({ report, scores, verticalLabel, goalLabe
           </View>
         </View>
 
-        <View style={styles.scoreBreakdown}>
+        <View style={styles.scoreBreakdown} wrap={false}>
           <Text style={styles.sectionLabel}>Score por area</Text>
           {scoreRows.map((row) => (
             <ScoreRow key={row.label} label={row.label} value={row.value} />
           ))}
         </View>
 
-        <View style={styles.sectionGrid}>
-          <View style={styles.sectionCard}>
+        <View style={styles.sectionGrid} wrap={false}>
+          <View style={styles.sectionCard} wrap={false}>
             <Text style={styles.cardTitle}>Resumen ejecutivo</Text>
             <BulletList items={report.summary} />
           </View>
-          <View style={styles.sectionCard}>
+          <View style={styles.sectionCard} wrap={false}>
             <Text style={styles.cardTitle}>Prioridades detectadas</Text>
             <BulletList items={report.weakPoints} />
           </View>
         </View>
 
-        <View style={styles.sectionGrid}>
-          <View style={styles.sectionCard}>
+        <View style={styles.sectionGrid} wrap={false}>
+          <View style={styles.sectionCard} wrap={false}>
             <Text style={styles.cardTitle}>Quick wins (7 dias)</Text>
             <BulletList items={report.quickWins} />
           </View>
-          <View style={styles.sectionCard}>
+          <View style={styles.sectionCard} wrap={false}>
             <Text style={styles.cardTitle}>Roadmap (30-90 dias)</Text>
             {report.roadmap.map((phase) => (
               <View key={phase.title} style={styles.roadmapRow}>
@@ -406,11 +409,11 @@ export default function AuditReportPdf({ report, scores, verticalLabel, goalLabe
           <Text style={styles.meta}>Detalle del informe</Text>
         </View>
 
-        <View style={styles.section}>
+        <View style={styles.section} wrap={false}>
           <Text style={styles.sectionTitle}>Matriz impacto vs esfuerzo</Text>
           <View style={styles.matrixGrid}>
             {report.impactMatrix.map((group) => (
-              <View key={group.label} style={styles.matrixCard}>
+              <View key={group.label} style={styles.matrixCard} wrap={false}>
                 <Text style={styles.matrixLabel}>{group.label}</Text>
                 <BulletList items={group.items} />
               </View>
@@ -418,9 +421,9 @@ export default function AuditReportPdf({ report, scores, verticalLabel, goalLabe
           </View>
         </View>
 
-        <View style={styles.section}>
+        <View style={styles.section} wrap={false}>
           <Text style={styles.sectionTitle}>Contacto profesional</Text>
-          <View style={styles.contactBox}>
+          <View style={styles.contactBox} wrap={false}>
             <Text style={styles.contactIntro}>Si quieres revisar el plan o agendar una llamada, contactanos:</Text>
             <Text style={styles.contactLine}>
               <Text style={styles.contactLabel}>Email: </Text>
