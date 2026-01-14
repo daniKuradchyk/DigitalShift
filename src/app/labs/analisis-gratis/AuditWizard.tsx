@@ -24,9 +24,10 @@ const steps = [
   { id: "4", title: "Ventas", summary: "Seguimiento y respuesta" },
   { id: "5", title: "Operaciones", summary: "Procesos y automatizacion" },
   { id: "6", title: "Datos", summary: "KPIs y reporting" },
-  { id: "7", title: "Riesgos", summary: "Seguridad y RGPD" },
-  { id: "8", title: "Informe", summary: "Recibir por email" },
-  { id: "9", title: "Resultado", summary: "Diagnostico final" },
+  { id: "7", title: "Finanzas", summary: "Margen y cashflow" },
+  { id: "8", title: "Riesgos", summary: "Seguridad y RGPD" },
+  { id: "9", title: "Informe", summary: "Recibir por email" },
+  { id: "10", title: "Resultado", summary: "Diagnostico final" },
 ] as const;
 
 const verticalOptions: Array<{ value: AuditVertical; label: string; desc: string }> = [
@@ -43,6 +44,60 @@ const goalOptions: Array<{ value: AuditGoal; label: string }> = [
   { value: "reducir-errores", label: "Reducir errores" },
   { value: "mejorar-control", label: "Mejorar control" },
 ];
+
+const segmentOptions = [
+  { value: "none", label: "Sin segmento definido" },
+  { value: "basic", label: "Segmento definido por intuicion" },
+  { value: "defined", label: "ICP definido con datos" },
+] as const;
+
+const conversionOptions = [
+  { value: "none", label: "No se mide la tasa de cierre" },
+  { value: "basic", label: "Se mide de forma basica" },
+  { value: "optimized", label: "Se mide y se optimiza por etapa" },
+] as const;
+
+const forecastOptions = [
+  { value: "none", label: "Sin forecast ni pipeline" },
+  { value: "basic", label: "Forecast basico mensual" },
+  { value: "defined", label: "Forecast con escenarios y objetivos" },
+] as const;
+
+const retentionOptions = [
+  { value: "none", label: "No se mide repeticion/retencion" },
+  { value: "basic", label: "Se mide de forma puntual" },
+  { value: "defined", label: "Se mide por cohortes o segmentos" },
+] as const;
+
+const feedbackOptions = [
+  { value: "none", label: "No medimos satisfaccion" },
+  { value: "sporadic", label: "Feedback puntual" },
+  { value: "regular", label: "NPS/CSAT recurrente" },
+] as const;
+
+const marginOptions = [
+  { value: "unknown", label: "No conozco el margen por servicio" },
+  { value: "rough", label: "Tengo una estimacion general" },
+  { value: "by-line", label: "Mido margen por linea o servicio" },
+] as const;
+
+const costStructureOptions = [
+  { value: "unknown", label: "Costes fijos/variables no claros" },
+  { value: "basic", label: "Costes estimados" },
+  { value: "detailed", label: "Costes detallados por linea/proyecto" },
+] as const;
+
+const cashflowOptions = [
+  { value: "none", label: "Sin control de tesoreria" },
+  { value: "monthly", label: "Control mensual de cashflow" },
+  { value: "weekly", label: "Control semanal y previsiones" },
+] as const;
+
+const pricingOptions = [
+  { value: "no-review", label: "No reviso precios" },
+  { value: "annual", label: "Reviso precios al menos 1 vez al ano" },
+  { value: "quarterly", label: "Reviso precios de forma trimestral" },
+] as const;
 
 const labelsByVertical: Record<AuditVertical, { label: string; pipeline: string; workflow: string }> = {
   local: { label: "Pymes locales", pipeline: "leads", workflow: "ventas" },
@@ -99,6 +154,12 @@ const Icons = {
       <path d="M7 13h3v5H7zM12 9h3v9h-3zM17 6h3v12h-3z" />
     </svg>
   ),
+  wallet: (
+    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="6" width="18" height="12" rx="2" />
+      <path d="M16 10h5v4h-5z" />
+    </svg>
+  ),
   shield: (
     <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7z" />
@@ -125,6 +186,7 @@ type AuditDraft = {
   sales: AuditAnswers["sales"];
   operations: AuditAnswers["operations"];
   data: AuditAnswers["data"];
+  finance: AuditAnswers["finance"];
   risk: AuditAnswers["risk"];
   contact: AuditContact;
 };
@@ -135,6 +197,8 @@ const initialDraft: AuditDraft = {
   presence: {
     websiteStatus: "basic",
     ctaClarity: false,
+    valuePropClarity: false,
+    segmentClarity: "none",
     socialPresence: "sporadic",
     tracking: "none",
     mainChannel: "boca-oreja",
@@ -143,18 +207,29 @@ const initialDraft: AuditDraft = {
     leadTool: "manual",
     responseTime: "24-48h",
     followUp: "sin-proceso",
+    conversionTracking: "none",
+    forecastLevel: "none",
   },
   operations: {
     processDocumentation: false,
     repetitionLevel: "medio",
     automationLevel: "ninguna",
     errorRate: "ocasional",
+    qualityControl: false,
     bottleneck: "",
   },
   data: {
     kpiUsage: "none",
     reportingFrequency: "mensual",
     crmErp: "none",
+    retentionTracking: "none",
+    feedbackLoop: "none",
+  },
+  finance: {
+    marginVisibility: "unknown",
+    cashflowControl: "none",
+    pricingReview: "no-review",
+    costStructureVisibility: "unknown",
   },
   risk: {
     backups: false,
@@ -181,6 +256,7 @@ function toAnswers(draft: AuditDraft): AuditAnswers {
     sales: draft.sales,
     operations: draft.operations,
     data: draft.data,
+    finance: draft.finance,
     risk: draft.risk,
   };
 }
@@ -380,6 +456,59 @@ function IconBadge({ children }: { children: React.ReactNode }) {
   );
 }
 
+type ScoreBarRowProps = {
+  label: string;
+  value: number;
+};
+
+function ScoreBarRow({ label, value }: ScoreBarRowProps) {
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between text-xs text-slate-600 dark:text-slate-300">
+        <span className="font-semibold text-slate-800 dark:text-slate-200">{label}</span>
+        <span className="text-slate-500 dark:text-slate-400">{value}/100</span>
+      </div>
+      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200/70 dark:bg-slate-700/60">
+        <div
+          className="h-full rounded-full bg-[linear-gradient(90deg,#0e1d4a,#4168e1,#6389ff)] shadow-[0_6px_16px_-10px_rgba(65,104,225,0.9)]"
+          style={{ width: `${value}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+type MaturityInfo = {
+  label: string;
+  description: string;
+  badgeClass: string;
+};
+
+function getMaturityInfo(total: number): MaturityInfo {
+  if (total >= 75) {
+    return {
+      label: "Avanzado",
+      description: "Base solida para escalar.",
+      badgeClass:
+        "border-emerald-200 bg-emerald-50/80 text-emerald-700 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-200",
+    };
+  }
+  if (total >= 55) {
+    return {
+      label: "En progreso",
+      description: "Prioridades claras y accionables.",
+      badgeClass:
+        "border-sky-200 bg-sky-50/80 text-sky-700 dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-200",
+    };
+  }
+  return {
+    label: "Base",
+    description: "Refuerza los fundamentos clave.",
+    badgeClass:
+      "border-amber-200 bg-amber-50/80 text-amber-700 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200",
+  };
+}
+
 type StepHeaderProps = {
   stepId: string;
   title: string;
@@ -431,7 +560,7 @@ export default function AuditWizard() {
   function validateStep(current: number) {
     if (current === 0 && !draft.vertical) return "Selecciona un perfil para continuar.";
     if (current === 1 && !draft.goal) return "Selecciona el objetivo principal.";
-    if (current === 7) {
+    if (current === 8) {
       const payload = { ...toAnswers(draft), contact: draft.contact };
       const parsed = auditSubmissionSchema.safeParse(payload);
       if (!parsed.success) {
@@ -550,14 +679,17 @@ export default function AuditWizard() {
   const scoreCards = useMemo(() => {
     if (!result) return [];
     return [
-      { label: "Captacion", value: `${result.scores.acquisition}/100` },
-      { label: "Web", value: `${result.scores.web}/100` },
-      { label: "Ventas", value: `${result.scores.sales}/100` },
-      { label: "Operaciones", value: `${result.scores.operations}/100` },
-      { label: "Datos", value: `${result.scores.data}/100` },
-      { label: "Riesgos", value: `${result.scores.risk}/100` },
+      { label: "Captacion", value: result.scores.acquisition },
+      { label: "Web", value: result.scores.web },
+      { label: "Ventas", value: result.scores.sales },
+      { label: "Operaciones", value: result.scores.operations },
+      { label: "Datos", value: result.scores.data },
+      { label: "Finanzas", value: result.scores.finance },
+      { label: "Riesgos", value: result.scores.risk },
     ];
   }, [result]);
+
+  const maturity = useMemo(() => (result ? getMaturityInfo(result.scores.total) : null), [result]);
 
   return (
     <div className="grid gap-5 sm:gap-6 xl:grid-cols-[220px_minmax(0,1fr)_320px] items-start">
@@ -648,7 +780,7 @@ export default function AuditWizard() {
                     Paso {steps[step]?.id ?? "9"} de {steps.length}
                   </span>
                   <span className="text-xs text-slate-500 dark:text-slate-400">
-                    {steps[step]?.title ?? "Resultado"} Â· {progress}%
+                    {steps[step]?.title ?? "Resultado"} - {progress}%
                   </span>
                 </div>
                 <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-200/70 dark:bg-slate-700/60">
@@ -771,6 +903,18 @@ export default function AuditWizard() {
                     ]}
                   />
                   <SelectField
+                    id="segmentClarity"
+                    label="Segmento objetivo"
+                    value={draft.presence.segmentClarity}
+                    onChange={(value) =>
+                      setDraft((prev) => ({
+                        ...prev,
+                        presence: { ...prev.presence, segmentClarity: value as AuditAnswers["presence"]["segmentClarity"] },
+                      }))
+                    }
+                    options={segmentOptions}
+                  />
+                  <SelectField
                     id="channel"
                     label="Canal principal"
                     value={draft.presence.mainChannel}
@@ -799,6 +943,17 @@ export default function AuditWizard() {
                     setDraft((prev) => ({
                       ...prev,
                       presence: { ...prev.presence, ctaClarity: !prev.presence.ctaClarity },
+                    }))
+                  }
+                />
+                <Toggle
+                  label="La propuesta de valor esta clara y diferenciada"
+                  description="Se entiende por que elegirte frente a alternativas."
+                  checked={draft.presence.valuePropClarity}
+                  onChange={() =>
+                    setDraft((prev) => ({
+                      ...prev,
+                      presence: { ...prev.presence, valuePropClarity: !prev.presence.valuePropClarity },
                     }))
                   }
                 />
@@ -864,6 +1019,30 @@ export default function AuditWizard() {
                       { value: "regular", label: "Seguimiento semanal" },
                       { value: "automatizado", label: "Automatizado" },
                     ]}
+                  />
+                  <SelectField
+                    id="conversionTracking"
+                    label="Medicion de tasa de cierre"
+                    value={draft.sales.conversionTracking}
+                    onChange={(value) =>
+                      setDraft((prev) => ({
+                        ...prev,
+                        sales: { ...prev.sales, conversionTracking: value as AuditAnswers["sales"]["conversionTracking"] },
+                      }))
+                    }
+                    options={conversionOptions}
+                  />
+                  <SelectField
+                    id="forecastLevel"
+                    label="Forecast de ventas"
+                    value={draft.sales.forecastLevel}
+                    onChange={(value) =>
+                      setDraft((prev) => ({
+                        ...prev,
+                        sales: { ...prev.sales, forecastLevel: value as AuditAnswers["sales"]["forecastLevel"] },
+                      }))
+                    }
+                    options={forecastOptions}
                   />
                 </div>
               </div>
@@ -936,6 +1115,17 @@ export default function AuditWizard() {
                     setDraft((prev) => ({
                       ...prev,
                       operations: { ...prev.operations, processDocumentation: !prev.operations.processDocumentation },
+                    }))
+                  }
+                />
+                <Toggle
+                  label="Control de calidad antes de entregar"
+                  description="Checklist o revision previa a entrega."
+                  checked={draft.operations.qualityControl}
+                  onChange={() =>
+                    setDraft((prev) => ({
+                      ...prev,
+                      operations: { ...prev.operations, qualityControl: !prev.operations.qualityControl },
                     }))
                   }
                 />
@@ -1013,6 +1203,30 @@ export default function AuditWizard() {
                       { value: "erp", label: "ERP integrado" },
                     ]}
                   />
+                  <SelectField
+                    id="retentionTracking"
+                    label="Retencion o repeticion"
+                    value={draft.data.retentionTracking}
+                    onChange={(value) =>
+                      setDraft((prev) => ({
+                        ...prev,
+                        data: { ...prev.data, retentionTracking: value as AuditAnswers["data"]["retentionTracking"] },
+                      }))
+                    }
+                    options={retentionOptions}
+                  />
+                  <SelectField
+                    id="feedbackLoop"
+                    label="Satisfaccion del cliente"
+                    value={draft.data.feedbackLoop}
+                    onChange={(value) =>
+                      setDraft((prev) => ({
+                        ...prev,
+                        data: { ...prev.data, feedbackLoop: value as AuditAnswers["data"]["feedbackLoop"] },
+                      }))
+                    }
+                    options={feedbackOptions}
+                  />
                 </div>
               </div>
             )}
@@ -1021,6 +1235,67 @@ export default function AuditWizard() {
               <div className="space-y-6">
                 <StepHeader
                   stepId="7"
+                  title="Finanzas"
+                  description="Margen, tesoreria y pricing."
+                  icon={Icons.wallet}
+                />
+                <div className="grid gap-4 xl:grid-cols-2">
+                  <SelectField
+                    id="marginVisibility"
+                    label="Margen por servicio"
+                    value={draft.finance.marginVisibility}
+                    onChange={(value) =>
+                      setDraft((prev) => ({
+                        ...prev,
+                        finance: { ...prev.finance, marginVisibility: value as AuditAnswers["finance"]["marginVisibility"] },
+                      }))
+                    }
+                    options={marginOptions}
+                  />
+                  <SelectField
+                    id="costStructureVisibility"
+                    label="Costes fijos/variables"
+                    value={draft.finance.costStructureVisibility}
+                    onChange={(value) =>
+                      setDraft((prev) => ({
+                        ...prev,
+                        finance: { ...prev.finance, costStructureVisibility: value as AuditAnswers["finance"]["costStructureVisibility"] },
+                      }))
+                    }
+                    options={costStructureOptions}
+                  />
+                  <SelectField
+                    id="cashflowControl"
+                    label="Control de tesoreria"
+                    value={draft.finance.cashflowControl}
+                    onChange={(value) =>
+                      setDraft((prev) => ({
+                        ...prev,
+                        finance: { ...prev.finance, cashflowControl: value as AuditAnswers["finance"]["cashflowControl"] },
+                      }))
+                    }
+                    options={cashflowOptions}
+                  />
+                  <SelectField
+                    id="pricingReview"
+                    label="Revision de precios"
+                    value={draft.finance.pricingReview}
+                    onChange={(value) =>
+                      setDraft((prev) => ({
+                        ...prev,
+                        finance: { ...prev.finance, pricingReview: value as AuditAnswers["finance"]["pricingReview"] },
+                      }))
+                    }
+                    options={pricingOptions}
+                  />
+                </div>
+              </div>
+            )}
+
+            {step === 7 && (
+              <div className="space-y-6">
+                <StepHeader
+                  stepId="8"
                   title="Riesgos"
                   description="Seguridad basica y RGPD."
                   icon={Icons.shield}
@@ -1074,10 +1349,10 @@ export default function AuditWizard() {
               </div>
             )}
 
-            {step === 7 && (
+            {step === 8 && (
               <div className="space-y-6">
                 <StepHeader
-                  stepId="8"
+                  stepId="9"
                   title="Recibir informe (opcional)"
                   description="Email opcional para enviarte el PDF y coordinar una llamada."
                   icon={Icons.mail}
@@ -1167,53 +1442,66 @@ export default function AuditWizard() {
             {step === steps.length - 1 && result ? (
               <div className="space-y-6">
                 <StepHeader
-                  stepId="9"
+                  stepId="10"
                   title="Resultado"
                   description="Informe accionable basado en tus respuestas."
                   icon={Icons.check}
                 />
 
-                <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/90 dark:bg-slate-900/80 p-6 shadow-[0_26px_70px_-44px_rgba(14,29,74,0.6)] dark:border-slate-700 dark:bg-slate-900/80">
-                  <div aria-hidden className="pointer-events-none absolute inset-0">
-                    <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-brand-500/10 blur-2xl" />
-                  </div>
-                  <div className="relative">
-                    <div className="flex items-center gap-3">
-                      <IconBadge>{Icons.chart}</IconBadge>
-                      <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Score total</p>
-                    </div>
-                    <div className="mt-3 flex flex-wrap items-baseline gap-3">
-                      <p className="text-3xl font-bold text-slate-900 dark:text-slate-100">{result.scores.total}/100</p>
-                      <span className="rounded-full border border-brand-100 bg-brand-50/80 px-3 py-1 text-xs font-semibold text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
-                        {verticalLabel}
-                      </span>
-                    </div>
-                    <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Objetivo: {goalLabel}.</p>
-                    <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-slate-200/70 dark:bg-slate-700/60">
-                      <div
-                        className="h-full rounded-full bg-[linear-gradient(90deg,#0e1d4a,#4168e1,#6389ff)] shadow-[0_8px_20px_-12px_rgba(65,104,225,0.8)]"
-                        style={{ width: `${result.scores.total}%` }}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid gap-4 xl:grid-cols-2">
-                  {scoreCards.map((item) => (
-                    <div
-                      key={item.label}
-                      className="rounded-2xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 shadow-[0_14px_36px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70"
-                    >
-                      <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{item.label}</p>
-                      <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">{item.value}</p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+                <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
                   <div className="space-y-4">
-                    <div className="rounded-2xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 text-sm text-slate-700 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200">
-                      <h5 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Resumen ejecutivo</h5>
+                    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-[0_26px_70px_-44px_rgba(14,29,74,0.6)] dark:border-slate-700 dark:bg-slate-900/80">
+                      <div aria-hidden className="pointer-events-none absolute inset-0">
+                        <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-brand-500/10 blur-2xl" />
+                      </div>
+                      <div className="relative space-y-4">
+                        <div className="flex flex-wrap items-start justify-between gap-4">
+                          <div className="space-y-3">
+                            <div className="flex items-center gap-3">
+                              <IconBadge>{Icons.chart}</IconBadge>
+                              <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Diagnostico ejecutivo</p>
+                            </div>
+                            <div className="flex flex-wrap items-baseline gap-3">
+                              <p className="text-3xl font-bold text-slate-900 dark:text-slate-100">{result.scores.total}/100</p>
+                              <span className="rounded-full border border-brand-100 bg-brand-50/80 px-3 py-1 text-xs font-semibold text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+                                Score total
+                              </span>
+                            </div>
+                            <p className="text-xs text-slate-500 dark:text-slate-400">Perfil: {verticalLabel} | Objetivo: {goalLabel}</p>
+                          </div>
+                          {maturity ? (
+                            <div className={`rounded-2xl border px-4 py-3 text-xs shadow-sm ${maturity.badgeClass}`}>
+                              <p className="text-[10px] font-semibold uppercase tracking-[0.2em]">Nivel de madurez</p>
+                              <p className="mt-2 text-base font-semibold">{maturity.label}</p>
+                              <p className="mt-1 text-xs opacity-80">{maturity.description}</p>
+                            </div>
+                          ) : null}
+                        </div>
+                        <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-200/70 dark:bg-slate-700/60">
+                          <div
+                            className="h-full rounded-full bg-[linear-gradient(90deg,#0e1d4a,#4168e1,#6389ff)] shadow-[0_8px_20px_-12px_rgba(65,104,225,0.8)]"
+                            style={{ width: `${result.scores.total}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75">
+                      <div className="flex items-center justify-between">
+                        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Score por area</p>
+                        <span className="text-xs text-slate-400 dark:text-slate-500">Base 0-100</span>
+                      </div>
+                      <div className="mt-4 space-y-3">
+                        {scoreCards.map((item) => (
+                          <ScoreBarRow key={item.label} label={item.label} value={item.value} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75 dark:text-slate-200">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Resumen ejecutivo</p>
                       <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
                         {result.report.summary.map((item) => (
                           <li key={item} className="flex gap-2">
@@ -1224,40 +1512,15 @@ export default function AuditWizard() {
                       </ul>
                     </div>
 
-                    <div className="rounded-2xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 text-sm text-slate-700 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200">
-                      <h5 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Puntos flojos detectados</h5>
+                    <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75 dark:text-slate-200">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Prioridades detectadas</p>
                       <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
-                        {result.report.weakPoints.map((item) => (
-                          <li key={item} className="flex gap-2">
-                            <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-amber-500/70" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <div className="rounded-2xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 text-sm text-slate-700 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200">
-                      <h5 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Quick wins (7 dias)</h5>
-                      <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
-                        {result.report.quickWins.map((item) => (
-                          <li key={item} className="flex gap-2">
-                            <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-emerald-500/70" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="rounded-2xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 text-sm text-slate-700 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200">
-                      <h5 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Roadmap (30-90 dias)</h5>
-                      <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
-                        {result.report.roadmap.map((item) => (
-                          <li key={item.title} className="space-y-1">
-                            <span className="block text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-                              {item.title}
+                        {result.report.weakPoints.map((item, index) => (
+                          <li key={item} className="flex gap-3">
+                            <span className="mt-0.5 inline-flex h-6 w-6 flex-none items-center justify-center rounded-full border border-amber-200 bg-amber-50 text-[10px] font-semibold text-amber-700 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
+                              {String(index + 1).padStart(2, "0")}
                             </span>
-                            <span className="block">{item.goal}</span>
+                            <span>{item}</span>
                           </li>
                         ))}
                       </ul>
@@ -1265,13 +1528,44 @@ export default function AuditWizard() {
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 text-sm text-slate-700 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200">
-                  <h5 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Matriz impacto vs esfuerzo</h5>
-                  <div className="mt-3 grid gap-3 xl:grid-cols-2">
+                <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+                  <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75 dark:text-slate-200">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Quick wins (7 dias)</p>
+                    <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                      {result.report.quickWins.map((item) => (
+                        <li key={item} className="flex gap-2">
+                          <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-emerald-500/70" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75 dark:text-slate-200">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Roadmap (30-90 dias)</p>
+                    <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                      {result.report.roadmap.map((item) => (
+                        <li key={item.title} className="space-y-1">
+                          <span className="block text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
+                            {item.title}
+                          </span>
+                          <span className="block">{item.goal}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75 dark:text-slate-200">
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Matriz impacto vs esfuerzo</p>
+                    <span className="text-xs text-slate-400 dark:text-slate-500">Prioriza acciones</span>
+                  </div>
+                  <div className="mt-4 grid gap-3 xl:grid-cols-2">
                     {result.report.impactMatrix.map((group) => (
                       <div
                         key={group.label}
-                        className="rounded-2xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-3 shadow-[0_12px_28px_-26px_rgba(14,29,74,0.3)] dark:border-slate-700 dark:bg-slate-900/70"
+                        className="rounded-2xl border border-slate-200 bg-white/85 p-3 shadow-[0_12px_28px_-26px_rgba(14,29,74,0.3)] dark:border-slate-700 dark:bg-slate-900/70"
                       >
                         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">{group.label}</p>
                         <ul className="mt-2 space-y-1 text-xs text-slate-600 dark:text-slate-300">

@@ -125,6 +125,7 @@ export async function POST(request: Request) {
     sales: submission.sales,
     operations: submission.operations,
     data: submission.data,
+    finance: submission.finance,
     risk: submission.risk,
   };
   const report = calculateAuditResult(answers);

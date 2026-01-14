@@ -5,16 +5,25 @@ const goalOptions = ["captar-leads", "vender-mas", "ahorrar-tiempo", "reducir-er
 const websiteOptions = ["none", "basic", "ok", "optimized"] as const;
 const socialOptions = ["none", "sporadic", "active", "active-paid"] as const;
 const trackingOptions = ["none", "basic", "events"] as const;
+const segmentOptions = ["none", "basic", "defined"] as const;
 const channelOptions = ["boca-oreja", "rrss", "seo", "ads", "marketplaces", "partners", "otro"] as const;
 const leadToolOptions = ["manual", "spreadsheet", "crm", "integrated"] as const;
 const responseOptions = ["menos-1h", "mismo-dia", "24-48h", "mas-48h"] as const;
 const followUpOptions = ["sin-proceso", "basico", "regular", "automatizado"] as const;
+const forecastOptions = ["none", "basic", "defined"] as const;
 const repetitionOptions = ["bajo", "medio", "alto"] as const;
 const automationOptions = ["ninguna", "no-code", "integraciones", "custom"] as const;
 const errorRateOptions = ["raro", "ocasional", "frecuente"] as const;
 const kpiOptions = ["none", "basic", "defined"] as const;
 const reportingOptions = ["nunca", "mensual", "semanal", "diario"] as const;
 const crmOptions = ["none", "crm", "erp"] as const;
+const feedbackOptions = ["none", "sporadic", "regular"] as const;
+const conversionOptions = ["none", "basic", "optimized"] as const;
+const retentionOptions = ["none", "basic", "defined"] as const;
+const marginOptions = ["unknown", "rough", "by-line"] as const;
+const cashflowOptions = ["none", "monthly", "weekly"] as const;
+const pricingOptions = ["no-review", "annual", "quarterly"] as const;
+const costStructureOptions = ["unknown", "basic", "detailed"] as const;
 
 export type AuditVertical = (typeof verticalOptions)[number];
 export type AuditGoal = (typeof goalOptions)[number];
@@ -25,6 +34,8 @@ export const auditAnswersSchema = z.object({
   presence: z.object({
     websiteStatus: z.enum(websiteOptions),
     ctaClarity: z.boolean(),
+    valuePropClarity: z.boolean(),
+    segmentClarity: z.enum(segmentOptions),
     socialPresence: z.enum(socialOptions),
     tracking: z.enum(trackingOptions),
     mainChannel: z.enum(channelOptions),
@@ -33,18 +44,29 @@ export const auditAnswersSchema = z.object({
     leadTool: z.enum(leadToolOptions),
     responseTime: z.enum(responseOptions),
     followUp: z.enum(followUpOptions),
+    conversionTracking: z.enum(conversionOptions),
+    forecastLevel: z.enum(forecastOptions),
   }),
   operations: z.object({
     processDocumentation: z.boolean(),
     repetitionLevel: z.enum(repetitionOptions),
     automationLevel: z.enum(automationOptions),
     errorRate: z.enum(errorRateOptions),
+    qualityControl: z.boolean(),
     bottleneck: z.string().trim().max(160, "El texto es demasiado largo").optional(),
   }),
   data: z.object({
     kpiUsage: z.enum(kpiOptions),
     reportingFrequency: z.enum(reportingOptions),
     crmErp: z.enum(crmOptions),
+    retentionTracking: z.enum(retentionOptions),
+    feedbackLoop: z.enum(feedbackOptions),
+  }),
+  finance: z.object({
+    marginVisibility: z.enum(marginOptions),
+    cashflowControl: z.enum(cashflowOptions),
+    pricingReview: z.enum(pricingOptions),
+    costStructureVisibility: z.enum(costStructureOptions),
   }),
   risk: z.object({
     backups: z.boolean(),
@@ -123,6 +145,7 @@ export type AuditScores = {
   sales: number;
   operations: number;
   data: number;
+  finance: number;
   risk: number;
 };
 
@@ -140,26 +163,35 @@ export type AuditResult = {
 };
 
 const VERTICAL_WEIGHTS: Record<AuditVertical, Omit<AuditScores, "total">> = {
-  ecommerce: { acquisition: 25, operations: 20, data: 20, risk: 15, web: 10, sales: 10 },
-  clinica: { acquisition: 15, operations: 25, data: 15, risk: 20, web: 15, sales: 10 },
-  despacho: { acquisition: 10, operations: 25, data: 15, risk: 20, web: 15, sales: 15 },
-  local: { acquisition: 25, operations: 20, data: 15, risk: 10, web: 20, sales: 10 },
+  ecommerce: { acquisition: 23, operations: 18, data: 18, risk: 13, web: 8, sales: 10, finance: 10 },
+  clinica: { acquisition: 13, operations: 23, data: 13, risk: 18, web: 13, sales: 10, finance: 10 },
+  despacho: { acquisition: 8, operations: 23, data: 13, risk: 18, web: 13, sales: 15, finance: 10 },
+  local: { acquisition: 23, operations: 18, data: 13, risk: 8, web: 18, sales: 10, finance: 10 },
 };
 
 const scoreMaps = {
   website: { none: 10, basic: 35, ok: 60, optimized: 85 },
   social: { none: 15, sporadic: 35, active: 60, "active-paid": 75 },
   tracking: { none: 20, basic: 55, events: 85 },
+  segment: { none: 20, basic: 55, defined: 85 },
   channel: { "boca-oreja": 35, rrss: 55, seo: 65, ads: 70, marketplaces: 60, partners: 50, otro: 45 },
   leadTool: { manual: 25, spreadsheet: 45, crm: 70, integrated: 85 },
   response: { "menos-1h": 90, "mismo-dia": 70, "24-48h": 50, "mas-48h": 30 },
   followUp: { "sin-proceso": 25, basico: 45, regular: 70, automatizado: 85 },
+  conversion: { none: 25, basic: 55, optimized: 85 },
+  forecast: { none: 25, basic: 55, defined: 85 },
   repetition: { bajo: 80, medio: 55, alto: 30 },
   automation: { ninguna: 25, "no-code": 55, integraciones: 70, custom: 85 },
   errorRate: { raro: 80, ocasional: 55, frecuente: 30 },
   kpiUsage: { none: 20, basic: 55, defined: 80 },
   reporting: { nunca: 20, mensual: 50, semanal: 70, diario: 85 },
   crm: { none: 25, crm: 60, erp: 80 },
+  retention: { none: 20, basic: 55, defined: 80 },
+  feedback: { none: 20, sporadic: 55, regular: 80 },
+  margin: { unknown: 20, rough: 50, "by-line": 80 },
+  cashflow: { none: 20, monthly: 55, weekly: 80 },
+  pricing: { "no-review": 30, annual: 55, quarterly: 80 },
+  costStructure: { unknown: 20, basic: 55, detailed: 80 },
 };
 
 const verticalContext: Record<AuditVertical, { pipeline: string; audience: string; workflow: string }> = {
@@ -186,6 +218,8 @@ export function calculateAuditResult(answers: AuditAnswers): AuditResult {
       scoreMaps.tracking[answers.presence.tracking],
       scoreMaps.channel[answers.presence.mainChannel],
       answers.presence.ctaClarity ? 70 : 30,
+      answers.presence.valuePropClarity ? 75 : 30,
+      scoreMaps.segment[answers.presence.segmentClarity],
     ])
   );
 
@@ -194,6 +228,7 @@ export function calculateAuditResult(answers: AuditAnswers): AuditResult {
       scoreMaps.website[answers.presence.websiteStatus],
       scoreMaps.social[answers.presence.socialPresence],
       answers.presence.ctaClarity ? 75 : 30,
+      answers.presence.valuePropClarity ? 70 : 30,
     ])
   );
 
@@ -202,6 +237,8 @@ export function calculateAuditResult(answers: AuditAnswers): AuditResult {
       scoreMaps.leadTool[answers.sales.leadTool],
       scoreMaps.response[answers.sales.responseTime],
       scoreMaps.followUp[answers.sales.followUp],
+      scoreMaps.conversion[answers.sales.conversionTracking],
+      scoreMaps.forecast[answers.sales.forecastLevel],
     ])
   );
 
@@ -211,6 +248,7 @@ export function calculateAuditResult(answers: AuditAnswers): AuditResult {
       scoreMaps.repetition[answers.operations.repetitionLevel],
       scoreMaps.automation[answers.operations.automationLevel],
       scoreMaps.errorRate[answers.operations.errorRate],
+      answers.operations.qualityControl ? 70 : 30,
     ])
   );
 
@@ -220,6 +258,17 @@ export function calculateAuditResult(answers: AuditAnswers): AuditResult {
       scoreMaps.reporting[answers.data.reportingFrequency],
       scoreMaps.crm[answers.data.crmErp],
       scoreMaps.tracking[answers.presence.tracking],
+      scoreMaps.retention[answers.data.retentionTracking],
+      scoreMaps.feedback[answers.data.feedbackLoop],
+    ])
+  );
+
+  const finance = clampScore(
+    average([
+      scoreMaps.margin[answers.finance.marginVisibility],
+      scoreMaps.cashflow[answers.finance.cashflowControl],
+      scoreMaps.pricing[answers.finance.pricingReview],
+      scoreMaps.costStructure[answers.finance.costStructureVisibility],
     ])
   );
 
@@ -237,10 +286,11 @@ export function calculateAuditResult(answers: AuditAnswers): AuditResult {
       sales * (weights.sales / 100) +
       operations * (weights.operations / 100) +
       data * (weights.data / 100) +
+      finance * (weights.finance / 100) +
       risk * (weights.risk / 100)
   );
 
-  const scores: AuditScores = { total, acquisition, web, sales, operations, data, risk };
+  const scores: AuditScores = { total, acquisition, web, sales, operations, data, finance, risk };
   const report = buildReport(answers, scores);
   return { scores, report };
 }
@@ -265,6 +315,7 @@ function buildReport(answers: AuditAnswers, scores: AuditScores): AuditReport {
     { key: "sales", label: context.workflow },
     { key: "operations", label: "operaciones" },
     { key: "data", label: "datos" },
+    { key: "finance", label: "finanzas" },
     { key: "risk", label: "riesgos" },
   ].sort((a, b) => scores[a.key as keyof AuditScores] - scores[b.key as keyof AuditScores]);
 
@@ -295,11 +346,26 @@ function buildWeakPoints(answers: AuditAnswers, context: { pipeline: string; aud
   if (!answers.presence.ctaClarity) {
     items.push({ text: "Propuesta y CTA poco visibles", priority: 2 });
   }
+  if (!answers.presence.valuePropClarity) {
+    items.push({ text: "Propuesta de valor poco diferenciada", priority: 2 });
+  }
+  if (answers.presence.segmentClarity === "none") {
+    items.push({ text: "Segmento objetivo sin definir", priority: 1 });
+  }
+  if (answers.presence.segmentClarity === "basic") {
+    items.push({ text: "Segmento objetivo poco afinado", priority: 3 });
+  }
   if (answers.presence.tracking === "none") {
     items.push({ text: "Sin analitica ni medicion del embudo", priority: 1 });
   }
   if (answers.sales.leadTool === "manual" || answers.sales.leadTool === "spreadsheet") {
     items.push({ text: `Seguimiento de ${context.pipeline} manual`, priority: 2 });
+  }
+  if (answers.sales.conversionTracking === "none") {
+    items.push({ text: "Sin medicion de tasa de cierre por etapa", priority: 2 });
+  }
+  if (answers.sales.forecastLevel === "none") {
+    items.push({ text: "Sin forecast comercial ni pipeline proyectado", priority: 2 });
   }
   if (answers.sales.responseTime === "24-48h" || answers.sales.responseTime === "mas-48h") {
     items.push({ text: `Respuesta lenta a ${context.pipeline}`, priority: 3 });
@@ -310,8 +376,29 @@ function buildWeakPoints(answers: AuditAnswers, context: { pipeline: string; aud
   if (answers.operations.errorRate === "frecuente") {
     items.push({ text: "Errores operativos frecuentes", priority: 2 });
   }
+  if (!answers.operations.qualityControl) {
+    items.push({ text: "Control de calidad irregular antes de entregar", priority: 3 });
+  }
   if (answers.data.kpiUsage === "none" || answers.data.reportingFrequency === "nunca") {
     items.push({ text: "Falta de KPIs y reporting regular", priority: 2 });
+  }
+  if (answers.data.retentionTracking === "none") {
+    items.push({ text: "Sin medicion de retencion o repeticion", priority: 2 });
+  }
+  if (answers.data.feedbackLoop === "none") {
+    items.push({ text: "Sin medicion de satisfaccion del cliente", priority: 2 });
+  }
+  if (answers.finance.marginVisibility === "unknown") {
+    items.push({ text: "Margen por servicio no medido", priority: 1 });
+  }
+  if (answers.finance.costStructureVisibility === "unknown") {
+    items.push({ text: "Costes fijos/variables no claros", priority: 2 });
+  }
+  if (answers.finance.cashflowControl === "none") {
+    items.push({ text: "Sin control de tesoreria/cashflow", priority: 1 });
+  }
+  if (answers.finance.pricingReview === "no-review") {
+    items.push({ text: "Precios sin revision periodica", priority: 3 });
   }
   if (!answers.risk.backups || !answers.risk.rgpdBasics) {
     items.push({ text: "Riesgos basicos de seguridad y RGPD", priority: 1 });
@@ -334,14 +421,29 @@ function buildQuickWins(answers: AuditAnswers, context: { pipeline: string }) {
   if (!answers.presence.ctaClarity || answers.presence.websiteStatus === "basic") {
     items.push({ text: "Refuerza el CTA principal en la web con una sola accion", priority: 2 });
   }
+  if (!answers.presence.valuePropClarity) {
+    items.push({ text: "Define propuesta de valor y diferenciales clave", priority: 2 });
+  }
+  if (answers.presence.segmentClarity === "none") {
+    items.push({ text: "Define ICP, dolor principal y canal prioritario", priority: 2 });
+  }
   if (answers.sales.leadTool === "manual" || answers.sales.leadTool === "spreadsheet") {
     items.push({ text: `Centraliza ${context.pipeline} en un CRM gratuito`, priority: 1 });
+  }
+  if (answers.sales.conversionTracking === "none") {
+    items.push({ text: "Mide la tasa de cierre por etapa del pipeline", priority: 2 });
+  }
+  if (answers.sales.forecastLevel === "none") {
+    items.push({ text: "Crea un forecast mensual con pipeline y tasa de cierre", priority: 2 });
   }
   if (answers.sales.responseTime === "24-48h" || answers.sales.responseTime === "mas-48h") {
     items.push({ text: "Define plantillas y SLA de respuesta en 24h", priority: 2 });
   }
   if (answers.operations.repetitionLevel === "alto") {
     items.push({ text: "Automatiza la tarea repetitiva numero 1 con no-code", priority: 2 });
+  }
+  if (!answers.operations.qualityControl) {
+    items.push({ text: "Implementa un checklist de calidad antes de entregar", priority: 2 });
   }
   if (!answers.risk.backups || !answers.risk.accessControl) {
     items.push({ text: "Activa backups automaticos y revisa accesos", priority: 1 });
@@ -351,6 +453,24 @@ function buildQuickWins(answers: AuditAnswers, context: { pipeline: string }) {
   }
   if (answers.data.kpiUsage === "none") {
     items.push({ text: "Define 5 KPIs y revisalos cada semana", priority: 2 });
+  }
+  if (answers.data.retentionTracking === "none") {
+    items.push({ text: "Mide repeticion/retencion con un reporte simple", priority: 2 });
+  }
+  if (answers.data.feedbackLoop === "none") {
+    items.push({ text: "Lanza una encuesta NPS/CSAT al cierre", priority: 2 });
+  }
+  if (answers.finance.marginVisibility === "unknown") {
+    items.push({ text: "Calcula margen bruto por servicio o producto", priority: 1 });
+  }
+  if (answers.finance.costStructureVisibility === "unknown") {
+    items.push({ text: "Mapea costes fijos/variables y punto de equilibrio", priority: 2 });
+  }
+  if (answers.finance.cashflowControl === "none") {
+    items.push({ text: "Crea un forecast de tesoreria mensual", priority: 1 });
+  }
+  if (answers.finance.pricingReview === "no-review") {
+    items.push({ text: "Revisa precios con costes y valor percibido", priority: 2 });
   }
 
   const sorted = items.sort((a, b) => a.priority - b.priority).map((item) => item.text);
@@ -373,7 +493,7 @@ function buildRoadmap(_answers: AuditAnswers, context: { pipeline: string; workf
   return [
     {
       title: "Fase 1 (0-30 dias)",
-      goal: `Medicion basica, CTA claro y pipeline para ${context.pipeline}.`,
+      goal: `Medicion basica, ICP, CTA claro, margen y pipeline para ${context.pipeline}.`,
     },
     {
       title: "Fase 2 (31-60 dias)",

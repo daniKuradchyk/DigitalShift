@@ -11,26 +11,24 @@ type AuditReportPdfProps = {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 30,
-    fontSize: 10.5,
+    padding: 32,
+    fontSize: 10,
     fontFamily: "Helvetica",
     color: "#0f172a",
     lineHeight: 1.45,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#f8fafc",
   },
   headerBand: {
-    height: 6,
-    backgroundColor: "#4168e1",
-    borderRadius: 5,
-    marginBottom: 12,
+    height: 8,
+    backgroundColor: "#0e1d4a",
+    borderRadius: 6,
+    marginBottom: 10,
   },
-  header: {
-    marginBottom: 12,
-  },
-  brandRow: {
+  headerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 8,
   },
   brand: {
     fontSize: 9,
@@ -42,18 +40,32 @@ const styles = StyleSheet.create({
     fontSize: 8.5,
     color: "#64748b",
   },
+  heroCard: {
+    borderRadius: 12,
+    border: "1px solid #e2e8f0",
+    backgroundColor: "#ffffff",
+    padding: 12,
+    marginBottom: 10,
+  },
+  eyebrow: {
+    fontSize: 8,
+    textTransform: "uppercase",
+    letterSpacing: 1.6,
+    color: "#64748b",
+  },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
-    marginTop: 4,
+    marginTop: 3,
   },
   subtitle: {
     fontSize: 10,
     color: "#475569",
-    marginTop: 4,
+    marginTop: 3,
   },
   pillRow: {
     flexDirection: "row",
+    flexWrap: "wrap",
     marginTop: 6,
   },
   pill: {
@@ -64,13 +76,14 @@ const styles = StyleSheet.create({
     borderRadius: 9,
     fontSize: 8,
     marginRight: 4,
+    marginBottom: 4,
   },
   scorePanel: {
-    marginTop: 8,
+    marginTop: 10,
     borderRadius: 10,
     border: "1px solid #e2e8f0",
     backgroundColor: "#f8fafc",
-    padding: 8,
+    padding: 10,
   },
   scoreLine: {
     flexDirection: "row",
@@ -78,13 +91,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   scoreLabel: {
-    fontSize: 9,
+    fontSize: 8.5,
     color: "#475569",
   },
   scoreValue: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: "bold",
     color: "#0f172a",
+  },
+  scoreBadge: {
+    borderRadius: 8,
+    border: "1px solid #e2e8f0",
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+  },
+  badgeLabel: {
+    fontSize: 7,
+    textTransform: "uppercase",
+    letterSpacing: 1.2,
+  },
+  badgeValue: {
+    fontSize: 9,
+    fontWeight: "bold",
   },
   scoreBarTrack: {
     height: 5,
@@ -97,23 +125,46 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     backgroundColor: "#4168e1",
   },
-  scoreGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    marginTop: 4,
-  },
-  scoreChip: {
+  scoreBreakdown: {
+    borderRadius: 12,
     border: "1px solid #e2e8f0",
-    borderRadius: 7,
-    paddingHorizontal: 5,
-    paddingVertical: 3,
-    marginRight: 5,
-    marginTop: 4,
     backgroundColor: "#ffffff",
+    padding: 10,
+    marginBottom: 10,
   },
-  scoreChipText: {
+  sectionLabel: {
     fontSize: 8,
+    textTransform: "uppercase",
+    letterSpacing: 1.4,
+    color: "#64748b",
+    marginBottom: 4,
+  },
+  scoreRow: {
+    marginTop: 6,
+  },
+  scoreRowHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  scoreRowLabel: {
+    fontSize: 8.5,
     color: "#1f2937",
+  },
+  scoreRowValue: {
+    fontSize: 8.5,
+    color: "#475569",
+  },
+  scoreRowTrack: {
+    height: 4,
+    borderRadius: 999,
+    backgroundColor: "#e2e8f0",
+    marginTop: 3,
+  },
+  scoreRowFill: {
+    height: 4,
+    borderRadius: 999,
+    backgroundColor: "#4168e1",
   },
   sectionGrid: {
     flexDirection: "row",
@@ -123,8 +174,8 @@ const styles = StyleSheet.create({
   sectionCard: {
     width: "48%",
     border: "1px solid #e2e8f0",
-    borderRadius: 9,
-    padding: 7,
+    borderRadius: 10,
+    padding: 8,
     backgroundColor: "#ffffff",
   },
   cardTitle: {
@@ -148,7 +199,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#eef2ff",
     paddingVertical: 3,
     paddingHorizontal: 5,
-    borderRadius: 5,
+    borderRadius: 6,
   },
   bulletRow: {
     flexDirection: "row",
@@ -178,8 +229,8 @@ const styles = StyleSheet.create({
   matrixCard: {
     width: "48%",
     border: "1px solid #e2e8f0",
-    borderRadius: 7,
-    padding: 5,
+    borderRadius: 8,
+    padding: 6,
     marginBottom: 6,
     backgroundColor: "#ffffff",
   },
@@ -192,9 +243,9 @@ const styles = StyleSheet.create({
   },
   contactBox: {
     border: "1px solid #e2e8f0",
-    borderRadius: 8,
-    padding: 8,
-    backgroundColor: "#f8fafc",
+    borderRadius: 10,
+    padding: 10,
+    backgroundColor: "#ffffff",
   },
   contactIntro: {
     fontSize: 9,
@@ -222,6 +273,23 @@ const styles = StyleSheet.create({
   },
 });
 
+type ScoreTier = {
+  label: string;
+  color: string;
+  background: string;
+  border: string;
+};
+
+function getScoreTier(total: number): ScoreTier {
+  if (total >= 75) {
+    return { label: "Avanzado", color: "#15803d", background: "#ecfdf3", border: "#bbf7d0" };
+  }
+  if (total >= 55) {
+    return { label: "En progreso", color: "#1d4ed8", background: "#eff6ff", border: "#bfdbfe" };
+  }
+  return { label: "Base", color: "#b45309", background: "#fffbeb", border: "#fde68a" };
+}
+
 function BulletList({ items }: { items: string[] }) {
   return (
     <View>
@@ -235,41 +303,73 @@ function BulletList({ items }: { items: string[] }) {
   );
 }
 
+function ScoreRow({ label, value }: { label: string; value: number }) {
+  return (
+    <View style={styles.scoreRow}>
+      <View style={styles.scoreRowHeader}>
+        <Text style={styles.scoreRowLabel}>{label}</Text>
+        <Text style={styles.scoreRowValue}>{value}/100</Text>
+      </View>
+      <View style={styles.scoreRowTrack}>
+        <View style={[styles.scoreRowFill, { width: `${value}%` }]} />
+      </View>
+    </View>
+  );
+}
+
 export default function AuditReportPdf({ report, scores, verticalLabel, goalLabel }: AuditReportPdfProps) {
   const generatedOn = new Date().toLocaleDateString("es-ES");
+  const tier = getScoreTier(scores.total);
+  const scoreRows = [
+    { label: "Captacion", value: scores.acquisition },
+    { label: "Web", value: scores.web },
+    { label: "Ventas", value: scores.sales },
+    { label: "Operaciones", value: scores.operations },
+    { label: "Datos", value: scores.data },
+    { label: "Finanzas", value: scores.finance },
+    { label: "Riesgos", value: scores.risk },
+  ];
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.headerBand} />
-        <View style={styles.header}>
-          <View style={styles.brandRow}>
-            <Text style={styles.brand}>Qubelia Labs</Text>
-            <Text style={styles.meta}>Generado {generatedOn}</Text>
-          </View>
+        <View style={styles.headerRow}>
+          <Text style={styles.brand}>Qubelia Labs</Text>
+          <Text style={styles.meta}>Generado {generatedOn}</Text>
+        </View>
+
+        <View style={styles.heroCard}>
+          <Text style={styles.eyebrow}>Diagnostico ejecutivo</Text>
           <Text style={styles.title}>Analisis gratuito de tu negocio</Text>
           <Text style={styles.subtitle}>Perfil: {verticalLabel} / Objetivo: {goalLabel}</Text>
           <View style={styles.pillRow}>
             <Text style={styles.pill}>Informe inmediato</Text>
             <Text style={styles.pill}>Sin registro obligatorio</Text>
+            <Text style={styles.pill}>PDF incluido</Text>
           </View>
           <View style={styles.scorePanel}>
             <View style={styles.scoreLine}>
-              <Text style={styles.scoreLabel}>Score total</Text>
-              <Text style={styles.scoreValue}>{scores.total}/100</Text>
+              <View>
+                <Text style={styles.scoreLabel}>Score total</Text>
+                <Text style={styles.scoreValue}>{scores.total}/100</Text>
+              </View>
+              <View style={[styles.scoreBadge, { backgroundColor: tier.background, borderColor: tier.border }]}>
+                <Text style={[styles.badgeLabel, { color: tier.color }]}>Nivel</Text>
+                <Text style={[styles.badgeValue, { color: tier.color }]}>{tier.label}</Text>
+              </View>
             </View>
             <View style={styles.scoreBarTrack}>
               <View style={[styles.scoreBarFill, { width: `${scores.total}%` }]} />
             </View>
-            <View style={styles.scoreGrid}>
-              <View style={styles.scoreChip}><Text style={styles.scoreChipText}>Captacion {scores.acquisition}/100</Text></View>
-              <View style={styles.scoreChip}><Text style={styles.scoreChipText}>Web {scores.web}/100</Text></View>
-              <View style={styles.scoreChip}><Text style={styles.scoreChipText}>Ventas {scores.sales}/100</Text></View>
-              <View style={styles.scoreChip}><Text style={styles.scoreChipText}>Operaciones {scores.operations}/100</Text></View>
-              <View style={styles.scoreChip}><Text style={styles.scoreChipText}>Datos {scores.data}/100</Text></View>
-              <View style={styles.scoreChip}><Text style={styles.scoreChipText}>Riesgos {scores.risk}/100</Text></View>
-            </View>
           </View>
+        </View>
+
+        <View style={styles.scoreBreakdown}>
+          <Text style={styles.sectionLabel}>Score por area</Text>
+          {scoreRows.map((row) => (
+            <ScoreRow key={row.label} label={row.label} value={row.value} />
+          ))}
         </View>
 
         <View style={styles.sectionGrid}>
@@ -278,7 +378,7 @@ export default function AuditReportPdf({ report, scores, verticalLabel, goalLabe
             <BulletList items={report.summary} />
           </View>
           <View style={styles.sectionCard}>
-            <Text style={styles.cardTitle}>Puntos flojos detectados</Text>
+            <Text style={styles.cardTitle}>Prioridades detectadas</Text>
             <BulletList items={report.weakPoints} />
           </View>
         </View>
@@ -297,6 +397,16 @@ export default function AuditReportPdf({ report, scores, verticalLabel, goalLabe
               </View>
             ))}
           </View>
+        </View>
+
+        <Text style={styles.footer}>Qubelia Labs - Informe generado automaticamente para uso interno.</Text>
+      </Page>
+
+      <Page size="A4" style={styles.page}>
+        <View style={styles.headerBand} />
+        <View style={styles.headerRow}>
+          <Text style={styles.brand}>Qubelia Labs</Text>
+          <Text style={styles.meta}>Detalle del informe</Text>
         </View>
 
         <View style={styles.section}>
