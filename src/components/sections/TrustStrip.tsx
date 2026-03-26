@@ -1,34 +1,46 @@
-import React from "react";
-import Container from "@/components/common/Container";
-
 export default function TrustStrip() {
   const tools = [
-    { name: "Next.js", abbr: "Next" },
-    { name: "Supabase", abbr: "Supabase" },
-    { name: "NestJS", abbr: "NestJS" },
-    { name: "PostgreSQL", abbr: "Postgres" },
-    { name: "Vercel", abbr: "Vercel" },
-    { name: "Docker", abbr: "Docker" },
-    { name: "Google Analytics 4", abbr: "GA4" },
-    { name: "OpenAI", abbr: "OpenAI" },
+    { name: "Next.js" },
+    { name: "Supabase" },
+    { name: "NestJS" },
+    { name: "PostgreSQL" },
+    { name: "Vercel" },
+    { name: "Docker" },
+    { name: "Google Analytics 4" },
+    { name: "OpenAI" },
+    { name: "TypeScript" },
+    { name: "React" },
   ];
+
+  const doubled = [...tools, ...tools];
+
   return (
-    <section aria-labelledby="tools-title" className="py-6 border-y border-brand-100 bg-white/70 backdrop-blur">
+    <section
+      aria-labelledby="tools-title"
+      className="relative py-6 overflow-hidden border-y border-slate-200/60 dark:border-sky-500/8 bg-slate-50/80 dark:bg-[rgba(5,10,25,0.5)]"
+    >
       <h2 id="tools-title" className="sr-only">Tecnologías que usamos</h2>
-      <Container>
-        <div className="flex gap-3 overflow-x-auto no-scrollbar py-1" aria-label="Tecnologías líderes">
-          {tools.map((t) => (
+
+      {/* Fade masks — adapt to bg via CSS var */}
+      <div className="marquee-fade-left pointer-events-none absolute left-0 top-0 bottom-0 w-24 z-10" />
+      <div className="marquee-fade-right pointer-events-none absolute right-0 top-0 bottom-0 w-24 z-10" />
+
+      <div className="marquee-container" aria-hidden>
+        <div className="marquee-track">
+          {doubled.map((t, i) => (
             <span
-              key={t.abbr}
-              className="relative inline-flex items-center justify-center rounded-full px-[1px] py-[1px] bg-gradient-to-r from-brand-700 via-brand-500 to-brand-700 shrink-0"
-              aria-label={t.name}
-              title={t.name}
+              key={`${t.name}-${i}`}
+              className="inline-flex items-center mx-2 shrink-0 rounded-full border border-slate-200 dark:border-sky-500/12 px-4 py-1.5 text-sm font-medium text-slate-500 dark:text-slate-500 hover:text-slate-700 dark:hover:text-sky-400 hover:border-slate-300 dark:hover:border-sky-500/25 transition-colors bg-white dark:bg-[rgba(56,189,248,0.03)]"
             >
-              <span className="rounded-full bg-white px-3 py-1 text-sm text-slate-700">{t.abbr}</span>
+              {t.name}
             </span>
           ))}
         </div>
-      </Container>
+      </div>
+
+      <p className="mt-5 text-center text-[10px] uppercase tracking-[0.22em] text-slate-400 dark:text-slate-600 font-medium">
+        Stack tecnológico probado en producción
+      </p>
     </section>
   );
 }

@@ -1,287 +1,219 @@
-"use client";
-
-import React, { useState } from "react";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
+import { BarChart3, Code2, Rocket, Bot, Database, ArrowRight } from "lucide-react";
+
+/* ─── Decorative SVG background patterns per card ─────────────────── */
+
+function GridPattern({ color }: { color: string }) {
+  return (
+    <svg aria-hidden className="absolute inset-0 h-full w-full opacity-[0.07]" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id={`gp-${color}`} width="24" height="24" patternUnits="userSpaceOnUse">
+          <path d="M 24 0 L 0 0 0 24" fill="none" stroke={color} strokeWidth="0.6" />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill={`url(#gp-${color})`} />
+    </svg>
+  );
+}
+
+function DotsPattern({ color }: { color: string }) {
+  return (
+    <svg aria-hidden className="absolute inset-0 h-full w-full opacity-[0.07]" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id={`dp-${color}`} width="20" height="20" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1.5" fill={color} />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill={`url(#dp-${color})`} />
+    </svg>
+  );
+}
+
+/* ─── Card definitions ──────────────────────────────────────────────── */
 
 const services = [
   {
     id: "consultoria",
-    title: "Consultoria tecnologica y transformacion para PYMEs",
-    summary: "Ordenamos procesos, medimos impacto y priorizamos automatizacion con ROI rapido.",
-    detail:
-      "Arrancamos con entrevistas y analisis de operacion para detectar fricciones, duplicidades y riesgos. Cerramos con un plan de 90 dias, objetivos medibles y responsables claros.",
-    chips: [
-      { icon: "🧭", label: "Diagnostico" },
-      { icon: "🧩", label: "Procesos" },
-      { icon: "📈", label: "ROI rapido" },
-    ],
-    detailPoints: [
-      { icon: "🧭", title: "Mapa operativo", desc: "Inventario de procesos, roles y dependencias para reducir tiempos muertos." },
-      { icon: "🧾", title: "Backlog priorizado", desc: "Iniciativas por impacto, costo y tiempo con quick wins identificados." },
-      { icon: "🛡", title: "Gobierno y KPIs", desc: "Metricas, responsables y seguimiento mensual para sostener mejoras." },
-    ],
-    bullets: [
-      { icon: "✅", title: "Diagnostico accionable", desc: "Documento ejecutivo con oportunidades y riesgos." },
-      { icon: "🔧", title: "Plan de automatizacion", desc: "Flujos objetivo y estimacion de esfuerzo." },
-      { icon: "📊", title: "Indicadores clave", desc: "KPIs de servicio, eficiencia y ahorro." },
-    ],
-    Icon: TransformIcon,
-  },
-  {
-    id: "apps",
-    title: "Desarrollo de aplicaciones a medida",
-    summary: "Producto digital propio con arquitectura escalable, QA y despliegues continuos.",
-    detail:
-      "Construimos software con arquitectura modular, integraciones seguras y documentacion viva. Entregamos con CI/CD, monitoreo y handover para operar sin dependencia.",
-    chips: [
-      { icon: "🧱", label: "Arquitectura" },
-      { icon: "🔐", label: "Seguridad" },
-      { icon: "⚙", label: "Integraciones" },
-    ],
-    detailPoints: [
-      { icon: "🧱", title: "Arquitectura limpia", desc: "Modulos desacoplados, dominio claro y capas de integracion." },
-      { icon: "🧪", title: "QA y confiabilidad", desc: "Pruebas automatizadas, criterios de aceptacion y revision de codigo." },
-      { icon: "🚀", title: "Entregas continuas", desc: "Pipelines de despliegue, versionado y rollback seguro." },
-    ],
-    bullets: [
-      { icon: "💻", title: "Experiencia de usuario", desc: "Interfaces claras y paneles operativos." },
-      { icon: "🔌", title: "APIs robustas", desc: "Endpoints versionados y documentacion tecnica." },
-      { icon: "📈", title: "Escalabilidad", desc: "Rendimiento, observabilidad y soporte." },
-    ],
-    Icon: AppIcon,
-  },
-  {
-    id: "mvp",
-    title: "MVP para emprendedores",
-    summary: "Validacion rapida con producto funcional, eventos y aprendizaje accionable.",
-    detail:
-      "En 8-10 semanas pasamos de hipotesis a producto. Validamos con usuarios reales, medimos uso y ajustamos para traccion.",
-    chips: [
-      { icon: "🧪", label: "Experimentos" },
-      { icon: "🗺", label: "Roadmap" },
-      { icon: "📊", label: "Analitica" },
-    ],
-    detailPoints: [
-      { icon: "💡", title: "Propuesta clara", desc: "Definicion de valor, segmento y KPIs de validacion." },
-      { icon: "👥", title: "Usuarios reales", desc: "Testing guiado y feedback estructurado." },
-      { icon: "📣", title: "Lanzamiento controlado", desc: "Piloto con eventos de uso y aprendizaje." },
-    ],
-    bullets: [
-      { icon: "🧭", title: "Discovery intensivo", desc: "Sprints de definicion y prototipo." },
-      { icon: "⚡", title: "Desarrollo rapido", desc: "Entregas quincenales con demos." },
-      { icon: "🧾", title: "Roadmap accionable", desc: "Prioridades para crecimiento y siguientes pasos." },
-    ],
-    Icon: RocketIcon,
+    Icon: BarChart3,
+    title: "Consultoría y\ntransformación",
+    description: "Diagnóstico operativo, hoja de ruta de 90 días y KPIs medibles para que cada euro invertido tenga retorno claro.",
+    tags: ["Diagnóstico", "Procesos", "ROI rápido"],
+    accent: "#38BDF8",
+    glow: "rgba(56,189,248,0.15)",
+    iconBg: "bg-sky-50 dark:bg-sky-500/10 border-sky-200 dark:border-sky-500/20",
+    iconColor: "text-sky-600 dark:text-sky-400",
+    span: "lg:col-span-2 lg:row-span-2",
+    large: true,
+    Pattern: GridPattern,
   },
   {
     id: "ia",
-    title: "IA y automatizacion de procesos",
-    summary: "IA aplicada con control humano, flujos RPA y trazabilidad.",
-    detail:
-      "Automatizamos tareas repetitivas con IA generativa y clasificacion inteligente. Todo con guardrails, control humano y auditoria.",
-    chips: [
-      { icon: "🤖", label: "Asistentes" },
-      { icon: "🧠", label: "Clasificacion" },
-      { icon: "🧾", label: "Documentos" },
-    ],
-    detailPoints: [
-      { icon: "🤖", title: "Orquestacion IA", desc: "Modelos y prompts gobernados con versionado." },
-      { icon: "🧯", title: "Control humano", desc: "Aprobaciones, reglas y fallback manual." },
-      { icon: "🔍", title: "Observabilidad", desc: "Trazabilidad de decisiones y logs operativos." },
-    ],
-    bullets: [
-      { icon: "⚙", title: "Flujos RPA", desc: "Automatizacion de tareas repetitivas." },
-      { icon: "📥", title: "Ingesta inteligente", desc: "Extraccion de datos y normalizacion." },
-      { icon: "🔔", title: "Alertas proactivas", desc: "Notificaciones y reglas de negocio." },
-    ],
-    Icon: AiIcon,
+    Icon: Bot,
+    title: "IA y\nautomatización",
+    description: "Flujos RPA, agentes IA y clasificación inteligente con control humano y trazabilidad completa.",
+    tags: ["Agentes IA", "RPA", "Guardrails"],
+    accent: "#A78BFA",
+    glow: "rgba(167,139,250,0.15)",
+    iconBg: "bg-violet-50 dark:bg-violet-500/10 border-violet-200 dark:border-violet-500/20",
+    iconColor: "text-violet-600 dark:text-violet-400",
+    span: "lg:col-span-1",
+    large: false,
+    Pattern: DotsPattern,
+  },
+  {
+    id: "mvp",
+    Icon: Rocket,
+    title: "MVP en\n8 semanas",
+    description: "De hipótesis a producto funcional con usuarios reales. Sprints quincenales y aprendizaje accionable.",
+    tags: ["Sprints", "Validación", "Analytics"],
+    accent: "#34D399",
+    glow: "rgba(52,211,153,0.15)",
+    iconBg: "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20",
+    iconColor: "text-emerald-600 dark:text-emerald-400",
+    span: "lg:col-span-1",
+    large: false,
+    Pattern: GridPattern,
+  },
+  {
+    id: "apps",
+    Icon: Code2,
+    title: "Desarrollo a medida",
+    description: "Software con arquitectura limpia, CI/CD, QA automatizado y handover completo. Tú eres dueño del código.",
+    tags: ["Arquitectura", "CI/CD", "QA"],
+    accent: "#FB923C",
+    glow: "rgba(251,146,60,0.15)",
+    iconBg: "bg-orange-50 dark:bg-orange-500/10 border-orange-200 dark:border-orange-500/20",
+    iconColor: "text-orange-600 dark:text-orange-400",
+    span: "lg:col-span-2",
+    large: false,
+    Pattern: DotsPattern,
   },
   {
     id: "data",
+    Icon: Database,
     title: "Integraciones y Data",
-    summary: "Datos confiables y conectores que alimentan dashboards en tiempo real.",
-    detail:
-      "Conectamos ERP, CRM, soporte y finanzas para unificar datos. Disenamos pipelines con calidad, alertas y ownership claro.",
-    chips: [
-      { icon: "🔗", label: "Conectores" },
-      { icon: "🗃", label: "Data" },
-      { icon: "📡", label: "Tiempo real" },
-    ],
-    detailPoints: [
-      { icon: "🔗", title: "Integraciones seguras", desc: "Conectores a medida con logs y reintentos." },
-      { icon: "🧹", title: "Calidad de datos", desc: "Reglas de limpieza y reconciliacion." },
-      { icon: "📊", title: "Analitica operativa", desc: "Dashboards y alertas de negocio." },
-    ],
-    bullets: [
-      { icon: "🧾", title: "ETL/ELT", desc: "Modelado y cargas programadas." },
-      { icon: "🧭", title: "Gobierno de datos", desc: "Diccionario, permisos y ownership." },
-      { icon: "🛰", title: "Reporteria", desc: "Informes y paneles compartibles." },
-    ],
-    Icon: DataIcon,
+    description: "Conectores ERP/CRM, pipelines de calidad y dashboards operativos en tiempo real.",
+    tags: ["Conectores", "ETL", "Reporting"],
+    accent: "#22D3EE",
+    glow: "rgba(34,211,238,0.15)",
+    iconBg: "bg-cyan-50 dark:bg-cyan-500/10 border-cyan-200 dark:border-cyan-500/20",
+    iconColor: "text-cyan-600 dark:text-cyan-400",
+    span: "lg:col-span-1",
+    large: false,
+    Pattern: GridPattern,
   },
 ];
 
 export default function Services() {
-  const [openId, setOpenId] = useState<string | null>(null);
-
   return (
-    <section id="servicios" aria-labelledby="services-title" className="py-20">
-      <Container>
-        <div className="max-w-2xl">
-          <h2 id="services-title" className="text-3xl font-bold tracking-tight">Servicios de desarrollo y consultoria tecnologica en Sevilla</h2>
-          <p className="mt-2 text-slate-700">Software a medida, automatizacion con IA, diseno web y data para pymes que quieren resultados rapidos y medibles.</p>
-        </div>
-        <div className="mt-10 grid items-start gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((s) => {
-            const isOpen = s.id === openId;
-            const panelId = `${s.id}-panel`;
+    <section id="servicios" aria-labelledby="services-title" className="relative py-20 lg:py-28 overflow-hidden">
+      {/* Ambient glows */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -left-20 top-1/3 h-96 w-96 rounded-full blur-3xl opacity-10 dark:opacity-20"
+          style={{ background: "rgba(56,189,248,0.4)" }} />
+        <div className="absolute -right-20 bottom-1/3 h-96 w-96 rounded-full blur-3xl opacity-10 dark:opacity-20"
+          style={{ background: "rgba(167,139,250,0.4)" }} />
+      </div>
 
+      <Container>
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
+          <div className="max-w-xl">
+            <div className="section-tag mb-4">
+              <span className="h-1.5 w-1.5 rounded-full bg-sky-400" aria-hidden />
+              Servicios
+            </div>
+            <h2 id="services-title" className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+              Todo lo que necesita
+              <br />
+              <span className="gradient-text-static">tu empresa digital</span>
+            </h2>
+          </div>
+          <Button as="a" href="/#contacto" variant="shine">
+            Hablar con un experto
+          </Button>
+        </div>
+
+        {/* Bento grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[220px]">
+          {services.map((s) => {
+            const { Pattern } = s;
             return (
               <article
                 key={s.id}
-                className={`group relative rounded-2xl p-[1px] bg-[linear-gradient(140deg,rgba(28,57,148,0.55),rgba(99,137,255,0.25),rgba(14,29,74,0.35))] shadow-card transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_-18px_rgba(14,29,74,0.55)] dark:bg-[linear-gradient(140deg,rgba(15,23,42,0.85),rgba(28,57,148,0.55),rgba(15,23,42,0.85))] dark:shadow-[0_22px_70px_-46px_rgba(0,0,0,0.8)] ${isOpen ? "scale-[1.01] lg:col-span-3" : ""}`}
+                className={`group relative overflow-hidden rounded-2xl border border-slate-200/70 dark:border-white/[0.07] bg-white dark:bg-[#070D1C] p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,40,0.12)] dark:hover:shadow-none ${s.span}`}
+                style={{
+                  "--glow": s.glow,
+                } as React.CSSProperties}
               >
-                <div className="flex flex-col rounded-2xl bg-white/95 p-5 sm:p-6 border border-white/60 dark:bg-slate-900/90 dark:border-slate-700/80">
-                  <button
-                    type="button"
-                    className="flex w-full items-start gap-4 text-left rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-brand-400 dark:focus-visible:ring-offset-slate-900"
-                    onClick={() => setOpenId(isOpen ? null : s.id)}
-                    aria-expanded={isOpen}
-                    aria-controls={panelId}
-                  >
-                    <span className="mt-0.5 flex h-11 w-11 flex-none items-center justify-center rounded-xl bg-brand-50 text-brand-700 ring-1 ring-brand-100 shadow-sm dark:bg-slate-900/80 dark:text-brand-300 dark:ring-brand-500/30">
-                      <s.Icon />
-                    </span>
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between gap-3">
-                        <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">{s.title}</h3>
-                        <span className="hidden sm:inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-brand-600 dark:text-brand-300">
-                          Ver detalle
-                        </span>
-                      </div>
-                      <p className="mt-1 text-sm text-slate-600 leading-relaxed dark:text-slate-300">{s.summary}</p>
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {s.chips.map((c) => (
-                          <span
-                            key={`${s.id}-${c.label}`}
-                            className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700 dark:border-slate-700 dark:bg-slate-800/70 dark:text-slate-200"
-                          >
-                            <span aria-hidden className="text-sm">{c.icon}</span>
-                            {c.label}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    <span
-                      aria-hidden
-                      className={`mt-1 inline-flex h-7 w-7 flex-none items-center justify-center rounded-full border text-sm font-bold transition duration-200 ${isOpen ? "rotate-45 border-brand-200 bg-brand-50 text-brand-600 shadow-sm dark:border-brand-500/50 dark:bg-brand-500/10 dark:text-brand-200" : "border-slate-200 bg-white text-slate-600 group-hover:border-brand-200 group-hover:text-brand-600 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-300 dark:group-hover:border-brand-400/70 dark:group-hover:text-brand-200"}`}
-                    >
-                      +
-                    </span>
-                  </button>
+                {/* Background pattern */}
+                <Pattern color={s.accent} />
 
-                  <div
-                    id={panelId}
-                    role="region"
-                    aria-live="polite"
-                    className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
-                  >
-                    <div className="overflow-hidden">
-                      <div className="mt-4 border-t border-slate-100 pt-4 dark:border-slate-700/70">
-                        <p className="text-sm text-slate-700 leading-relaxed dark:text-slate-200">{s.detail}</p>
-                        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                          {s.detailPoints.map((p) => (
-                            <div
-                              key={`${s.id}-${p.title}`}
-                              className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 dark:border-slate-700/60 dark:bg-slate-800/60"
-                            >
-                              <div className="flex items-start gap-3">
-                                <span aria-hidden className="text-lg">{p.icon}</span>
-                                <div>
-                                  <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{p.title}</p>
-                                  <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-300">{p.desc}</p>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="mt-4">
-                          <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Incluye</p>
-                          <ul className="mt-2 space-y-2">
-                            {s.bullets.map((b) => (
-                              <li key={`${s.id}-${b.title}`} className="flex gap-3">
-                                <span aria-hidden className="text-base">{b.icon}</span>
-                                <div>
-                                  <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{b.title}</p>
-                                  <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-300">{b.desc}</p>
-                                </div>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div className="mt-6 flex flex-wrap gap-2">
-                          <Button as="a" href="/#contacto" variant="shine">Agenda diagnostico gratis</Button>
-                          <Button as="a" href="/labs" variant="ghost">Ver productos gratuitos</Button>
-                        </div>
-                      </div>
-                    </div>
+                {/* Glow on hover */}
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
+                  style={{ boxShadow: `inset 0 0 60px ${s.glow}` }}
+                />
+
+                {/* Top: icon + tags */}
+                <div className="relative z-10 flex items-start justify-between gap-3">
+                  <div className={`inline-flex h-11 w-11 items-center justify-center rounded-xl border ${s.iconBg} ${s.iconColor} transition-transform duration-300 group-hover:scale-110`}>
+                    <s.Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden />
+                  </div>
+                  <div className="flex flex-wrap justify-end gap-1.5">
+                    {s.tags.slice(0, s.large ? 3 : 2).map((t) => (
+                      <span
+                        key={t}
+                        className="inline-flex rounded-full border border-slate-200/80 dark:border-white/[0.08] px-2 py-0.5 text-[10px] font-medium text-slate-500 dark:text-slate-400 bg-white/70 dark:bg-white/[0.04] backdrop-blur-sm"
+                      >
+                        {t}
+                      </span>
+                    ))}
                   </div>
                 </div>
-                <div aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-200 bg-gradient-to-br from-brand-700/10 via-transparent to-brand-500/15 shadow-glow dark:from-brand-500/10 dark:to-brand-400/20" />
+
+                {/* Bottom: text */}
+                <div className="relative z-10">
+                  <h3 className={`font-bold text-slate-900 dark:text-white leading-tight whitespace-pre-line ${s.large ? "text-2xl" : "text-lg"}`}>
+                    {s.title}
+                  </h3>
+                  {(s.large || true) && (
+                    <p className={`mt-2 text-slate-500 dark:text-slate-400 leading-relaxed ${s.large ? "text-sm" : "text-xs"}`}>
+                      {s.description}
+                    </p>
+                  )}
+                  <div
+                    className="mt-3 inline-flex items-center gap-1 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-1 group-hover:translate-x-0"
+                    style={{ color: s.accent }}
+                  >
+                    Ver más <ArrowRight className="h-3 w-3" />
+                  </div>
+                </div>
               </article>
             );
           })}
+
+          {/* CTA card */}
+          <article className="relative overflow-hidden rounded-2xl p-[1px] lg:col-span-1"
+            style={{ background: "linear-gradient(135deg, rgba(56,189,248,0.6), rgba(14,165,233,0.15) 45%, rgba(129,140,248,0.5))" }}>
+            <div className="h-full rounded-2xl p-6 flex flex-col justify-center items-center text-center gap-4 bg-sky-50/90 dark:bg-[#060C1A]">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-sky-600 dark:text-sky-400 mb-2">Empieza hoy</p>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-snug">
+                  ¿Hablamos de tu proyecto?
+                </h3>
+                <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+                  Diagnóstico gratuito en 1 semana.
+                </p>
+              </div>
+              <Button as="a" href="/#contacto" variant="shine" className="w-full">
+                Agenda gratis
+              </Button>
+            </div>
+          </article>
         </div>
       </Container>
     </section>
-  );
-}
-
-function IconBase(props: React.SVGProps<SVGSVGElement>) {
-  return <svg aria-hidden className="h-7 w-7 text-brand-700 dark:text-brand-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props} />;
-}
-function TransformIcon() {
-  return (
-    <IconBase>
-      <rect x="3" y="3" width="7" height="7" rx="1" />
-      <rect x="14" y="3" width="7" height="7" rx="1" />
-      <rect x="3" y="14" width="7" height="7" rx="1" />
-      <path d="M14 17h7M14 21h4" />
-    </IconBase>
-  );
-}
-function AppIcon() {
-  return (
-    <IconBase>
-      <rect x="3" y="4" width="18" height="14" rx="2" />
-      <path d="M7 8h10M7 12h6M7 16h4" />
-    </IconBase>
-  );
-}
-function RocketIcon() {
-  return (
-    <IconBase>
-      <path d="M5 19l4-1 7-7a4 4 0 10-5-5l-7 7-1 4 4-1" />
-      <path d="M15 9l-6 6" />
-      <circle cx="16" cy="8" r="1" />
-    </IconBase>
-  );
-}
-function AiIcon() {
-  return (
-    <IconBase>
-      <circle cx="12" cy="12" r="8" />
-      <path d="M8 12h8M12 8v8" />
-    </IconBase>
-  );
-}
-function DataIcon() {
-  return (
-    <IconBase>
-      <rect x="3" y="4" width="18" height="4" rx="1" />
-      <rect x="3" y="10" width="18" height="4" rx="1" />
-      <rect x="3" y="16" width="18" height="4" rx="1" />
-    </IconBase>
   );
 }

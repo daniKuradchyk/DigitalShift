@@ -1,85 +1,270 @@
-import React from "react";
-import Image from "next/image";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 
-const CheckIcon = () => (
-  <svg
-    aria-hidden
-    viewBox="0 0 24 24"
-    className="mt-0.5 h-4 w-4 flex-none text-brand-500"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M5 12.5 10 17 19 8" />
-  </svg>
-);
+const kpis = [
+  { label: "+40%",  sub: "ventas en 6 meses",   color: "#22C55E", bg: "rgba(34,197,94,0.12)"  },
+  { label: "8 sem", sub: "primer MVP en vivo",   color: "#38BDF8", bg: "rgba(56,189,248,0.12)" },
+  { label: "×3",    sub: "leads cualificados",   color: "#A78BFA", bg: "rgba(167,139,250,0.12)"},
+  { label: "24 h",  sub: "respuesta garantizada",color: "#FB923C", bg: "rgba(251,146,60,0.12)" },
+];
+
+const navItems = ["Inicio", "Servicios", "Clientes", "Blog"];
+const tableRows = [
+  { name: "Automatización RPA",  status: "Completado", pct: 100, color: "#22C55E" },
+  { name: "Dashboard analítico", status: "En progreso", pct: 72,  color: "#38BDF8" },
+  { name: "API ERP-CRM",         status: "En progreso", pct: 55,  color: "#38BDF8" },
+  { name: "SEO técnico",         status: "Pendiente",   pct: 20,  color: "#94A3B8" },
+];
+const barData = [45, 62, 51, 78, 66, 89, 95];
+const linePoints = [30, 48, 38, 62, 55, 74, 80, 70, 88, 92];
+
+const clients = ["Santander", "Unicaja", "Accenture", "Soltel"];
 
 export default function Hero() {
-  const bullets = [
-    "MVP en 8-10 semanas con metricas desde el primer dia",
-    "Integraciones ERP/CRM y automatizacion con IA para quitar tareas manuales",
-    "Diseno web para pymes orientado a conversion y captacion de leads",
-    "Gobierno tecnico y soporte para que el equipo no se detenga",
-  ];
+  // Build SVG line path
+  const w = 200;
+  const h = 60;
+  const pts = linePoints.map((v, i) => `${(i / (linePoints.length - 1)) * w},${h - (v / 100) * h}`).join(" ");
+  const areaPath = `M0,${h} L${pts.split(" ").join(" L")} L${w},${h} Z`;
 
   return (
-    <section aria-labelledby="hero-title" className="relative overflow-hidden">
-      {/* Fondo decorativo */}
+    <section
+      aria-labelledby="hero-title"
+      className="relative flex min-h-[92vh] flex-col items-center justify-center overflow-hidden pt-24 pb-12"
+    >
+      {/* ── Background ── */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -top-24 -left-24 h-80 w-80 rounded-full bg-brand-500/18 blur-3xl animate-blob" />
-        <div className="absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-brand-300/20 blur-3xl animate-blob [animation-delay:2s]" />
-        <div className="absolute top-1/2 left-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-400/12 blur-3xl animate-blob [animation-delay:4s]" />
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-900/10 to-transparent" />
+        {/* Radial glow center */}
+        <div
+          className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[800px] rounded-full opacity-20 dark:opacity-40"
+          style={{ background: "radial-gradient(ellipse, rgba(56,189,248,0.18) 0%, rgba(129,140,248,0.10) 40%, transparent 70%)" }}
+        />
+        {/* Top glow line */}
+        <div
+          className="absolute inset-x-0 top-0 h-px"
+          style={{ background: "linear-gradient(90deg, transparent 5%, rgba(56,189,248,0.5) 50%, transparent 95%)" }}
+        />
+        {/* Corner glows */}
+        <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full opacity-10 dark:opacity-20 blur-3xl" style={{ background: "rgba(56,189,248,0.4)" }} />
+        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full opacity-10 dark:opacity-20 blur-3xl" style={{ background: "rgba(129,140,248,0.4)" }} />
       </div>
 
-      <Container className="py-2 sm:py-12 lg:py-14">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/80 px-3 py-1 text-xs font-semibold text-brand-700 shadow-[0_12px_30px_-14px_rgba(14,29,74,0.35)]">
-              <span className="h-2 w-2 rounded-full bg-green-400 shadow-[0_0_0_4px_rgba(52,211,153,0.2)]" aria-hidden />
-              Qubelia - Consultoria tecnologica sin humo
-            </div>
-            <h1 id="hero-title" className="text-4xl sm:text-5xl font-extrabold tracking-tight text-brand-900 drop-shadow-[0_6px_18px_rgba(14,29,74,0.25)]">
-              Desarrollo de software a medida en Sevilla para pymes que quieren menos caos y mas ventas
-            </h1>
-          <p className="text-lg text-slate-700 max-w-2xl hidden sm:block">
-            Equipo en Sevilla que une consultoria tecnologica, diseno web para pymes y desarrollo de software a medida. Lanzamos rapido, integramos tus sistemas
-            y automatizamos procesos con IA para ganar tiempo, reducir errores y vender mas.
-          </p>
-            <ul className="grid gap-3 sm:grid-cols-2" aria-label="Beneficios clave">
-              {bullets.map((item) => (
-                <li key={item} className="flex items-start gap-3 rounded-2xl border border-brand-100/80 bg-white/80 px-3 py-2 shadow-[0_12px_30px_-16px_rgba(14,29,74,0.35)]">
-                  <CheckIcon />
-                  <span className="text-slate-700 text-sm">{item}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-2 flex flex-col sm:flex-row gap-3 sm:items-center">
-              <Button as="a" href="/#contacto" variant="shine" size="lg">Agenda diagnostico gratis</Button>
-              <Button as="a" variant="ghost" href="/labs" size="lg">Ver productos gratuitos</Button>
-              <p className="text-sm text-slate-600 sm:ml-2">Respuesta en 24 h - Sin compromiso</p>
-            </div>
+      <Container className="relative z-10 flex flex-col items-center">
+
+        {/* ── Center text block ── */}
+        <div className="text-center max-w-3xl space-y-6">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2.5 rounded-full border border-sky-500/25 bg-sky-500/8 dark:bg-sky-500/10 px-4 py-1.5 backdrop-blur-sm">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute animate-ping rounded-full bg-emerald-400 opacity-75 h-full w-full" />
+              <span className="relative rounded-full bg-emerald-400 h-2 w-2" />
+            </span>
+            <span className="text-xs font-semibold tracking-wide text-sky-600 dark:text-sky-300">
+              Qubelia · Consultoría tecnológica desde Sevilla
+            </span>
           </div>
 
-          <div className="relative">
-            <div className="absolute -inset-6 rounded-[32px] bg-[radial-gradient(circle_at_20%_20%,rgba(99,137,255,0.18),transparent_45%),radial-gradient(circle_at_80%_0%,rgba(14,29,74,0.25),transparent_35%),linear-gradient(120deg,rgba(14,29,74,0.14),rgba(65,104,225,0.18),rgba(99,137,255,0.22))] blur-2xl" aria-hidden />
-            <div className="relative overflow-hidden rounded-[28px] border border-white/50 bg-white/80 backdrop-blur shadow-[0_28px_70px_-38px_rgba(14,29,74,0.55)]">
-              <div className="absolute left-4 top-4 rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-brand-800 border border-brand-100 shadow-sm">
-                El futuro es ahora
+          {/* H1 */}
+          <h1
+            id="hero-title"
+            className="text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.07] sm:text-6xl"
+          >
+            Digitaliza tu empresa,
+            <br />
+            <span className="gradient-text">crece de verdad</span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-lg text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
+            MVPs en 8 semanas, IA aplicada y software a medida. Equipo senior con resultados medibles — no promesas.
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+            <Button as="a" href="/#contacto" variant="shine" size="lg">
+              Agenda diagnóstico gratis
+            </Button>
+            <Button as="a" variant="ghost" href="/labs" size="lg">
+              Ver herramientas gratis →
+            </Button>
+          </div>
+          <p className="text-xs text-slate-400 dark:text-slate-600">Sin compromiso · Respuesta en 24 h · Tu código, siempre tuyo</p>
+
+          {/* Client logos */}
+          <div className="flex flex-col items-center gap-3 pt-4">
+            <p className="text-[10px] uppercase tracking-[0.25em] font-semibold text-slate-400 dark:text-slate-600">
+              Con la confianza de
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-6">
+              {clients.map((c) => (
+                <span
+                  key={c}
+                  className="text-sm font-bold text-slate-300 dark:text-slate-700 hover:text-slate-500 dark:hover:text-slate-400 transition-colors duration-200 cursor-default tracking-wide"
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── Full-width Dashboard Mockup ── */}
+        <div className="relative mt-16 w-full max-w-5xl mx-auto">
+          {/* Glow beneath mockup */}
+          <div
+            aria-hidden
+            className="absolute -bottom-12 left-1/2 -translate-x-1/2 h-32 w-3/4 rounded-full blur-3xl opacity-20 dark:opacity-40"
+            style={{ background: "linear-gradient(90deg, rgba(56,189,248,0.4), rgba(129,140,248,0.3))" }}
+          />
+
+          {/* Gradient border */}
+          <div
+            className="relative rounded-2xl p-[1px]"
+            style={{ background: "linear-gradient(135deg, rgba(56,189,248,0.45) 0%, rgba(129,140,248,0.2) 50%, rgba(56,189,248,0.35) 100%)" }}
+          >
+            <div className="rounded-2xl overflow-hidden bg-white dark:bg-[#060C1A] shadow-2xl dark:shadow-[0_40px_80px_rgba(0,0,0,0.6)]">
+
+              {/* Chrome bar */}
+              <div className="flex items-center gap-1.5 px-4 py-3 border-b border-slate-100 dark:border-white/8 bg-slate-50 dark:bg-white/[0.03]">
+                <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
+                <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
+                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
+                <div className="ml-4 flex-1 flex items-center rounded-full bg-slate-200/50 dark:bg-white/[0.06] px-3 py-1 max-w-xs">
+                  <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono">qubelia.es/dashboard</span>
+                </div>
+                <div className="ml-auto flex items-center gap-1.5">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute animate-ping rounded-full bg-emerald-400 opacity-60 h-full w-full" />
+                    <span className="relative rounded-full bg-emerald-400 h-1.5 w-1.5" />
+                  </span>
+                  <span className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 tracking-widest">LIVE</span>
+                </div>
               </div>
-              <Image
-                src="/images/hero-illustration.png"
-                alt="Soluciones de digitalizacion y software a medida"
-                width={1200}
-                height={900}
-                priority
-                sizes="(min-width: 1280px) 640px, (min-width: 1024px) 520px, 100vw"
-                className="w-full h-auto"
-              />
+
+              {/* Dashboard body */}
+              <div className="flex" style={{ height: 340 }}>
+
+                {/* Sidebar */}
+                <div className="hidden sm:flex flex-col w-44 border-r border-slate-100 dark:border-white/[0.06] p-4 gap-1 shrink-0 bg-slate-50/50 dark:bg-white/[0.02]">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="h-6 w-6 rounded-lg bg-sky-500/20 flex items-center justify-center">
+                      <span className="text-sky-600 dark:text-sky-400 text-[10px] font-bold">Q</span>
+                    </div>
+                    <span className="text-xs font-bold text-slate-700 dark:text-slate-200">Qubelia</span>
+                  </div>
+                  {navItems.map((item, i) => (
+                    <div
+                      key={item}
+                      className={`flex items-center gap-2 rounded-lg px-2 py-1.5 text-[11px] font-medium transition-colors ${
+                        i === 0
+                          ? "bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400"
+                          : "text-slate-400 dark:text-slate-500"
+                      }`}
+                    >
+                      <div className={`h-1.5 w-1.5 rounded-full ${i === 0 ? "bg-sky-500" : "bg-slate-300 dark:bg-slate-700"}`} />
+                      {item}
+                    </div>
+                  ))}
+                  <div className="mt-auto pt-4 border-t border-slate-200/60 dark:border-white/[0.06]">
+                    <div className="flex items-center gap-2">
+                      <div className="h-6 w-6 rounded-full bg-sky-100 dark:bg-sky-500/20 flex items-center justify-center">
+                        <span className="text-[9px] font-bold text-sky-600 dark:text-sky-400">DK</span>
+                      </div>
+                      <span className="text-[10px] text-slate-400 dark:text-slate-500">Admin</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Main panel */}
+                <div className="flex-1 p-5 overflow-hidden">
+                  {/* Header row */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <p className="text-xs font-bold text-slate-700 dark:text-slate-100">Panel de negocio</p>
+                      <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">Actualizado hace 2 min · Q2 2026</p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full border border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold">
+                        ↑ 18% este mes
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* KPI row */}
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-4">
+                    {kpis.map((k) => (
+                      <div
+                        key={k.label}
+                        className="rounded-xl border border-slate-200/60 dark:border-white/[0.06] p-2.5"
+                        style={{ background: k.bg }}
+                      >
+                        <p className="text-lg font-extrabold leading-none" style={{ color: k.color }}>{k.label}</p>
+                        <p className="text-[8px] text-slate-500 dark:text-slate-400 mt-1 leading-tight">{k.sub}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Charts row */}
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    {/* Bar chart */}
+                    <div className="rounded-xl border border-slate-200/60 dark:border-white/[0.06] p-3 bg-slate-50/50 dark:bg-white/[0.02]">
+                      <p className="text-[9px] font-semibold text-slate-500 dark:text-slate-400 mb-2">Ingresos mensuales</p>
+                      <div className="flex items-end gap-1 h-10">
+                        {barData.map((v, i) => (
+                          <div key={i} className="flex-1 rounded-sm origin-bottom" style={{
+                            height: `${v}%`,
+                            background: i === barData.length - 1 ? "linear-gradient(180deg, #38BDF8, #818CF8)" : "rgba(56,189,248,0.22)",
+                            animation: `barGrow 0.6s ease-out ${i * 60}ms both`,
+                          }} />
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Line chart */}
+                    <div className="rounded-xl border border-slate-200/60 dark:border-white/[0.06] p-3 bg-slate-50/50 dark:bg-white/[0.02]">
+                      <p className="text-[9px] font-semibold text-slate-500 dark:text-slate-400 mb-2">Conversión de leads</p>
+                      <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-10" preserveAspectRatio="none">
+                        <defs>
+                          <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="rgba(52,211,153,0.3)" />
+                            <stop offset="100%" stopColor="rgba(52,211,153,0)" />
+                          </linearGradient>
+                        </defs>
+                        <path d={areaPath} fill="url(#lineGrad)" />
+                        <polyline
+                          points={pts}
+                          fill="none"
+                          stroke="#22D3EE"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Table */}
+                  <div className="rounded-xl border border-slate-200/60 dark:border-white/[0.06] overflow-hidden bg-slate-50/50 dark:bg-white/[0.02]">
+                    <div className="grid grid-cols-3 px-3 py-1.5 border-b border-slate-200/60 dark:border-white/[0.06] bg-slate-100/50 dark:bg-white/[0.02]">
+                      {["Proyecto", "Estado", "Progreso"].map((h) => (
+                        <span key={h} className="text-[8px] uppercase tracking-wider font-semibold text-slate-400 dark:text-slate-500">{h}</span>
+                      ))}
+                    </div>
+                    {tableRows.map((row) => (
+                      <div key={row.name} className="grid grid-cols-3 items-center px-3 py-1.5 border-b border-slate-100/60 dark:border-white/[0.04] last:border-0">
+                        <span className="text-[10px] font-medium text-slate-600 dark:text-slate-300 truncate">{row.name}</span>
+                        <span className="text-[9px] font-medium" style={{ color: row.color }}>{row.status}</span>
+                        <div className="flex items-center gap-1.5">
+                          <div className="flex-1 h-1 rounded-full bg-slate-200 dark:bg-white/[0.08]">
+                            <div className="h-full rounded-full" style={{ width: `${row.pct}%`, background: row.color }} />
+                          </div>
+                          <span className="text-[8px] text-slate-400 dark:text-slate-500 tabular-nums">{row.pct}%</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

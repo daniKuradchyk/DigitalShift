@@ -1,125 +1,148 @@
-import React from "react";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
-
-const highlights = [
-  { title: "Visibilidad total", text: "Tablero de avance y demos en cada sprint." },
-  { title: "Riesgo controlado", text: "QA, checklist y despliegues seguros." },
-  { title: "Equipo senior", text: "Direccion tecnica y contacto directo." },
-  { title: "Entregables medibles", text: "KPIs definidos desde el inicio." },
-];
+import { Search, PenTool, Zap, Rocket, TrendingUp } from "lucide-react";
 
 const steps = [
   {
-    id: "diagnostico",
     n: "01",
-    title: "Diagnostico y objetivos",
-    summary: "Alineamos negocio, procesos y riesgos para una hoja de ruta realista.",
+    Icon: Search,
+    title: "Diagnóstico",
+    summary: "Mapeamos procesos, riesgos y KPIs en una semana. Salimos con una hoja de ruta realista.",
     time: "Semana 1",
-    outputs: ["Mapa de procesos y dependencias", "KPIs y backlog priorizado"],
+    color: "sky",
   },
   {
-    id: "alcance",
     n: "02",
-    title: "Alcance y prototipo",
-    summary: "Definimos flujos criticos y validamos con prototipo funcional.",
+    Icon: PenTool,
+    title: "Diseño y alcance",
+    summary: "Flujos críticos, prototipo validado y plan técnico con estimaciones cerradas.",
     time: "Semana 2",
-    outputs: ["Flujos clave y wireframes", "Estimacion y plan tecnico"],
+    color: "violet",
   },
   {
-    id: "entrega",
     n: "03",
-    title: "Entrega iterativa",
-    summary: "Sprints quincenales con demos y eventos de uso desde el primer release.",
-    time: "Semanas 3-6",
-    outputs: ["Entrega cada 2 semanas", "Feedback y ajustes rapidos"],
+    Icon: Zap,
+    title: "Sprints de entrega",
+    summary: "Ciclos de 2 semanas con demo, feedback real y ajustes desde el primer release.",
+    time: "Sem. 3–6",
+    color: "emerald",
   },
   {
-    id: "produccion",
     n: "04",
-    title: "Produccion y adopcion",
-    summary: "Despliegue controlado, QA y formacion del equipo.",
+    Icon: Rocket,
+    title: "Go-live controlado",
+    summary: "Despliegue por etapas, QA exhaustivo y formación del equipo antes de soltar el piloto.",
     time: "Go-live",
-    outputs: ["Checklist de calidad", "Handover y documentacion"],
+    color: "amber",
   },
   {
-    id: "mejora",
     n: "05",
+    Icon: TrendingUp,
     title: "Mejora continua",
-    summary: "Monitoreo, soporte y roadmap trimestral guiado por datos.",
+    summary: "Monitoreo, SLA y roadmap trimestral guiado por datos reales de producción.",
     time: "Mensual",
-    outputs: ["SLA y observabilidad", "Roadmap por datos reales"],
+    color: "sky",
   },
+];
+
+const colorMap = {
+  sky:     { icon: "bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-500/20",     number: "text-sky-500 dark:text-sky-400",     line: "rgba(56,189,248,0.4)"  },
+  violet:  { icon: "bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-200 dark:border-violet-500/20", number: "text-violet-500 dark:text-violet-400", line: "rgba(167,139,250,0.4)" },
+  emerald: { icon: "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20", number: "text-emerald-500 dark:text-emerald-400", line: "rgba(52,211,153,0.4)"  },
+  amber:   { icon: "bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-500/20",   number: "text-amber-500 dark:text-amber-400",   line: "rgba(251,146,60,0.4)"  },
+};
+
+const highlights = [
+  { icon: "👁", title: "Visibilidad total",      text: "Demo en cada sprint." },
+  { icon: "🛡", title: "Riesgo controlado",      text: "QA y despliegues seguros." },
+  { icon: "🧑‍💻", title: "Equipo senior",          text: "Contacto directo siempre." },
+  { icon: "📊", title: "KPIs desde el día 1",    text: "Métricas reales, no intuición." },
 ];
 
 export default function Methodology() {
   return (
-    <section id="metodologia" aria-labelledby="method-title" className="relative overflow-hidden py-20">
+    <section id="metodologia" aria-labelledby="method-title" className="relative py-20 lg:py-28 overflow-hidden bg-slate-50/40 dark:bg-white/[0.01]">
+      {/* Ambient */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-16 top-10 h-72 w-72 rounded-full bg-brand-300/10 blur-3xl dark:bg-brand-500/10" />
-        <div className="absolute right-0 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-brand-500/10 blur-3xl dark:bg-brand-700/10" />
+        <div className="absolute left-1/2 top-0 -translate-x-1/2 h-px w-3/4"
+          style={{ background: "linear-gradient(90deg, transparent, rgba(56,189,248,0.3), transparent)" }} />
+        <div className="absolute left-1/2 bottom-0 -translate-x-1/2 h-px w-3/4"
+          style={{ background: "linear-gradient(90deg, transparent, rgba(129,140,248,0.3), transparent)" }} />
       </div>
-      <Container>
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] items-start">
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-100 bg-brand-50/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-brand-700 dark:border-brand-500/30 dark:bg-brand-500/10 dark:text-brand-200">
-              Proceso en 5 etapas
-            </div>
-            <div className="max-w-xl space-y-3">
-              <h2 id="method-title" className="text-3xl font-bold tracking-tight">Como trabajamos: pasos claros y medibles</h2>
-              <p className="text-slate-700 dark:text-slate-300">
-                Proceso claro, entregables medibles y visibilidad semanal. Sabras que se entrega y cuando.
-              </p>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {highlights.map((h) => (
-                <div
-                  key={h.title}
-                  className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/70"
-                >
-                  <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{h.title}</p>
-                  <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">{h.text}</p>
-                </div>
-              ))}
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Button as="a" href="/#contacto" variant="shine">Agenda diagnostico gratis</Button>
-            </div>
-          </div>
 
-          <ol className="relative space-y-4">
-            <div
-              aria-hidden
-              className="absolute left-5 top-2 bottom-2 w-px bg-gradient-to-b from-brand-300/60 via-brand-200/40 to-transparent dark:from-brand-400/50 dark:via-brand-500/30"
-            />
-            {steps.map((s) => (
-              <li key={s.id} className="relative pl-14">
-                <span className="absolute left-0 top-5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-brand-100 bg-brand-50 text-sm font-semibold text-brand-700 shadow-sm dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
-                  {s.n}
-                </span>
-                <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-[0_18px_50px_-34px_rgba(14,29,74,0.4)] backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-brand-200 dark:border-slate-700 dark:bg-slate-900/80">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Paso {s.n}</p>
-                      <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100">{s.title}</h3>
+      <Container>
+        {/* Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="section-tag mb-5 mx-auto w-fit">
+            <span className="h-1.5 w-1.5 rounded-full bg-sky-400" aria-hidden />
+            Proceso en 5 etapas
+          </div>
+          <h2 id="method-title" className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight sm:text-4xl">
+            Cómo trabajamos:{" "}
+            <span className="gradient-text-static">sin sorpresas</span>
+          </h2>
+          <p className="mt-3 text-slate-500 dark:text-slate-400">
+            Sabrás qué se entrega, cuándo y por qué. Sin caja negra.
+          </p>
+        </div>
+
+        {/* Steps — horizontal on lg */}
+        <div className="relative">
+          {/* Connector line */}
+          <div
+            aria-hidden
+            className="hidden lg:block absolute top-9 left-[calc(10%+20px)] right-[calc(10%+20px)] h-px z-0"
+            style={{ background: "linear-gradient(90deg, rgba(56,189,248,0.4), rgba(129,140,248,0.4), rgba(56,189,248,0.4))" }}
+          />
+
+          <ol className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+            {steps.map((s) => {
+              const c = colorMap[s.color as keyof typeof colorMap] ?? colorMap.sky;
+              return (
+                <li key={s.n} className="group flex flex-col items-center text-center gap-3">
+                  {/* Number node */}
+                  <div className="relative flex flex-col items-center">
+                    <div
+                      className={`inline-flex h-[72px] w-[72px] flex-shrink-0 items-center justify-center rounded-2xl border ${c.icon} transition-transform duration-300 group-hover:scale-110 group-hover:shadow-md`}
+                    >
+                      <s.Icon className="h-7 w-7" strokeWidth={1.6} aria-hidden />
                     </div>
-                    <span className="inline-flex items-center rounded-full border border-slate-200 bg-white/80 px-2.5 py-1 text-xs font-semibold text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
+                    <span className={`mt-2 text-[10px] font-bold uppercase tracking-[0.15em] ${c.number}`}>{s.n}</span>
+                  </div>
+
+                  {/* Content */}
+                  <div>
+                    <span className="inline-flex items-center rounded-full border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.04] px-2.5 py-0.5 text-[10px] font-semibold text-slate-500 dark:text-slate-400 mb-2">
                       {s.time}
                     </span>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white">{s.title}</h3>
+                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{s.summary}</p>
                   </div>
-                  <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">{s.summary}</p>
-                  <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-                    {s.outputs.map((o) => (
-                      <li key={o} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300">
-                        <span aria-hidden className="mt-1.5 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
-                        <span>{o}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ol>
+        </div>
+
+        {/* Highlights strip */}
+        <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {highlights.map((h) => (
+            <div
+              key={h.title}
+              className="flex flex-col items-center text-center gap-2 rounded-2xl border border-slate-200/70 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-5 transition-all hover:-translate-y-0.5 hover:shadow-md dark:hover:shadow-none"
+            >
+              <span className="text-2xl" aria-hidden>{h.icon}</span>
+              <p className="text-sm font-bold text-slate-900 dark:text-white">{h.title}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{h.text}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div className="mt-12 text-center">
+          <Button as="a" href="/#contacto" variant="shine" size="lg">
+            Agenda diagnóstico gratis
+          </Button>
         </div>
       </Container>
     </section>

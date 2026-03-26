@@ -28,28 +28,43 @@ type AnchorButtonProps = Omit<AnchorButton, "variant" | "size" | "className" | "
 type NativeButtonProps = Omit<NativeButton, "variant" | "size" | "className" | "children" | "as">;
 
 const base =
-  "group inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold tracking-tight transition-all duration-200 will-change-transform active:translate-y-0";
+  "group inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold tracking-tight transition-all duration-200 will-change-transform active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none";
 
 const sizes: Record<Sizes, string> = {
-  sm: "px-3 py-1.5 text-sm",
-  md: "px-4 py-2 text-sm",
-  lg: "px-5 py-3 text-base",
+  sm: "px-3.5 py-1.5 text-xs",
+  md: "px-5 py-2.5 text-sm",
+  lg: "px-6 py-3 text-base",
 };
 
 const variants: Record<Variants, string> = {
-  primary:
-    "text-white bg-brand-700 bg-[linear-gradient(115deg,#0e1d4a,#1c3994,#4168e1,#6389ff)] bg-[length:200%_100%] hover:bg-[position:100%_0] border border-brand-900/60 shadow-[0_18px_54px_-18px_rgba(14,29,74,0.7)] hover:-translate-y-0.5 hover:shadow-[0_22px_64px_-20px_rgba(65,104,225,0.7)] focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-card,white)]",
+  primary: cn(
+    "text-white",
+    "bg-[linear-gradient(135deg,#0284C7_0%,#0EA5E9_50%,#38BDF8_100%)] bg-[length:200%_100%]",
+    "hover:bg-[position:100%_0]",
+    "border border-sky-400/30",
+    "shadow-[0_0_20px_rgba(56,189,248,0.20),0_8px_32px_-8px_rgba(14,165,233,0.40)]",
+    "hover:shadow-[0_0_35px_rgba(56,189,248,0.35),0_12px_40px_-8px_rgba(14,165,233,0.55)]",
+    "hover:-translate-y-0.5",
+    "focus-visible:ring-2 focus-visible:ring-sky-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+  ),
   ghost: cn(
-    "text-[color:var(--color-text)]",
-    "bg-[color:var(--color-bg-card)] border border-[color:var(--color-border)]",
-    "shadow-[0_12px_34px_-18px_rgba(14,29,74,0.25)] hover:-translate-y-0.5 hover:shadow-[0_18px_46px_-18px_rgba(65,104,225,0.35)]",
-    "hover:bg-[color:var(--color-bg-muted)] focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-card,white)]"
+    "text-slate-300",
+    "bg-slate-800/50 border border-slate-700/60",
+    "backdrop-blur-sm",
+    "shadow-sm",
+    "hover:-translate-y-0.5 hover:bg-slate-800/80 hover:border-sky-500/20 hover:text-sky-300",
+    "hover:shadow-[0_0_20px_rgba(56,189,248,0.08)]",
+    "focus-visible:ring-2 focus-visible:ring-sky-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
   ),
   shine: cn(
-    "relative text-white",
-    "bg-brand-700 bg-[linear-gradient(120deg,#0e1d4a,#1c3994,#4168e1,#6389ff)] bg-[length:200%_100%] hover:bg-[position:100%_0]",
-    "border border-brand-900/80 shadow-[0_18px_52px_-18px_rgba(14,29,74,0.55)] hover:shadow-[0_24px_62px_-20px_rgba(65,104,225,0.5)] hover:-translate-y-0.5",
-    "hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-card,white)]"
+    "relative text-white overflow-hidden",
+    "bg-[linear-gradient(135deg,#0369A1_0%,#0EA5E9_35%,#22D3EE_65%,#818CF8_100%)] bg-[length:250%_100%]",
+    "hover:bg-[position:100%_0]",
+    "border border-sky-500/30",
+    "shadow-[0_0_24px_rgba(56,189,248,0.22),0_8px_32px_-8px_rgba(14,165,233,0.45)]",
+    "hover:shadow-[0_0_40px_rgba(56,189,248,0.40),0_12px_44px_-8px_rgba(14,165,233,0.60)]",
+    "hover:-translate-y-0.5",
+    "focus-visible:ring-2 focus-visible:ring-sky-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
   ),
 };
 

@@ -2,7 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  images: { formats: ["image/avif", "image/webp"] },
+  images: {
+    formats: ["image/avif", "image/webp"],
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+    ],
+  },
   async headers() {
     const securityHeaders = [
       { key: "X-Frame-Options", value: "SAMEORIGIN" },

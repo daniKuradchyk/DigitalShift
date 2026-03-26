@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/jsonld";
 import { BASE_URL, SITE_NAME, SITE_TAGLINE, openGraphImage, titleTemplate } from "@/lib/seo";
 import { absoluteUrl } from "@/lib/urls";
@@ -8,7 +8,8 @@ import InteractiveBackground from "@/components/common/InteractiveBackground";
 import { CookieConsentProvider } from "@/components/cookies/CookieConsentProvider";
 import CookieBanner from "@/components/cookies/CookieBanner";
 
-const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
+const geist = Geist({ subsets: ["latin"], display: "swap", variable: "--font-geist" });
+const geistMono = Geist_Mono({ subsets: ["latin"], display: "swap", variable: "--font-geist-mono" });
 const SITE_ORIGIN = "https://qubelia.es";
 
 export const metadata: Metadata = {
@@ -50,13 +51,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const site = websiteJsonLd({ name: `${SITE_NAME} | ${SITE_TAGLINE}`, url: absoluteUrl("/") });
 
   return (
-    <html lang="es" className={inter.variable}>
+    <html lang="es" className={`${geist.variable} ${geistMono.variable}`}>
       <head>
         <meta name="color-scheme" content="light dark" />
         <meta name="supported-color-schemes" content="light dark" />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F8FAFF" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#050A14" />
       </head>
-      <body className="antialiased bg-white text-slate-900 selection:bg-brand-700 selection:text-white">
+      <body className="antialiased">
         <CookieConsentProvider>
           <InteractiveBackground />
           <a
