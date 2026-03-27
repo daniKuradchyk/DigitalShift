@@ -274,24 +274,35 @@ type RadioCardProps = {
 function RadioCard({ name, value, checked, onChange, title, description, icon }: RadioCardProps) {
   return (
     <label
-      className={`group relative flex cursor-pointer flex-col gap-2 overflow-hidden rounded-2xl border px-3 py-3 text-sm transition focus-within:ring-2 focus-within:ring-sky-200 sm:gap-3 sm:px-4 sm:py-4 ${
+      className={`group relative flex cursor-pointer items-start gap-3 overflow-hidden rounded-xl border p-4 text-sm transition-all focus-within:ring-2 focus-within:ring-sky-500/25 ${
         checked
-          ? "border-sky-400 bg-white/90 text-slate-900 shadow-[0_18px_40px_-28px_rgba(14,29,74,0.55)] dark:border-sky-500/50 dark:bg-white/[0.03] dark:text-white"
-          : "border-slate-200 bg-white/70 text-slate-700 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-white/[0.06] dark:bg-white/[0.02] dark:text-slate-300"
+          ? "border-sky-400 bg-sky-50/70 dark:border-sky-500/50 dark:bg-sky-500/[0.08]"
+          : "border-slate-200 bg-white hover:border-slate-300 dark:border-white/[0.07] dark:bg-white/[0.02] dark:hover:border-white/[0.12]"
       }`}
     >
       <input type="radio" name={name} value={value} checked={checked} onChange={onChange} className="sr-only" />
       <span
-        aria-hidden
-        className={`absolute left-0 top-0 h-full w-1 ${checked ? "bg-[linear-gradient(180deg,#0e1d4a,#4168e1,#6389ff)]" : "bg-transparent"}`}
-      />
-      <div className="flex items-center gap-2">
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-xl border border-sky-100 bg-sky-50 text-sky-700 shadow-sm dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-200 sm:h-8 sm:w-8">
-          {icon}
+        className={`flex h-8 w-8 flex-none items-center justify-center rounded-lg transition-colors ${
+          checked
+            ? "bg-sky-500 text-white"
+            : "bg-slate-100 text-slate-500 dark:bg-white/[0.06] dark:text-slate-400"
+        }`}
+      >
+        {icon}
+      </span>
+      <div className="min-w-0 flex-1">
+        <span className={`block text-sm font-semibold leading-snug ${checked ? "text-sky-700 dark:text-sky-200" : "text-slate-900 dark:text-slate-100"}`}>
+          {title}
         </span>
-        <span className="text-sm font-semibold">{title}</span>
+        <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{description}</span>
       </div>
-      <span className="text-xs text-slate-500 dark:text-slate-400">{description}</span>
+      {checked && (
+        <span className="flex-none text-sky-500 dark:text-sky-400 mt-0.5">
+          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor" aria-hidden>
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
+          </svg>
+        </span>
+      )}
     </label>
   );
 }
@@ -308,15 +319,15 @@ type SelectFieldProps = {
 function SelectField({ id, label, value, onChange, options, help }: SelectFieldProps) {
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
+      <label htmlFor={id} className="block text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
         {label}
       </label>
-      <div className="relative flex h-10 items-center rounded-2xl border border-slate-200 bg-white/85 px-2 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-200 dark:border-white/[0.07] dark:bg-white/[0.03] sm:h-11">
+      <div className="relative">
         <select
           id={id}
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          className="h-full w-full appearance-none bg-transparent px-3 pr-10 text-sm text-slate-900 focus:outline-none dark:text-slate-100 dark:[color-scheme:dark]"
+          className="w-full appearance-none rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 pr-9 text-sm text-slate-900 transition-colors focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-slate-100 dark:[color-scheme:dark]"
         >
           {options.map((option) => (
             <option key={option.value} value={option.value} style={{ color: "var(--select-option-color)", backgroundColor: "var(--select-option-bg)" }}>
@@ -325,12 +336,12 @@ function SelectField({ id, label, value, onChange, options, help }: SelectFieldP
           ))}
         </select>
         <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
-          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="m6 8 4 4 4-4" />
           </svg>
         </span>
       </div>
-      {help ? <p className="text-xs text-slate-500 dark:text-slate-400">{help}</p> : null}
+      {help ? <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{help}</p> : null}
     </div>
   );
 }
@@ -344,30 +355,20 @@ type ToggleProps = {
 
 function Toggle({ label, description, checked, onChange }: ToggleProps) {
   return (
-    <label
-      className={`group flex cursor-pointer flex-col gap-3 rounded-2xl border px-4 py-3 text-sm shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] transition hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-sky-200 sm:flex-row sm:items-center sm:justify-between sm:gap-4 ${
-        checked
-          ? "border-sky-400 bg-sky-50/70 text-slate-900 dark:border-sky-500/50 dark:bg-sky-500/10 dark:text-slate-100"
-          : "border-slate-200 bg-white/80 text-slate-700 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-200"
-      }`}
-    >
-      <span className="min-w-0 flex-1">
-        <span className="block font-semibold">{label}</span>
-        {description ? <span className="block text-xs text-slate-500 dark:text-slate-400">{description}</span> : null}
+    <label className={`flex cursor-pointer items-center justify-between gap-4 rounded-xl border px-4 py-3.5 transition-colors focus-within:ring-2 focus-within:ring-sky-500/25 ${
+      checked
+        ? "border-sky-300/70 bg-sky-50/50 dark:border-sky-500/30 dark:bg-sky-500/[0.06]"
+        : "border-slate-200 bg-white hover:bg-slate-50/50 dark:border-white/[0.07] dark:bg-white/[0.02] dark:hover:bg-white/[0.03]"
+    }`}>
+      <span className="min-w-0">
+        <span className={`block text-sm font-semibold ${checked ? "text-slate-900 dark:text-slate-100" : "text-slate-700 dark:text-slate-200"}`}>{label}</span>
+        {description ? <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{description}</span> : null}
       </span>
       <span
         aria-hidden
-        className={`relative h-6 w-11 flex-none rounded-full border transition ${
-          checked
-            ? "border-sky-500/70 bg-sky-500/20"
-            : "border-slate-300 bg-slate-200/70 dark:border-white/[0.07] dark:bg-slate-800"
-        }`}
+        className={`relative h-5 w-9 flex-none rounded-full transition-colors ${checked ? "bg-sky-500" : "bg-slate-200 dark:bg-white/[0.1]"}`}
       >
-        <span
-          className={`absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full shadow transition ${
-            checked ? "translate-x-6 bg-white" : "translate-x-1 bg-white"
-          } dark:bg-[#070E22]`}
-        />
+        <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-transform duration-200 ${checked ? "translate-x-4" : "translate-x-0.5"}`} />
       </span>
       <input type="checkbox" checked={checked} onChange={onChange} className="sr-only" />
     </label>
@@ -387,21 +388,19 @@ type TextFieldProps = {
 function TextField({ id, label, value, onChange, placeholder, inputMode = "text", help }: TextFieldProps) {
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
+      <label htmlFor={id} className="block text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
         {label}
       </label>
-      <div className="relative flex h-10 items-center rounded-2xl border border-slate-200 bg-white/85 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-200 dark:border-white/[0.07] dark:bg-white/[0.03] sm:h-11">
-        <input
-          id={id}
-          type="text"
-          inputMode={inputMode}
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-          placeholder={placeholder}
-          className="h-full w-full bg-transparent px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none dark:text-slate-100 dark:placeholder:text-slate-500"
-        />
-      </div>
-      {help ? <p className="text-xs text-slate-500 dark:text-slate-400">{help}</p> : null}
+      <input
+        id={id}
+        type="text"
+        inputMode={inputMode}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-slate-100 dark:placeholder:text-slate-500"
+      />
+      {help ? <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{help}</p> : null}
     </div>
   );
 }
@@ -418,7 +417,7 @@ type TextAreaProps = {
 function TextArea({ id, label, value, onChange, placeholder, help }: TextAreaProps) {
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
+      <label htmlFor={id} className="block text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
         {label}
       </label>
       <textarea
@@ -427,9 +426,9 @@ function TextArea({ id, label, value, onChange, placeholder, help }: TextAreaPro
         onChange={(event) => onChange(event.target.value)}
         rows={3}
         placeholder={placeholder}
-        className="w-full rounded-2xl border border-slate-200 bg-white/85 px-3 py-2 text-sm text-slate-900 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] placeholder:text-slate-400 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-slate-100 dark:placeholder:text-slate-500"
+        className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition-colors focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-slate-100 dark:placeholder:text-slate-500"
       />
-      {help ? <p className="text-xs text-slate-500 dark:text-slate-400">{help}</p> : null}
+      {help ? <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{help}</p> : null}
     </div>
   );
 }
@@ -448,13 +447,6 @@ function SummaryRow({ label, value }: SummaryRowProps) {
   );
 }
 
-function IconBadge({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl border border-sky-100 bg-sky-50 text-sky-700 shadow-sm dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-200 sm:h-10 sm:w-10">
-      {children}
-    </span>
-  );
-}
 
 type ScoreBarRowProps = {
   label: string;
@@ -462,17 +454,17 @@ type ScoreBarRowProps = {
 };
 
 function ScoreBarRow({ label, value }: ScoreBarRowProps) {
+  const barColor = value >= 70 ? "bg-emerald-500" : value >= 45 ? "bg-sky-500" : "bg-amber-500";
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between text-xs text-slate-600 dark:text-slate-300">
-        <span className="font-semibold text-slate-800 dark:text-slate-200">{label}</span>
-        <span className="text-slate-500 dark:text-slate-400">{value}/100</span>
-      </div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200/70 dark:bg-slate-700/60">
-        <div
-          className="h-full rounded-full bg-[linear-gradient(90deg,#0e1d4a,#4168e1,#6389ff)] shadow-[0_6px_16px_-10px_rgba(65,104,225,0.9)]"
-          style={{ width: `${value}%` }}
-        />
+    <div className="flex items-center gap-3">
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between mb-1.5">
+          <span className="text-xs font-medium text-slate-700 dark:text-slate-200 truncate">{label}</span>
+          <span className="text-xs font-bold text-slate-400 dark:text-slate-500 ml-2 flex-none tabular-nums">{value}</span>
+        </div>
+        <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-white/[0.06]">
+          <div className={`h-full rounded-full transition-all ${barColor}`} style={{ width: `${value}%` }} />
+        </div>
       </div>
     </div>
   );
@@ -518,15 +510,14 @@ type StepHeaderProps = {
 
 function StepHeader({ stepId, title, description, icon }: StepHeaderProps) {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/85 p-4 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-white/[0.07] dark:bg-white/[0.03] sm:p-5">
-      <div aria-hidden className="absolute inset-y-0 left-0 w-1.5 bg-[linear-gradient(180deg,#0e1d4a,#4168e1,#6389ff)]" />
-      <div className="relative flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
-        <IconBadge>{icon}</IconBadge>
-        <div className="min-w-0 space-y-1">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Paso {stepId}</p>
-          <h4 className="text-lg font-semibold text-slate-900 dark:text-slate-100">{title}</h4>
-          <p className="text-sm text-slate-600 dark:text-slate-300">{description}</p>
-        </div>
+    <div className="flex items-start gap-4 pb-5 border-b border-slate-100 dark:border-white/[0.06]">
+      <div className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-sky-500 text-white">
+        {icon}
+      </div>
+      <div className="min-w-0">
+        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500 mb-0.5">Paso {stepId}</p>
+        <h4 className="text-base font-bold text-slate-900 dark:text-white leading-snug">{title}</h4>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{description}</p>
       </div>
     </div>
   );
@@ -548,7 +539,6 @@ export default function AuditWizard() {
   const verticalLabel = draft.vertical ? labelsByVertical[draft.vertical].label : "Sin seleccionar";
   const goalLabel = draft.goal ? goalLabels[draft.goal] : "Sin seleccionar";
 
-  const stepLabel = steps[step]?.title ?? "Resultado";
   const pipelineLabel = draft.vertical ? labelsByVertical[draft.vertical].pipeline : "leads";
   const workflowLabel = draft.vertical ? labelsByVertical[draft.vertical].workflow : "ventas";
 
@@ -692,14 +682,14 @@ export default function AuditWizard() {
   const maturity = useMemo(() => (result ? getMaturityInfo(result.scores.total) : null), [result]);
 
   return (
-    <div className="grid gap-5 sm:gap-6 xl:grid-cols-[220px_minmax(0,1fr)_320px] items-start">
+    <div className="grid gap-5 sm:gap-6 xl:grid-cols-[200px_minmax(0,1fr)_280px] items-start">
       <nav className="order-1 min-w-0 xl:order-none">
-        <div className="rounded-3xl border border-slate-200 bg-white/85 p-4 sm:p-5 shadow-[0_18px_50px_-40px_rgba(14,29,74,0.45)] dark:border-white/[0.07] dark:bg-white/[0.03]">
-          <div className="flex items-center justify-between">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Ruta del analisis</p>
-            <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">{progress}%</span>
+        <div className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] overflow-hidden">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-white/[0.05]">
+            <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Análisis</p>
+            <span className="text-xs font-bold text-sky-600 dark:text-sky-400">{progress}%</span>
           </div>
-          <div className="mt-4 flex gap-2 overflow-x-auto pb-2 snap-x snap-mandatory scroll-px-4 xl:block xl:space-y-2 xl:overflow-visible xl:pb-0 xl:snap-none">
+          <div className="p-2">
             {steps.map((s, index) => {
               const isActive = index === step;
               const isDone = index < step;
@@ -708,88 +698,55 @@ export default function AuditWizard() {
                   key={s.id}
                   type="button"
                   onClick={() => setStep(index)}
-                  className={`group relative flex min-w-[150px] snap-start items-start gap-3 overflow-hidden rounded-2xl border px-3 py-3 text-left text-xs transition sm:min-w-[170px] xl:min-w-0 ${
+                  className={`w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors ${
                     isActive
-                      ? "border-sky-400 bg-sky-50/80 text-sky-800 shadow-[0_16px_36px_-26px_rgba(14,29,74,0.45)] dark:border-sky-500/60 dark:bg-sky-500/10 dark:text-sky-200"
-                      : "border-slate-200 bg-white/75 text-slate-600 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300"
+                      ? "bg-sky-50 dark:bg-sky-500/10"
+                      : "hover:bg-slate-50 dark:hover:bg-white/[0.03]"
                   }`}
                   aria-current={isActive ? "step" : undefined}
                 >
-                  <span
-                    aria-hidden
-                    className={`absolute left-0 top-0 h-full w-1 ${isActive || isDone ? "bg-[linear-gradient(180deg,#0e1d4a,#4168e1,#6389ff)]" : "bg-transparent"}`}
-                  />
-                  <span
-                    className={`flex h-9 w-9 flex-none items-center justify-center rounded-xl border text-[11px] font-semibold ${
-                      isActive
-                        ? "border-sky-400 bg-white text-sky-700 dark:border-sky-500/60 dark:bg-[#070E22] dark:text-sky-200"
-                        : isDone
-                          ? "border-sky-300 bg-sky-50 text-sky-700 dark:border-sky-400/60 dark:bg-sky-500/10 dark:text-sky-200"
-                          : "border-slate-200 bg-white text-slate-500 dark:border-white/[0.07] dark:bg-[#070E22] dark:text-slate-300"
-                    }`}
-                  >
-                    {isDone ? Icons.check : s.id}
+                  <span className={`flex h-6 w-6 flex-none items-center justify-center rounded-full text-[10px] font-bold transition-colors ${
+                    isActive
+                      ? "bg-sky-500 text-white"
+                      : isDone
+                        ? "bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400"
+                        : "bg-slate-100 text-slate-400 dark:bg-white/[0.06] dark:text-slate-500"
+                  }`}>
+                    {isDone ? "✓" : s.id}
                   </span>
-                  <span>
-                    <span className="block text-[10px] uppercase tracking-[0.18em] text-slate-400">Paso {s.id}</span>
-                    <span className="block text-sm font-semibold text-slate-900 dark:text-slate-100">{s.title}</span>
-                    <span className="block text-[11px] text-slate-500 dark:text-slate-400">{s.summary}</span>
-                  </span>
+                  <div className="min-w-0">
+                    <p className={`text-xs font-semibold truncate ${isActive ? "text-sky-700 dark:text-sky-300" : "text-slate-700 dark:text-slate-300"}`}>{s.title}</p>
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">{s.summary}</p>
+                  </div>
                 </button>
               );
             })}
           </div>
         </div>
-        <div className="mt-4 rounded-2xl border border-slate-200 bg-white/85 px-4 py-3 text-xs text-slate-600 shadow-[0_12px_30px_-26px_rgba(14,29,74,0.3)] dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300">
-          Te llevara 5-8 min. Resultado inmediato. Sin registro.
-        </div>
+        <p className="mt-3 px-1 text-xs text-slate-400 dark:text-slate-500">5-8 min · resultado inmediato · sin registro.</p>
       </nav>
 
-      <div className="order-2 min-w-0 space-y-6 xl:order-none">
-        <div className="relative w-full max-w-full overflow-hidden rounded-[24px] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.94))] p-3 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.6)] dark:border-white/[0.07] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,0.95))] sm:rounded-[28px] sm:p-5 lg:p-6 xl:rounded-[32px] xl:p-8">
-          <div aria-hidden className="pointer-events-none absolute inset-0">
-            <div className="absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_12%_12%,rgba(99,137,255,0.18),transparent_55%),radial-gradient(circle_at_88%_0%,rgba(14,29,74,0.14),transparent_45%)]" />
-            <div className="absolute inset-0 opacity-40 bg-[linear-gradient(rgba(15,23,42,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.08)_1px,transparent_1px)] [background-size:32px_32px] dark:bg-[linear-gradient(rgba(148,163,184,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.1)_1px,transparent_1px)]" />
+      <div className="order-2 min-w-0 space-y-5 xl:order-none">
+        <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white dark:bg-white/[0.02]">
+          {/* Panel header */}
+          <div className="flex items-center justify-between gap-4 px-6 py-4 border-b border-slate-100 dark:border-white/[0.05]">
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">
+                Paso {steps[step]?.id ?? "10"} de {steps.length} · {steps[step]?.title ?? "Resultado"}
+              </p>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white mt-0.5">Diagnóstico digital en 5-8 min</h3>
+            </div>
+            <div className="flex-none relative h-11 w-11">
+              <svg className="h-11 w-11 -rotate-90" viewBox="0 0 36 36" aria-hidden>
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-slate-100 dark:text-white/[0.06]" />
+                <circle cx="18" cy="18" r="15.9" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-sky-500" strokeDasharray={`${progress} 100`} />
+              </svg>
+              <span className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-slate-700 dark:text-slate-200">{progress}%</span>
+            </div>
           </div>
-          <div className="relative space-y-6">
-            <header className="space-y-4">
-              <div className="flex flex-wrap items-start justify-between gap-4 sm:gap-6">
-                <div className="space-y-3">
-                  <p className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300">
-                    Diagnostico guiado
-                  </p>
-                  <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 sm:text-2xl">Analisis rapido en 5-8 min</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-300">
-                    Marca las respuestas mas cercanas a tu realidad. El resultado aparece al instante.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {["Sin registro", "Resultado inmediato", "PDF incluido"].map((item) => (
-                      <span
-                        key={item}
-                        className="inline-flex items-center rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-white/75 px-3 py-2.5 text-xs shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] dark:border-white/[0.07] dark:bg-white/[0.02] sm:px-4 sm:py-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-                    Paso {steps[step]?.id ?? "9"} de {steps.length}
-                  </span>
-                  <span className="text-xs text-slate-500 dark:text-slate-400">
-                    {steps[step]?.title ?? "Resultado"} - {progress}%
-                  </span>
-                </div>
-                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-200/70 dark:bg-slate-700/60">
-                  <div
-                    className="h-full rounded-full bg-[linear-gradient(90deg,#0e1d4a,#4168e1,#6389ff)] shadow-[0_6px_16px_-10px_rgba(65,104,225,0.9)] transition-[width] duration-300"
-                    style={{ width: `${progress}%` }}
-                  />
-                </div>
-              </div>
+          <div className="p-6 space-y-6">
+            <header className="sr-only">
+              <h2>Análisis rápido</h2>
             </header>
 
             <div className="space-y-6">
@@ -1440,87 +1397,74 @@ export default function AuditWizard() {
             ) : null}
 
             {step === steps.length - 1 && result ? (
-              <div className="space-y-6">
+              <div className="space-y-5">
                 <StepHeader
                   stepId="10"
-                  title="Resultado"
-                  description="Informe accionable basado en tus respuestas."
+                  title="Informe de diagnóstico"
+                  description="Resultados accionables basados en tus respuestas."
                   icon={Icons.check}
                 />
 
-                <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
-                  <div className="space-y-4">
-                    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-[0_26px_70px_-44px_rgba(14,29,74,0.6)] dark:border-white/[0.07] dark:bg-white/[0.03]">
-                      <div aria-hidden className="pointer-events-none absolute inset-0">
-                        <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-sky-500/10 blur-2xl" />
+                {/* Score hero */}
+                <div className="relative overflow-hidden rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.02] p-5">
+                  <div className="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500 mb-1">Score total</p>
+                      <div className="flex items-baseline gap-3">
+                        <span className="text-5xl font-black tabular-nums text-slate-900 dark:text-white">{result.scores.total}</span>
+                        <span className="text-xl font-bold text-slate-300 dark:text-white/20">/100</span>
                       </div>
-                      <div className="relative space-y-4">
-                        <div className="flex flex-wrap items-start justify-between gap-4">
-                          <div className="space-y-3">
-                            <div className="flex items-center gap-3">
-                              <IconBadge>{Icons.chart}</IconBadge>
-                              <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Diagnostico ejecutivo</p>
-                            </div>
-                            <div className="flex flex-wrap items-baseline gap-3">
-                              <p className="text-3xl font-bold text-slate-900 dark:text-slate-100">{result.scores.total}/100</p>
-                              <span className="rounded-full border border-sky-100 bg-sky-50/80 px-3 py-1 text-xs font-semibold text-sky-700 dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-200">
-                                Score total
-                              </span>
-                            </div>
-                            <p className="text-xs text-slate-500 dark:text-slate-400">Perfil: {verticalLabel} | Objetivo: {goalLabel}</p>
-                          </div>
-                          {maturity ? (
-                            <div className={`rounded-2xl border px-4 py-3 text-xs shadow-sm ${maturity.badgeClass}`}>
-                              <p className="text-[10px] font-semibold uppercase tracking-[0.2em]">Nivel de madurez</p>
-                              <p className="mt-2 text-base font-semibold">{maturity.label}</p>
-                              <p className="mt-1 text-xs opacity-80">{maturity.description}</p>
-                            </div>
-                          ) : null}
-                        </div>
-                        <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-200/70 dark:bg-slate-700/60">
-                          <div
-                            className="h-full rounded-full bg-[linear-gradient(90deg,#0e1d4a,#4168e1,#6389ff)] shadow-[0_8px_20px_-12px_rgba(65,104,225,0.8)]"
-                            style={{ width: `${result.scores.total}%` }}
-                          />
-                        </div>
-                      </div>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{verticalLabel} · {goalLabel}</p>
                     </div>
+                    {maturity && (
+                      <div className={`rounded-xl border px-4 py-3 ${maturity.badgeClass}`}>
+                        <p className="text-[10px] font-bold uppercase tracking-[0.18em]">Madurez</p>
+                        <p className="text-lg font-bold mt-1">{maturity.label}</p>
+                        <p className="text-xs opacity-75 mt-0.5">{maturity.description}</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-white/[0.08]">
+                    <div className="h-full rounded-full bg-sky-500 transition-all" style={{ width: `${result.scores.total}%` }} />
+                  </div>
+                </div>
 
-                    <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-white/[0.07] dark:bg-white/[0.03]">
-                      <div className="flex items-center justify-between">
-                        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Score por area</p>
-                        <span className="text-xs text-slate-400 dark:text-slate-500">Base 0-100</span>
-                      </div>
-                      <div className="mt-4 space-y-3">
-                        {scoreCards.map((item) => (
-                          <ScoreBarRow key={item.label} label={item.label} value={item.value} />
-                        ))}
-                      </div>
+                {/* Score breakdown + summary */}
+                <div className="grid gap-4 xl:grid-cols-2">
+                  <div className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-5">
+                    <div className="flex items-center justify-between mb-4">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Score por área</p>
+                      <span className="text-[10px] text-slate-400 dark:text-slate-500">0 – 100</span>
+                    </div>
+                    <div className="space-y-3">
+                      {scoreCards.map((item) => (
+                        <ScoreBarRow key={item.label} label={item.label} value={item.value} />
+                      ))}
                     </div>
                   </div>
 
                   <div className="space-y-4">
-                    <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-slate-200">
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Resumen ejecutivo</p>
-                      <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                    <div className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-5">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500 mb-3">Resumen ejecutivo</p>
+                      <ul className="space-y-2">
                         {result.report.summary.map((item) => (
-                          <li key={item} className="flex gap-2">
-                            <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-sky-500/70" />
-                            <span>{item}</span>
+                          <li key={item} className="flex gap-2.5 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                            <span className="mt-[0.5em] h-1.5 w-1.5 flex-none rounded-full bg-sky-500" />
+                            {item}
                           </li>
                         ))}
                       </ul>
                     </div>
 
-                    <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-slate-200">
-                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Prioridades detectadas</p>
-                      <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                    <div className="rounded-2xl border border-amber-200/80 dark:border-amber-500/20 bg-amber-50/60 dark:bg-amber-500/[0.06] p-5">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-amber-600 dark:text-amber-400 mb-3">Prioridades detectadas</p>
+                      <ul className="space-y-2.5">
                         {result.report.weakPoints.map((item, index) => (
-                          <li key={item} className="flex gap-3">
-                            <span className="mt-0.5 inline-flex h-6 w-6 flex-none items-center justify-center rounded-full border border-amber-200 bg-amber-50 text-[10px] font-semibold text-amber-700 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
-                              {String(index + 1).padStart(2, "0")}
+                          <li key={item} className="flex gap-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                            <span className="inline-flex h-5 w-5 flex-none items-center justify-center rounded-full bg-amber-500/20 text-[9px] font-bold text-amber-700 dark:text-amber-400 mt-0.5">
+                              {index + 1}
                             </span>
-                            <span>{item}</span>
+                            {item}
                           </li>
                         ))}
                       </ul>
@@ -1528,51 +1472,47 @@ export default function AuditWizard() {
                   </div>
                 </div>
 
-                <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
-                  <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-slate-200">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Quick wins (7 dias)</p>
-                    <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                {/* Quick wins + Roadmap */}
+                <div className="grid gap-4 xl:grid-cols-2">
+                  <div className="rounded-2xl border border-emerald-200/80 dark:border-emerald-500/20 bg-emerald-50/50 dark:bg-emerald-500/[0.05] p-5">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-emerald-600 dark:text-emerald-400 mb-3">Quick wins · 7 días</p>
+                    <ul className="space-y-2">
                       {result.report.quickWins.map((item) => (
-                        <li key={item} className="flex gap-2">
-                          <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-emerald-500/70" />
-                          <span>{item}</span>
+                        <li key={item} className="flex gap-2.5 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                          <span className="mt-[0.5em] h-1.5 w-1.5 flex-none rounded-full bg-emerald-500" />
+                          {item}
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-slate-200">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Roadmap (30-90 dias)</p>
-                    <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                  <div className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-5">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500 mb-3">Roadmap · 30-90 días</p>
+                    <ul className="space-y-3">
                       {result.report.roadmap.map((item) => (
-                        <li key={item.title} className="space-y-1">
-                          <span className="block text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">
-                            {item.title}
-                          </span>
-                          <span className="block">{item.goal}</span>
+                        <li key={item.title}>
+                          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-sky-600 dark:text-sky-400 mb-0.5">{item.title}</p>
+                          <p className="text-sm text-slate-600 dark:text-slate-300">{item.goal}</p>
                         </li>
                       ))}
                     </ul>
                   </div>
                 </div>
 
-                <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-slate-200">
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Matriz impacto vs esfuerzo</p>
-                    <span className="text-xs text-slate-400 dark:text-slate-500">Prioriza acciones</span>
+                {/* Impact matrix */}
+                <div className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-5">
+                  <div className="flex items-center justify-between mb-4">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Matriz impacto vs esfuerzo</p>
                   </div>
-                  <div className="mt-4 grid gap-3 xl:grid-cols-2">
+                  <div className="grid gap-3 sm:grid-cols-2">
                     {result.report.impactMatrix.map((group) => (
-                      <div
-                        key={group.label}
-                        className="rounded-2xl border border-slate-200 bg-white/85 p-3 shadow-[0_12px_28px_-26px_rgba(14,29,74,0.3)] dark:border-white/[0.07] dark:bg-white/[0.02]"
-                      >
-                        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">{group.label}</p>
-                        <ul className="mt-2 space-y-1 text-xs text-slate-600 dark:text-slate-300">
+                      <div key={group.label} className="rounded-xl border border-slate-100 dark:border-white/[0.05] bg-slate-50/50 dark:bg-white/[0.02] p-4">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400 mb-2">{group.label}</p>
+                        <ul className="space-y-1.5">
                           {group.items.map((item) => (
-                            <li key={item} className="flex gap-2">
-                              <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-sky-500/70" />
-                              <span>{item}</span>
+                            <li key={item} className="flex gap-2 text-xs text-slate-600 dark:text-slate-300">
+                              <span className="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-sky-400/60" />
+                              {item}
                             </li>
                           ))}
                         </ul>
@@ -1581,44 +1521,39 @@ export default function AuditWizard() {
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <Button as="a" href="/#contacto" variant="shine" className="w-full sm:w-auto">
-                    Agendar diagnostico gratis
+                {/* CTAs */}
+                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                  <Button as="a" href="/#contacto" variant="shine">
+                    Agendar diagnóstico gratis
                   </Button>
-                  <Button as="a" href="/#contacto" variant="ghost" className="w-full sm:w-auto">
-                    Hablar por DM / Contactar
+                  <Button variant="ghost" onClick={handlePdfDownload} disabled={pdfStatus === "loading"}>
+                    {pdfStatus === "loading" ? "Generando PDF…" : "Descargar PDF"}
                   </Button>
-                  <Button variant="ghost" onClick={handlePdfDownload} disabled={pdfStatus === "loading"} className="w-full sm:w-auto">
-                    {pdfStatus === "loading" ? "Generando PDF..." : "Descargar PDF"}
+                  <Button as="a" href="/#contacto" variant="ghost">
+                    Hablar con el equipo
                   </Button>
                 </div>
 
-                {submitStatus === "saving" ? (
-                  <p className="text-xs text-slate-500 dark:text-slate-400">Guardando tu analisis...</p>
-                ) : submitStatus === "saved" ? (
-                  <p className="text-xs text-sky-700 dark:text-sky-200">
-                    Informe generado. {emailSent ? "Email enviado." : "Puedes descargar el PDF."}
-                  </p>
-                ) : submitStatus === "error" ? (
-                  <p className="text-xs text-amber-700 dark:text-amber-200">No se pudo guardar el informe. Intentalo mas tarde.</p>
-                ) : null}
+                {submitStatus === "saving" && <p className="text-xs text-slate-400 dark:text-slate-500">Guardando análisis…</p>}
+                {submitStatus === "saved" && <p className="text-xs text-sky-600 dark:text-sky-400">Informe generado.{emailSent ? " Email enviado." : ""}</p>}
+                {submitStatus === "error" && <p className="text-xs text-amber-600 dark:text-amber-400">No se pudo guardar. Inténtalo más tarde.</p>}
               </div>
             ) : null}
           </div>
 
           {error ? (
-            <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50/90 dark:bg-amber-500/10 px-4 py-3 text-sm text-amber-700 shadow-[0_12px_30px_-24px_rgba(120,53,15,0.35)] dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
+            <div className="rounded-xl border border-amber-200 bg-amber-50 dark:border-amber-500/30 dark:bg-amber-500/[0.08] px-4 py-3 text-sm text-amber-700 dark:text-amber-300">
               {error}
             </div>
           ) : null}
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-4 border-t border-slate-100 dark:border-white/[0.05]">
             <Button variant="ghost" onClick={goBack} disabled={step === 0} className="w-full sm:w-auto">
-              Anterior
+              ← Anterior
             </Button>
             {step < steps.length - 1 ? (
               <Button variant="shine" onClick={goNext} className="w-full sm:w-auto">
-                {nextLabel}
+                {nextLabel} →
               </Button>
             ) : (
               <Button variant="ghost" onClick={() => setStep(0)} className="w-full sm:w-auto">
@@ -1631,39 +1566,43 @@ export default function AuditWizard() {
       </div>
 
       <aside className="order-3 min-w-0 space-y-4 lg:sticky lg:top-24 xl:order-none">
-        <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/85 dark:bg-white/[0.03] p-4 sm:p-6 shadow-[0_18px_50px_-36px_rgba(14,29,74,0.5)] dark:border-white/[0.07] dark:bg-white/[0.02]">
-          <div className="flex items-center gap-3">
-            <IconBadge>{Icons.chart}</IconBadge>
-            <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Resumen rapido</p>
-          </div>
-          <div className="mt-4 space-y-2 text-sm">
+        <div className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-5">
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500 mb-4">Tu análisis</p>
+          <div className="space-y-3">
             <SummaryRow label="Perfil" value={verticalLabel} />
             <SummaryRow label="Objetivo" value={goalLabel} />
-            <SummaryRow label="Paso actual" value={stepLabel} />
-            <SummaryRow label="Score total" value={result ? `${result.scores.total}/100` : "Pendiente"} />
+            <SummaryRow label="Paso" value={`${steps[step]?.id ?? "?"} / ${steps.length}`} />
+            <SummaryRow label="Score" value={result ? `${result.scores.total}/100` : "—"} />
           </div>
           <div className="mt-4">
-            <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200/70 dark:bg-slate-700/60">
-              <div
-                className="h-full rounded-full bg-[linear-gradient(90deg,#0e1d4a,#4168e1,#6389ff)] shadow-[0_8px_20px_-12px_rgba(65,104,225,0.8)]"
-                style={{ width: `${progress}%` }}
-              />
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-white/[0.06]">
+              <div className="h-full rounded-full bg-sky-500 transition-[width] duration-300" style={{ width: `${progress}%` }} />
             </div>
-            <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">Progreso {progress}%</p>
+            <p className="mt-2 text-xs text-slate-400 dark:text-slate-500">Completado {progress}%</p>
           </div>
         </div>
 
-        <div className="rounded-3xl border border-slate-200 bg-white/85 dark:bg-white/[0.03] p-4 sm:p-6 shadow-[0_16px_46px_-32px_rgba(14,29,74,0.45)] dark:border-white/[0.07] dark:bg-white/[0.02]">
-          <div className="flex items-center gap-3">
-            <IconBadge>{Icons.mail}</IconBadge>
-            <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Privacidad</p>
-          </div>
-          <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
-            Resultado inmediato. Sin registro obligatorio. Email opcional solo si quieres el PDF.
+        <div className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-5">
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500 mb-3">Privacidad</p>
+          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            Sin registro obligatorio. Email opcional solo para recibir el PDF.
           </p>
-          <div className="mt-4 rounded-2xl border border-sky-100 bg-sky-50/70 px-3 py-2 text-xs text-sky-700 dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-200">
-            No enviamos PII a analytics. Solo eventos agregados.
+          <div className="mt-3 flex items-start gap-2 rounded-xl border border-sky-200/80 dark:border-sky-500/20 bg-sky-50/60 dark:bg-sky-500/[0.06] px-3 py-2.5">
+            <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 flex-none text-sky-500 mt-0.5" fill="currentColor" aria-hidden>
+              <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+            </svg>
+            <p className="text-xs text-sky-700 dark:text-sky-300">Sin PII en analytics. Solo eventos agregados.</p>
           </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-5">
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500 mb-3">¿Prefieres hablar?</p>
+          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+            Revisamos tu caso en 45 min y dejamos un plan accionable.
+          </p>
+          <Button as="a" href="/#contacto" variant="shine" size="sm" className="w-full">
+            Agendar diagnóstico
+          </Button>
         </div>
       </aside>
     </div>

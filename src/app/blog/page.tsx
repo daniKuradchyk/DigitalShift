@@ -27,235 +27,180 @@ export const metadata: Metadata = {
   },
 };
 
+function fmtDate(s: string) {
+  return new Date(s).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
+}
+
 export default function BlogIndex() {
   const posts = getPostsWithReadingTime();
   const [featured, ...rest] = posts;
-  const tags = Array.from(new Set(posts.flatMap((p) => p.tags))).slice(0, 8);
+  const allTags = Array.from(new Set(posts.flatMap((p) => p.tags)));
 
   return (
     <main className="min-h-screen bg-white dark:bg-[#050A14]">
       {/* Ambient */}
-      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute -left-20 top-20 h-96 w-96 rounded-full blur-3xl opacity-10 dark:opacity-15"
-          style={{ background: "rgba(56,189,248,0.4)" }} />
-        <div className="absolute -right-20 bottom-1/3 h-96 w-96 rounded-full blur-3xl opacity-10 dark:opacity-15"
-          style={{ background: "rgba(129,140,248,0.4)" }} />
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div
+          className="absolute -top-40 left-1/2 -translate-x-1/2 h-[480px] w-[900px] rounded-full blur-[140px] opacity-[0.06] dark:opacity-[0.13]"
+          style={{ background: "conic-gradient(from 200deg at 50% 40%, #38bdf8, #818cf8, #34d399, #38bdf8)" }}
+        />
       </div>
 
-      {/* Inline header */}
-      <header className="border-b border-slate-200/60 dark:border-white/[0.06] bg-white/90 dark:bg-[#050A14]/90 backdrop-blur-xl">
+      {/* Header */}
+      <header className="sticky top-0 z-40 border-b border-slate-200/60 dark:border-white/[0.06] bg-white/95 dark:bg-[#050A14]/95 backdrop-blur-xl">
         <Container>
-          <div className="flex h-16 items-center justify-between">
-            <Link href="/" aria-label="Ir a inicio" className="flex items-center gap-2">
-              <Logo />
-            </Link>
+          <div className="flex h-14 items-center justify-between">
+            <Link href="/" aria-label="Inicio"><Logo /></Link>
             <div className="flex items-center gap-4">
-              <Link
-                href="/"
-                className="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 transition-colors"
-              >
+              <Link href="/" className="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
                 ← Inicio
               </Link>
-              <Button as="a" href="/#contacto" variant="shine" size="sm">
-                Contactar
-              </Button>
+              <Button as="a" href="/#contacto" variant="shine" size="sm">Contactar</Button>
             </div>
           </div>
         </Container>
       </header>
 
-      {/* Hero */}
-      <div className="relative border-b border-slate-200/60 dark:border-white/[0.06] overflow-hidden">
-        <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-x-0 top-0 h-px"
-            style={{ background: "linear-gradient(90deg, transparent 10%, rgba(56,189,248,0.4) 50%, transparent 90%)" }} />
-          <div className="absolute -left-10 top-6 h-48 w-48 rounded-full blur-3xl opacity-15 dark:opacity-20"
-            style={{ background: "rgba(56,189,248,0.4)" }} />
-          <div className="absolute right-0 bottom-0 h-56 w-56 rounded-full blur-3xl opacity-10 dark:opacity-15"
-            style={{ background: "rgba(129,140,248,0.4)" }} />
-        </div>
-
-        <Container className="py-12 sm:py-16">
-          <div className="section-tag mb-5">
-            <span className="h-1.5 w-1.5 rounded-full bg-sky-400" aria-hidden />
-            Blog · Estrategia y delivery digital
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white max-w-3xl mb-4">
-            Playbooks, checklists y guías{" "}
-            <span className="gradient-text-static">sin humo</span>
-            {" "}para lanzar producto
-          </h1>
-          <p className="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mb-7">
-            Go-to-market, CRO, SEO técnico, migraciones y operaciones comerciales. Contenidos accionables para founders, marketing y equipos de producto.
-          </p>
-
-          {/* Feature pills */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            {["Checklists listos para ejecutar", "Métricas y benchmarks claros", "Enfoque técnico + negocio"].map((pill) => (
-              <span
-                key={pill}
-                className="inline-flex items-center rounded-full border border-slate-200/80 dark:border-white/[0.08] bg-white dark:bg-white/[0.04] px-3.5 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-300"
-              >
-                {pill}
+      {/* Editorial hero */}
+      <div className="border-b border-slate-200/60 dark:border-white/[0.06]">
+        <Container className="py-16 sm:py-24">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-2.5 mb-6">
+              <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
+              <span className="text-xs font-bold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">
+                {posts.length} artículos · {fmtDate(posts[0]?.date ?? "")}
               </span>
-            ))}
-          </div>
-
-          {/* Tags */}
-          {tags.length > 0 && (
+            </div>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.04] mb-6">
+              <span className="text-slate-900 dark:text-white">Guías</span>
+              <br />
+              <span className="text-slate-300 dark:text-white/20">sin relleno</span>
+            </h1>
+            <p className="text-lg sm:text-xl text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed mb-10">
+              Playbooks de go-to-market, SEO técnico, migraciones y automatización. Para equipos que prefieren hacer antes que leer.
+            </p>
             <div className="flex flex-wrap gap-2">
-              {tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full border border-sky-200 dark:border-sky-500/20 bg-sky-50 dark:bg-sky-500/8 px-3 py-1 text-xs font-semibold text-sky-600 dark:text-sky-400"
-                >
+              {allTags.map((tag) => (
+                <span key={tag} className="rounded-full border border-slate-200 dark:border-white/[0.08] bg-transparent px-3 py-1 text-xs font-medium text-slate-500 dark:text-slate-400">
                   {tag}
                 </span>
               ))}
             </div>
-          )}
+          </div>
         </Container>
       </div>
 
-      <Container className="py-12 space-y-10">
-        {/* Featured + 2 recent */}
+      <Container className="py-14 sm:py-20 space-y-14">
+
+        {/* Featured */}
         {featured && (
-          <section className="grid gap-5 lg:grid-cols-[1.3fr_1fr] items-stretch">
-            {/* Featured */}
-            <article className="relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-[#070E22] p-8 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-300 hover:shadow-xl dark:hover:shadow-none">
-              <div className="absolute top-0 left-0 right-0 h-0.5"
-                style={{ background: "linear-gradient(90deg, rgba(56,189,248,0.6), rgba(129,140,248,0.4), transparent)" }} />
+          <section>
+            <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-300 dark:text-white/20 mb-5 pl-1">
+              — Destacado
+            </p>
+            <Link href={`/blog/${featured.slug}`} className="group block">
+              <article className="relative grid lg:grid-cols-[1fr_260px] overflow-hidden rounded-3xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] transition-all duration-300 hover:border-sky-300/60 dark:hover:border-sky-500/25 hover:shadow-[0_24px_64px_-24px_rgba(14,165,233,0.13)]">
+                {/* Top accent */}
+                <div aria-hidden className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent 5%, rgba(56,189,248,0.6) 50%, transparent 95%)" }} />
 
-              <div className="space-y-4">
-                <div className="flex flex-wrap items-center gap-2">
-                  {featured.tags.slice(0, 3).map((tag) => (
-                    <span key={tag} className="rounded-full border border-sky-200 dark:border-sky-500/20 bg-sky-50 dark:bg-sky-500/8 px-2.5 py-0.5 text-xs font-semibold text-sky-600 dark:text-sky-400">
-                      {tag}
-                    </span>
-                  ))}
-                  <span className="rounded-full border border-amber-200 dark:border-amber-500/20 bg-amber-50 dark:bg-amber-500/8 px-2.5 py-0.5 text-xs font-bold text-amber-600 dark:text-amber-400">
-                    Destacado
-                  </span>
-                </div>
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white leading-snug">
-                  <Link className="hover:text-sky-600 dark:hover:text-sky-300 transition-colors" href={`/blog/${featured.slug}`}>
-                    {featured.title}
-                  </Link>
-                </h2>
-                <p className="text-slate-500 dark:text-slate-400 leading-relaxed">{featured.description}</p>
-                <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400 dark:text-slate-500">
-                  <span>{new Date(featured.date).toLocaleDateString("es-ES")}</span>
-                  <span aria-hidden>·</span>
-                  <span>{featured.readingTime} min de lectura</span>
-                  <span aria-hidden>·</span>
-                  <span>{featured.author.name}</span>
-                </div>
-              </div>
-
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Button as="a" href={`/blog/${featured.slug}`} variant="shine" size="sm">
-                  Leer artículo completo
-                </Button>
-                <Button as="a" href="/#contacto" variant="ghost" size="sm">
-                  Aplicarlo en mi negocio
-                </Button>
-              </div>
-            </article>
-
-            {/* 2 recents */}
-            <div className="grid gap-4">
-              {rest.slice(0, 2).map((p) => (
-                <article
-                  key={p.slug}
-                  className="rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-[#070E22] p-5 flex flex-col gap-3 hover:-translate-y-0.5 transition-all duration-200 hover:shadow-md dark:hover:shadow-none"
-                >
-                  <div className="flex flex-wrap gap-1.5">
-                    {p.tags.slice(0, 2).map((tag) => (
-                      <span key={tag} className="rounded-full border border-sky-200 dark:border-sky-500/20 bg-sky-50 dark:bg-sky-500/8 px-2 py-0.5 text-[10px] font-semibold text-sky-600 dark:text-sky-400">
+                <div className="p-8 sm:p-12 flex flex-col">
+                  <div className="flex flex-wrap gap-2.5 mb-6">
+                    {featured.tags.map((tag) => (
+                      <span key={tag} className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400">
                         {tag}
                       </span>
                     ))}
                   </div>
-                  <h3 className="text-base font-semibold text-slate-900 dark:text-white leading-snug">
-                    <Link className="hover:text-sky-600 dark:hover:text-sky-300 transition-colors" href={`/blog/${p.slug}`}>
-                      {p.title}
-                    </Link>
-                  </h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">{p.description}</p>
-                  <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 mt-auto">
-                    <span>{new Date(p.date).toLocaleDateString("es-ES")} · {p.readingTime} min</span>
-                    <Link className="font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300" href={`/blog/${p.slug}`}>
-                      Leer →
-                    </Link>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white leading-snug mb-4 group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors duration-200">
+                    {featured.title}
+                  </h2>
+                  <p className="text-base text-slate-500 dark:text-slate-400 leading-relaxed mb-8 flex-1">
+                    {featured.description}
+                  </p>
+                  <div className="flex flex-wrap items-center gap-6">
+                    <span className="text-sm text-slate-400 dark:text-slate-500">{fmtDate(featured.date)}</span>
+                    <span className="flex items-center gap-1.5 text-sm font-semibold text-sky-600 dark:text-sky-400 group-hover:gap-3 transition-all duration-200">
+                      Leer artículo completo <span aria-hidden>→</span>
+                    </span>
                   </div>
-                </article>
+                </div>
+
+                {/* Right accent panel */}
+                <div className="hidden lg:flex flex-col items-center justify-center gap-3 border-l border-slate-200/60 dark:border-white/[0.06] bg-slate-50/60 dark:bg-white/[0.01] p-10 relative overflow-hidden">
+                  <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.06),transparent_70%)]" />
+                  <span className="relative text-8xl font-black tabular-nums text-slate-900/[0.05] dark:text-white/[0.05] select-none leading-none">
+                    {featured.readingTime}
+                  </span>
+                  <div className="relative text-center">
+                    <p className="text-xs font-bold uppercase tracking-[0.22em] text-slate-300 dark:text-white/20">min lectura</p>
+                  </div>
+                  <div className="relative w-10 h-px bg-slate-200 dark:bg-white/10" />
+                  <p className="relative text-xs text-slate-400 dark:text-slate-500">{featured.author.name}</p>
+                </div>
+              </article>
+            </Link>
+          </section>
+        )}
+
+        {/* Posts grid */}
+        {rest.length > 0 && (
+          <section>
+            <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-300 dark:text-white/20 mb-5 pl-1">
+              — Todos los artículos
+            </p>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {rest.map((p, i) => (
+                <Link key={p.slug} href={`/blog/${p.slug}`} className="group block h-full">
+                  <article className="h-full flex flex-col rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-6 hover:border-sky-300/60 dark:hover:border-sky-500/20 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_-16px_rgba(14,165,233,0.1)] transition-all duration-200">
+                    <div className="flex items-start justify-between gap-2 mb-4">
+                      <div className="flex flex-wrap gap-2">
+                        {p.tags.slice(0, 2).map((tag) => (
+                          <span key={tag} className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-sky-600 dark:text-sky-400">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <span className="text-xs font-black tabular-nums text-slate-100 dark:text-white/[0.06] select-none flex-none">
+                        {String(i + 2).padStart(2, "0")}
+                      </span>
+                    </div>
+                    <h3 className="text-[15px] font-semibold text-slate-900 dark:text-white leading-snug mb-3 group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors flex-1">
+                      {p.title}
+                    </h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2 mb-5">
+                      {p.description}
+                    </p>
+                    <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 pt-4 border-t border-slate-100 dark:border-white/[0.05]">
+                      <span>{new Date(p.date).toLocaleDateString("es-ES")}</span>
+                      <span className="font-medium">{p.readingTime} min</span>
+                    </div>
+                  </article>
+                </Link>
               ))}
             </div>
           </section>
         )}
 
-        {/* Rest of posts grid */}
-        {rest.slice(2).length > 0 && (
-          <section className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {rest.slice(2).map((p) => (
-              <article
-                key={p.slug}
-                className="rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-[#070E22] p-5 flex flex-col justify-between hover:-translate-y-1 transition-all duration-300 hover:shadow-xl dark:hover:shadow-none group"
-              >
-                <div className="space-y-3">
-                  <div className="flex flex-wrap gap-1.5">
-                    {p.tags.slice(0, 2).map((tag) => (
-                      <span key={tag} className="rounded-full border border-sky-200 dark:border-sky-500/20 bg-sky-50 dark:bg-sky-500/8 px-2 py-0.5 text-[10px] font-semibold text-sky-600 dark:text-sky-400">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <h3 className="text-base font-semibold text-slate-900 dark:text-white leading-snug">
-                    <Link className="hover:text-sky-600 dark:hover:text-sky-300 transition-colors" href={`/blog/${p.slug}`}>
-                      {p.title}
-                    </Link>
-                  </h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-3">{p.description}</p>
-                </div>
-                <div className="mt-4 flex items-center justify-between text-xs text-slate-400 dark:text-slate-500">
-                  <span>{new Date(p.date).toLocaleDateString("es-ES")}</span>
-                  <span className="flex items-center gap-1 font-semibold text-sky-600 dark:text-sky-400">
-                    {p.readingTime} min ·{" "}
-                    <Link className="hover:text-sky-700 dark:hover:text-sky-300" href={`/blog/${p.slug}`}>
-                      Leer
-                    </Link>
-                  </span>
-                </div>
-              </article>
-            ))}
-          </section>
-        )}
-
-        {/* CTA bottom */}
-        <section className="rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-7">
-          <div className="grid gap-5 md:grid-cols-[2fr_1fr] md:items-center">
-            <div className="space-y-2">
-              <div className="section-tag w-fit">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden />
-                Acción inmediata
-              </div>
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-                Te acompañamos a aplicar el playbook en 45 minutos
+        {/* Bottom CTA */}
+        <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-8 sm:p-10">
+          <div aria-hidden className="absolute -right-20 -top-20 h-64 w-64 rounded-full blur-3xl opacity-[0.06] dark:opacity-[0.08]" style={{ background: "rgba(56,189,248,1)" }} />
+          <div className="relative grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-emerald-600 dark:text-emerald-400 mb-3">Próximo paso</p>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                Lo aplicamos a tu caso en 45 min
               </h2>
-              <p className="text-slate-500 dark:text-slate-400 text-sm">
-                Revisamos tu caso, priorizamos acciones y dejamos un checklist medible. Sin compromiso inicial.
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                Revisamos, priorizamos y dejamos un checklist medible. Sin compromiso inicial.
               </p>
             </div>
-            <div className="flex flex-wrap gap-3 md:justify-end">
-              <Button as="a" href="/#contacto" variant="shine">
-                Agenda diagnóstico
-              </Button>
-              <Button as="a" href="/labs" variant="ghost">
-                Ver herramientas
-              </Button>
+            <div className="flex flex-wrap gap-3">
+              <Button as="a" href="/#contacto" variant="shine">Agendar diagnóstico</Button>
+              <Button as="a" href="/labs" variant="ghost">Ver herramientas</Button>
             </div>
           </div>
-        </section>
+        </div>
+
       </Container>
     </main>
   );

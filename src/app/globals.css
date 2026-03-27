@@ -10,11 +10,11 @@
   color-scheme: light dark;
 
   /* Backgrounds */
-  --bg-page:        #F8FAFF;
+  --bg-page:        #EEF2FF;
   --bg-surface:     #FFFFFF;
-  --bg-card:        rgba(255, 255, 255, 0.90);
-  --bg-muted:       rgba(59, 130, 246, 0.04);
-  --bg-hero:        #F8FAFF;
+  --bg-card:        rgba(255, 255, 255, 0.92);
+  --bg-muted:       rgba(99, 102, 241, 0.05);
+  --bg-hero:        #EEF2FF;
 
   /* Text */
   --text-primary:   #0A0F2C;
@@ -22,34 +22,35 @@
   --text-muted:     #8892B0;
 
   /* Borders */
-  --border:         rgba(0, 0, 40, 0.08);
-  --border-strong:  rgba(0, 0, 40, 0.16);
+  --border:         rgba(0, 0, 80, 0.09);
+  --border-strong:  rgba(0, 0, 80, 0.16);
 
   /* Accents */
-  --accent:         #3B82F6;
-  --accent-2:       #06B6D4;
+  --accent:         #4F46E5;
+  --accent-2:       #0284C7;
 
   /* Shadows */
-  --shadow-card:    0 1px 3px rgba(0,0,40,0.08), 0 8px 24px -8px rgba(0,0,40,0.06);
-  --glow-blue:      0 0 40px rgba(59, 130, 246, 0.12);
+  --shadow-card:    0 1px 3px rgba(0,0,80,0.07), 0 8px 24px -8px rgba(0,0,80,0.08);
+  --glow-blue:      0 0 60px rgba(99, 102, 241, 0.18);
 
   /* Gradient text stops */
-  --grad-from: #1D4ED8;
-  --grad-to:   #0891B2;
+  --grad-from: #4F46E5;
+  --grad-to:   #0284C7;
 
-  /* Aurora (very subtle in light) */
+  /* Aurora — visible in light mode */
   --bg-aurora:
-    radial-gradient(ellipse 70% 45% at 15% 10%, rgba(59,130,246,0.07), transparent 70%),
-    radial-gradient(ellipse 55% 40% at 85% 8%,  rgba(6,182,212,0.07),  transparent 65%),
-    radial-gradient(ellipse 50% 55% at 50% 90%, rgba(99,102,241,0.04), transparent 70%);
+    radial-gradient(ellipse 90% 60% at 10% 0%,   rgba(99,102,241,0.22), transparent 65%),
+    radial-gradient(ellipse 70% 50% at 90% 5%,   rgba(56,189,248,0.18), transparent 60%),
+    radial-gradient(ellipse 65% 55% at 50% 100%,  rgba(129,140,248,0.14), transparent 65%),
+    radial-gradient(ellipse 50% 35% at 70% 45%,  rgba(6,182,212,0.10), transparent 60%);
 
-  /* Grid overlay (light) */
+  /* Dot grid overlay (light) */
   --bg-grid:
-    repeating-linear-gradient(90deg, rgba(0,0,40,0.025) 0, rgba(0,0,40,0.025) 1px, transparent 1px, transparent 80px),
-    repeating-linear-gradient(0deg,  rgba(0,0,40,0.020) 0, rgba(0,0,40,0.020) 1px, transparent 1px, transparent 80px);
+    radial-gradient(circle, rgba(99,102,241,0.14) 1px, transparent 1px);
+  --bg-grid-size: 36px 36px;
 
   /* Particle canvas opacity */
-  --particles-opacity: 0.13;
+  --particles-opacity: 0.18;
 }
 
 /* ── DARK MODE ──────────────────────────────────────────────────── */
@@ -85,8 +86,9 @@
       radial-gradient(ellipse 60% 50% at 10% 70%,  rgba(14,165,233,0.06), transparent);
 
     --bg-grid:
-      repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 60px),
-      repeating-linear-gradient(0deg,  rgba(255,255,255,0.02) 0, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 60px);
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 60px),
+      repeating-linear-gradient(0deg,  rgba(255,255,255,0.025) 0, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 60px);
+    --bg-grid-size: auto;
 
     --particles-opacity: 0.40;
   }
@@ -134,13 +136,14 @@ body::before {
   animation: auroraShift 22s ease-in-out infinite alternate;
 }
 
-/* Grid overlay */
+/* Dot/grid overlay */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -3;
   background: var(--bg-grid);
+  background-size: var(--bg-grid-size, auto);
   pointer-events: none;
   animation: gridDrift 30s ease-in-out infinite alternate;
 }
@@ -264,8 +267,8 @@ body::after {
   align-items: center;
   gap: 0.5rem;
   border-radius: 9999px;
-  border: 1px solid rgba(59, 130, 246, 0.20);
-  background: rgba(59, 130, 246, 0.06);
+  border: 1px solid rgba(99, 102, 241, 0.28);
+  background: rgba(99, 102, 241, 0.08);
   padding: 0.25rem 0.75rem;
   font-size: 0.6875rem;
   font-weight: 600;
@@ -277,9 +280,9 @@ body::after {
 
 @media (prefers-color-scheme: dark) {
   .section-tag {
-    border-color: rgba(96, 165, 250, 0.20);
-    background: rgba(59, 130, 246, 0.08);
-    color: #60A5FA;
+    border-color: rgba(99, 102, 241, 0.22);
+    background: rgba(99, 102, 241, 0.10);
+    color: #818CF8;
   }
 }
 
@@ -375,7 +378,7 @@ select:focus,
 textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.14);
 }
 
 input[type="text"]::placeholder,
@@ -408,7 +411,7 @@ input[type="checkbox"] {
    ════════════════════════════════════════════════════════════════ */
 
 :where(a, button, [role="button"], input, select, textarea) {
-  @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2;
+  @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/50 focus-visible:ring-offset-2;
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -417,8 +420,8 @@ input[type="checkbox"] {
 
 ::-webkit-scrollbar          { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track    { background: var(--bg-page); }
-::-webkit-scrollbar-thumb    { background: rgba(59,130,246,0.25); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(59,130,246,0.45); }
+::-webkit-scrollbar-thumb    { background: rgba(99,102,241,0.28); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(99,102,241,0.50); }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -428,7 +431,7 @@ input[type="checkbox"] {
    ════════════════════════════════════════════════════════════════ */
 
 ::selection {
-  background: rgba(59, 130, 246, 0.22);
+  background: rgba(99, 102, 241, 0.22);
   color: var(--text-primary);
 }
 
