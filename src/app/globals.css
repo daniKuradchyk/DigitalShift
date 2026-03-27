@@ -10,11 +10,11 @@
   color-scheme: light dark;
 
   /* Backgrounds */
-  --bg-page:        #EEF0FA;
+  --bg-page:        #F7F9FF;
   --bg-surface:     #FFFFFF;
   --bg-card:        rgba(255, 255, 255, 0.97);
   --bg-muted:       rgba(99, 102, 241, 0.05);
-  --bg-hero:        #EEF0FA;
+  --bg-hero:        #F7F9FF;
 
   /* Text */
   --text-primary:   #0A0F2C;
@@ -111,13 +111,27 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: #F7F9FF;
+  /* Subtle cross-hatch — the animated orbs provide the color effect */
+  background-image:
+    repeating-linear-gradient(90deg, rgba(99,102,241,0.05) 0, rgba(99,102,241,0.05) 1px, transparent 1px, transparent 80px),
+    repeating-linear-gradient(0deg,  rgba(99,102,241,0.05) 0, rgba(99,102,241,0.05) 1px, transparent 1px, transparent 80px);
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    background-color: #050A14;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.03)  0, rgba(255,255,255,0.03)  1px, transparent 1px, transparent 60px),
+      repeating-linear-gradient(0deg,  rgba(255,255,255,0.025) 0, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 60px);
+  }
 }
 
 body {
   font-family: var(--font-sans);
   font-size: 1.0625rem;       /* 17px */
   line-height: 1.7;
-  background-color: var(--bg-page);
+  background: transparent;
   color: var(--text-primary);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -125,28 +139,10 @@ body {
   position: relative;
 }
 
-/* ── Background layers ─────────────────────────────────────────── */
-
-/* Aurora blobs */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background: var(--bg-aurora);
-  filter: blur(60px);
-  pointer-events: none;
-}
-
-/* Dot/grid overlay */
+/* Pseudo-elements no longer used for backgrounds */
+body::before,
 body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -3;
-  background: var(--bg-grid);
-  background-size: var(--bg-grid-size, auto);
-  pointer-events: none;
+  content: none;
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -345,7 +341,7 @@ body::after {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   INTERACTIVE BACKGROUND (canvas particles)
+   ANIMATED BACKGROUND ORBS
    ════════════════════════════════════════════════════════════════ */
 
 .interactive-bg {
@@ -353,10 +349,77 @@ body::after {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  width: 100%;
-  height: 100%;
-  opacity: var(--particles-opacity);
-  transition: opacity 0.5s ease;
+  overflow: hidden;
+}
+
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+/* Sky blue — top right */
+.bg-orb-1 {
+  width:  min(75vw, 960px);
+  height: min(75vw, 960px);
+  background: rgba(56, 189, 248, 0.44);
+  filter: blur(100px);
+  top:   -28%;
+  right: -18%;
+  animation: bgOrb1 20s ease-in-out infinite alternate;
+}
+
+/* Indigo — top left */
+.bg-orb-2 {
+  width:  min(68vw, 880px);
+  height: min(68vw, 880px);
+  background: rgba(99, 102, 241, 0.36);
+  filter: blur(110px);
+  top:  -30%;
+  left: -20%;
+  animation: bgOrb2 26s ease-in-out infinite alternate;
+}
+
+/* Cyan — bottom center */
+.bg-orb-3 {
+  width:  min(62vw, 820px);
+  height: min(62vw, 820px);
+  background: rgba(34, 211, 238, 0.30);
+  filter: blur(120px);
+  bottom: -24%;
+  left:    14%;
+  animation: bgOrb3 32s ease-in-out infinite alternate;
+}
+
+@media (prefers-color-scheme: dark) {
+  .bg-orb-1 { background: rgba(14, 165, 233, 0.20); }
+  .bg-orb-2 { background: rgba(79,  70, 229, 0.22); }
+  .bg-orb-3 { background: rgba( 6, 182, 212, 0.15); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-orb { animation: none !important; }
+}
+
+@keyframes bgOrb1 {
+  0%   { transform: translate(  0%,   0%) scale(1.00); }
+  30%  { transform: translate( -5%,   9%) scale(1.08); }
+  70%  { transform: translate(  4%,  13%) scale(0.94); }
+  100% { transform: translate( -3%,   6%) scale(1.05); }
+}
+
+@keyframes bgOrb2 {
+  0%   { transform: translate(  0%,   0%) scale(1.00); }
+  30%  { transform: translate(  7%,  11%) scale(0.93); }
+  70%  { transform: translate( -5%,   7%) scale(1.10); }
+  100% { transform: translate(  9%,   3%) scale(0.97); }
+}
+
+@keyframes bgOrb3 {
+  0%   { transform: translate(  0%,   0%) scale(1.00); }
+  30%  { transform: translate( 11%,  -9%) scale(1.07); }
+  70%  { transform: translate(  4%, -15%) scale(0.92); }
+  100% { transform: translate( -8%,  -5%) scale(1.11); }
 }
 
 /* ════════════════════════════════════════════════════════════════

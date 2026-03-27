@@ -114,7 +114,7 @@ export default function Hero() {
           background: "linear-gradient(90deg, transparent 5%, rgba(99,102,241,0.65) 50%, transparent 95%)",
         }} />
         {/* Page blend */}
-        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#EEF0FA] dark:from-[#050A14] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-[#F7F9FF] dark:from-[#050A14] to-transparent" />
       </div>
 
       {/* ── CONTENT ──────────────────────────────────────────────── */}
