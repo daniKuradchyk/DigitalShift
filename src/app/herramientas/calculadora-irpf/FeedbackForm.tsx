@@ -95,14 +95,14 @@ export default function FeedbackForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-3xl border border-slate-200 bg-white/90 p-4 sm:p-6 shadow-[0_20px_60px_-40px_rgba(14,29,74,0.45)] backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80">
+    <form onSubmit={onSubmit} className="rounded-3xl border border-slate-200 bg-white/90 p-4 sm:p-6 shadow-[0_20px_60px_-40px_rgba(14,29,74,0.45)] backdrop-blur-sm dark:border-white/[0.07] dark:bg-white/[0.03]">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Feedback</p>
           <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Detectaste un error en el estimador?</h3>
           <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Tu feedback nos ayuda a mejorar el resultado.</p>
         </div>
-        <span className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white/80 px-2.5 py-1 text-xs font-semibold text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
+        <span className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white/80 px-2.5 py-1 text-xs font-semibold text-slate-600 dark:border-white/[0.07] dark:bg-slate-800/60 dark:text-slate-300">
           Sin registro
         </span>
       </div>
@@ -114,7 +114,7 @@ export default function FeedbackForm() {
             id="category"
             value={form.category}
             onChange={(event) => setField("category", event.target.value as IrpfFeedbackPayload["category"])}
-            className={`mt-1 w-full rounded-xl border px-3 py-2 bg-white/80 dark:bg-slate-900/70 ${errors.category ? "border-red-500" : "border-brand-200"}`}
+            className={`mt-1 w-full rounded-xl border px-3 py-2 bg-white/80 dark:bg-white/[0.02] ${errors.category ? "border-red-500" : "border-sky-200"}`}
           >
             {categories.map((item) => (
               <option key={item.value} value={item.value}>{item.label}</option>
@@ -129,7 +129,7 @@ export default function FeedbackForm() {
             id="step"
             value={form.step ?? "unknown"}
             onChange={(event) => setField("step", event.target.value as IrpfFeedbackPayload["step"])}
-            className="mt-1 w-full rounded-xl border border-brand-200 bg-white/80 px-3 py-2 dark:bg-slate-900/70"
+            className="mt-1 w-full rounded-xl border border-sky-200 bg-white/80 px-3 py-2 dark:bg-white/[0.02]"
           >
             {steps.map((item) => (
               <option key={item.value} value={item.value}>{item.label}</option>
@@ -144,7 +144,7 @@ export default function FeedbackForm() {
             rows={4}
             value={form.details}
             onChange={(event) => setField("details", event.target.value)}
-            className={`mt-1 w-full rounded-xl border px-3 py-2 bg-white/80 dark:bg-slate-900/70 ${errors.details ? "border-red-500" : "border-brand-200"}`}
+            className={`mt-1 w-full rounded-xl border px-3 py-2 bg-white/80 dark:bg-white/[0.02] ${errors.details ? "border-red-500" : "border-sky-200"}`}
             placeholder="Ejemplo: el calculo de retenciones no coincide con el tramo X."
           />
           {errors.details && <p className="mt-1 text-xs text-red-700">{errors.details}</p>}
@@ -157,7 +157,7 @@ export default function FeedbackForm() {
             type="text"
             value={form.name ?? ""}
             onChange={(event) => setField("name", event.target.value)}
-            className="mt-1 w-full rounded-xl border border-brand-200 bg-white/80 px-3 py-2 dark:bg-slate-900/70"
+            className="mt-1 w-full rounded-xl border border-sky-200 bg-white/80 px-3 py-2 dark:bg-white/[0.02]"
           />
         </div>
 
@@ -168,7 +168,7 @@ export default function FeedbackForm() {
             type="email"
             value={form.email ?? ""}
             onChange={(event) => setField("email", event.target.value)}
-            className={`mt-1 w-full rounded-xl border px-3 py-2 bg-white/80 dark:bg-slate-900/70 ${errors.email ? "border-red-500" : "border-brand-200"}`}
+            className={`mt-1 w-full rounded-xl border px-3 py-2 bg-white/80 dark:bg-white/[0.02] ${errors.email ? "border-red-500" : "border-sky-200"}`}
             placeholder="tu@email.com"
           />
           {errors.email && <p className="mt-1 text-xs text-red-700">{errors.email}</p>}
@@ -208,7 +208,7 @@ export default function FeedbackForm() {
         <Button type="submit" disabled={status === "loading"} className="w-full sm:w-auto">
           {status === "loading" ? "Enviando..." : "Enviar feedback"}
         </Button>
-        <p aria-live="polite" className={`${status === "error" ? "text-red-700" : status === "ok" ? "text-brand-700" : "text-slate-600"} text-sm`}>
+        <p aria-live="polite" className={`${status === "error" ? "text-red-700" : status === "ok" ? "text-sky-700" : "text-slate-600"} text-sm`}>
           {message}
         </p>
       </div>

@@ -48,13 +48,13 @@ const variants: Record<Variants, string> = {
     "focus-visible:ring-2 focus-visible:ring-sky-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
   ),
   ghost: cn(
-    "text-slate-300",
-    "bg-slate-800/50 border border-slate-700/60",
+    "text-slate-600 dark:text-slate-300",
+    "bg-white/80 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60",
     "backdrop-blur-sm",
     "shadow-sm",
-    "hover:-translate-y-0.5 hover:bg-slate-800/80 hover:border-sky-500/20 hover:text-sky-300",
+    "hover:-translate-y-0.5 hover:bg-slate-50 dark:hover:bg-slate-800/80 hover:border-sky-300 dark:hover:border-sky-500/20 hover:text-sky-600 dark:hover:text-sky-300",
     "hover:shadow-[0_0_20px_rgba(56,189,248,0.08)]",
-    "focus-visible:ring-2 focus-visible:ring-sky-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+    "focus-visible:ring-2 focus-visible:ring-sky-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950"
   ),
   shine: cn(
     "relative text-white overflow-hidden",

@@ -517,6 +517,261 @@ export const posts: Post[] = [
       },
     ],
   },
+  {
+    slug: "ia-agentes-pymes-2026",
+    title: "IA agéntica para pymes: qué funciona y qué no en 2026",
+    description:
+      "Guía práctica sobre agentes de IA para pymes: casos reales, riesgos, cómo evaluar ROI y por dónde empezar sin quemarse.",
+    h1: "IA agéntica para pymes: casos reales, riesgos y cómo empezar",
+    date: "2026-01-10",
+    author: baseAuthor,
+    tags: ["IA", "Automatización", "Pymes"],
+    intro:
+      "Los agentes de IA ya no son ciencia ficción: clasifican emails, extraen datos de facturas y generan borradores de propuestas. Pero aplicarlos sin control genera errores silenciosos y frustración. Esta guía resume qué funciona para pymes, qué falla y cómo pilotar de forma segura.",
+    sections: [
+      {
+        title: "Casos que dan ROI real en pymes",
+        body: [
+          "Clasificación y borrador de respuesta de tickets de soporte con revisión humana.",
+          "Extracción de datos de albaranes, facturas y contratos hacia ERP o hoja de cálculo.",
+          "Generación de informes recurrentes a partir de datos validados (sin interpretación libre).",
+          "Resumen de llamadas o reuniones con acción siguiente y responsable.",
+        ],
+      },
+      {
+        title: "Lo que falla sin guardarraíles",
+        body: [
+          "Alucinaciones en contextos críticos: números, fechas y datos de clientes.",
+          "Deriva de comportamiento tras actualizaciones del modelo sin aviso.",
+          "Dependencia de un solo proveedor sin fallback ni versionado de prompts.",
+          "Ausencia de trazabilidad: si algo falla, no puedes saber qué procesó el agente.",
+        ],
+      },
+      {
+        title: "Cómo pilotar de forma segura",
+        body: [
+          "Empieza con una tarea acotada: una sola fuente de datos, un solo tipo de salida.",
+          "Define la métrica de calidad antes de lanzar (ej. precisión > 95% en extracción).",
+          "Revisión humana obligatoria en el piloto; automatiza solo cuando la calidad sea consistente.",
+          "Observabilidad desde el día 1: logs de entradas, salidas y rechazos.",
+        ],
+      },
+      {
+        title: "Evaluar ROI antes de escalar",
+        body: [
+          "Mide horas ahorradas reales, no potenciales.",
+          "Añade coste de prompt engineering, supervisión y mantenimiento del modelo.",
+          "Calcula el coste de un error: si un error tiene consecuencias legales o económicas altas, el ROI se reduce.",
+          "Revisa cada trimestre: los modelos mejoran, pero los costes de API también varían.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "¿Qué modelo de IA usar para automatizaciones en pymes?",
+        a: "Depende del caso. Para extracción estructurada: modelos económicos con función calling (GPT-4o mini, Gemini Flash). Para redacción o análisis: modelos más capaces. Lo más importante es versionar los prompts y medir calidad.",
+      },
+      {
+        q: "¿Es seguro conectar IA a datos de clientes?",
+        a: "Sí, con las medidas adecuadas: control de acceso, anonimización donde sea posible, acuerdos DPA con el proveedor y logs. Empieza con datos no sensibles y amplía de forma controlada.",
+      },
+      {
+        q: "¿Cuánto tarda un piloto de IA en una pyme?",
+        a: "Un piloto funcional de una tarea acotada suele estar listo en 3-5 semanas: una semana de análisis, dos de desarrollo y dos de validación con datos reales.",
+      },
+    ],
+  },
+  {
+    slug: "arquitectura-nextjs-seo-2026",
+    title: "Arquitectura Next.js para SEO técnico en 2026: lo que importa",
+    description:
+      "App Router, Server Components, ISR, sitemap dinámico y Core Web Vitals. Cómo estructurar un proyecto Next.js que posicione bien.",
+    h1: "Next.js y SEO técnico en 2026: arquitectura que posiciona",
+    date: "2026-01-28",
+    author: baseAuthor,
+    tags: ["Next.js", "SEO técnico", "Rendimiento"],
+    intro:
+      "Con el App Router consolidado y los Core Web Vitals como señal de ranking, la arquitectura del proyecto marca la diferencia entre una web que posiciona y una que no. Este artículo resume las decisiones clave de configuración para proyectos Next.js orientados a SEO.",
+    sections: [
+      {
+        title: "Server Components y renderizado para SEO",
+        body: [
+          "Usa Server Components por defecto: el HTML llega completo al crawler sin JS.",
+          "Reserva Client Components ('use client') para interactividad real: formularios, tabs, sliders.",
+          "generateMetadata por ruta: title, description, canonical y og:image distintos en cada página.",
+          "Evita el patrón 'fetch en cliente + spinner': el crawler ve un skeleton vacío.",
+        ],
+      },
+      {
+        title: "ISR y caché para páginas con datos",
+        body: [
+          "revalidate = 86400 en páginas de contenido estable (servicios, blog); más bajo en precios o inventario.",
+          "generateStaticParams para rutas dinámicas de alto tráfico: el build las pre-renderiza.",
+          "fetch cache: 'force-cache' con next.revalidate para controlar granularidad por endpoint.",
+          "Evita force-dynamic en páginas que no lo necesiten: penaliza TTFB y coste de servidor.",
+        ],
+      },
+      {
+        title: "Sitemap y robots dinámicos",
+        body: [
+          "sitemap.ts con rutas estáticas + dinámicas (blog, productos): actualización automática en cada build.",
+          "robots.ts que bloquee /api, /admin y parámetros de tracking (?utm_*, ?ref=).",
+          "Canonical explícito en todas las rutas, incluidas paginaciones y filtros.",
+          "hreflang si hay versiones en varios idiomas; sin él Google puede elegir la URL incorrecta.",
+        ],
+      },
+      {
+        title: "Core Web Vitals: las palancas reales",
+        body: [
+          "LCP: imagen hero con priority={true} y tamaños responsive correctos (srcSet).",
+          "CLS: reserva de espacio en imágenes y fuentes (font-display: swap con subset).",
+          "INP: evita handlers síncronos pesados en eventos de usuario; usa startTransition para actualizaciones no urgentes.",
+          "Mide en campo (CrUX) y en laboratorio (Lighthouse CI en cada PR).",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "¿Merece la pena migrar de Pages Router a App Router en 2026?",
+        a: "Para proyectos nuevos, sí claramente. Para migraciones, evalúa el tamaño: si tienes más de 50 páginas con lógica compleja, migra de forma incremental usando el layout compartido.",
+      },
+      {
+        q: "¿Cómo gestiono el canonical en rutas con parámetros?",
+        a: "Genera el canonical en generateMetadata con la URL limpia (sin parámetros de tracking). En rutas con paginación, el canonical de la página 2 apunta a sí misma, no a la página 1.",
+      },
+      {
+        q: "¿Necesito un sitemap por sección o uno global?",
+        a: "Un sitemap global suele ser suficiente. Divide en múltiples sitemaps solo si superas 50.000 URLs o quieres métricas separadas por sección en Google Search Console.",
+      },
+    ],
+  },
+  {
+    slug: "presupuesto-software-medida-2026",
+    title: "Cuánto cuesta el software a medida en 2026: rangos y guía",
+    description:
+      "Rangos de precio para proyectos de software a medida en España: apps internas, integraciones ERP/CRM y plataformas. Factores reales que suben o bajan el coste.",
+    h1: "Cuánto cuesta el software a medida en 2026",
+    date: "2026-02-12",
+    author: baseAuthor,
+    tags: ["Software a medida", "Presupuesto", "Pymes"],
+    intro:
+      "Los presupuestos de software a medida varían desde 5.000 € hasta más de 100.000 € dependiendo del alcance, las integraciones y el equipo. Aquí tienes los rangos reales del mercado español en 2026 y los factores que de verdad importan para no quemar presupuesto.",
+    sections: [
+      {
+        title: "Rangos de mercado en España (2026)",
+        body: [
+          "Herramienta interna simple (1-3 módulos, sin integraciones): 5.000 € – 12.000 €.",
+          "App con integraciones a ERP/CRM y automatizaciones moderadas: 12.000 € – 30.000 €.",
+          "Plataforma con múltiples roles, seguridad reforzada y reporting: 30.000 € – 80.000 €.",
+          "Soporte y mantenimiento post-lanzamiento: 8-15 % del coste de desarrollo por año.",
+        ],
+      },
+      {
+        title: "Factores que disparan el coste",
+        body: [
+          "Integraciones: cada API externa (ERP, CRM, pasarela de pagos) añade 2.000 €–8.000 €.",
+          "Requisitos de seguridad y cumplimiento: SSO, auditoría de accesos, cifrado de datos sensibles.",
+          "Múltiples entornos: staging, producción y disaster recovery con CI/CD completo.",
+          "Alcance mal definido: el scope creep puede duplicar tiempos y presupuesto.",
+        ],
+      },
+      {
+        title: "Qué incluye una propuesta seria",
+        body: [
+          "Discovery documentado: objetivos, backlog priorizado y criterios de aceptación.",
+          "Arquitectura básica: diagrama de módulos, integraciones y modelo de datos.",
+          "Entrega iterativa: demos quincenales o mensuales con entregables medibles.",
+          "Handover completo: repositorio, documentación técnica, accesos y formación.",
+        ],
+      },
+      {
+        title: "Cómo reducir riesgo sin bajar calidad",
+        body: [
+          "Empieza con un MVP acotado: valida el uso real antes de invertir en el producto completo.",
+          "Define el alcance por Must/Should/Could y bloquea el scope en el contrato.",
+          "Pide referencias de proyectos similares en tamaño y sector.",
+          "Evita presupuestos sin discovery previo: nadie puede dar un precio fiable sin entender el problema.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "¿Es mejor un equipo interno o una agencia?",
+        a: "Depende del volumen y continuidad. Para proyectos puntuales o cuando no hay equipo técnico propio, una agencia o consultora es más eficiente. Para producto en evolución constante, construye equipo interno apoyado en partners externos.",
+      },
+      {
+        q: "¿Cuánto tarda un proyecto de software a medida?",
+        a: "El primer release suele estar en 8-14 semanas para proyectos de complejidad media. Con buena definición de alcance y demos iterativas, los plazos son más predecibles.",
+      },
+      {
+        q: "¿Qué pasa con el mantenimiento?",
+        a: "Presupuesta mantenimiento desde el inicio: actualizaciones de seguridad, corrección de bugs y pequeñas mejoras. El coste típico es del 10-15% del desarrollo por año.",
+      },
+    ],
+  },
+  {
+    slug: "integraciones-erp-crm-pymes",
+    title: "Integrar ERP y CRM en pymes: guía sin humo",
+    description:
+      "Cómo integrar ERP y CRM en una pyme sin un proyecto millonario: estrategia, tecnología y errores a evitar.",
+    h1: "Integrar ERP y CRM en una pyme: estrategia práctica",
+    date: "2026-03-05",
+    author: baseAuthor,
+    tags: ["Integraciones", "ERP", "CRM"],
+    intro:
+      "La mayoría de pymes trabajan con datos duplicados entre ERP y CRM: el comercial ve el CRM, el contable ve el ERP y nadie sabe cuál tiene la verdad. Integrarlos no requiere un proyecto de 6 meses; requiere una estrategia clara y empezar por el caso de uso correcto.",
+    sections: [
+      {
+        title: "Por qué la integración falla a menudo",
+        body: [
+          "Se integra todo a la vez: pedidos, inventario, clientes, facturas, presupuestos — demasiado scope.",
+          "No hay fuente de verdad definida: ¿el cliente se crea en el ERP o en el CRM?",
+          "Transformaciones de datos no documentadas: el campo 'estado' tiene 12 valores distintos en cada sistema.",
+          "Mantenimiento olvidado: el primer cambio de API rompe la integración y nadie lo detecta hasta una semana después.",
+        ],
+      },
+      {
+        title: "Arquitectura de integración mínima viable",
+        body: [
+          "Define la fuente de verdad por entidad: cliente → CRM, factura → ERP, pedido → ERP.",
+          "Eventos, no polling: suscríbete a webhooks en lugar de consultar cada N minutos.",
+          "Capa de transformación explícita: un servicio que mapea campos y versiona el contrato.",
+          "Observabilidad: logs de cada evento, alertas si falla un sync y dashboard de estado.",
+        ],
+      },
+      {
+        title: "Casos de uso de mayor impacto",
+        body: [
+          "Sincronización de clientes: un cliente nuevo en CRM aparece automáticamente en ERP.",
+          "Pedido cerrado → factura draft en ERP sin intervención manual.",
+          "Stock bajo en ERP → alerta automática en CRM para que el comercial no prometa lo que no hay.",
+          "Historial de compras en ficha de cliente del CRM para conversaciones de venta más efectivas.",
+        ],
+      },
+      {
+        title: "Hoja de ruta en 3 fases",
+        body: [
+          "Fase 1 (2-4 semanas): mapeo de entidades, fuentes de verdad y primer conector unidireccional.",
+          "Fase 2 (4-8 semanas): sincronización bidireccional con resolución de conflictos y alertas.",
+          "Fase 3 (ongoing): automatizaciones sobre los datos integrados (informes, alertas, scoring).",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        q: "¿Qué herramienta uso para integrar ERP y CRM?",
+        a: "Depende del ecosistema. Para integraciones simples con sistemas cloud: Zapier o Make. Para mayor control y volumen: una API a medida o middleware propio. Evita soluciones iPaaS costosas si el uso es puntual.",
+      },
+      {
+        q: "¿Cuánto tarda una integración básica?",
+        a: "Una integración unidireccional bien definida (ej. cliente CRM → ERP) puede estar lista en 2-3 semanas. Bidireccional con gestión de conflictos: 4-8 semanas.",
+      },
+      {
+        q: "¿Cómo evito que la integración se rompa?",
+        a: "Versiona los contratos de API, añade alertas en fallos y revisa los logs semanalmente. El mayor riesgo es un cambio de versión en el proveedor que nadie detecta a tiempo.",
+      },
+    ],
+  },
 ];
 
 export const postsMeta: PostMeta[] = posts.map(({ slug, title, description, h1, date, author, tags }) => ({

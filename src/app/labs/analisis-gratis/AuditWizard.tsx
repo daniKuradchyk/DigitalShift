@@ -274,10 +274,10 @@ type RadioCardProps = {
 function RadioCard({ name, value, checked, onChange, title, description, icon }: RadioCardProps) {
   return (
     <label
-      className={`group relative flex cursor-pointer flex-col gap-2 overflow-hidden rounded-2xl border px-3 py-3 text-sm transition focus-within:ring-2 focus-within:ring-brand-200 sm:gap-3 sm:px-4 sm:py-4 ${
+      className={`group relative flex cursor-pointer flex-col gap-2 overflow-hidden rounded-2xl border px-3 py-3 text-sm transition focus-within:ring-2 focus-within:ring-sky-200 sm:gap-3 sm:px-4 sm:py-4 ${
         checked
-          ? "border-brand-400 bg-white/90 text-slate-900 shadow-[0_18px_40px_-28px_rgba(14,29,74,0.55)] dark:border-brand-500/50 dark:bg-slate-900/80 dark:text-white"
-          : "border-slate-200 bg-white/70 text-slate-700 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-300"
+          ? "border-sky-400 bg-white/90 text-slate-900 shadow-[0_18px_40px_-28px_rgba(14,29,74,0.55)] dark:border-sky-500/50 dark:bg-white/[0.03] dark:text-white"
+          : "border-slate-200 bg-white/70 text-slate-700 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-white/[0.06] dark:bg-white/[0.02] dark:text-slate-300"
       }`}
     >
       <input type="radio" name={name} value={value} checked={checked} onChange={onChange} className="sr-only" />
@@ -286,7 +286,7 @@ function RadioCard({ name, value, checked, onChange, title, description, icon }:
         className={`absolute left-0 top-0 h-full w-1 ${checked ? "bg-[linear-gradient(180deg,#0e1d4a,#4168e1,#6389ff)]" : "bg-transparent"}`}
       />
       <div className="flex items-center gap-2">
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-xl border border-brand-100 bg-brand-50 text-brand-700 shadow-sm dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200 sm:h-8 sm:w-8">
+        <span className="inline-flex h-7 w-7 items-center justify-center rounded-xl border border-sky-100 bg-sky-50 text-sky-700 shadow-sm dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-200 sm:h-8 sm:w-8">
           {icon}
         </span>
         <span className="text-sm font-semibold">{title}</span>
@@ -311,7 +311,7 @@ function SelectField({ id, label, value, onChange, options, help }: SelectFieldP
       <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
         {label}
       </label>
-      <div className="relative flex h-10 items-center rounded-2xl border border-slate-200 bg-white/85 px-2 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75 sm:h-11">
+      <div className="relative flex h-10 items-center rounded-2xl border border-slate-200 bg-white/85 px-2 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-200 dark:border-white/[0.07] dark:bg-white/[0.03] sm:h-11">
         <select
           id={id}
           value={value}
@@ -345,10 +345,10 @@ type ToggleProps = {
 function Toggle({ label, description, checked, onChange }: ToggleProps) {
   return (
     <label
-      className={`group flex cursor-pointer flex-col gap-3 rounded-2xl border px-4 py-3 text-sm shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] transition hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-brand-200 sm:flex-row sm:items-center sm:justify-between sm:gap-4 ${
+      className={`group flex cursor-pointer flex-col gap-3 rounded-2xl border px-4 py-3 text-sm shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] transition hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-sky-200 sm:flex-row sm:items-center sm:justify-between sm:gap-4 ${
         checked
-          ? "border-brand-400 bg-brand-50/70 text-slate-900 dark:border-brand-500/50 dark:bg-brand-500/10 dark:text-slate-100"
-          : "border-slate-200 bg-white/80 text-slate-700 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200"
+          ? "border-sky-400 bg-sky-50/70 text-slate-900 dark:border-sky-500/50 dark:bg-sky-500/10 dark:text-slate-100"
+          : "border-slate-200 bg-white/80 text-slate-700 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-200"
       }`}
     >
       <span className="min-w-0 flex-1">
@@ -359,14 +359,14 @@ function Toggle({ label, description, checked, onChange }: ToggleProps) {
         aria-hidden
         className={`relative h-6 w-11 flex-none rounded-full border transition ${
           checked
-            ? "border-brand-500/70 bg-brand-500/20"
-            : "border-slate-300 bg-slate-200/70 dark:border-slate-700 dark:bg-slate-800"
+            ? "border-sky-500/70 bg-sky-500/20"
+            : "border-slate-300 bg-slate-200/70 dark:border-white/[0.07] dark:bg-slate-800"
         }`}
       >
         <span
           className={`absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full shadow transition ${
             checked ? "translate-x-6 bg-white" : "translate-x-1 bg-white"
-          } dark:bg-slate-900`}
+          } dark:bg-[#070E22]`}
         />
       </span>
       <input type="checkbox" checked={checked} onChange={onChange} className="sr-only" />
@@ -390,7 +390,7 @@ function TextField({ id, label, value, onChange, placeholder, inputMode = "text"
       <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
         {label}
       </label>
-      <div className="relative flex h-10 items-center rounded-2xl border border-slate-200 bg-white/85 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75 sm:h-11">
+      <div className="relative flex h-10 items-center rounded-2xl border border-slate-200 bg-white/85 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] transition focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-200 dark:border-white/[0.07] dark:bg-white/[0.03] sm:h-11">
         <input
           id={id}
           type="text"
@@ -427,7 +427,7 @@ function TextArea({ id, label, value, onChange, placeholder, help }: TextAreaPro
         onChange={(event) => onChange(event.target.value)}
         rows={3}
         placeholder={placeholder}
-        className="w-full rounded-2xl border border-slate-200 bg-white/85 px-3 py-2 text-sm text-slate-900 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] placeholder:text-slate-400 focus:border-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-200 dark:border-slate-700 dark:bg-slate-900/75 dark:text-slate-100 dark:placeholder:text-slate-500"
+        className="w-full rounded-2xl border border-slate-200 bg-white/85 px-3 py-2 text-sm text-slate-900 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] placeholder:text-slate-400 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-200 dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-slate-100 dark:placeholder:text-slate-500"
       />
       {help ? <p className="text-xs text-slate-500 dark:text-slate-400">{help}</p> : null}
     </div>
@@ -450,7 +450,7 @@ function SummaryRow({ label, value }: SummaryRowProps) {
 
 function IconBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl border border-brand-100 bg-brand-50 text-brand-700 shadow-sm dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200 sm:h-10 sm:w-10">
+    <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl border border-sky-100 bg-sky-50 text-sky-700 shadow-sm dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-200 sm:h-10 sm:w-10">
       {children}
     </span>
   );
@@ -518,7 +518,7 @@ type StepHeaderProps = {
 
 function StepHeader({ stepId, title, description, icon }: StepHeaderProps) {
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/85 p-4 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/80 sm:p-5">
+    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/85 p-4 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-white/[0.07] dark:bg-white/[0.03] sm:p-5">
       <div aria-hidden className="absolute inset-y-0 left-0 w-1.5 bg-[linear-gradient(180deg,#0e1d4a,#4168e1,#6389ff)]" />
       <div className="relative flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
         <IconBadge>{icon}</IconBadge>
@@ -694,7 +694,7 @@ export default function AuditWizard() {
   return (
     <div className="grid gap-5 sm:gap-6 xl:grid-cols-[220px_minmax(0,1fr)_320px] items-start">
       <nav className="order-1 min-w-0 xl:order-none">
-        <div className="rounded-3xl border border-slate-200 bg-white/85 p-4 sm:p-5 shadow-[0_18px_50px_-40px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/80">
+        <div className="rounded-3xl border border-slate-200 bg-white/85 p-4 sm:p-5 shadow-[0_18px_50px_-40px_rgba(14,29,74,0.45)] dark:border-white/[0.07] dark:bg-white/[0.03]">
           <div className="flex items-center justify-between">
             <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">Ruta del analisis</p>
             <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">{progress}%</span>
@@ -710,8 +710,8 @@ export default function AuditWizard() {
                   onClick={() => setStep(index)}
                   className={`group relative flex min-w-[150px] snap-start items-start gap-3 overflow-hidden rounded-2xl border px-3 py-3 text-left text-xs transition sm:min-w-[170px] xl:min-w-0 ${
                     isActive
-                      ? "border-brand-400 bg-brand-50/80 text-brand-800 shadow-[0_16px_36px_-26px_rgba(14,29,74,0.45)] dark:border-brand-500/60 dark:bg-brand-500/10 dark:text-brand-200"
-                      : "border-slate-200 bg-white/75 text-slate-600 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
+                      ? "border-sky-400 bg-sky-50/80 text-sky-800 shadow-[0_16px_36px_-26px_rgba(14,29,74,0.45)] dark:border-sky-500/60 dark:bg-sky-500/10 dark:text-sky-200"
+                      : "border-slate-200 bg-white/75 text-slate-600 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300"
                   }`}
                   aria-current={isActive ? "step" : undefined}
                 >
@@ -722,10 +722,10 @@ export default function AuditWizard() {
                   <span
                     className={`flex h-9 w-9 flex-none items-center justify-center rounded-xl border text-[11px] font-semibold ${
                       isActive
-                        ? "border-brand-400 bg-white text-brand-700 dark:border-brand-500/60 dark:bg-slate-900 dark:text-brand-200"
+                        ? "border-sky-400 bg-white text-sky-700 dark:border-sky-500/60 dark:bg-[#070E22] dark:text-sky-200"
                         : isDone
-                          ? "border-brand-300 bg-brand-50 text-brand-700 dark:border-brand-400/60 dark:bg-brand-500/10 dark:text-brand-200"
-                          : "border-slate-200 bg-white text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300"
+                          ? "border-sky-300 bg-sky-50 text-sky-700 dark:border-sky-400/60 dark:bg-sky-500/10 dark:text-sky-200"
+                          : "border-slate-200 bg-white text-slate-500 dark:border-white/[0.07] dark:bg-[#070E22] dark:text-slate-300"
                     }`}
                   >
                     {isDone ? Icons.check : s.id}
@@ -740,13 +740,13 @@ export default function AuditWizard() {
             })}
           </div>
         </div>
-        <div className="mt-4 rounded-2xl border border-slate-200 bg-white/85 px-4 py-3 text-xs text-slate-600 shadow-[0_12px_30px_-26px_rgba(14,29,74,0.3)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
+        <div className="mt-4 rounded-2xl border border-slate-200 bg-white/85 px-4 py-3 text-xs text-slate-600 shadow-[0_12px_30px_-26px_rgba(14,29,74,0.3)] dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300">
           Te llevara 5-8 min. Resultado inmediato. Sin registro.
         </div>
       </nav>
 
       <div className="order-2 min-w-0 space-y-6 xl:order-none">
-        <div className="relative w-full max-w-full overflow-hidden rounded-[24px] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.94))] p-3 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.6)] dark:border-slate-700 dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,0.95))] sm:rounded-[28px] sm:p-5 lg:p-6 xl:rounded-[32px] xl:p-8">
+        <div className="relative w-full max-w-full overflow-hidden rounded-[24px] border border-slate-200 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,250,252,0.94))] p-3 shadow-[0_30px_80px_-50px_rgba(15,23,42,0.6)] dark:border-white/[0.07] dark:bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,0.95))] sm:rounded-[28px] sm:p-5 lg:p-6 xl:rounded-[32px] xl:p-8">
           <div aria-hidden className="pointer-events-none absolute inset-0">
             <div className="absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_12%_12%,rgba(99,137,255,0.18),transparent_55%),radial-gradient(circle_at_88%_0%,rgba(14,29,74,0.14),transparent_45%)]" />
             <div className="absolute inset-0 opacity-40 bg-[linear-gradient(rgba(15,23,42,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.08)_1px,transparent_1px)] [background-size:32px_32px] dark:bg-[linear-gradient(rgba(148,163,184,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.1)_1px,transparent_1px)]" />
@@ -755,7 +755,7 @@ export default function AuditWizard() {
             <header className="space-y-4">
               <div className="flex flex-wrap items-start justify-between gap-4 sm:gap-6">
                 <div className="space-y-3">
-                  <p className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
+                  <p className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300">
                     Diagnostico guiado
                   </p>
                   <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100 sm:text-2xl">Analisis rapido en 5-8 min</h3>
@@ -766,7 +766,7 @@ export default function AuditWizard() {
                     {["Sin registro", "Resultado inmediato", "PDF incluido"].map((item) => (
                       <span
                         key={item}
-                        className="inline-flex items-center rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
+                        className="inline-flex items-center rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300"
                       >
                         {item}
                       </span>
@@ -774,7 +774,7 @@ export default function AuditWizard() {
                   </div>
                 </div>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-white/75 px-3 py-2.5 text-xs shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 sm:px-4 sm:py-3">
+              <div className="rounded-2xl border border-slate-200 bg-white/75 px-3 py-2.5 text-xs shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] dark:border-white/[0.07] dark:bg-white/[0.02] sm:px-4 sm:py-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
                     Paso {steps[step]?.id ?? "9"} de {steps.length}
@@ -1426,7 +1426,7 @@ export default function AuditWizard() {
                     </div>
                   </div>
                 ) : (
-                  <div className="rounded-2xl border border-dashed border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 text-sm text-slate-600 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
+                  <div className="rounded-2xl border border-dashed border-slate-200 bg-white/85 dark:bg-white/[0.03] p-4 text-sm text-slate-600 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300">
                     Puedes continuar sin email. El informe se muestra en pantalla.
                   </div>
                 )}
@@ -1434,7 +1434,7 @@ export default function AuditWizard() {
             )}
 
             {step === steps.length - 1 && !result ? (
-              <div className="rounded-2xl border border-dashed border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 text-sm text-slate-600 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
+              <div className="rounded-2xl border border-dashed border-slate-200 bg-white/85 dark:bg-white/[0.03] p-4 text-sm text-slate-600 shadow-[0_12px_30px_-24px_rgba(14,29,74,0.35)] dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300">
                 Completa los pasos anteriores para ver el informe final.
               </div>
             ) : null}
@@ -1450,9 +1450,9 @@ export default function AuditWizard() {
 
                 <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
                   <div className="space-y-4">
-                    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-[0_26px_70px_-44px_rgba(14,29,74,0.6)] dark:border-slate-700 dark:bg-slate-900/80">
+                    <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-[0_26px_70px_-44px_rgba(14,29,74,0.6)] dark:border-white/[0.07] dark:bg-white/[0.03]">
                       <div aria-hidden className="pointer-events-none absolute inset-0">
-                        <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-brand-500/10 blur-2xl" />
+                        <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-sky-500/10 blur-2xl" />
                       </div>
                       <div className="relative space-y-4">
                         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -1463,7 +1463,7 @@ export default function AuditWizard() {
                             </div>
                             <div className="flex flex-wrap items-baseline gap-3">
                               <p className="text-3xl font-bold text-slate-900 dark:text-slate-100">{result.scores.total}/100</p>
-                              <span className="rounded-full border border-brand-100 bg-brand-50/80 px-3 py-1 text-xs font-semibold text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+                              <span className="rounded-full border border-sky-100 bg-sky-50/80 px-3 py-1 text-xs font-semibold text-sky-700 dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-200">
                                 Score total
                               </span>
                             </div>
@@ -1486,7 +1486,7 @@ export default function AuditWizard() {
                       </div>
                     </div>
 
-                    <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75">
+                    <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-white/[0.07] dark:bg-white/[0.03]">
                       <div className="flex items-center justify-between">
                         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Score por area</p>
                         <span className="text-xs text-slate-400 dark:text-slate-500">Base 0-100</span>
@@ -1500,19 +1500,19 @@ export default function AuditWizard() {
                   </div>
 
                   <div className="space-y-4">
-                    <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75 dark:text-slate-200">
+                    <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-slate-200">
                       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Resumen ejecutivo</p>
                       <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
                         {result.report.summary.map((item) => (
                           <li key={item} className="flex gap-2">
-                            <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-brand-500/70" />
+                            <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-sky-500/70" />
                             <span>{item}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
 
-                    <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75 dark:text-slate-200">
+                    <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-slate-200">
                       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Prioridades detectadas</p>
                       <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
                         {result.report.weakPoints.map((item, index) => (
@@ -1529,7 +1529,7 @@ export default function AuditWizard() {
                 </div>
 
                 <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
-                  <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75 dark:text-slate-200">
+                  <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-slate-200">
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Quick wins (7 dias)</p>
                     <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
                       {result.report.quickWins.map((item) => (
@@ -1541,7 +1541,7 @@ export default function AuditWizard() {
                     </ul>
                   </div>
 
-                  <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75 dark:text-slate-200">
+                  <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-slate-200">
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Roadmap (30-90 dias)</p>
                     <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
                       {result.report.roadmap.map((item) => (
@@ -1556,7 +1556,7 @@ export default function AuditWizard() {
                   </div>
                 </div>
 
-                <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-slate-700 dark:bg-slate-900/75 dark:text-slate-200">
+                <div className="rounded-3xl border border-slate-200 bg-white/85 p-5 text-sm text-slate-700 shadow-[0_18px_44px_-32px_rgba(14,29,74,0.4)] dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-slate-200">
                   <div className="flex items-center justify-between">
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Matriz impacto vs esfuerzo</p>
                     <span className="text-xs text-slate-400 dark:text-slate-500">Prioriza acciones</span>
@@ -1565,13 +1565,13 @@ export default function AuditWizard() {
                     {result.report.impactMatrix.map((group) => (
                       <div
                         key={group.label}
-                        className="rounded-2xl border border-slate-200 bg-white/85 p-3 shadow-[0_12px_28px_-26px_rgba(14,29,74,0.3)] dark:border-slate-700 dark:bg-slate-900/70"
+                        className="rounded-2xl border border-slate-200 bg-white/85 p-3 shadow-[0_12px_28px_-26px_rgba(14,29,74,0.3)] dark:border-white/[0.07] dark:bg-white/[0.02]"
                       >
                         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400">{group.label}</p>
                         <ul className="mt-2 space-y-1 text-xs text-slate-600 dark:text-slate-300">
                           {group.items.map((item) => (
                             <li key={item} className="flex gap-2">
-                              <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-brand-500/70" />
+                              <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-sky-500/70" />
                               <span>{item}</span>
                             </li>
                           ))}
@@ -1596,7 +1596,7 @@ export default function AuditWizard() {
                 {submitStatus === "saving" ? (
                   <p className="text-xs text-slate-500 dark:text-slate-400">Guardando tu analisis...</p>
                 ) : submitStatus === "saved" ? (
-                  <p className="text-xs text-brand-700 dark:text-brand-200">
+                  <p className="text-xs text-sky-700 dark:text-sky-200">
                     Informe generado. {emailSent ? "Email enviado." : "Puedes descargar el PDF."}
                   </p>
                 ) : submitStatus === "error" ? (
@@ -1631,7 +1631,7 @@ export default function AuditWizard() {
       </div>
 
       <aside className="order-3 min-w-0 space-y-4 lg:sticky lg:top-24 xl:order-none">
-        <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 sm:p-6 shadow-[0_18px_50px_-36px_rgba(14,29,74,0.5)] dark:border-slate-700 dark:bg-slate-900/70">
+        <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white/85 dark:bg-white/[0.03] p-4 sm:p-6 shadow-[0_18px_50px_-36px_rgba(14,29,74,0.5)] dark:border-white/[0.07] dark:bg-white/[0.02]">
           <div className="flex items-center gap-3">
             <IconBadge>{Icons.chart}</IconBadge>
             <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Resumen rapido</p>
@@ -1653,7 +1653,7 @@ export default function AuditWizard() {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-slate-200 bg-white/85 dark:bg-slate-900/75 p-4 sm:p-6 shadow-[0_16px_46px_-32px_rgba(14,29,74,0.45)] dark:border-slate-700 dark:bg-slate-900/70">
+        <div className="rounded-3xl border border-slate-200 bg-white/85 dark:bg-white/[0.03] p-4 sm:p-6 shadow-[0_16px_46px_-32px_rgba(14,29,74,0.45)] dark:border-white/[0.07] dark:bg-white/[0.02]">
           <div className="flex items-center gap-3">
             <IconBadge>{Icons.mail}</IconBadge>
             <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Privacidad</p>
@@ -1661,7 +1661,7 @@ export default function AuditWizard() {
           <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
             Resultado inmediato. Sin registro obligatorio. Email opcional solo si quieres el PDF.
           </p>
-          <div className="mt-4 rounded-2xl border border-brand-100 bg-brand-50/70 px-3 py-2 text-xs text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+          <div className="mt-4 rounded-2xl border border-sky-100 bg-sky-50/70 px-3 py-2 text-xs text-sky-700 dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-200">
             No enviamos PII a analytics. Solo eventos agregados.
           </div>
         </div>

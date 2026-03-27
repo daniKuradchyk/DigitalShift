@@ -53,11 +53,11 @@ export default function CalculatorPage() {
   const faqLd = faqJsonLd(faqItems);
 
   return (
-    <main className="relative overflow-hidden py-12 sm:py-16 bg-gradient-to-br from-brand-50/40 via-white/20 to-brand-50/40 dark:from-slate-950/40 dark:via-slate-900/20 dark:to-slate-950/40">
+    <main className="relative overflow-hidden py-12 sm:py-16 bg-gradient-to-br from-sky-50/40 via-white/20 to-sky-50/40 dark:from-slate-950/40 dark:via-slate-900/20 dark:to-slate-950/40">
       <Script id="ld-faq-irpf" type="application/ld+json" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-24 top-12 h-72 w-72 rounded-full bg-brand-300/10 blur-3xl dark:bg-brand-500/10" />
-        <div className="absolute right-0 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-brand-500/10 blur-3xl dark:bg-brand-700/10" />
+        <div className="absolute -left-24 top-12 h-72 w-72 rounded-full bg-sky-300/10 blur-3xl dark:bg-sky-500/10" />
+        <div className="absolute right-0 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-sky-500/10 blur-3xl dark:bg-sky-700/10" />
       </div>
 
       <Container>
@@ -73,7 +73,7 @@ export default function CalculatorPage() {
 
         <section className="grid gap-8 sm:gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start">
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-100 bg-brand-50/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-brand-700 dark:border-brand-500/30 dark:bg-brand-500/10 dark:text-brand-200">
+            <div className="inline-flex items-center gap-2 rounded-full border border-sky-100 dark:border-sky-500/30 bg-sky-50/80 dark:bg-sky-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700 dark:text-sky-300">
               Herramienta gratuita
             </div>
             <div className="max-w-xl space-y-3">
@@ -93,7 +93,7 @@ export default function CalculatorPage() {
                 { label: "Ejercicio", value: "2024-2025" },
                 { label: "Datos", value: "No guardados" },
               ].map((s) => (
-                <div key={s.label} className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+                <div key={s.label} className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white/80 dark:bg-white/[0.03] p-4 shadow-sm">
                   <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{s.label}</p>
                   <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">{s.value}</p>
                 </div>
@@ -102,28 +102,28 @@ export default function CalculatorPage() {
           </div>
 
           <aside className="space-y-4">
-            <div className="rounded-3xl border border-slate-200 bg-white/90 p-4 sm:p-6 shadow-[0_20px_60px_-40px_rgba(14,29,74,0.45)] backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80">
+            <div className="rounded-3xl border border-slate-200 dark:border-white/[0.07] bg-white/90 dark:bg-white/[0.03] p-4 sm:p-6 shadow-sm backdrop-blur-sm">
               <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Incluye</p>
               <ul className="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-300">
                 <li className="flex items-start gap-2">
-                  <span aria-hidden className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
+                  <span aria-hidden className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
                   <span>Cuenta ajena, autonomo (directa o modulos) y pluriactividad.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span aria-hidden className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
+                  <span aria-hidden className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
                   <span>Escala general, ahorro y deduccion 340 (2025).</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span aria-hidden className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
+                  <span aria-hidden className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
                   <span>Helpers para suministros y manutencion.</span>
                 </li>
               </ul>
-              <div className="mt-6 rounded-2xl border border-brand-100 bg-brand-50/80 p-4 text-sm text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+              <div className="mt-6 rounded-2xl border border-sky-100 dark:border-sky-500/40 bg-sky-50/80 dark:bg-sky-500/10 p-4 text-sm text-sky-700 dark:text-sky-300">
                 Regimen foral no soportado. Para Pais Vasco y Navarra consulta fuentes oficiales.
               </div>
             </div>
 
-            <div className="rounded-3xl border border-slate-200 bg-white/90 p-4 sm:p-6 shadow-sm backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80">
+            <div className="rounded-3xl border border-slate-200 dark:border-white/[0.07] bg-white/90 dark:bg-white/[0.03] p-4 sm:p-6 shadow-sm backdrop-blur-sm">
               <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Nota legal</p>
               <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">
                 Estimacion orientativa. No sustituye asesoramiento profesional. Normativa cambia por año y CCAA.
@@ -158,24 +158,24 @@ export default function CalculatorPage() {
             </ul>
           </div>
           <div className="space-y-4">
-            <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900/80">
+            <div className="rounded-3xl border border-slate-200 dark:border-white/[0.07] bg-white/90 dark:bg-white/[0.03] p-6 shadow-sm">
               <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Como se calcula</p>
               <ul className="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-300">
                 <li className="flex items-start gap-2">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
+                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
                   <span>Escala general progresiva + ahorro.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
+                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
                   <span>Reducciones trabajo y conjunta (si aplica).</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
+                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
                   <span>Cuota liquida - retenciones y pagos a cuenta.</span>
                 </li>
               </ul>
             </div>
-            <div className="rounded-3xl border border-brand-100 bg-brand-50/80 p-4 sm:p-6 text-sm text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
+            <div className="rounded-3xl border border-sky-100 dark:border-sky-500/40 bg-sky-50/80 dark:bg-sky-500/10 p-4 sm:p-6 text-sm text-sky-700 dark:text-sky-300">
               Si necesitas adaptar el estimador a un caso real o integrar tus datos, escribenos desde el formulario de contacto.
             </div>
           </div>
@@ -189,19 +189,19 @@ export default function CalculatorPage() {
                 Si detectas un error en el calculo o en los datos, cuentanoslo aqui. Revisamos cada mensaje y ajustamos la herramienta.
               </p>
             </div>
-            <div className="rounded-3xl border border-slate-200 bg-white/90 p-4 sm:p-6 text-sm text-slate-700 shadow-sm dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200">
+            <div className="rounded-3xl border border-slate-200 dark:border-white/[0.07] bg-white/90 dark:bg-white/[0.03] p-4 sm:p-6 text-sm text-slate-700 dark:text-slate-200 shadow-sm">
               <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Que necesitamos</p>
               <ul className="mt-3 space-y-2">
                 <li className="flex items-start gap-2">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
+                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
                   <span>El paso donde viste el error (si lo sabes).</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
+                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
                   <span>Una descripcion breve con el caso.</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
+                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
                   <span>Tu email solo si quieres respuesta.</span>
                 </li>
               </ul>
@@ -219,7 +219,7 @@ export default function CalculatorPage() {
             {faqItems.map((item) => (
               <details
                 key={item.q}
-                className="rounded-2xl border border-slate-200 bg-white/80 p-4 text-sm text-slate-700 shadow-sm dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200"
+                className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white/80 dark:bg-white/[0.03] p-4 text-sm text-slate-700 dark:text-slate-200 shadow-sm"
               >
                 <summary className="cursor-pointer font-semibold">{item.q}</summary>
                 <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.a}</p>

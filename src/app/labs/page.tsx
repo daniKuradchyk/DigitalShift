@@ -6,28 +6,43 @@ import labs from "@/content/labs.json";
 
 export const revalidate = 86400;
 
-const stats = [
-  { label: "Herramientas activas", value: String(labs.length).padStart(2, "0") },
-  { label: "Costo", value: "0 EUR" },
-  { label: "Acceso", value: "Sin registro" },
-];
+type Lab = typeof labs[number];
 
-const labBenefits = [
-  "Plantillas y calculadoras listas para usar.",
-  "Resultados inmediatos y accionables.",
-  "Enfoque en pymes y equipos operativos.",
-  "Actualizaciones y mejoras continuas.",
-];
+const accentMap: Record<string, { icon: string; badge: string; border: string; bg: string }> = {
+  "analisis-gratis": {
+    icon: "text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-500/10 border-sky-200 dark:border-sky-500/20",
+    badge: "bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-500/20",
+    border: "border-sky-200/80 dark:border-sky-500/20",
+    bg: "hover:shadow-sky-100 dark:hover:shadow-sky-500/5",
+  },
+  "calculadora-irpf-autonomos": {
+    icon: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20",
+    badge: "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20",
+    border: "border-emerald-200/80 dark:border-emerald-500/20",
+    bg: "hover:shadow-emerald-100 dark:hover:shadow-emerald-500/5",
+  },
+  "generador-brief-proyecto": {
+    icon: "text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-500/10 border-violet-200 dark:border-violet-500/20",
+    badge: "bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-200 dark:border-violet-500/20",
+    border: "border-violet-200/80 dark:border-violet-500/20",
+    bg: "",
+  },
+  "checklist-rgpd-basico": {
+    icon: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/20",
+    badge: "bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-500/20",
+    border: "border-amber-200/80 dark:border-amber-500/20",
+    bg: "",
+  },
+};
 
-function statusLabel(status: string) {
-  if (!status) return "Disponible";
-  return status.charAt(0).toUpperCase() + status.slice(1);
+function getAccent(slug: string) {
+  return accentMap[slug] ?? accentMap["analisis-gratis"];
 }
 
 function LabIcon({ slug }: { slug: string }) {
   if (slug === "calculadora-irpf-autonomos") {
     return (
-      <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <rect x="4" y="3" width="16" height="18" rx="2" />
         <path d="M8 7h8M8 11h8M8 15h4" />
       </svg>
@@ -35,7 +50,7 @@ function LabIcon({ slug }: { slug: string }) {
   }
   if (slug === "analisis-gratis") {
     return (
-      <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 3v18h18" />
         <path d="m7 15 3-4 4 3 4-6" />
         <circle cx="10" cy="11" r="1" />
@@ -44,159 +59,206 @@ function LabIcon({ slug }: { slug: string }) {
   }
   if (slug === "generador-brief-proyecto") {
     return (
-      <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7" />
-        <path d="M14 3v4h4" />
-        <path d="M8 13h8M8 17h6" />
+        <path d="M14 3v4h4M8 13h8M8 17h6" />
       </svg>
     );
   }
   return (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M9 11l2 2 4-4" />
       <rect x="3" y="4" width="18" height="16" rx="2" />
     </svg>
   );
 }
 
+function isComingSoon(status: string) {
+  return (status ?? "").toLowerCase().includes("camino");
+}
+
 export default function LabsPage() {
+  const available = labs.filter((t) => !isComingSoon(t.status));
+  const upcoming = labs.filter((t) => isComingSoon(t.status));
+
   return (
-    <main className="relative overflow-hidden py-12 sm:py-16 bg-gradient-to-br from-brand-50/40 via-white/20 to-brand-50/40 dark:from-slate-950/40 dark:via-slate-900/20 dark:to-slate-950/40">
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-20 top-10 h-72 w-72 rounded-full bg-brand-300/10 blur-3xl dark:bg-brand-500/10" />
-        <div className="absolute right-0 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-brand-500/10 blur-3xl dark:bg-brand-700/10" />
+    <main className="relative overflow-hidden min-h-screen bg-white dark:bg-[#050A14]">
+      {/* Ambient */}
+      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+        <div className="absolute -left-20 top-20 h-96 w-96 rounded-full blur-3xl opacity-10 dark:opacity-20"
+          style={{ background: "rgba(56,189,248,0.4)" }} />
+        <div className="absolute -right-20 bottom-1/3 h-96 w-96 rounded-full blur-3xl opacity-10 dark:opacity-20"
+          style={{ background: "rgba(129,140,248,0.4)" }} />
       </div>
 
-      <Container>
-        <div className="mb-8 flex items-center">
-          <Link href="/" aria-label="Ir a inicio" className="inline-flex items-center">
-            <Logo className="scale-90 origin-left" />
-          </Link>
+      {/* Inline header */}
+      <header className="border-b border-slate-200/60 dark:border-white/[0.06] bg-white/90 dark:bg-[#050A14]/90 backdrop-blur-xl">
+        <Container>
+          <div className="flex h-16 items-center justify-between">
+            <Link href="/" aria-label="Ir a inicio" className="flex items-center gap-2">
+              <Logo />
+            </Link>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 transition-colors"
+            >
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+              Inicio
+            </Link>
+          </div>
+        </Container>
+      </header>
+
+      <Container className="py-14">
+        {/* Hero */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="section-tag mb-5 mx-auto w-fit">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" style={{ boxShadow: "0 0 8px rgba(52,211,153,0.6)" }} aria-hidden />
+            Laboratorio abierto
+          </div>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight sm:text-4xl mb-4">
+            Herramientas{" "}
+            <span className="gradient-text-static">gratuitas</span>
+            {" "}para tu negocio
+          </h1>
+          <p className="text-slate-500 dark:text-slate-400 mb-8">
+            Calculadoras, plantillas y análisis listos para usar. Sin registro, sin coste. Si necesitas adaptarlos a tu empresa,{" "}
+            <a href="/#contacto" className="text-sky-600 dark:text-sky-400 hover:underline">hablamos</a>.
+          </p>
+
+          {/* Stats */}
+          <div className="inline-flex items-center divide-x divide-slate-200 dark:divide-white/[0.08] border border-slate-200/80 dark:border-white/[0.07] rounded-2xl bg-white dark:bg-white/[0.02] overflow-hidden">
+            {[
+              { value: String(labs.length).padStart(2, "0"), label: "Herramientas" },
+              { value: "0 €",  label: "Coste" },
+              { value: "Free", label: "Sin registro" },
+            ].map((s) => (
+              <div key={s.label} className="px-6 py-3 text-center">
+                <p className="text-lg font-extrabold text-sky-600 dark:text-sky-400">{s.value}</p>
+                <p className="text-[10px] text-slate-500 dark:text-slate-500 uppercase tracking-[0.14em]">{s.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
-        <section className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start">
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-brand-100 bg-brand-50/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-brand-700 dark:border-brand-500/30 dark:bg-brand-500/10 dark:text-brand-200">
-              Laboratorio abierto
-            </div>
-            <div className="max-w-xl space-y-3">
-              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Qubelia Labs - Productos gratuitos</h1>
-              <p className="text-slate-700 dark:text-slate-300">
-                Herramientas y plantillas utiles para pymes y emprendedores. Gratis, sin registro. Si quieres adaptar cualquiera a tu empresa,{" "}
-                <a className="underline" href="/#contacto">contactanos</a>.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Button as="a" href="#labs-list" variant="shine">Ver herramientas</Button>
-              <Button as="a" href="/#contacto" variant="ghost">Adaptar a mi empresa</Button>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-3">
-              {stats.map((s) => (
-                <div
-                  key={s.label}
-                  className="rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/70"
-                >
-                  <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{s.label}</p>
-                  <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">{s.value}</p>
-                </div>
-              ))}
-            </div>
-          </div>
 
-          <aside className="space-y-4">
-            <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-[0_20px_60px_-40px_rgba(14,29,74,0.45)] backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80">
-              <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Que incluye Labs</p>
-              <ul className="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-300">
-                {labBenefits.map((b) => (
-                  <li key={b} className="flex items-start gap-2">
-                    <span aria-hidden className="mt-2 h-1.5 w-1.5 rounded-full bg-brand-500/80" />
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-6 rounded-2xl border border-brand-100 bg-brand-50/80 p-4 text-sm text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
-                Necesitas una version a medida? Podemos adaptar cualquiera de estos labs a tu proceso real.
-              </div>
-            </div>
-
-            <div className="rounded-3xl border border-slate-200 bg-white/90 p-6 shadow-sm backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80">
-              <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Soporte profesional</p>
-              <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">
-                Te ayudamos a integrar el resultado en tu operativa, con datos, integraciones y seguimiento.
-              </p>
-              <div className="mt-4">
-                <Button as="a" href="/#contacto" variant="shine">Hablar con Qubelia</Button>
-              </div>
-            </div>
-          </aside>
-        </section>
-
-        <section className="mt-14">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div className="max-w-2xl space-y-2">
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">Herramientas disponibles</h2>
-              <p className="text-slate-700 dark:text-slate-300">
-                Recursos listos para usar. Cada herramienta esta pensada para reducir tiempo y riesgos en proyectos reales.
-              </p>
-            </div>
-            <span className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
-              Actualizaciones continuas
-            </span>
-          </div>
-
-          <ul id="labs-list" className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {labs.map((t) => {
-              const isComingSoon = (t.status ?? "").toLowerCase().includes("camino");
+        {/* Available tools */}
+        <section aria-labelledby="labs-available-title">
+          <h2 id="labs-available-title" className="text-sm font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-600 mb-6">
+            Disponibles ahora
+          </h2>
+          <ul className="grid gap-5 sm:grid-cols-2">
+            {available.map((t: Lab) => {
+              const acc = getAccent(t.slug);
               return (
                 <li
                   key={t.slug}
-                  className="group relative overflow-hidden rounded-3xl p-[1px] bg-[radial-gradient(circle_at_12%_18%,rgba(99,137,255,0.2),transparent_40%),radial-gradient(circle_at_88%_0%,rgba(14,29,74,0.2),transparent_35%),linear-gradient(120deg,rgba(14,29,74,0.12),rgba(65,104,225,0.14),rgba(99,137,255,0.18))] shadow-[0_24px_70px_-44px_rgba(14,29,74,0.6)]"
+                  className={`group relative overflow-hidden rounded-2xl border bg-white dark:bg-[#070D1C] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-none ${acc.border}`}
                 >
-                  <div className="relative h-full rounded-3xl bg-white/90 backdrop-blur-sm border border-white/50 p-6 transition-all duration-300 group-hover:-translate-y-1 group-hover:border-brand-200 group-hover:shadow-[0_22px_60px_-36px_rgba(14,29,74,0.6)] dark:border-slate-700/60 dark:bg-slate-900/80">
-                    
-                    <div className="flex items-start gap-3">
-                      <span className="inline-flex h-11 w-11 flex-none items-center justify-center rounded-2xl bg-brand-50 text-brand-700 ring-1 ring-brand-100 dark:bg-brand-500/10 dark:text-brand-200 dark:ring-brand-500/30">
-                        <LabIcon slug={t.slug} />
-                      </span>
-                      <div className="flex-1">
-                        <div className="flex items-start justify-between gap-3">
-                          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">{t.title}</h3>
-                          <span className="inline-flex items-center rounded-full border border-brand-100 bg-brand-50 px-2.5 py-1 text-xs font-semibold text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/10 dark:text-brand-200">
-                            {statusLabel(t.status)}
-                          </span>
-                        </div>
-                        <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">{t.desc}</p>
+                  {/* Top accent line */}
+                  <div className="absolute top-0 left-0 right-0 h-0.5"
+                    style={{ background: "linear-gradient(90deg, rgba(56,189,248,0.6), rgba(129,140,248,0.4), transparent)" }} />
+
+                  <div className="flex items-start gap-4">
+                    <span className={`inline-flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl border ${acc.icon}`}>
+                      <LabIcon slug={t.slug} />
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-3 mb-2">
+                        <h3 className="text-base font-bold text-slate-900 dark:text-white leading-snug">{t.title}</h3>
+                        <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[10px] font-semibold flex-shrink-0 ${acc.badge}`}>
+                          <span className="h-1 w-1 rounded-full bg-current" aria-hidden />
+                          Disponible
+                        </span>
                       </div>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{t.desc}</p>
                     </div>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {t.tags?.map((tag) => (
+                  </div>
+
+                  {t.tags && t.tags.length > 0 && (
+                    <div className="mt-4 flex flex-wrap gap-1.5">
+                      {t.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="text-xs rounded-full border border-slate-200 bg-white/70 px-2.5 py-1 text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300"
+                          className="inline-flex rounded-full border border-slate-200/80 dark:border-white/[0.08] px-2.5 py-0.5 text-[10px] font-medium text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-white/[0.03]"
                         >
                           #{tag}
                         </span>
                       ))}
                     </div>
-                    <div className="mt-6 flex flex-wrap items-center gap-3">
-                      {isComingSoon ? (
-                        <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-slate-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300">
-                          Disponible pronto
-                        </span>
-                      ) : (
-                        <Button as="a" href={t.href ?? `/labs/${t.slug}`} variant="shine">
-                          {t.cta}
-                        </Button>
-                      )}
-                      <a className="text-sm text-slate-700 hover:text-brand-700 dark:text-slate-300 dark:hover:text-brand-200" href="/#contacto">
-                        Adaptar a mi empresa
-                      </a>
-                    </div>
+                  )}
+
+                  <div className="mt-5 flex flex-wrap items-center gap-3">
+                    <Button as="a" href={t.href ?? `/labs/${t.slug}`} variant="shine" size="sm">
+                      {t.cta}
+                    </Button>
+                    <a
+                      className="text-sm text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 transition-colors"
+                      href="/#contacto"
+                    >
+                      Adaptar a mi empresa →
+                    </a>
                   </div>
                 </li>
               );
             })}
           </ul>
         </section>
+
+        {/* Coming soon */}
+        {upcoming.length > 0 && (
+          <section aria-labelledby="labs-soon-title" className="mt-10">
+            <h2 id="labs-soon-title" className="text-sm font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-600 mb-6">
+              Próximamente
+            </h2>
+            <ul className="grid gap-4 sm:grid-cols-2">
+              {upcoming.map((t: Lab) => {
+                const acc = getAccent(t.slug);
+                return (
+                  <li
+                    key={t.slug}
+                    className="relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-white/[0.06] bg-slate-50/80 dark:bg-white/[0.01] p-5 opacity-70"
+                  >
+                    <div className="flex items-start gap-4">
+                      <span className={`inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border ${acc.icon} opacity-60`}>
+                        <LabIcon slug={t.slug} />
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between gap-3 mb-1.5">
+                          <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">{t.title}</h3>
+                          <span className="inline-flex items-center gap-1 rounded-full border border-slate-200 dark:border-white/[0.08] px-2.5 py-0.5 text-[10px] font-semibold text-slate-400 dark:text-slate-500 bg-white dark:bg-white/[0.03] flex-shrink-0">
+                            En camino
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-400 dark:text-slate-500">{t.desc}</p>
+                      </div>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        )}
+
+        {/* CTA bottom */}
+        <div className="mt-16 rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-8 text-center">
+          <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-sky-600 dark:text-sky-400 mb-3">Soporte profesional</p>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+            ¿Necesitas una versión a medida?
+          </h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-md mx-auto">
+            Adaptamos cualquier herramienta a tu operativa real: integración con tus datos, automatización y seguimiento continuo.
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <Button as="a" href="/#contacto" variant="shine">
+              Hablar con Qubelia
+            </Button>
+            <Button as="a" href="/" variant="ghost">
+              Ver todos los servicios
+            </Button>
+          </div>
+        </div>
       </Container>
     </main>
   );
