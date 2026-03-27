@@ -1,7 +1,7 @@
 # netlify.toml — Configuración optimizada para Qubelia (Next.js en Netlify)
 
 [build]
-  command = "npm run build"
+  command = "pnpm install --frozen-lockfile && pnpm run build"
   publish = ".next"  # El runtime de Netlify para Next se encarga del resto
 
 [build.environment]
