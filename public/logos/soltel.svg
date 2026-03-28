@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 68" height="68" width="200">
+  <!-- Arc of scattered ovals (grey to red, left to right) -->
+  <ellipse cx="85"  cy="36" rx="8"  ry="3.2" fill="#C8C8C8" transform="rotate(-28 85 36)"/>
+  <ellipse cx="100" cy="29" rx="8"  ry="3.2" fill="#C0C0C0" transform="rotate(-25 100 29)"/>
+  <ellipse cx="115" cy="23" rx="8"  ry="3"   fill="#B8B8B8" transform="rotate(-22 115 23)"/>
+  <ellipse cx="128" cy="17" rx="10" ry="4"   fill="#C23232" transform="rotate(-20 128 17)"/>
+  <ellipse cx="145" cy="11" rx="10" ry="4"   fill="#C23232" transform="rotate(-17 145 11)"/>
+  <ellipse cx="161" cy="6"  rx="9"  ry="3.6" fill="#C23232" transform="rotate(-14 161 6)"/>
+  <ellipse cx="176" cy="2"  rx="7.5" ry="3"  fill="#C23232" transform="rotate(-11 176 2)"/>
+  <!-- Wordmark -->
+  <text x="2"   y="62" fill="#FFFFFF" font-family="'Arial Rounded MT Bold', 'Arial', sans-serif" font-weight="700" font-size="44">Soltel</text>
+  <text x="130" y="64" fill="#FFFFFF" font-family="Arial, sans-serif" font-weight="600" font-size="14" letter-spacing="3">GROUP</text>
+</svg>

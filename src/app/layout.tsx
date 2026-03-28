@@ -51,12 +51,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const site = websiteJsonLd({ name: `${SITE_NAME} | ${SITE_TAGLINE}`, url: absoluteUrl("/") });
 
   return (
-    <html lang="es" className={`${geist.variable} ${geistMono.variable}`}>
+    <html lang="es" className={`dark ${geist.variable} ${geistMono.variable}`}>
       <head>
-        <meta name="color-scheme" content="light dark" />
-        <meta name="supported-color-schemes" content="light dark" />
-        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F8FAFF" />
-        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#050A14" />
+        <meta name="color-scheme" content="dark" />
+        <meta name="theme-color" content="#050A14" />
       </head>
       <body className="antialiased">
         <CookieConsentProvider>
