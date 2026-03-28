@@ -1,5 +1,21 @@
 [
   {
+    "slug": "roi-automatizacion",
+    "title": "Calculadora de ROI de automatización",
+    "desc": "Calcula en 2 minutos el ahorro potencial de automatizar un proceso: coste actual, horas recuperables y payback estimado.",
+    "status": "disponible",
+    "cta": "Calcular ROI",
+    "tags": ["automatizacion", "roi", "operaciones", "costes"]
+  },
+  {
+    "slug": "calculadora-coste-software",
+    "title": "Calculadora de coste de software",
+    "desc": "Estima rango de presupuesto, horas, plazo y equipo segun alcance, modulos, integraciones y nivel tecnico.",
+    "status": "disponible",
+    "cta": "Estimar coste",
+    "tags": ["software", "estimacion", "presupuesto", "producto"]
+  },
+  {
     "slug": "analisis-gratis",
     "title": "Analisis gratuito de tu negocio",
     "desc": "Detecta puntos flojos y recibe un plan de 30-90 dias en minutos.",

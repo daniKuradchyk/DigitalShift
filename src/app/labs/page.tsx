@@ -9,11 +9,23 @@ export const revalidate = 86400;
 type Lab = typeof labs[number];
 
 const accentMap: Record<string, { icon: string; badge: string; border: string; bg: string }> = {
+  "roi-automatizacion": {
+    icon: "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 border-indigo-200 dark:border-indigo-500/20",
+    badge: "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-500/20",
+    border: "border-indigo-200/80 dark:border-indigo-500/20",
+    bg: "hover:shadow-indigo-100 dark:hover:shadow-indigo-500/5",
+  },
   "analisis-gratis": {
     icon: "text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-500/10 border-sky-200 dark:border-sky-500/20",
     badge: "bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-500/20",
     border: "border-sky-200/80 dark:border-sky-500/20",
     bg: "hover:shadow-sky-100 dark:hover:shadow-sky-500/5",
+  },
+  "calculadora-coste-software": {
+    icon: "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10 border-rose-200 dark:border-rose-500/20",
+    badge: "bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-500/20",
+    border: "border-rose-200/80 dark:border-rose-500/20",
+    bg: "hover:shadow-rose-100 dark:hover:shadow-rose-500/5",
   },
   "calculadora-irpf-autonomos": {
     icon: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20",
@@ -40,11 +52,32 @@ function getAccent(slug: string) {
 }
 
 function LabIcon({ slug }: { slug: string }) {
+  if (slug === "roi-automatizacion") {
+    return (
+      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 3v18h18" />
+        <path d="m6 16 4-6 4 4 5-8" />
+        <circle cx="6" cy="16" r="1" fill="currentColor" stroke="none" />
+        <circle cx="10" cy="10" r="1" fill="currentColor" stroke="none" />
+        <circle cx="14" cy="14" r="1" fill="currentColor" stroke="none" />
+        <circle cx="19" cy="6" r="1" fill="currentColor" stroke="none" />
+      </svg>
+    );
+  }
   if (slug === "calculadora-irpf-autonomos") {
     return (
       <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
         <rect x="4" y="3" width="16" height="18" rx="2" />
         <path d="M8 7h8M8 11h8M8 15h4" />
+      </svg>
+    );
+  }
+  if (slug === "calculadora-coste-software") {
+    return (
+      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="5" y="3" width="14" height="18" rx="2" />
+        <rect x="8" y="6" width="8" height="3" rx="1" />
+        <path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 17h.01M12 17h.01M15.5 17h.01" />
       </svg>
     );
   }
@@ -79,7 +112,6 @@ function isComingSoon(status: string) {
 
 export default function LabsPage() {
   const available = labs.filter((t) => !isComingSoon(t.status));
-  const upcoming = labs.filter((t) => isComingSoon(t.status));
 
   return (
     <main className="relative overflow-hidden min-h-screen bg-white dark:bg-[#050A14]">
