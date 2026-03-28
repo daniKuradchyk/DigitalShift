@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 import { createHash } from "crypto";
+import { readFileSync } from "fs";
+import { join } from "path";
 import AuditReportPdf from "@/app/labs/analisis-gratis/AuditReportPdf";
 import { auditSubmissionSchema, calculateAuditResult, type AuditSubmission } from "@/lib/labs/audit";
 
@@ -55,30 +57,33 @@ async function maybeSendEmail(submission: AuditSubmission, report: ReturnType<ty
   const resend = new Resend(apiKey);
   const from = process.env.LABS_AUDIT_EMAIL_FROM ?? process.env.CONTACT_FROM ?? "onboarding@resend.dev";
   const to = submission.contact.email;
-  const verticalLabel =
-    {
-      local: "Pymes locales",
-      ecommerce: "E-commerce",
-      despacho: "Despachos",
-      clinica: "Clinicas",
-    }[submission.vertical] ?? submission.vertical;
-  const goalLabel =
-    {
-      "captar-leads": "Captar leads",
-      "vender-mas": "Vender mas",
-      "ahorrar-tiempo": "Ahorrar tiempo",
-      "reducir-errores": "Reducir errores",
-      "mejorar-control": "Mejorar control",
-    }[submission.goal] ?? submission.goal;
+  const verticalLabel: Record<string, string> = {
+    local: "Pyme local", ecommerce: "E-commerce", despacho: "Despacho profesional",
+    clinica: "Clinica / Salud", restaurante: "Restauracion", saas: "SaaS / Tech",
+    inmobiliaria: "Inmobiliaria", educacion: "Educacion",
+  };
+  const goalLabel: Record<string, string> = {
+    "captar-leads": "Captar leads", "vender-mas": "Vender mas", "ahorrar-tiempo": "Ahorrar tiempo",
+    "reducir-errores": "Reducir errores", "mejorar-control": "Mejorar control",
+    "escalar": "Escalar el negocio", "digitalizar": "Digitalizar procesos",
+  };
 
   try {
+    let logoSrc: string | undefined;
+    try {
+      const logoPath = join(process.cwd(), "public", "brand", "logo-qubelia-512-dark.png");
+      const logoB64 = readFileSync(logoPath).toString("base64");
+      logoSrc = `data:image/png;base64,${logoB64}`;
+    } catch { /* logo is optional */ }
+
     const renderer = await import("@react-pdf/renderer");
     const buffer = await renderer.renderToBuffer(
       <AuditReportPdf
         report={report.report}
         scores={report.scores}
-        verticalLabel={verticalLabel}
-        goalLabel={goalLabel}
+        verticalLabel={verticalLabel[submission.vertical] ?? submission.vertical}
+        goalLabel={goalLabel[submission.goal] ?? submission.goal}
+        logoSrc={logoSrc}
       />
     );
 
@@ -121,9 +126,13 @@ export async function POST(request: Request) {
   const answers = {
     vertical: submission.vertical,
     goal: submission.goal,
-    presence: submission.presence,
+    companySize: submission.companySize,
+    yearsInBusiness: submission.yearsInBusiness,
+    digital: submission.digital,
+    marketing: submission.marketing,
     sales: submission.sales,
     operations: submission.operations,
+    customers: submission.customers,
     data: submission.data,
     finance: submission.finance,
     risk: submission.risk,

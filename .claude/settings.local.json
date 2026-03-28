@@ -5,7 +5,12 @@
       "Bash(taskkill /PID 56000 /F)",
       "Bash(del /F /Q \"c:\\\\Users\\\\DANIIL KURADCHIK\\\\Documents\\\\DigitalShift\\\\.next\\\\dev\\\\lock\")",
       "Bash(taskkill /IM node.exe /F)",
-      "Bash(cmd /c \"taskkill /IM node.exe /F\")"
+      "Bash(cmd /c \"taskkill /IM node.exe /F\")",
+      "Bash(npx next:*)",
+      "Read(//c/Users/DANIIL KURADCHIK/.claude/projects/c--Users-DANIIL-KURADCHIK-Documents-DigitalShift/memory/**)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\DANIIL KURADCHIK\\.claude\\projects\\c--Users-DANIIL-KURADCHIK-Documents-DigitalShift\\memory"
     ]
   }
 }
