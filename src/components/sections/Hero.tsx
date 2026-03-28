@@ -95,9 +95,9 @@ export default function Hero() {
               className="font-black leading-[1.05] tracking-[-0.028em] text-slate-900 dark:text-white mb-8
                          text-[2.2rem] sm:text-[2.9rem] xl:text-[3.6rem]"
             >
-              Software a medida,<br />
-              automatización e integraciones<br />
-              <span className="gradient-text">para empresas que han crecido<br className="hidden sm:block" /> más rápido que sus procesos.</span>
+              Software a medida<br />
+              para escalar<br />
+              <span className="gradient-text">sin caos.</span>
             </motion.h1>
 
             {/* Subtitle */}

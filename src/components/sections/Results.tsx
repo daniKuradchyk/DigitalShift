@@ -80,14 +80,14 @@ const cases = [
     logo: "/logos/santander.svg",
     logoW: 140,
     logoH: 48,
-    sector: "Banca Enterprise",
+    sector: "Procesos bancarios",
     accent: "#EC0000",
     accentRgb: "236,0,0",
-    headline: "Integración core y DataOps",
-    result: "KPIs operativos con trazabilidad completa y compliance en sistemas core bancarios.",
+    headline: "Software interno y trazabilidad operativa",
+    result: "Desarrollo de herramientas a medida para centralizar datos, automatizar validaciones y dar visibilidad completa a procesos bancarios críticos.",
     metric: "100%",
     metricLabel: "auditoría trazada",
-    tags: ["DataOps", "Compliance", "Seguridad"],
+    tags: ["Software a medida", "Automatización", "Trazabilidad"],
     featured: true,
   },
   {
@@ -96,14 +96,14 @@ const cases = [
     logo: "/logos/unicaja.svg",
     logoW: 130,
     logoH: 48,
-    sector: "Banca Enterprise",
+    sector: "Optimización bancaria",
     accent: "#62a24c",
     accentRgb: "98,162,76",
-    headline: "Automatización de reporting",
-    result: "Flujos críticos modernizados con control de calidad de datos en producción.",
+    headline: "Automatización de reporting y cierres",
+    result: "Optimización de procesos repetitivos de reporting, validación y consolidación de datos para reducir tiempos de cierre y errores manuales.",
     metric: "−70%",
     metricLabel: "tiempo de cierre",
-    tags: ["Automatización", "Reporting", "Governance"],
+    tags: ["Procesos", "Reporting", "Calidad de datos"],
     featured: false,
   },
   {
@@ -112,14 +112,14 @@ const cases = [
     logo: "/logos/accenture.svg",
     logoW: 148,
     logoH: 40,
-    sector: "Consultoría Enterprise",
+    sector: "Operaciones enterprise",
     accent: "#A100FF",
     accentRgb: "161,0,255",
-    headline: "Delivery y arquitectura técnica",
-    result: "Roadmaps técnicos alineados al negocio en proyectos de transformación a gran escala.",
+    headline: "Backoffice y delivery a medida",
+    result: "Diseño y evolución de software interno para coordinar equipos, estandarizar entregas y acelerar procesos de delivery técnico.",
     metric: "×3",
     metricLabel: "velocidad de entrega",
-    tags: ["Enterprise", "Agile", "Arquitectura"],
+    tags: ["Software interno", "Delivery", "Arquitectura"],
     featured: false,
   },
   {
@@ -128,14 +128,14 @@ const cases = [
     logo: "/logos/lfstudio.svg",
     logoW: 130,
     logoH: 44,
-    sector: "Fotografía Premium",
+    sector: "Operativa comercial",
     accent: "#111111",
     accentRgb: "17,17,17",
-    headline: "Web premium + SEO técnico",
-    result: "Galerías optimizadas, UX editorial y captación de clientes cualificados desde búsqueda orgánica.",
+    headline: "Flujo comercial conectado a negocio",
+    result: "Estructura digital a medida para mejorar captación, entrada de solicitudes y seguimiento comercial con menos fricción operativa.",
     metric: "+220%",
     metricLabel: "tráfico orgánico",
-    tags: ["Web Premium", "Performance", "SEO"],
+    tags: ["Captación", "Optimización", "Proceso comercial"],
     featured: false,
   },
 ];
@@ -193,7 +193,7 @@ function FeaturedCase({ c }: { c: (typeof cases)[0] }) {
         {/* Left content */}
         <div>
           {/* Client logo + sector */}
-          <div className="flex items-center gap-4 mb-6">
+          <div className="mb-6 space-y-3">
             <div className="relative h-10 flex-shrink-0" style={{ width: c.logoW * (40 / c.logoH) }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -201,7 +201,7 @@ function FeaturedCase({ c }: { c: (typeof cases)[0] }) {
                 alt={c.client}
                 height={40}
                 style={{ height: "40px", width: "auto", maxWidth: "160px", objectFit: "contain" }}
-                className="dark:invert"
+                className="block dark:invert"
               />
             </div>
             <span
@@ -271,7 +271,7 @@ function CompactCase({ c, delay }: { c: (typeof cases)[0]; delay: number }) {
 
       <div className="p-6">
         {/* Logo + sector row */}
-        <div className="flex items-start justify-between gap-3 mb-5">
+        <div className="flex flex-wrap items-start gap-3 mb-5">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={c.logo}

@@ -14,7 +14,6 @@ import { Code2, Bot, Database, Check, ArrowRight } from "lucide-react";
 const services = [
   {
     id: "apps",
-    number: "01",
     Icon: Code2,
     accent: "#FB923C",
     accentRgb: "251,146,60",
@@ -32,7 +31,6 @@ const services = [
   },
   {
     id: "ia",
-    number: "02",
     Icon: Bot,
     accent: "#A78BFA",
     accentRgb: "167,139,250",
@@ -50,7 +48,6 @@ const services = [
   },
   {
     id: "data",
-    number: "03",
     Icon: Database,
     accent: "#22D3EE",
     accentRgb: "34,211,238",
@@ -172,7 +169,6 @@ export default function Services() {
                   style={i === active ? { background: sv.accent } : undefined}
                   aria-current={i === active ? "true" : undefined}
                 >
-                  <span className="text-xs font-bold opacity-60">{sv.number}</span>
                   <sv.Icon className="h-3.5 w-3.5" aria-hidden />
                   <span className="text-xs">{sv.title}</span>
                 </button>
@@ -208,13 +204,6 @@ export default function Services() {
                                  : "hover:bg-white/60 dark:hover:bg-white/[0.03]"
                                }`}
                   >
-                    <span
-                      className={`text-[11px] font-black tabular-nums tracking-widest transition-all duration-300
-                                  ${isActive ? "opacity-100" : "opacity-25 group-hover:opacity-50"}`}
-                      style={{ color: isActive ? sv.accent : undefined }}
-                    >
-                      {sv.number}
-                    </span>
                     <span
                       className={`inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg transition-all duration-300
                                   ${isActive ? "opacity-100" : "opacity-30 group-hover:opacity-60"}`}
@@ -277,22 +266,6 @@ export default function Services() {
                 animate={{ background: `linear-gradient(90deg, ${s.accent}, transparent 60%)` }}
                 transition={{ duration: 0.4 }}
               />
-
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`num-${active}`}
-                  initial={{ opacity: 0, scale: 1.1 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.5, ease: EASE }}
-                  className="absolute bottom-4 right-6 font-black text-[7rem] leading-none
-                             text-slate-900 dark:text-white select-none pointer-events-none"
-                  style={{ opacity: 0.04 }}
-                  aria-hidden
-                >
-                  {s.number}
-                </motion.div>
-              </AnimatePresence>
 
               <AnimatePresence mode="wait">
                 <motion.div
