@@ -8,12 +8,12 @@ import { titleTemplate, canonical } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: titleTemplate("Blog de Qubelia"),
-  description: "Transformación digital, desarrollo a medida, MVPs, IA y automatización. Guías prácticas sin humo.",
+  description: "Automatización, integraciones ERP/CRM y software a medida para empresas. Guías prácticas sin humo.",
   alternates: { canonical: canonical("/blog") },
   robots: { index: true, follow: true },
   openGraph: {
     title: titleTemplate("Blog de Qubelia"),
-    description: "Transformación digital, desarrollo a medida, MVPs, IA y automatización. Guías prácticas sin humo.",
+    description: "Automatización, integraciones ERP/CRM y software a medida para empresas. Guías prácticas sin humo.",
     url: canonical("/blog"),
     siteName: "Qubelia",
     images: [{ url: canonical("/images/og-cover.png"), width: 1200, height: 630 }],
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: titleTemplate("Blog de Qubelia"),
-    description: "Transformación digital, desarrollo a medida, MVPs, IA y automatización. Guías prácticas sin humo.",
+    description: "Automatización, integraciones ERP/CRM y software a medida para empresas. Guías prácticas sin humo.",
     images: [canonical("/images/og-cover.png")],
   },
 };
@@ -196,7 +196,7 @@ export default function BlogIndex() {
             </div>
             <div className="flex flex-wrap gap-3">
               <Button as="a" href="/#contacto" variant="shine">Agendar diagnóstico</Button>
-              <Button as="a" href="/labs" variant="ghost">Ver herramientas</Button>
+              <Button as="a" href="/servicios" variant="ghost">Ver servicios</Button>
             </div>
           </div>
         </div>

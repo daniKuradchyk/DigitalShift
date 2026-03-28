@@ -15,7 +15,7 @@ const SITE_ORIGIN = "https://qubelia.es";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN), // Ensures absolute URLs (incluye <link rel="icon">) apuntan a https://qubelia.es
   title: titleTemplate(),
-  description: "Transformacion digital y software a medida. MVPs en semanas, IA y automatizacion. Productos gratuitos en Qubelia Labs.",
+  description: "Software a medida, automatización de procesos e integraciones ERP/CRM para empresas. Equipo técnico en Sevilla.",
   icons: {
     icon: [
       { url: "/favicon-48.png", sizes: "48x48", type: "image/png" }, // <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: SITE_NAME,
-    description: "Transformacion digital para pymes y emprendedores: desarrollo a medida, MVPs, IA e integraciones.",
+    description: "Software a medida, automatización de procesos e integraciones ERP/CRM para empresas. Equipo técnico en Sevilla con entregas claras y resultados medibles.",
     url: absoluteUrl("/"),
     siteName: SITE_NAME,
     images: openGraphImage(),
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: SITE_NAME,
-    description: "Software a medida, MVPs en semanas e IA. Productos gratuitos en Qubelia Labs.",
+    description: "Software a medida, automatización e integraciones ERP/CRM para empresas. Equipo técnico en Sevilla.",
     images: openGraphImage(),
   },
   alternates: { canonical: absoluteUrl("/") },

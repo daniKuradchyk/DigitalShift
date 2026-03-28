@@ -4,10 +4,11 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
-import { BarChart3, Code2, Rocket, Bot, Database, Check, ArrowRight } from "lucide-react";
+import { Code2, Bot, Database, Check, ArrowRight } from "lucide-react";
 
 /* ──────────────────────────────────────────────────────────────
-   DATA — Reordenado: 3 pilares principales primero
+   DATA — Solo los 3 pilares principales en la home.
+   MVP y Consultoría viven en /servicios/* pero no compiten aquí.
    ────────────────────────────────────────────────────────────── */
 
 const services = [
@@ -22,10 +23,10 @@ const services = [
     description:
       "Construimos aplicaciones internas, portales de clientes y plataformas operativas adaptadas a vuestros procesos reales. Arquitectura limpia, CI/CD automatizado y QA integrado. El código es vuestro desde el primer commit, sin vendor lock-in.",
     features: [
-      "Arquitectura documentada y sin dependencias ocultas",
+      "Aplicaciones internas, portales y plataformas operativas",
+      "Arquitectura documentada sin dependencias ocultas",
       "CI/CD y tests automatizados en cada pull request",
-      "Revisión de seguridad y performance en cada release",
-      "Soporte y mantenimiento post-lanzamiento disponible",
+      "Soporte y evolución post-lanzamiento disponible",
     ],
     tags: ["TypeScript", "Next.js", "AWS / GCP", "Microservicios"],
   },
@@ -65,42 +66,6 @@ const services = [
     ],
     tags: ["ETL", "REST APIs", "SAP", "Salesforce"],
   },
-  {
-    id: "consultoria",
-    number: "04",
-    Icon: BarChart3,
-    accent: "#38BDF8",
-    accentRgb: "56,189,248",
-    title: "Consultoría tecnológica",
-    tagline: "Roadmap técnico y KPIs medibles antes de escribir una línea de código",
-    description:
-      "Auditamos tu infraestructura, stack y procesos para identificar fricciones, ahorros y palancas de crecimiento. Salimos con un plan accionable, priorizado y con ROI estimado por iniciativa. Sin compromisos, sin humo.",
-    features: [
-      "Diagnóstico tecnológico completo en 5 días hábiles",
-      "Identificación de quick wins y cuellos de botella",
-      "Hoja de ruta a 90 días con prioridades claras",
-      "KPIs de negocio definidos desde el primer sprint",
-    ],
-    tags: ["Diagnóstico", "Procesos", "ROI", "Estrategia"],
-  },
-  {
-    id: "mvp",
-    number: "05",
-    Icon: Rocket,
-    accent: "#34D399",
-    accentRgb: "52,211,153",
-    title: "MVP en 8 semanas",
-    tagline: "Para equipos que necesitan validar una idea antes de comprometer presupuesto",
-    description:
-      "Validamos tu producto con un MVP funcional en producción. Sprints quincenales, demos con stakeholders y métricas de uso desde el día del lanzamiento. Ideal para nuevas líneas de negocio o productos internos sin precedente.",
-    features: [
-      "Sprints quincenales con entregables reales",
-      "Tests con usuarios desde la semana 4",
-      "Analytics integrado desde el primer deploy",
-      "Handover total: código, docs y CI/CD incluidos",
-    ],
-    tags: ["Next.js", "React Native", "Sprints", "Validación"],
-  },
 ];
 
 /* ──────────────────────────────────────────────────────────────
@@ -139,7 +104,7 @@ export default function Services() {
       aria-labelledby="services-title"
       className="relative py-20 lg:py-28 overflow-hidden"
     >
-      {/* Ambient glow that follows active service color */}
+      {/* Ambient glow */}
       <motion.div
         aria-hidden
         className="pointer-events-none absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full blur-[120px] opacity-[0.14] dark:opacity-[0.20]"
@@ -172,8 +137,8 @@ export default function Services() {
               id="services-title"
               className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl"
             >
-              Tres formas de hacer<br />
-              <span className="gradient-text-static">que tu operación funcione mejor</span>
+              Tres áreas de trabajo,<br />
+              <span className="gradient-text-static">un objetivo operativo</span>
             </h2>
             <p className="text-slate-500 dark:text-slate-400 max-w-sm text-sm leading-relaxed">
               Software, automatización e integraciones. Desde el diagnóstico hasta el código en producción.
@@ -182,18 +147,18 @@ export default function Services() {
         </motion.div>
 
         {/* ── SPLIT LAYOUT ── */}
-        <div className="grid lg:grid-cols-[340px_1fr] xl:grid-cols-[380px_1fr] gap-4 lg:gap-8 items-start">
+        <div className="grid lg:grid-cols-[320px_1fr] xl:grid-cols-[360px_1fr] gap-4 lg:gap-8 items-start">
 
           {/* ── LEFT: Service selector ── */}
           <motion.nav
-            aria-label="Servicios disponibles"
+            aria-label="Servicios principales"
             className="relative"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.7, ease: EASE }}
           >
-            {/* Mobile: horizontal scroll tabs */}
+            {/* Mobile: horizontal tabs */}
             <div className="flex lg:hidden gap-2 overflow-x-auto pb-2 no-scrollbar -mx-4 px-4">
               {services.map((sv, i) => (
                 <button
@@ -209,6 +174,7 @@ export default function Services() {
                 >
                   <span className="text-xs font-bold opacity-60">{sv.number}</span>
                   <sv.Icon className="h-3.5 w-3.5" aria-hidden />
+                  <span className="text-xs">{sv.title}</span>
                 </button>
               ))}
             </div>
@@ -226,25 +192,22 @@ export default function Services() {
                 }}
                 transition={{ type: "spring", stiffness: 260, damping: 28 }}
               />
-              {/* Baseline track */}
               <div className="absolute left-0 top-0 h-full w-[2px] bg-slate-200/60 dark:bg-white/[0.06] rounded-full" />
 
               {services.map((sv, i) => {
                 const isActive = i === active;
-                const isPillar = i < 3;
                 return (
                   <button
                     key={sv.id}
                     onClick={() => setActive(i)}
                     aria-current={isActive ? "true" : undefined}
-                    className={`group w-full text-left flex items-center gap-4 pl-6 pr-3 py-4
+                    className={`group w-full text-left flex items-center gap-4 pl-6 pr-3 py-5
                                rounded-xl transition-all duration-300
                                ${isActive
                                  ? "bg-white dark:bg-white/[0.05] shadow-sm dark:shadow-none"
                                  : "hover:bg-white/60 dark:hover:bg-white/[0.03]"
                                }`}
                   >
-                    {/* Number */}
                     <span
                       className={`text-[11px] font-black tabular-nums tracking-widest transition-all duration-300
                                   ${isActive ? "opacity-100" : "opacity-25 group-hover:opacity-50"}`}
@@ -252,32 +215,19 @@ export default function Services() {
                     >
                       {sv.number}
                     </span>
-
-                    {/* Icon */}
                     <span
-                      className={`inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg transition-all duration-300
+                      className={`inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg transition-all duration-300
                                   ${isActive ? "opacity-100" : "opacity-30 group-hover:opacity-60"}`}
                       style={isActive ? { background: `rgba(${sv.accentRgb}, 0.12)`, color: sv.accent } : undefined}
                     >
                       <sv.Icon className="h-4 w-4" strokeWidth={1.8} aria-hidden />
                     </span>
-
-                    {/* Title */}
                     <span
                       className={`text-sm font-semibold leading-tight transition-colors duration-300
                                   ${isActive ? "text-slate-900 dark:text-white" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-400"}`}
                     >
                       {sv.title}
                     </span>
-
-                    {/* Pilar badge */}
-                    {isPillar && !isActive && (
-                      <span className="ml-auto text-[8px] font-bold uppercase tracking-[0.15em] text-slate-300 dark:text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                        Core
-                      </span>
-                    )}
-
-                    {/* Active arrow */}
                     {isActive && (
                       <motion.span
                         initial={{ opacity: 0, x: -4 }}
@@ -292,11 +242,15 @@ export default function Services() {
                 );
               })}
 
-              {/* Visual separator between pillars and secondary */}
-              <div className="mt-1 ml-6 mr-3 h-px bg-slate-200/60 dark:bg-white/[0.06]" />
-              <p className="ml-6 mt-2 text-[9px] uppercase tracking-[0.2em] text-slate-300 dark:text-slate-600 font-semibold">
-                También disponibles
-              </p>
+              {/* Link to all services */}
+              <div className="mt-4 pl-6">
+                <a
+                  href="/servicios"
+                  className="text-xs text-slate-400 dark:text-slate-600 hover:text-sky-600 dark:hover:text-sky-400 transition-colors"
+                >
+                  Ver todos los servicios →
+                </a>
+              </div>
             </div>
           </motion.nav>
 
@@ -309,7 +263,6 @@ export default function Services() {
           >
             <div className="relative overflow-hidden rounded-2xl border border-slate-200/70 dark:border-white/[0.07] bg-white dark:bg-[#070D1C] min-h-[440px]">
 
-              {/* Gradient backdrop per service */}
               <motion.div
                 aria-hidden
                 className="absolute inset-0 pointer-events-none"
@@ -319,14 +272,12 @@ export default function Services() {
                 transition={{ duration: 0.6, ease: EASE }}
               />
 
-              {/* Top accent line */}
               <motion.div
                 className="h-0.5 w-full"
                 animate={{ background: `linear-gradient(90deg, ${s.accent}, transparent 60%)` }}
                 transition={{ duration: 0.4 }}
               />
 
-              {/* Decorative number (background) */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={`num-${active}`}
@@ -343,7 +294,6 @@ export default function Services() {
                 </motion.div>
               </AnimatePresence>
 
-              {/* Panel content */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={active}
@@ -354,7 +304,6 @@ export default function Services() {
                   transition={{ duration: 0.35, ease: EASE }}
                   className="relative z-10 p-7 lg:p-9"
                 >
-                  {/* Icon + title */}
                   <div className="flex items-start gap-4 mb-6">
                     <div
                       className="inline-flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl"
@@ -372,12 +321,10 @@ export default function Services() {
                     </div>
                   </div>
 
-                  {/* Description */}
                   <p className="text-slate-500 dark:text-slate-400 leading-relaxed mb-7 max-w-[520px]">
                     {s.description}
                   </p>
 
-                  {/* Feature list */}
                   <motion.ul
                     key={`features-${active}`}
                     variants={listVariants}
@@ -402,7 +349,6 @@ export default function Services() {
                     ))}
                   </motion.ul>
 
-                  {/* Tags + CTA row */}
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div className="flex flex-wrap gap-1.5">
                       {s.tags.map((t) => (
@@ -420,7 +366,6 @@ export default function Services() {
                       Agenda diagnóstico →
                     </Button>
                   </div>
-
                 </motion.div>
               </AnimatePresence>
             </div>

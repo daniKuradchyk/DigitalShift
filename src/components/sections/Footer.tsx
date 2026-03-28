@@ -65,12 +65,12 @@ export default function Footer() {
             <div>
               <p className="text-base font-extrabold text-slate-900 dark:text-white tracking-tight">Qubelia España</p>
               <p className="mt-2 text-sm text-slate-500 dark:text-slate-500 leading-relaxed">
-                Transformación digital y software a medida. MVPs en semanas, IA y automatización.
+                Software a medida, automatización e integraciones ERP/CRM para empresas.
               </p>
             </div>
             <div className="inline-flex items-center gap-1.5 rounded-full border border-sky-500/20 bg-sky-50 dark:bg-sky-500/8 px-3 py-1">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" style={{ boxShadow: "0 0 6px rgba(52,211,153,0.6)" }} />
-              <span className="text-[11px] font-semibold text-sky-600 dark:text-sky-400">MVP en 8–10 semanas</span>
+              <span className="text-[11px] font-semibold text-sky-600 dark:text-sky-400">Sevilla · España</span>
             </div>
             {/* Socials */}
             <div className="flex gap-2 pt-1">

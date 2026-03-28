@@ -7,15 +7,15 @@ import Button from "@/components/common/Button";
 
 // ── Terminal animation data ───────────────────────────────────────────
 const LINES = [
-  { type: "cmd",  text: 'qubelia audit --company "TuEmpresa"',    delay: 500  },
-  { type: "ok",   text: "Procesos mapeados · 14 fricciones críticas", delay: 1300 },
-  { type: "ok",   text: "Integraciones pendientes identificadas",   delay: 2000 },
-  { type: "cmd",  text: "automate --flows repetitivos",            delay: 2800 },
+  { type: "cmd",  text: 'qubelia audit --company "TuEmpresa"',         delay: 500  },
+  { type: "ok",   text: "Procesos mapeados · 14 fricciones críticas",   delay: 1300 },
+  { type: "ok",   text: "Integraciones pendientes identificadas",        delay: 2000 },
+  { type: "cmd",  text: "automate --flows repetitivos",                 delay: 2800 },
   { type: "ok",   text: "Flujos RPA desplegados · −62% trabajo manual", delay: 3600 },
-  { type: "cmd",  text: "integrate --erp SAP --crm Salesforce",   delay: 4400 },
-  { type: "prog", text: "Conectores activos · datos sincronizados", delay: 5200 },
-  { type: "cmd",  text: "deploy --env production",                 delay: 6100 },
-  { type: "live", text: "✓  tuempresa.es   ●  OPERATIVO",          delay: 6900 },
+  { type: "cmd",  text: "integrate --erp SAP --crm Salesforce",         delay: 4400 },
+  { type: "prog", text: "Conectores activos · datos sincronizados",     delay: 5200 },
+  { type: "cmd",  text: "deploy --env production",                      delay: 6100 },
+  { type: "live", text: "✓  tuempresa.es   ●  OPERATIVO",               delay: 6900 },
 ] as const;
 
 const CLIENTS = ["Santander", "Unicaja", "Accenture", "Soltel"];
@@ -36,10 +36,8 @@ export default function Hero() {
   const [visibleLines, setVisibleLines] = useState(0);
   const [cursor,       setCursor]       = useState(true);
 
-  // Terminal loop
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
-
     const run = () => {
       setVisibleLines(0);
       LINES.forEach((line, i) => {
@@ -47,12 +45,10 @@ export default function Hero() {
       });
       timers.push(setTimeout(run, LINES[LINES.length - 1].delay + 4200));
     };
-
     run();
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  // Cursor blink
   useEffect(() => {
     const t = setInterval(() => setCursor(c => !c), 540);
     return () => clearInterval(t);
@@ -65,17 +61,13 @@ export default function Hero() {
     >
       {/* ── BACKGROUND ACCENTS ──────────────────────────────────── */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        {/* Top rule */}
         <div className="absolute inset-x-0 top-0 h-px"
           style={{ background: "linear-gradient(90deg,transparent 10%,rgba(99,102,241,0.55) 50%,transparent 90%)" }} />
-        {/* Radial spotlight */}
         <div className="absolute inset-x-0 top-0 h-[70vh] dark:hidden"
           style={{ background: "radial-gradient(ellipse 70% 60% at 50% 0%,rgba(99,102,241,0.07),transparent 70%)" }} />
-        {/* Dark glow */}
         <div className="absolute hidden dark:block"
           style={{ top:"-15%",left:"50%",transform:"translateX(-50%)",width:"80vw",height:"70vh",
             background:"radial-gradient(ellipse,rgba(99,102,241,0.13) 0%,transparent 65%)",filter:"blur(40px)" }} />
-        {/* Bottom blend */}
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#050A14] to-transparent" />
       </div>
 
@@ -100,20 +92,20 @@ export default function Hero() {
             <motion.h1
               id="hero-title"
               variants={up}
-              className="font-black leading-[1.02] tracking-[-0.032em] text-slate-900 dark:text-white mb-8
-                         text-[2.9rem] sm:text-[3.8rem] xl:text-[4.6rem]"
+              className="font-black leading-[1.05] tracking-[-0.028em] text-slate-900 dark:text-white mb-8
+                         text-[2.2rem] sm:text-[2.9rem] xl:text-[3.6rem]"
             >
-              Tu empresa<br />
-              ha crecido.<br />
-              <span className="gradient-text">Tus procesos, no.</span>
+              Software a medida,<br />
+              automatización e integraciones<br />
+              <span className="gradient-text">para empresas que han crecido<br className="hidden sm:block" /> más rápido que sus procesos.</span>
             </motion.h1>
 
             {/* Subtitle */}
             <motion.p
               variants={up}
-              className="text-[1.05rem] sm:text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-[440px] mb-10"
+              className="text-[1.05rem] sm:text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-[480px] mb-10"
             >
-              Desarrollamos software a medida, automatizamos lo repetitivo e integramos tus sistemas. Entregas claras, fechas reales, resultados que se miden.
+              Diseñamos herramientas internas, automatizaciones e integraciones ERP/CRM para reducir trabajo manual, ganar visibilidad operativa y escalar sin caos.
             </motion.p>
 
             {/* CTAs */}
@@ -153,11 +145,9 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0,  scale: 1    }}
             transition={{ duration: 1.0, delay: 0.25, ease: EASE }}
           >
-
             {/* TERMINAL — full width */}
             <div className="col-span-2 rounded-2xl overflow-hidden border border-white/[0.07] bg-[#0D1117]
                             shadow-[0_24px_80px_-12px_rgba(0,0,0,0.40),0_0_0_1px_rgba(255,255,255,0.05)]">
-              {/* Chrome */}
               <div className="flex items-center gap-1.5 px-4 py-[11px] border-b border-white/[0.06] bg-white/[0.025]">
                 <span className="h-[11px] w-[11px] rounded-full bg-[#FF5F57]" />
                 <span className="h-[11px] w-[11px] rounded-full bg-[#FEBC2E]" />
@@ -166,7 +156,6 @@ export default function Hero() {
                   qubelia-studio — zsh
                 </span>
               </div>
-              {/* Body */}
               <div className="p-5 min-h-[220px]" style={{ fontFamily: "var(--font-mono)" }}>
                 {LINES.slice(0, visibleLines).map((line, i) => (
                   <motion.div
@@ -200,7 +189,6 @@ export default function Hero() {
                     )}
                   </motion.div>
                 ))}
-                {/* Blinking cursor */}
                 {visibleLines < LINES.length && (
                   <div className="leading-[1.8] text-[12px] text-sky-300">
                     <span className="select-none text-emerald-500">❯ </span>
@@ -213,7 +201,7 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* METRIC A — −62% trabajo manual */}
+            {/* METRIC A */}
             <div className="rounded-2xl border border-slate-200/70 dark:border-white/[0.07] p-5
                             bg-gradient-to-br from-white to-emerald-50/60 dark:from-white/[0.03] dark:to-emerald-500/[0.06]
                             shadow-sm dark:shadow-none">
@@ -233,7 +221,7 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* METRIC B — 4–8 sem primera entrega */}
+            {/* METRIC B */}
             <div className="rounded-2xl border border-slate-200/70 dark:border-white/[0.07] p-5
                             bg-gradient-to-br from-white to-sky-50/60 dark:from-white/[0.03] dark:to-sky-500/[0.06]
                             shadow-sm dark:shadow-none">
@@ -241,7 +229,7 @@ export default function Hero() {
                 4–8
               </p>
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500 leading-tight">
-                Semanas<br />a primera entrega
+                Semanas<br />primera entrega
               </p>
               <div className="mt-4 flex items-center gap-1">
                 {Array.from({ length: 8 }).map((_, i) => (
@@ -256,8 +244,8 @@ export default function Hero() {
                 ))}
               </div>
             </div>
-
           </motion.div>
+
         </div>
       </Container>
     </section>
