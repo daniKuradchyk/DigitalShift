@@ -1,218 +1,434 @@
+"use client";
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
-import { BarChart3, Code2, Rocket, Bot, Database, ArrowRight } from "lucide-react";
+import { BarChart3, Code2, Rocket, Bot, Database, Check, ArrowRight } from "lucide-react";
 
-/* ─── Decorative SVG background patterns per card ─────────────────── */
-
-function GridPattern({ color }: { color: string }) {
-  return (
-    <svg aria-hidden className="absolute inset-0 h-full w-full opacity-[0.07]" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id={`gp-${color}`} width="24" height="24" patternUnits="userSpaceOnUse">
-          <path d="M 24 0 L 0 0 0 24" fill="none" stroke={color} strokeWidth="0.6" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill={`url(#gp-${color})`} />
-    </svg>
-  );
-}
-
-function DotsPattern({ color }: { color: string }) {
-  return (
-    <svg aria-hidden className="absolute inset-0 h-full w-full opacity-[0.07]" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id={`dp-${color}`} width="20" height="20" patternUnits="userSpaceOnUse">
-          <circle cx="2" cy="2" r="1.5" fill={color} />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill={`url(#dp-${color})`} />
-    </svg>
-  );
-}
-
-/* ─── Card definitions ──────────────────────────────────────────────── */
+/* ──────────────────────────────────────────────────────────────
+   DATA
+   ────────────────────────────────────────────────────────────── */
 
 const services = [
   {
     id: "consultoria",
+    number: "01",
     Icon: BarChart3,
-    title: "Consultoría y\ntransformación",
-    description: "Diagnóstico operativo, hoja de ruta de 90 días y KPIs medibles para que cada euro invertido tenga retorno claro.",
-    tags: ["Diagnóstico", "Procesos", "ROI rápido"],
     accent: "#38BDF8",
-    glow: "rgba(56,189,248,0.15)",
-    iconBg: "bg-sky-50 dark:bg-sky-500/10 border-sky-200 dark:border-sky-500/20",
-    iconColor: "text-sky-600 dark:text-sky-400",
-    span: "lg:col-span-2 lg:row-span-2",
-    large: true,
-    Pattern: GridPattern,
+    accentRgb: "56,189,248",
+    title: "Consultoría y transformación",
+    tagline: "Roadmap técnico y KPIs medibles en 2 semanas",
+    description:
+      "Auditamos tu infraestructura, stack y procesos internos para identificar fricciones, ahorros y palancas de crecimiento. Salimos con un plan accionable, priorizado y con ROI estimado por iniciativa.",
+    features: [
+      "Diagnóstico tecnológico completo en 5 días hábiles",
+      "Identificación de quick wins y cuellos de botella",
+      "Hoja de ruta a 90 días con prioridades claras",
+      "KPIs de negocio definidos desde el primer sprint",
+    ],
+    tags: ["Diagnóstico", "Procesos", "ROI", "Estrategia"],
   },
   {
     id: "ia",
+    number: "02",
     Icon: Bot,
-    title: "IA y\nautomatización",
-    description: "Flujos RPA, agentes IA y clasificación inteligente con control humano y trazabilidad completa.",
-    tags: ["Agentes IA", "RPA", "Guardrails"],
     accent: "#A78BFA",
-    glow: "rgba(167,139,250,0.15)",
-    iconBg: "bg-violet-50 dark:bg-violet-500/10 border-violet-200 dark:border-violet-500/20",
-    iconColor: "text-violet-600 dark:text-violet-400",
-    span: "lg:col-span-1",
-    large: false,
-    Pattern: DotsPattern,
+    accentRgb: "167,139,250",
+    title: "IA y automatización",
+    tagline: "Automatiza lo repetitivo, potencia lo estratégico",
+    description:
+      "Diseñamos e implementamos agentes IA y flujos RPA adaptados a tu operación real. Control humano integrado, trazabilidad completa y guardrails para entornos de producción sin sorpresas.",
+    features: [
+      "Agentes IA con guardrails y fallback humano",
+      "Flujos RPA para procesos repetitivos de alto volumen",
+      "Clasificación inteligente y extracción de datos",
+      "Integración con tus sistemas actuales (ERP, CRM, mail)",
+    ],
+    tags: ["LLM", "RPA", "Python", "LangChain"],
   },
   {
     id: "mvp",
+    number: "03",
     Icon: Rocket,
-    title: "MVP en\n8 semanas",
-    description: "De hipótesis a producto funcional con usuarios reales. Sprints quincenales y aprendizaje accionable.",
-    tags: ["Sprints", "Validación", "Analytics"],
     accent: "#34D399",
-    glow: "rgba(52,211,153,0.15)",
-    iconBg: "bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20",
-    iconColor: "text-emerald-600 dark:text-emerald-400",
-    span: "lg:col-span-1",
-    large: false,
-    Pattern: GridPattern,
+    accentRgb: "52,211,153",
+    title: "MVP en 8 semanas",
+    tagline: "De hipótesis a producto con usuarios reales",
+    description:
+      "Validamos tu idea con un MVP funcional en producción. Sprints quincenales, demos con stakeholders y métricas de uso desde el día del lanzamiento.",
+    features: [
+      "Sprints quincenales con entregables reales",
+      "Tests con usuarios reales desde la semana 4",
+      "Analytics integrado desde el primer deploy",
+      "Handover total: código, docs y CI/CD incluidos",
+    ],
+    tags: ["Next.js", "React Native", "Sprints", "Validación"],
   },
   {
     id: "apps",
+    number: "04",
     Icon: Code2,
-    title: "Desarrollo a medida",
-    description: "Software con arquitectura limpia, CI/CD, QA automatizado y handover completo. Tú eres dueño del código.",
-    tags: ["Arquitectura", "CI/CD", "QA"],
     accent: "#FB923C",
-    glow: "rgba(251,146,60,0.15)",
-    iconBg: "bg-orange-50 dark:bg-orange-500/10 border-orange-200 dark:border-orange-500/20",
-    iconColor: "text-orange-600 dark:text-orange-400",
-    span: "lg:col-span-2",
-    large: false,
-    Pattern: DotsPattern,
+    accentRgb: "251,146,60",
+    title: "Desarrollo a medida",
+    tagline: "Software que escala sin deuda técnica",
+    description:
+      "Construimos aplicaciones con arquitectura limpia, CI/CD automatizado y QA integrado. El código es tuyo desde el primer commit, sin vendor lock-in.",
+    features: [
+      "Arquitectura documentada y sin dependencias ocultas",
+      "CI/CD y tests automatizados en cada pull request",
+      "Revisión de seguridad y performance en cada release",
+      "Soporte y mantenimiento post-lanzamiento disponible",
+    ],
+    tags: ["TypeScript", "AWS / GCP", "CI/CD", "Microservicios"],
   },
   {
     id: "data",
+    number: "05",
     Icon: Database,
-    title: "Integraciones y Data",
-    description: "Conectores ERP/CRM, pipelines de calidad y dashboards operativos en tiempo real.",
-    tags: ["Conectores", "ETL", "Reporting"],
     accent: "#22D3EE",
-    glow: "rgba(34,211,238,0.15)",
-    iconBg: "bg-cyan-50 dark:bg-cyan-500/10 border-cyan-200 dark:border-cyan-500/20",
-    iconColor: "text-cyan-600 dark:text-cyan-400",
-    span: "lg:col-span-1",
-    large: false,
-    Pattern: GridPattern,
+    accentRgb: "34,211,238",
+    title: "Integraciones y Data",
+    tagline: "Conecta tus sistemas, visualiza tu negocio",
+    description:
+      "Construimos pipelines de datos, conectores ERP/CRM y dashboards operativos en tiempo real. Datos fiables y accionables para tomar decisiones más rápidas.",
+    features: [
+      "Conectores a medida: SAP, Salesforce, HubSpot y más",
+      "Pipelines ETL con control de calidad de datos",
+      "Dashboards en tiempo real (Looker, Power BI, custom)",
+      "Alertas operativas y reporting automatizado",
+    ],
+    tags: ["ETL", "REST APIs", "BigQuery", "Looker Studio"],
   },
 ];
 
+/* ──────────────────────────────────────────────────────────────
+   ANIMATION VARIANTS
+   ────────────────────────────────────────────────────────────── */
+
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const panelVariants = {
+  enter: { opacity: 0, y: 24, filter: "blur(4px)" },
+  center: { opacity: 1, y: 0, filter: "blur(0px)" },
+  exit: { opacity: 0, y: -18, filter: "blur(4px)" },
+};
+
+const listVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07, delayChildren: 0.15 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, x: -16 },
+  show:   { opacity: 1, x: 0, transition: { duration: 0.45, ease: EASE } },
+};
+
+/* ──────────────────────────────────────────────────────────────
+   COMPONENT
+   ────────────────────────────────────────────────────────────── */
+
 export default function Services() {
+  const [active, setActive] = useState(0);
+  const s = services[active];
+
   return (
-    <section id="servicios" aria-labelledby="services-title" className="relative py-20 lg:py-28 overflow-hidden">
-      {/* Ambient glows */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-20 top-1/3 h-96 w-96 rounded-full blur-3xl opacity-10 dark:opacity-20"
-          style={{ background: "rgba(56,189,248,0.4)" }} />
-        <div className="absolute -right-20 bottom-1/3 h-96 w-96 rounded-full blur-3xl opacity-10 dark:opacity-20"
-          style={{ background: "rgba(167,139,250,0.4)" }} />
-      </div>
+    <section
+      id="servicios"
+      aria-labelledby="services-title"
+      className="relative py-20 lg:py-28 overflow-hidden"
+    >
+      {/* Ambient glow that follows active service color */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 -right-32 h-[500px] w-[500px] rounded-full blur-[120px] opacity-[0.14] dark:opacity-[0.20]"
+        animate={{ background: `rgba(${s.accentRgb}, 1)` }}
+        transition={{ duration: 0.8, ease: EASE }}
+      />
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-32 -left-32 h-[400px] w-[400px] rounded-full blur-[100px] opacity-[0.10] dark:opacity-[0.15]"
+        animate={{ background: `rgba(${s.accentRgb}, 1)` }}
+        transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
+      />
 
       <Container>
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12">
-          <div className="max-w-xl">
-            <div className="section-tag mb-4">
-              <span className="h-1.5 w-1.5 rounded-full bg-sky-400" aria-hidden />
-              Servicios
-            </div>
-            <h2 id="services-title" className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-              Todo lo que necesita
-              <br />
+
+        {/* ── HEADER ── */}
+        <motion.div
+          className="mb-12 lg:mb-16"
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7, ease: EASE }}
+        >
+          <div className="section-tag mb-4">
+            <span className="h-1.5 w-1.5 rounded-full bg-sky-400" aria-hidden />
+            Servicios
+          </div>
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+            <h2
+              id="services-title"
+              className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl"
+            >
+              Todo lo que necesita<br />
               <span className="gradient-text-static">tu empresa digital</span>
             </h2>
+            <p className="text-slate-500 dark:text-slate-400 max-w-sm text-sm leading-relaxed">
+              Desde la estrategia hasta el código en producción. Equipo senior, sin intermediarios.
+            </p>
           </div>
-          <Button as="a" href="/#contacto" variant="shine">
-            Hablar con un experto
-          </Button>
-        </div>
+        </motion.div>
 
-        {/* Bento grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[220px]">
-          {services.map((s) => {
-            const { Pattern } = s;
-            return (
-              <article
-                key={s.id}
-                className={`group relative overflow-hidden rounded-2xl border border-slate-200/70 dark:border-white/[0.07] bg-white dark:bg-[#070D1C] p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(0,0,40,0.12)] dark:hover:shadow-none ${s.span}`}
-                style={{
-                  "--glow": s.glow,
-                } as React.CSSProperties}
-              >
-                {/* Background pattern */}
-                <Pattern color={s.accent} />
+        {/* ── SPLIT LAYOUT ── */}
+        <div className="grid lg:grid-cols-[340px_1fr] xl:grid-cols-[380px_1fr] gap-4 lg:gap-8 items-start">
 
-                {/* Glow on hover */}
-                <div
-                  className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
-                  style={{ boxShadow: `inset 0 0 60px ${s.glow}` }}
-                />
-
-                {/* Top: icon + tags */}
-                <div className="relative z-10 flex items-start justify-between gap-3">
-                  <div className={`inline-flex h-11 w-11 items-center justify-center rounded-xl border ${s.iconBg} ${s.iconColor} transition-transform duration-300 group-hover:scale-110`}>
-                    <s.Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden />
-                  </div>
-                  <div className="flex flex-wrap justify-end gap-1.5">
-                    {s.tags.slice(0, s.large ? 3 : 2).map((t) => (
-                      <span
-                        key={t}
-                        className="inline-flex rounded-full border border-slate-200/80 dark:border-white/[0.08] px-2 py-0.5 text-[10px] font-medium text-slate-500 dark:text-slate-400 bg-white/70 dark:bg-white/[0.04] backdrop-blur-sm"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Bottom: text */}
-                <div className="relative z-10">
-                  <h3 className={`font-bold text-slate-900 dark:text-white leading-tight whitespace-pre-line ${s.large ? "text-2xl" : "text-lg"}`}>
-                    {s.title}
-                  </h3>
-                  {(s.large || true) && (
-                    <p className={`mt-2 text-slate-500 dark:text-slate-400 leading-relaxed ${s.large ? "text-sm" : "text-xs"}`}>
-                      {s.description}
-                    </p>
-                  )}
-                  <div
-                    className="mt-3 inline-flex items-center gap-1 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-1 group-hover:translate-x-0"
-                    style={{ color: s.accent }}
-                  >
-                    Ver más <ArrowRight className="h-3 w-3" />
-                  </div>
-                </div>
-              </article>
-            );
-          })}
-
-          {/* CTA card */}
-          <article className="relative overflow-hidden rounded-2xl p-[1px] lg:col-span-1"
-            style={{ background: "linear-gradient(135deg, rgba(56,189,248,0.6), rgba(14,165,233,0.15) 45%, rgba(129,140,248,0.5))" }}>
-            <div className="h-full rounded-2xl p-6 flex flex-col justify-center items-center text-center gap-4 bg-sky-50/90 dark:bg-[#060C1A]">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-sky-600 dark:text-sky-400 mb-2">Empieza hoy</p>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white leading-snug">
-                  ¿Hablamos de tu proyecto?
-                </h3>
-                <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-                  Diagnóstico gratuito en 1 semana.
-                </p>
-              </div>
-              <Button as="a" href="/#contacto" variant="shine" className="w-full">
-                Agenda gratis
-              </Button>
+          {/* ── LEFT: Service selector ── */}
+          <motion.nav
+            aria-label="Servicios disponibles"
+            className="relative"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, ease: EASE }}
+          >
+            {/* Mobile: horizontal scroll tabs */}
+            <div className="flex lg:hidden gap-2 overflow-x-auto pb-2 no-scrollbar -mx-4 px-4">
+              {services.map((sv, i) => (
+                <button
+                  key={sv.id}
+                  onClick={() => setActive(i)}
+                  className={`flex-shrink-0 flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200
+                    ${i === active
+                      ? "text-white"
+                      : "bg-white/60 dark:bg-white/[0.05] text-slate-500 dark:text-slate-400 border border-slate-200/70 dark:border-white/[0.07]"
+                    }`}
+                  style={i === active ? { background: sv.accent } : undefined}
+                  aria-current={i === active ? "true" : undefined}
+                >
+                  <span className="text-xs font-bold opacity-60">{sv.number}</span>
+                  <sv.Icon className="h-3.5 w-3.5" aria-hidden />
+                </button>
+              ))}
             </div>
-          </article>
+
+            {/* Desktop: vertical list */}
+            <div className="hidden lg:block relative pl-4">
+              {/* Animated indicator line */}
+              <motion.div
+                className="absolute left-0 w-[2px] rounded-full"
+                style={{ height: `${100 / services.length}%` }}
+                animate={{
+                  top: `${active * (100 / services.length)}%`,
+                  background: s.accent,
+                  boxShadow: `0 0 12px rgba(${s.accentRgb}, 0.6)`,
+                }}
+                transition={{ type: "spring", stiffness: 260, damping: 28 }}
+              />
+              {/* Baseline track */}
+              <div className="absolute left-0 top-0 h-full w-[2px] bg-slate-200/60 dark:bg-white/[0.06] rounded-full" />
+
+              {services.map((sv, i) => {
+                const isActive = i === active;
+                return (
+                  <button
+                    key={sv.id}
+                    onClick={() => setActive(i)}
+                    aria-current={isActive ? "true" : undefined}
+                    className={`group w-full text-left flex items-center gap-4 pl-6 pr-3 py-4
+                               rounded-xl transition-all duration-300
+                               ${isActive
+                                 ? "bg-white dark:bg-white/[0.05] shadow-sm dark:shadow-none"
+                                 : "hover:bg-white/60 dark:hover:bg-white/[0.03]"
+                               }`}
+                  >
+                    {/* Number */}
+                    <span
+                      className={`text-[11px] font-black tabular-nums tracking-widest transition-all duration-300
+                                  ${isActive ? "opacity-100" : "opacity-25 group-hover:opacity-50"}`}
+                      style={{ color: isActive ? sv.accent : undefined }}
+                    >
+                      {sv.number}
+                    </span>
+
+                    {/* Icon */}
+                    <span
+                      className={`inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg transition-all duration-300
+                                  ${isActive ? "opacity-100" : "opacity-30 group-hover:opacity-60"}`}
+                      style={isActive ? { background: `rgba(${sv.accentRgb}, 0.12)`, color: sv.accent } : undefined}
+                    >
+                      <sv.Icon className="h-4 w-4" strokeWidth={1.8} aria-hidden />
+                    </span>
+
+                    {/* Title */}
+                    <span
+                      className={`text-sm font-semibold leading-tight transition-colors duration-300
+                                  ${isActive ? "text-slate-900 dark:text-white" : "text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-400"}`}
+                    >
+                      {sv.title}
+                    </span>
+
+                    {/* Active arrow */}
+                    {isActive && (
+                      <motion.span
+                        initial={{ opacity: 0, x: -4 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="ml-auto"
+                        style={{ color: sv.accent }}
+                      >
+                        <ArrowRight className="h-4 w-4" aria-hidden />
+                      </motion.span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </motion.nav>
+
+          {/* ── RIGHT: Content panel ── */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
+          >
+            <div className="relative overflow-hidden rounded-2xl border border-slate-200/70 dark:border-white/[0.07] bg-white dark:bg-[#070D1C] min-h-[440px]">
+
+              {/* Gradient backdrop per service */}
+              <motion.div
+                aria-hidden
+                className="absolute inset-0 pointer-events-none"
+                animate={{
+                  background: `radial-gradient(ellipse 80% 70% at 100% 0%, rgba(${s.accentRgb}, 0.10), transparent 60%)`,
+                }}
+                transition={{ duration: 0.6, ease: EASE }}
+              />
+
+              {/* Top accent line */}
+              <motion.div
+                className="h-0.5 w-full"
+                animate={{ background: `linear-gradient(90deg, ${s.accent}, transparent 60%)` }}
+                transition={{ duration: 0.4 }}
+              />
+
+              {/* Decorative number (background) */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`num-${active}`}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.5, ease: EASE }}
+                  className="absolute bottom-4 right-6 font-black text-[7rem] leading-none
+                             text-slate-900 dark:text-white select-none pointer-events-none"
+                  style={{ opacity: 0.04 }}
+                  aria-hidden
+                >
+                  {s.number}
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Panel content */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active}
+                  variants={panelVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.35, ease: EASE }}
+                  className="relative z-10 p-7 lg:p-9"
+                >
+                  {/* Icon + title */}
+                  <div className="flex items-start gap-4 mb-6">
+                    <div
+                      className="inline-flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-2xl"
+                      style={{ background: `rgba(${s.accentRgb}, 0.12)`, color: s.accent }}
+                    >
+                      <s.Icon className="h-6 w-6" strokeWidth={1.6} aria-hidden />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white leading-snug">
+                        {s.title}
+                      </h3>
+                      <p className="text-sm font-semibold mt-0.5" style={{ color: s.accent }}>
+                        {s.tagline}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-slate-500 dark:text-slate-400 leading-relaxed mb-7 max-w-[520px]">
+                    {s.description}
+                  </p>
+
+                  {/* Feature list */}
+                  <motion.ul
+                    key={`features-${active}`}
+                    variants={listVariants}
+                    initial="hidden"
+                    animate="show"
+                    className="space-y-3 mb-7"
+                  >
+                    {s.features.map((f) => (
+                      <motion.li
+                        key={f}
+                        variants={itemVariants}
+                        className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-400"
+                      >
+                        <span
+                          className="mt-0.5 inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full"
+                          style={{ background: `rgba(${s.accentRgb}, 0.12)` }}
+                        >
+                          <Check className="h-3 w-3" style={{ color: s.accent }} strokeWidth={3} aria-hidden />
+                        </span>
+                        {f}
+                      </motion.li>
+                    ))}
+                  </motion.ul>
+
+                  {/* Tags + CTA row */}
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div className="flex flex-wrap gap-1.5">
+                      {s.tags.map((t) => (
+                        <span
+                          key={t}
+                          className="inline-flex rounded-full border border-slate-200/80 dark:border-white/[0.08]
+                                     bg-slate-50 dark:bg-white/[0.03] px-2.5 py-0.5
+                                     text-[10px] font-medium text-slate-500 dark:text-slate-400"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                    <Button as="a" href="/#contacto" variant="shine" size="lg" className="flex-shrink-0">
+                      Agenda diagnóstico →
+                    </Button>
+                  </div>
+
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Pagination dots */}
+            <div className="flex justify-center gap-1.5 mt-4" aria-hidden>
+              {services.map((sv, i) => (
+                <button
+                  key={sv.id}
+                  onClick={() => setActive(i)}
+                  className="transition-all duration-300 rounded-full"
+                  style={{
+                    width: i === active ? "20px" : "6px",
+                    height: "6px",
+                    background: i === active ? sv.accent : "rgba(148,163,184,0.4)",
+                  }}
+                />
+              ))}
+            </div>
+          </motion.div>
         </div>
+
       </Container>
     </section>
   );

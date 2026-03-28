@@ -10,11 +10,11 @@
   color-scheme: light dark;
 
   /* Backgrounds */
-  --bg-page:        #F7F9FF;
+  --bg-page:        #E8F2FF;
   --bg-surface:     #FFFFFF;
   --bg-card:        rgba(255, 255, 255, 0.97);
   --bg-muted:       rgba(99, 102, 241, 0.05);
-  --bg-hero:        #F7F9FF;
+  --bg-hero:        #E8F2FF;
 
   /* Text */
   --text-primary:   #0A0F2C;
@@ -111,11 +111,11 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: #F7F9FF;
-  /* Subtle cross-hatch — the animated orbs provide the color effect */
+  background-color: #E8F2FF;
+  /* Fine grid overlay — animated orbs provide color */
   background-image:
-    repeating-linear-gradient(90deg, rgba(99,102,241,0.05) 0, rgba(99,102,241,0.05) 1px, transparent 1px, transparent 80px),
-    repeating-linear-gradient(0deg,  rgba(99,102,241,0.05) 0, rgba(99,102,241,0.05) 1px, transparent 1px, transparent 80px);
+    repeating-linear-gradient(90deg, rgba(14,165,233,0.06) 0, rgba(14,165,233,0.06) 1px, transparent 1px, transparent 80px),
+    repeating-linear-gradient(0deg,  rgba(14,165,233,0.06) 0, rgba(14,165,233,0.06) 1px, transparent 1px, transparent 80px);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -360,34 +360,34 @@ body::after {
 
 /* Sky blue — top right */
 .bg-orb-1 {
-  width:  min(75vw, 960px);
-  height: min(75vw, 960px);
-  background: rgba(56, 189, 248, 0.44);
-  filter: blur(100px);
-  top:   -28%;
-  right: -18%;
+  width:  min(80vw, 1040px);
+  height: min(80vw, 1040px);
+  background: rgba(56, 189, 248, 0.58);
+  filter: blur(90px);
+  top:   -30%;
+  right: -20%;
   animation: bgOrb1 20s ease-in-out infinite alternate;
 }
 
-/* Indigo — top left */
+/* Sky-600 blue — top left (NO purple) */
 .bg-orb-2 {
-  width:  min(68vw, 880px);
-  height: min(68vw, 880px);
-  background: rgba(99, 102, 241, 0.36);
-  filter: blur(110px);
-  top:  -30%;
-  left: -20%;
+  width:  min(72vw, 920px);
+  height: min(72vw, 920px);
+  background: rgba(14, 165, 233, 0.48);
+  filter: blur(100px);
+  top:  -32%;
+  left: -22%;
   animation: bgOrb2 26s ease-in-out infinite alternate;
 }
 
-/* Cyan — bottom center */
+/* Teal — bottom center */
 .bg-orb-3 {
-  width:  min(62vw, 820px);
-  height: min(62vw, 820px);
-  background: rgba(34, 211, 238, 0.30);
-  filter: blur(120px);
-  bottom: -24%;
-  left:    14%;
+  width:  min(65vw, 860px);
+  height: min(65vw, 860px);
+  background: rgba(20, 184, 166, 0.42);
+  filter: blur(110px);
+  bottom: -26%;
+  left:    12%;
   animation: bgOrb3 32s ease-in-out infinite alternate;
 }
 

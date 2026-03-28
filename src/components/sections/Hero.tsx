@@ -77,7 +77,7 @@ export default function Hero() {
           style={{ top:"-15%",left:"50%",transform:"translateX(-50%)",width:"80vw",height:"70vh",
             background:"radial-gradient(ellipse,rgba(99,102,241,0.13) 0%,transparent 65%)",filter:"blur(40px)" }} />
         {/* Bottom blend */}
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#F7F9FF] dark:from-[#050A14] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#E8F2FF] dark:from-[#050A14] to-transparent" />
       </div>
 
       <Container>
