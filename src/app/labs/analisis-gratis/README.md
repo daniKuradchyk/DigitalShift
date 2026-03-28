@@ -1,21 +1,30 @@
 # Analisis gratuito (Qubelia Labs)
 
-Feature: autodiagnostico en 5-8 min con scoring deterministico, informe en pantalla y PDF descargable.
+Autodiagnóstico de 5-8 min con scoring determinista, informe en pantalla y PDF opcional por email.
 
 ## Flujo
-- UI: `src/app/labs/analisis-gratis/page.tsx` + `AuditWizard.tsx`.
-- Logica de scoring: `src/lib/labs/audit.ts`.
-- API: `POST /api/labs/analisis-gratis/submit` (valida, calcula, guarda, envia email si aplica).
-- PDF: generado con `@react-pdf/renderer`, sin necesidad de email.
+
+- UI: `src/app/labs/analisis-gratis/page.tsx` + `AuditWizard.tsx`
+- Lógica: `src/lib/labs/audit.ts`
+- API: `POST /api/labs/analisis-gratis/submit`
+- PDF: `@react-pdf/renderer`
+
+## Qué guarda ahora
+
+1. Inserta el informe completo en `free_audit_submissions`
+2. Si el usuario deja email/datos de contacto, crea o actualiza un lead en `leads` para que aparezca en la intranet
+3. Envía el PDF por email si `LABS_AUDIT_EMAIL_ENABLED=true`
 
 ## Variables de entorno
+
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
-- `LABS_AUDIT_EMAIL_ENABLED` (true/false)
-- `LABS_AUDIT_EMAIL_FROM` (opcional, fallback a `CONTACT_FROM`)
-- `RESEND_API_KEY` (solo si envias email)
+- `LABS_AUDIT_EMAIL_ENABLED`
+- `LABS_AUDIT_EMAIL_FROM`
+- `RESEND_API_KEY`
 
 ## SQL (Supabase)
+
 ```sql
 create table if not exists public.free_audit_submissions (
   id uuid primary key default gen_random_uuid(),
@@ -37,12 +46,11 @@ create table if not exists public.free_audit_submissions (
 
 alter table public.free_audit_submissions enable row level security;
 
--- Bloquea lectura publica (service role bypass).
 create policy "no_public_select" on public.free_audit_submissions
   for select
   using (false);
 ```
 
-## Email (opcional)
-Activa `LABS_AUDIT_EMAIL_ENABLED=true` y configura `RESEND_API_KEY` + `LABS_AUDIT_EMAIL_FROM`.
-Si el usuario deja email y acepta privacidad, se envia el PDF adjunto.
+## Requisito CRM
+
+La tabla `leads` debe existir en el mismo proyecto Supabase. El submit del análisis gratuito la usa para reflejar el contacto dentro de la intranet con fuente `analisis-gratis`.
