@@ -3,6 +3,7 @@ import Link from "next/link";
 import Container from "@/components/common/Container";
 import Logo from "@/components/common/Logo";
 import { canonical, titleTemplate } from "@/lib/seo";
+import { CONTACT } from "@/config/contact";
 
 export const metadata: Metadata = {
   title: titleTemplate("Politica de privacidad"),
@@ -40,7 +41,7 @@ export default function Privacidad() {
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white">1. Identificación del responsable del tratamiento</h2>
             <p className="mt-3 text-slate-600 dark:text-slate-300">
               Responsable: Daniil Kuradchik Pekarskaya (Qubelia) - NIF/CIF: 30865688X. Domicilio: Calle torrelodones 84B, Sevilla, Sevilla 41016, España.
-              Email de contacto en materia de privacidad: <a className="text-sky-600 dark:text-sky-400 hover:underline" href="mailto:daniil.kuradchyk@gmail.com">daniil.kuradchyk@gmail.com</a>.
+              Email de contacto en materia de privacidad: <a className="text-sky-600 dark:text-sky-400 hover:underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>.
               Teléfono: <a className="text-sky-600 dark:text-sky-400 hover:underline" href="tel:+34674569372">674569372</a>. Delegado de Protección de Datos: no aplica. Sitio web: qubelia.es.
             </p>
           </section>
@@ -131,7 +132,7 @@ export default function Privacidad() {
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white">6. Derechos de las personas interesadas</h2>
             <p className="mt-3 text-slate-600 dark:text-slate-300">
               Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento, portabilidad y retirada del consentimiento
-              enviando un email a <a className="text-sky-600 dark:text-sky-400 hover:underline" href="mailto:daniil.kuradchyk@gmail.com">daniil.kuradchyk@gmail.com</a> o por escrito al domicilio
+              enviando un email a <a className="text-sky-600 dark:text-sky-400 hover:underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> o por escrito al domicilio
               indicado, acreditando tu identidad e indicando el derecho que deseas ejercer. Tienes derecho a presentar una reclamación ante la Agencia Española
               de Protección de Datos (www.aepd.es) si consideras que no se ha atendido correctamente tu solicitud.
             </p>

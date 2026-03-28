@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Container from "@/components/common/Container";
 import { useCookieConsent } from "@/components/cookies/CookieConsentProvider";
+import { CONTACT } from "@/config/contact";
 
 const nav = [
   { label: "Servicios",    href: "#servicios" },
@@ -110,8 +111,8 @@ export default function Footer() {
             <p className="text-slate-500 dark:text-slate-500 leading-relaxed">
               Calle Torrelodones 84B<br />41016 Sevilla, España
             </p>
-            <a href="mailto:daniil.kuradchyk@gmail.com" className="block text-slate-500 dark:text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 transition-colors break-all">
-              daniil.kuradchyk@gmail.com
+            <a href={`mailto:${CONTACT.email}`} className="block text-slate-500 dark:text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 transition-colors break-all">
+              {CONTACT.email}
             </a>
             <a href="tel:+34674569372" className="block text-slate-500 dark:text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
               +34 674 569 372

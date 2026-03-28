@@ -3,6 +3,7 @@ import Link from "next/link";
 import Container from "@/components/common/Container";
 import Logo from "@/components/common/Logo";
 import { canonical, titleTemplate } from "@/lib/seo";
+import { CONTACT } from "@/config/contact";
 
 export const metadata: Metadata = {
   title: titleTemplate("Politica de cookies"),
@@ -105,7 +106,7 @@ export default function Cookies() {
             <h2 className="text-xl font-semibold text-slate-900 dark:text-white">Responsable y contacto</h2>
             <p className="mt-3 text-slate-600 dark:text-slate-300">
               Responsable: Daniil Kuradchik Pekarskaya - NIF: 30865688X - Domicilio: Calle Torrelodones 84B, 41016 Sevilla, Sevilla, España - Email:{" "}
-              <a className="text-sky-600 dark:text-sky-400 hover:underline" href="mailto:daniil.kuradchyk@gmail.com">daniil.kuradchyk@gmail.com</a> - Teléfono:{" "}
+              <a className="text-sky-600 dark:text-sky-400 hover:underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> - Teléfono:{" "}
               <a className="text-sky-600 dark:text-sky-400 hover:underline" href="tel:+34674569372">674569372</a> - DPD: no aplica.
             </p>
           </section>

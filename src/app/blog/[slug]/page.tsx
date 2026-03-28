@@ -86,7 +86,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
 
   const serviceCta: Record<string, { href: string; label: string }> = {
     "presupuesto-diseno-web-sevilla": { href: "/servicios/diseno-web-sevilla", label: "Diseño web en Sevilla" },
-    "checklist-landing-conversion": { href: "/servicios/mvp-emprendedores", label: "MVP para emprendedores" },
+    "checklist-landing-conversion": { href: "/servicios/software-medida", label: "Desarrollo web a medida" },
     "seo-onpage-negocios-locales": { href: "/servicios/diseno-web-sevilla", label: "Diseño web en Sevilla" },
     "go-to-market-saas-90-dias": { href: "/servicios/mvp-emprendedores", label: "MVP para emprendedores" },
     "brief-tecnico-proyecto-digital": { href: "/servicios/software-medida", label: "Software a medida" },
@@ -314,15 +314,15 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
             {/* CTA card */}
             <div className="relative overflow-hidden rounded-2xl border border-sky-200/80 dark:border-sky-500/20 bg-sky-50 dark:bg-sky-500/[0.06] p-5">
               <div aria-hidden className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-sky-400/10 blur-xl" />
-              <p className="relative text-sm font-bold text-slate-900 dark:text-white mb-1.5">¿Necesitas ayuda ahora?</p>
+              <p className="relative text-sm font-bold text-slate-900 dark:text-white mb-1.5">¿Lo aplicamos a tu empresa?</p>
               <p className="relative text-xs text-slate-500 dark:text-slate-400 mb-4">
-                Auditoría express. Checklist priorizado en 72 h.
+                Diagnóstico gratuito. Propuesta clara en 48–72 h.
               </p>
               <Link
                 href="/#contacto"
                 className="relative inline-flex items-center gap-1.5 text-sm font-semibold text-sky-600 dark:text-sky-400 hover:gap-2.5 transition-all"
               >
-                Solicitar auditoría <span aria-hidden>→</span>
+                Agendar diagnóstico <span aria-hidden>→</span>
               </Link>
             </div>
 

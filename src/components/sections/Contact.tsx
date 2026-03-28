@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
+import { CONTACT } from "@/config/contact";
 
 type Errors = { name?: string; email?: string; phone?: string; objective?: string; privacyAccepted?: string };
 
@@ -10,9 +11,9 @@ const inputErrorClass = "border-red-400/60 focus:border-red-400/70 focus:shadow-
 const labelClass = "block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-[0.12em]";
 
 const trustStats = [
-  { value: "24 h",   label: "Respuesta", color: "text-sky-500 dark:text-sky-400"     },
-  { value: "8 sem",  label: "MVP live",  color: "text-emerald-500 dark:text-emerald-400" },
-  { value: "100%",   label: "Tuyo",      color: "text-violet-500 dark:text-violet-400"   },
+  { value: "24 h",   label: "Respuesta",    color: "text-sky-500 dark:text-sky-400"       },
+  { value: "48–72h", label: "Propuesta",    color: "text-emerald-500 dark:text-emerald-400" },
+  { value: "100%",   label: "Tuyo siempre", color: "text-violet-500 dark:text-violet-400"   },
 ];
 
 export default function Contact() {
@@ -94,10 +95,11 @@ export default function Contact() {
                 Contacto
               </div>
               <h2 id="contact-title" className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight sm:text-4xl mb-2">
-                ¿<span className="gradient-text-static">Hablamos</span>?
+                Agenda un{" "}
+                <span className="gradient-text-static">diagnóstico</span>
               </h2>
               <p className="text-slate-500 dark:text-slate-400 text-sm mb-8">
-                Cuéntanos tu proyecto. Te devolvemos una propuesta clara en 48–72 h. Sin compromiso.
+                Cuéntanos el problema o el proceso que queréis mejorar. Devolvemos una propuesta clara y accionable en 48–72 h. Sin compromiso.
               </p>
 
               {/* Stats */}
@@ -116,9 +118,9 @@ export default function Contact() {
               {[
                 {
                   label: "Llámanos",
-                  value: "+34 674 569 372",
-                  sub: "Lun–Vie · 9:00–18:00",
-                  href: "tel:+34674569372",
+                  value: CONTACT.phone,
+                  sub: CONTACT.phoneHours,
+                  href: CONTACT.phoneHref,
                   icon: (
                     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.08 4.18 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.72c.12.86.32 1.7.58 2.5a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.58-1.04a2 2 0 0 1 2.11-.45c.8.26 1.64.46 2.5.58A2 2 0 0 1 22 16.92Z" />
@@ -126,10 +128,10 @@ export default function Contact() {
                   ),
                 },
                 {
-                  label: "Email directo",
-                  value: "daniil.kuradchyk@gmail.com",
+                  label: "Email",
+                  value: CONTACT.email,
                   sub: "Respuesta en 24 h laborables",
-                  href: "mailto:daniil.kuradchyk@gmail.com",
+                  href: `mailto:${CONTACT.email}`,
                   icon: (
                     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                       <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -139,8 +141,8 @@ export default function Contact() {
                 },
                 {
                   label: "Ubicación",
-                  value: "Sevilla, España",
-                  sub: "Calle Torrelodones 84B",
+                  value: CONTACT.address,
+                  sub: CONTACT.addressFull,
                   href: null,
                   icon: (
                     <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -174,13 +176,13 @@ export default function Contact() {
             <div className="flex items-center gap-3">
               <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-slate-400 dark:text-slate-500">Redes</span>
               {[
-                { href: "https://www.linkedin.com/company/qubelia", label: "LinkedIn de Qubelia", name: "LinkedIn", icon: (
+                { href: CONTACT.linkedin, label: "LinkedIn de Qubelia", name: "LinkedIn", icon: (
                   <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                     <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M7.5 10.5V16" /><circle cx="7.5" cy="7.5" r="1" />
                     <path d="M11 16v-3.2a2 2 0 0 1 4 0V16M11 10.5h4" />
                   </svg>
                 )},
-                { href: "https://www.instagram.com/qubelia.tech", label: "Instagram de Qubelia", name: "Instagram", icon: (
+                { href: CONTACT.instagram, label: "Instagram de Qubelia", name: "Instagram", icon: (
                   <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                     <rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="3.5" />
                     <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
@@ -211,9 +213,9 @@ export default function Contact() {
             {/* Form header */}
             <div className="flex flex-wrap items-start justify-between gap-3 mb-7">
               <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-sky-500 dark:text-sky-400">Formulario</p>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">Cuéntanos tu proyecto</h3>
-                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Propuesta realista y clara en 48–72 h.</p>
+                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-sky-500 dark:text-sky-400">Diagnóstico gratuito</p>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">¿Qué proceso queréis mejorar?</h3>
+                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Propuesta realista y sin compromiso en 48–72 h.</p>
               </div>
               <div className="flex flex-wrap gap-2">
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/8 px-2.5 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
@@ -273,20 +275,20 @@ export default function Contact() {
                 <label htmlFor="budget" className={labelClass}>Presupuesto orientativo</label>
                 <select id="budget" name="budget" className={inputClass}>
                   <option value="">Selecciona un rango</option>
-                  <option>Hasta 3.000 €</option>
-                  <option>3.000–6.000 €</option>
-                  <option>6.000–12.000 €</option>
-                  <option>Más de 12.000 €</option>
+                  <option>Hasta 8.000 €</option>
+                  <option>8.000–20.000 €</option>
+                  <option>20.000–50.000 €</option>
+                  <option>Más de 50.000 €</option>
                 </select>
               </div>
 
               <div className="sm:col-span-2">
-                <label htmlFor="objective" className={labelClass}>Objetivo del proyecto*</label>
+                <label htmlFor="objective" className={labelClass}>¿Qué proceso o problema queréis resolver?*</label>
                 <textarea
                   id="objective" name="objective" required rows={4}
                   aria-invalid={!!errors.objective} aria-describedby={errors.objective ? "objective-error" : undefined}
                   className={`${inputClass} resize-none ${errors.objective ? inputErrorClass : ""}`}
-                  placeholder="Cuéntanos brevemente el objetivo, usuarios, plazos y riesgos clave"
+                  placeholder="Ej: tenemos los pedidos en Excel y el ERP no se sincroniza con la tienda online. Gestionamos 200 pedidos/día y el proceso manual nos cuesta 3 personas..."
                 />
                 {errors.objective && <p id="objective-error" className="mt-1.5 text-xs text-red-400">{errors.objective}</p>}
               </div>
@@ -322,7 +324,7 @@ export default function Contact() {
 
             <div className="mt-6 flex items-center gap-4">
               <Button type="submit" variant="shine" disabled={status === "loading"}>
-                {status === "loading" ? "Enviando…" : "Enviar mensaje"}
+                {status === "loading" ? "Enviando…" : "Pedir diagnóstico"}
               </Button>
               <p
                 id="status-msg"
@@ -356,7 +358,7 @@ export default function Contact() {
                     <strong className="text-slate-600 dark:text-slate-300">Legitimación:</strong> consentimiento y medidas precontractuales.{" "}
                     <strong className="text-slate-600 dark:text-slate-300">Destinatarios:</strong> sin cesiones salvo obligación legal o proveedores de servicio con contrato de encargo.{" "}
                     <strong className="text-slate-600 dark:text-slate-300">Derechos:</strong> acceso, rectificación, supresión y demás en{" "}
-                    <a className="text-sky-500 dark:text-sky-400 hover:underline" href="mailto:daniil.kuradchyk@gmail.com">daniil.kuradchyk@gmail.com</a>.{" "}
+                    <a className="text-sky-500 dark:text-sky-400 hover:underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>.{" "}
                     Más info en la <a className="text-sky-500 dark:text-sky-400 hover:underline" href="/legal/privacidad">Política de privacidad</a>.
                   </p>
                 </div>

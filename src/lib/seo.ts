@@ -1,7 +1,7 @@
 import { absoluteUrl, getBaseUrl } from "./urls";
 
 export const SITE_NAME = "Qubelia" as const;
-export const SITE_TAGLINE = "Resultados web medibles, sin humo ni sorpresas" as const;
+export const SITE_TAGLINE = "Software a medida, automatización e integraciones ERP/CRM para empresas" as const;
 export const BASE_URL = getBaseUrl();
 
 export function titleTemplate(pageTitle?: string) {

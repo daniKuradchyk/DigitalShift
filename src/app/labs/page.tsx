@@ -131,7 +131,7 @@ export default function LabsPage() {
           {/* Stats */}
           <div className="inline-flex items-center divide-x divide-slate-200 dark:divide-white/[0.08] border border-slate-200/80 dark:border-white/[0.07] rounded-2xl bg-white dark:bg-white/[0.02] overflow-hidden">
             {[
-              { value: String(labs.length).padStart(2, "0"), label: "Herramientas" },
+              { value: String(available.length).padStart(2, "0"), label: "Herramientas" },
               { value: "0 €",  label: "Coste" },
               { value: "Free", label: "Sin registro" },
             ].map((s) => (
@@ -206,40 +206,7 @@ export default function LabsPage() {
           </ul>
         </section>
 
-        {/* Coming soon */}
-        {upcoming.length > 0 && (
-          <section aria-labelledby="labs-soon-title" className="mt-10">
-            <h2 id="labs-soon-title" className="text-sm font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-600 mb-6">
-              Próximamente
-            </h2>
-            <ul className="grid gap-4 sm:grid-cols-2">
-              {upcoming.map((t: Lab) => {
-                const acc = getAccent(t.slug);
-                return (
-                  <li
-                    key={t.slug}
-                    className="relative overflow-hidden rounded-2xl border border-slate-200/60 dark:border-white/[0.06] bg-slate-50/80 dark:bg-white/[0.01] p-5 opacity-70"
-                  >
-                    <div className="flex items-start gap-4">
-                      <span className={`inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl border ${acc.icon} opacity-60`}>
-                        <LabIcon slug={t.slug} />
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between gap-3 mb-1.5">
-                          <h3 className="text-sm font-bold text-slate-700 dark:text-slate-300">{t.title}</h3>
-                          <span className="inline-flex items-center gap-1 rounded-full border border-slate-200 dark:border-white/[0.08] px-2.5 py-0.5 text-[10px] font-semibold text-slate-400 dark:text-slate-500 bg-white dark:bg-white/[0.03] flex-shrink-0">
-                            En camino
-                          </span>
-                        </div>
-                        <p className="text-xs text-slate-400 dark:text-slate-500">{t.desc}</p>
-                      </div>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </section>
-        )}
+        {/* Coming soon — oculto hasta que estén disponibles */}
 
         {/* CTA bottom */}
         <div className="mt-16 rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-8 text-center">

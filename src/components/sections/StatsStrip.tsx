@@ -5,23 +5,23 @@ import Container from "@/components/common/Container";
 
 const stats = [
   {
-    value: 8,
-    suffix: "–10 sem",
-    label: "al primer MVP en producción",
+    value: 4,
+    suffix: "–8 sem",
+    label: "a la primera entrega en producción",
     icon: "⚡",
     color: "text-sky-500 dark:text-sky-400",
   },
   {
     value: 100,
     suffix: "%",
-    label: "del código es tuyo — siempre",
+    label: "del código es vuestro — siempre",
     icon: "🔑",
     color: "text-emerald-500 dark:text-emerald-400",
   },
   {
     value: 24,
     suffix: " h",
-    label: "respuesta garantizada",
+    label: "de respuesta garantizada",
     icon: "📡",
     color: "text-violet-500 dark:text-violet-400",
   },

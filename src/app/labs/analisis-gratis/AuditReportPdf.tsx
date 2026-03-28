@@ -1,6 +1,7 @@
 import React from "react";
 import { Document, Page, StyleSheet, Text, View, Image } from "@react-pdf/renderer";
 import type { AuditReport, AuditScores } from "@/lib/labs/audit";
+import { CONTACT } from "@/config/contact";
 
 type Props = {
   report: AuditReport;
@@ -1023,7 +1024,7 @@ export default function AuditReportPdf({
               <View style={s.ctaGrid}>
                 <View style={s.ctaItem}>
                   <Text style={s.ctaItemLabel}>Email</Text>
-                  <Text style={s.ctaItemValue}>daniil.kuradchyk@gmail.com</Text>
+                  <Text style={s.ctaItemValue}>{CONTACT.email}</Text>
                 </View>
                 <View style={s.ctaItem}>
                   <Text style={s.ctaItemLabel}>Teléfono</Text>

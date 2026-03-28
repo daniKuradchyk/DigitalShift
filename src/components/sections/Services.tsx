@@ -7,20 +7,74 @@ import Button from "@/components/common/Button";
 import { BarChart3, Code2, Rocket, Bot, Database, Check, ArrowRight } from "lucide-react";
 
 /* ──────────────────────────────────────────────────────────────
-   DATA
+   DATA — Reordenado: 3 pilares principales primero
    ────────────────────────────────────────────────────────────── */
 
 const services = [
   {
-    id: "consultoria",
+    id: "apps",
     number: "01",
+    Icon: Code2,
+    accent: "#FB923C",
+    accentRgb: "251,146,60",
+    title: "Software a medida",
+    tagline: "Aplicaciones que se ajustan a cómo trabaja tu empresa, no al revés",
+    description:
+      "Construimos aplicaciones internas, portales de clientes y plataformas operativas adaptadas a vuestros procesos reales. Arquitectura limpia, CI/CD automatizado y QA integrado. El código es vuestro desde el primer commit, sin vendor lock-in.",
+    features: [
+      "Arquitectura documentada y sin dependencias ocultas",
+      "CI/CD y tests automatizados en cada pull request",
+      "Revisión de seguridad y performance en cada release",
+      "Soporte y mantenimiento post-lanzamiento disponible",
+    ],
+    tags: ["TypeScript", "Next.js", "AWS / GCP", "Microservicios"],
+  },
+  {
+    id: "ia",
+    number: "02",
+    Icon: Bot,
+    accent: "#A78BFA",
+    accentRgb: "167,139,250",
+    title: "Automatización de procesos",
+    tagline: "Elimina el trabajo manual repetitivo con flujos que funcionan solos",
+    description:
+      "Diseñamos e implementamos agentes IA y flujos RPA adaptados a tu operación real. Control humano integrado, trazabilidad completa y guardrails para entornos de producción. Sin sorpresas, sin caja negra.",
+    features: [
+      "Agentes IA con guardrails y fallback humano",
+      "Flujos RPA para procesos repetitivos de alto volumen",
+      "Clasificación inteligente y extracción de datos no estructurados",
+      "Integración con tus sistemas actuales (ERP, CRM, email)",
+    ],
+    tags: ["LLM", "RPA", "Python", "LangChain"],
+  },
+  {
+    id: "data",
+    number: "03",
+    Icon: Database,
+    accent: "#22D3EE",
+    accentRgb: "34,211,238",
+    title: "Integraciones ERP/CRM",
+    tagline: "Conecta los sistemas que ya tienes, elimina el trabajo doble",
+    description:
+      "Construimos conectores, pipelines de datos y dashboards operativos que unifican la información de tus herramientas actuales. SAP, Salesforce, HubSpot, sistemas legacy o APIs propias: si tiene API o base de datos, lo conectamos.",
+    features: [
+      "Conectores a medida: SAP, Salesforce, HubSpot y más",
+      "Pipelines ETL con control de calidad de datos",
+      "Dashboards operativos en tiempo real (Looker, Power BI, custom)",
+      "Alertas y reporting automatizado",
+    ],
+    tags: ["ETL", "REST APIs", "SAP", "Salesforce"],
+  },
+  {
+    id: "consultoria",
+    number: "04",
     Icon: BarChart3,
     accent: "#38BDF8",
     accentRgb: "56,189,248",
-    title: "Consultoría y transformación",
-    tagline: "Roadmap técnico y KPIs medibles en 2 semanas",
+    title: "Consultoría tecnológica",
+    tagline: "Roadmap técnico y KPIs medibles antes de escribir una línea de código",
     description:
-      "Auditamos tu infraestructura, stack y procesos internos para identificar fricciones, ahorros y palancas de crecimiento. Salimos con un plan accionable, priorizado y con ROI estimado por iniciativa.",
+      "Auditamos tu infraestructura, stack y procesos para identificar fricciones, ahorros y palancas de crecimiento. Salimos con un plan accionable, priorizado y con ROI estimado por iniciativa. Sin compromisos, sin humo.",
     features: [
       "Diagnóstico tecnológico completo en 5 días hábiles",
       "Identificación de quick wins y cuellos de botella",
@@ -30,76 +84,22 @@ const services = [
     tags: ["Diagnóstico", "Procesos", "ROI", "Estrategia"],
   },
   {
-    id: "ia",
-    number: "02",
-    Icon: Bot,
-    accent: "#A78BFA",
-    accentRgb: "167,139,250",
-    title: "IA y automatización",
-    tagline: "Automatiza lo repetitivo, potencia lo estratégico",
-    description:
-      "Diseñamos e implementamos agentes IA y flujos RPA adaptados a tu operación real. Control humano integrado, trazabilidad completa y guardrails para entornos de producción sin sorpresas.",
-    features: [
-      "Agentes IA con guardrails y fallback humano",
-      "Flujos RPA para procesos repetitivos de alto volumen",
-      "Clasificación inteligente y extracción de datos",
-      "Integración con tus sistemas actuales (ERP, CRM, mail)",
-    ],
-    tags: ["LLM", "RPA", "Python", "LangChain"],
-  },
-  {
     id: "mvp",
-    number: "03",
+    number: "05",
     Icon: Rocket,
     accent: "#34D399",
     accentRgb: "52,211,153",
     title: "MVP en 8 semanas",
-    tagline: "De hipótesis a producto con usuarios reales",
+    tagline: "Para equipos que necesitan validar una idea antes de comprometer presupuesto",
     description:
-      "Validamos tu idea con un MVP funcional en producción. Sprints quincenales, demos con stakeholders y métricas de uso desde el día del lanzamiento.",
+      "Validamos tu producto con un MVP funcional en producción. Sprints quincenales, demos con stakeholders y métricas de uso desde el día del lanzamiento. Ideal para nuevas líneas de negocio o productos internos sin precedente.",
     features: [
       "Sprints quincenales con entregables reales",
-      "Tests con usuarios reales desde la semana 4",
+      "Tests con usuarios desde la semana 4",
       "Analytics integrado desde el primer deploy",
       "Handover total: código, docs y CI/CD incluidos",
     ],
     tags: ["Next.js", "React Native", "Sprints", "Validación"],
-  },
-  {
-    id: "apps",
-    number: "04",
-    Icon: Code2,
-    accent: "#FB923C",
-    accentRgb: "251,146,60",
-    title: "Desarrollo a medida",
-    tagline: "Software que escala sin deuda técnica",
-    description:
-      "Construimos aplicaciones con arquitectura limpia, CI/CD automatizado y QA integrado. El código es tuyo desde el primer commit, sin vendor lock-in.",
-    features: [
-      "Arquitectura documentada y sin dependencias ocultas",
-      "CI/CD y tests automatizados en cada pull request",
-      "Revisión de seguridad y performance en cada release",
-      "Soporte y mantenimiento post-lanzamiento disponible",
-    ],
-    tags: ["TypeScript", "AWS / GCP", "CI/CD", "Microservicios"],
-  },
-  {
-    id: "data",
-    number: "05",
-    Icon: Database,
-    accent: "#22D3EE",
-    accentRgb: "34,211,238",
-    title: "Integraciones y Data",
-    tagline: "Conecta tus sistemas, visualiza tu negocio",
-    description:
-      "Construimos pipelines de datos, conectores ERP/CRM y dashboards operativos en tiempo real. Datos fiables y accionables para tomar decisiones más rápidas.",
-    features: [
-      "Conectores a medida: SAP, Salesforce, HubSpot y más",
-      "Pipelines ETL con control de calidad de datos",
-      "Dashboards en tiempo real (Looker, Power BI, custom)",
-      "Alertas operativas y reporting automatizado",
-    ],
-    tags: ["ETL", "REST APIs", "BigQuery", "Looker Studio"],
   },
 ];
 
@@ -172,11 +172,11 @@ export default function Services() {
               id="services-title"
               className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl"
             >
-              Todo lo que necesita<br />
-              <span className="gradient-text-static">tu empresa digital</span>
+              Tres formas de hacer<br />
+              <span className="gradient-text-static">que tu operación funcione mejor</span>
             </h2>
             <p className="text-slate-500 dark:text-slate-400 max-w-sm text-sm leading-relaxed">
-              Desde la estrategia hasta el código en producción. Equipo senior, sin intermediarios.
+              Software, automatización e integraciones. Desde el diagnóstico hasta el código en producción.
             </p>
           </div>
         </motion.div>
@@ -231,6 +231,7 @@ export default function Services() {
 
               {services.map((sv, i) => {
                 const isActive = i === active;
+                const isPillar = i < 3;
                 return (
                   <button
                     key={sv.id}
@@ -269,6 +270,13 @@ export default function Services() {
                       {sv.title}
                     </span>
 
+                    {/* Pilar badge */}
+                    {isPillar && !isActive && (
+                      <span className="ml-auto text-[8px] font-bold uppercase tracking-[0.15em] text-slate-300 dark:text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                        Core
+                      </span>
+                    )}
+
                     {/* Active arrow */}
                     {isActive && (
                       <motion.span
@@ -283,6 +291,12 @@ export default function Services() {
                   </button>
                 );
               })}
+
+              {/* Visual separator between pillars and secondary */}
+              <div className="mt-1 ml-6 mr-3 h-px bg-slate-200/60 dark:bg-white/[0.06]" />
+              <p className="ml-6 mt-2 text-[9px] uppercase tracking-[0.2em] text-slate-300 dark:text-slate-600 font-semibold">
+                También disponibles
+              </p>
             </div>
           </motion.nav>
 

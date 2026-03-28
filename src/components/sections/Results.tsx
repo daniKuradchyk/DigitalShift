@@ -351,11 +351,11 @@ export default function Results() {
             Casos reales
           </div>
           <h2 id="results-title" className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">
-            Resultados que{" "}
-            <span className="gradient-text-static">se miden</span>
+            Proyectos reales,{" "}
+            <span className="gradient-text-static">resultados medibles</span>
           </h2>
           <p className="mt-3 text-slate-500 dark:text-slate-400">
-            Proyectos enterprise y marcas premium. Entregables claros, KPIs desde el primer día.
+            Sectores distintos, el mismo principio: entregar algo que funciona y que se puede medir.
           </p>
         </motion.div>
 
@@ -434,7 +434,7 @@ export default function Results() {
           </div>
 
           <p className="text-center text-xs text-slate-400 dark:text-slate-600 mt-6">
-            Los detalles se resumen por NDA. Casos disponibles bajo solicitud.
+            Todos los casos incluyen métricas reales. Detalle completo disponible en conversación comercial.
           </p>
         </motion.div>
 

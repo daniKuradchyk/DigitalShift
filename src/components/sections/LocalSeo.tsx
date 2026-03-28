@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Container from "@/components/common/Container";
+import { CONTACT } from "@/config/contact";
 
 export default function LocalSeo() {
   return (
@@ -22,7 +23,7 @@ export default function LocalSeo() {
             <p className="text-lg font-semibold">Qubelia</p>
             <p className="text-slate-600 dark:text-slate-300">Calle Torrelodones 84B, 41016 Sevilla, Espana</p>
             <p className="text-slate-600 dark:text-slate-300">Telefono: 674 569 372</p>
-            <p className="text-slate-600 dark:text-slate-300">Email: <a className="text-sky-600 dark:text-sky-400 hover:underline" href="mailto:daniil.kuradchyk@gmail.com">daniil.kuradchyk@gmail.com</a></p>
+            <p className="text-slate-600 dark:text-slate-300">Email: <a className="text-sky-600 dark:text-sky-400 hover:underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></p>
           </div>
           <div className="mt-4 sm:mt-0 text-sm text-slate-500 dark:text-slate-400">
             <p>Consultoria tecnologica - Desarrollo de software a medida - Automatizacion con IA - Integraciones</p>

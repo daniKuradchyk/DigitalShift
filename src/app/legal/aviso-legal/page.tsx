@@ -3,6 +3,7 @@ import Link from "next/link";
 import Container from "@/components/common/Container";
 import Logo from "@/components/common/Logo";
 import { canonical, titleTemplate } from "@/lib/seo";
+import { CONTACT } from "@/config/contact";
 
 export const metadata: Metadata = {
   title: titleTemplate("Aviso legal"),
@@ -46,7 +47,7 @@ export default function AvisoLegal() {
               <li>Titular: Daniil Kuradchik Pekarskaya (Qubelia)</li>
               <li>NIF/CIF: 30865688X</li>
               <li>Domicilio: Calle torrelodones 84B, Sevilla, Sevilla 41016</li>
-              <li>Email: <a className="text-sky-600 dark:text-sky-400 hover:underline" href="mailto:daniil.kuradchyk@gmail.com">daniil.kuradchyk@gmail.com</a></li>
+              <li>Email: <a className="text-sky-600 dark:text-sky-400 hover:underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a></li>
               <li>Teléfono: <a className="text-sky-600 dark:text-sky-400 hover:underline" href="tel:+34674569372">674569372</a></li>
               <li>Actividad: consultoría tecnológica, desarrollo de software a medida, IA y automatización de procesos para empresas.</li>
             </ul>

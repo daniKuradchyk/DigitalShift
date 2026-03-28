@@ -7,15 +7,15 @@ import Button from "@/components/common/Button";
 
 // ── Terminal animation data ───────────────────────────────────────────
 const LINES = [
-  { type: "cmd",  text: 'qubelia init --project "TuEmpresa"',   delay: 500  },
-  { type: "ok",   text: "Onboarding completado · KPIs listos",   delay: 1300 },
-  { type: "cmd",  text: "audit --full --ai",                     delay: 2100 },
-  { type: "ok",   text: "23 mejoras críticas identificadas",      delay: 2800 },
-  { type: "ok",   text: "Arquitectura cloud validada",            delay: 3400 },
-  { type: "cmd",  text: "build --mvp --weeks 8",                 delay: 4200 },
-  { type: "prog", text: "Sem 6/8  ·  API lista  ·  UI 91%",     delay: 5100 },
-  { type: "cmd",  text: "deploy --env production",               delay: 6000 },
-  { type: "live", text: "✓  tuempresa.es   ●  LIVE",             delay: 6800 },
+  { type: "cmd",  text: 'qubelia audit --company "TuEmpresa"',    delay: 500  },
+  { type: "ok",   text: "Procesos mapeados · 14 fricciones críticas", delay: 1300 },
+  { type: "ok",   text: "Integraciones pendientes identificadas",   delay: 2000 },
+  { type: "cmd",  text: "automate --flows repetitivos",            delay: 2800 },
+  { type: "ok",   text: "Flujos RPA desplegados · −62% trabajo manual", delay: 3600 },
+  { type: "cmd",  text: "integrate --erp SAP --crm Salesforce",   delay: 4400 },
+  { type: "prog", text: "Conectores activos · datos sincronizados", delay: 5200 },
+  { type: "cmd",  text: "deploy --env production",                 delay: 6100 },
+  { type: "live", text: "✓  tuempresa.es   ●  OPERATIVO",          delay: 6900 },
 ] as const;
 
 const CLIENTS = ["Santander", "Unicaja", "Accenture", "Soltel"];
@@ -45,7 +45,6 @@ export default function Hero() {
       LINES.forEach((line, i) => {
         timers.push(setTimeout(() => setVisibleLines(i + 1), line.delay));
       });
-      // restart after last line + pause
       timers.push(setTimeout(run, LINES[LINES.length - 1].delay + 4200));
     };
 
@@ -93,7 +92,7 @@ export default function Hero() {
                   <span className="absolute animate-ping rounded-full bg-emerald-400 opacity-75 inset-0" />
                   <span className="relative rounded-full bg-emerald-400 h-2 w-2" />
                 </span>
-                Consultoría tecnológica · Sevilla · España
+                Software a medida · Automatización · Integraciones ERP/CRM
               </span>
             </motion.div>
 
@@ -104,31 +103,31 @@ export default function Hero() {
               className="font-black leading-[1.02] tracking-[-0.032em] text-slate-900 dark:text-white mb-8
                          text-[2.9rem] sm:text-[3.8rem] xl:text-[4.6rem]"
             >
-              De idea<br />
-              <span className="gradient-text">a producto real.</span><br />
-              En 8 semanas.
+              Tu empresa<br />
+              ha crecido.<br />
+              <span className="gradient-text">Tus procesos, no.</span>
             </motion.h1>
 
             {/* Subtitle */}
             <motion.p
               variants={up}
-              className="text-[1.05rem] sm:text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-[420px] mb-10"
+              className="text-[1.05rem] sm:text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-[440px] mb-10"
             >
-              MVPs, IA aplicada y automatización. Equipo senior que entrega con fechas reales — no con estimaciones infinitas.
+              Desarrollamos software a medida, automatizamos lo repetitivo e integramos tus sistemas. Entregas claras, fechas reales, resultados que se miden.
             </motion.p>
 
             {/* CTAs */}
             <motion.div variants={up} className="flex flex-col sm:flex-row gap-3 mb-5">
               <Button as="a" href="/#contacto" variant="shine" size="lg">
-                Agenda diagnóstico gratis
+                Agenda diagnóstico
               </Button>
-              <Button as="a" href="/labs" variant="ghost" size="lg">
-                Ver herramientas →
+              <Button as="a" href="#resultados" variant="ghost" size="lg">
+                Ver casos →
               </Button>
             </motion.div>
 
             <motion.p variants={up} className="text-xs text-slate-400/70 dark:text-slate-600 mb-10">
-              Sin compromiso · Respuesta en 24 h · Tu código, siempre tuyo
+              Sin compromiso · Propuesta clara en 48–72 h · Tu código, siempre tuyo
             </motion.p>
 
             {/* Trust */}
@@ -214,42 +213,42 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* METRIC A — +40% ventas */}
+            {/* METRIC A — −62% trabajo manual */}
             <div className="rounded-2xl border border-slate-200/70 dark:border-white/[0.07] p-5
                             bg-gradient-to-br from-white to-emerald-50/60 dark:from-white/[0.03] dark:to-emerald-500/[0.06]
                             shadow-sm dark:shadow-none">
               <p className="text-[2.6rem] font-black tabular-nums leading-none tracking-tight text-emerald-500 mb-2">
-                +40%
+                −62%
               </p>
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500 leading-tight">
-                Crecimiento<br />en ventas
+                Trabajo<br />manual
               </p>
               <div className="mt-4 h-[3px] rounded-full bg-emerald-100 dark:bg-emerald-500/[0.15] overflow-hidden">
                 <motion.div
                   className="h-full rounded-full bg-emerald-400"
                   initial={{ width: "0%" }}
-                  animate={{ width: "72%" }}
+                  animate={{ width: "62%" }}
                   transition={{ delay: 1.0, duration: 1.2, ease: "easeOut" }}
                 />
               </div>
             </div>
 
-            {/* METRIC B — 8 semanas */}
+            {/* METRIC B — 4–8 sem primera entrega */}
             <div className="rounded-2xl border border-slate-200/70 dark:border-white/[0.07] p-5
                             bg-gradient-to-br from-white to-sky-50/60 dark:from-white/[0.03] dark:to-sky-500/[0.06]
                             shadow-sm dark:shadow-none">
               <p className="text-[2.6rem] font-black tabular-nums leading-none tracking-tight text-sky-500 mb-2">
-                8 sem
+                4–8
               </p>
               <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-500 leading-tight">
-                De idea<br />a MVP live
+                Semanas<br />a primera entrega
               </p>
               <div className="mt-4 flex items-center gap-1">
                 {Array.from({ length: 8 }).map((_, i) => (
                   <motion.div
                     key={i}
                     className="flex-1 h-[5px] rounded-full"
-                    style={{ background: i < 6 ? "#38BDF8" : "rgba(148,163,184,0.2)" }}
+                    style={{ background: i < 5 ? "#38BDF8" : "rgba(148,163,184,0.2)" }}
                     initial={{ scaleY: 0 }}
                     animate={{ scaleY: 1 }}
                     transition={{ delay: 1.0 + i * 0.07, duration: 0.3, ease: "backOut" }}

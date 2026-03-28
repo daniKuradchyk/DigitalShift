@@ -2,53 +2,10 @@
 
 import React, { useState } from "react";
 import Container from "@/components/common/Container";
+import { CONTACT } from "@/config/contact";
+import { faqItems } from "@/content/faqs";
 
-type FaqItem = { id: string; q: string; a: string; category: string; icon: string };
-
-export const faqItems: FaqItem[] = [
-  {
-    id: "coste",
-    icon: "💰",
-    category: "Inversión",
-    q: "¿Cuánto cuesta un MVP o app a medida?",
-    a: "Depende del alcance y complejidad. Un MVP típico arranca según el alcance definido y tarda 8–10 semanas. Proyectos con integraciones complejas o automatizaciones varían según los sistemas involucrados. En el diagnóstico inicial cerramos alcance y precio antes de comenzar.",
-  },
-  {
-    id: "plazos",
-    icon: "⏱️",
-    category: "Plazos",
-    q: "¿En cuánto tiempo tendré mi primer MVP?",
-    a: "8–10 semanas con sprints quincenales y entregas continuas. El foco está en poner en producción un mínimo viable útil lo antes posible para validar con usuarios reales.",
-  },
-  {
-    id: "propiedad",
-    icon: "🗝️",
-    category: "Propiedad",
-    q: "¿Quién es propietario del código?",
-    a: "Tú. Entregamos los repositorios, accesos completos, manuales técnicos y formación. No generamos ninguna dependencia: el código es tuyo desde el primer commit.",
-  },
-  {
-    id: "analitica",
-    icon: "📊",
-    category: "Datos y SEO",
-    q: "¿Incluye analítica y SEO técnico?",
-    a: "Sí. Instrumentamos los eventos clave (GA4, eventos personalizados) y cuidamos el rendimiento y SEO técnico base. Opciones avanzadas de analítica o posicionamiento disponibles bajo solicitud.",
-  },
-  {
-    id: "post-lanzamiento",
-    icon: "🛟",
-    category: "Soporte",
-    q: "¿Qué pasa después del lanzamiento?",
-    a: "Ofrecemos soporte y evolución continua con SLOs definidos. También podemos formar a tu equipo interno para que lleven la plataforma de forma autónoma si lo prefieren.",
-  },
-  {
-    id: "calidad",
-    icon: "🛡️",
-    category: "Calidad",
-    q: "¿Cómo garantizáis calidad y seguridad?",
-    a: "Revisiones de código, checklist OWASP básico, CI/CD con tests automáticos y despliegues controlados por etapas. Accesos, logs y backups gestionados bajo buenas prácticas en todo momento.",
-  },
-];
+export { faqItems };
 
 export default function Faqs() {
   const [selected, setSelected] = useState<string>(faqItems[0].id);
@@ -75,11 +32,11 @@ export default function Faqs() {
                 FAQ
               </div>
               <h2 id="faqs-title" className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight sm:text-4xl">
-                Preguntas{" "}
-                <span className="gradient-text-static">frecuentes</span>
+                Lo que preguntáis{" "}
+                <span className="gradient-text-static">antes de contratar</span>
               </h2>
               <p className="mt-3 text-slate-500 dark:text-slate-400 text-sm">
-                Todo lo que necesitas saber antes de empezar.
+                Preguntas reales de compra B2B, con respuestas sin rodeos.
               </p>
             </div>
 
@@ -122,9 +79,9 @@ export default function Faqs() {
             {/* "More questions" card */}
             <div className="rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.02] p-5">
               <p className="text-sm font-bold text-slate-900 dark:text-white mb-1">¿Tienes más dudas?</p>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">Te respondemos en menos de 24 h.</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">Respuesta en menos de 24 h laborables.</p>
               <a
-                href="mailto:daniil.kuradchyk@gmail.com"
+                href={`mailto:${CONTACT.email}`}
                 className="inline-flex items-center gap-2 rounded-xl bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/20 px-4 py-2 text-xs font-semibold text-sky-600 dark:text-sky-400 hover:bg-sky-100 dark:hover:bg-sky-500/15 transition-colors"
               >
                 <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>

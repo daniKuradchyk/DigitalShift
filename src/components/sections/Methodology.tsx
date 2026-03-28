@@ -55,7 +55,7 @@ const colorMap = {
 const highlights = [
   { icon: "👁", title: "Visibilidad total",      text: "Demo en cada sprint." },
   { icon: "🛡", title: "Riesgo controlado",      text: "QA y despliegues seguros." },
-  { icon: "🧑‍💻", title: "Equipo senior",          text: "Contacto directo siempre." },
+  { icon: "🧑‍💻", title: "Sin intermediarios",       text: "Acceso directo al equipo técnico." },
   { icon: "📊", title: "KPIs desde el día 1",    text: "Métricas reales, no intuición." },
 ];
 

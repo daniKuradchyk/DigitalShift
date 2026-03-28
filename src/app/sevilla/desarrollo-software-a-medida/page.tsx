@@ -6,6 +6,7 @@ import Logo from "@/components/common/Logo";
 import Button from "@/components/common/Button";
 import { absoluteUrl } from "@/lib/urls";
 import { openGraphImage } from "@/lib/seo";
+import { CONTACT } from "@/config/contact";
 
 const canonicalUrl = absoluteUrl("/sevilla/desarrollo-software-a-medida");
 
@@ -187,7 +188,7 @@ export default function SevillaSoftwarePage() {
           <p className="font-bold text-slate-900 dark:text-white">Qubelia</p>
           <p>Calle Torrelodones 84B, 41016 Sevilla, España</p>
           <p>Tel: +34 674 569 372</p>
-          <p>Email: <Link className="text-sky-600 dark:text-sky-400 hover:underline" href="mailto:daniil.kuradchyk@gmail.com">daniil.kuradchyk@gmail.com</Link></p>
+          <p>Email: <Link className="text-sky-600 dark:text-sky-400 hover:underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</Link></p>
         </section>
       </Container>
 
