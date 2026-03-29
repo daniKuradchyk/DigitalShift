@@ -15,8 +15,8 @@ const services = [
   {
     id: "apps",
     Icon: Code2,
-    accent: "#FB923C",
-    accentRgb: "251,146,60",
+    accent: "#38BDF8",
+    accentRgb: "56,189,248",
     title: "Software a medida",
     tagline: "Aplicaciones que se ajustan a cómo trabaja tu empresa, no al revés",
     description:
