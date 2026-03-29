@@ -66,9 +66,6 @@
 html {
   scroll-behavior: smooth;
   background-color: #050A14;
-  background-image:
-    repeating-linear-gradient(90deg, rgba(255,255,255,0.030) 0, rgba(255,255,255,0.030) 1px, transparent 1px, transparent 60px),
-    repeating-linear-gradient(0deg,  rgba(255,255,255,0.025) 0, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 60px);
 }
 
 body {
@@ -273,7 +270,7 @@ body::after {
 }
 
 /* ════════════════════════════════════════════════════════════════
-   ANIMATED BACKGROUND ORBS  (dark values)
+   ANIMATED BACKGROUND  —  v3 (canvas + Framer Motion)
    ════════════════════════════════════════════════════════════════ */
 
 .interactive-bg {
@@ -282,67 +279,204 @@ body::after {
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at top, rgba(56, 189, 248, 0.07), transparent 38%),
+    linear-gradient(180deg, rgba(4, 9, 20, 1) 0%, rgba(4, 10, 20, 0.97) 50%, rgba(3, 8, 18, 1) 100%);
 }
 
-.bg-orb {
+.interactive-bg__backdrop,
+.interactive-bg__mesh,
+.interactive-bg__grid,
+.interactive-bg__canvas,
+.interactive-bg__beam,
+.interactive-bg__pointer,
+.interactive-bg__halo,
+.interactive-bg__noise,
+.interactive-bg__vignette {
   position: absolute;
-  border-radius: 50%;
+  inset: 0;
+}
+
+/* ── Layer 1: aurora base ─────────────────────────────────────── */
+.interactive-bg__backdrop {
+  inset: -16%;
+  background:
+    radial-gradient(circle at 12% 16%, rgba(56,  189, 248, 0.28), transparent 28%),
+    radial-gradient(circle at 84% 12%, rgba(129, 140, 248, 0.38), transparent 32%),
+    radial-gradient(circle at 54% 78%, rgba(34,  211, 238, 0.22), transparent 34%),
+    radial-gradient(circle at 28% 60%, rgba(14,  165, 233, 0.16), transparent 32%),
+    radial-gradient(circle at 72% 62%, rgba(167, 139, 250, 0.18), transparent 30%);
+  filter: blur(60px) saturate(130%);
+  opacity: 0.95;
   will-change: transform;
 }
 
-.bg-orb-1 {
-  width:  min(80vw, 1040px);
-  height: min(80vw, 1040px);
-  background: rgba(14, 165, 233, 0.20);
+/* ── Layer 2: animated color blobs ───────────────────────────── */
+.interactive-bg__mesh {
+  inset: -18%;
+  mix-blend-mode: screen;
   filter: blur(90px);
-  top:   -30%;
-  right: -20%;
-  animation: bgOrb1 20s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
-.bg-orb-2 {
-  width:  min(72vw, 920px);
-  height: min(72vw, 920px);
-  background: rgba(79, 70, 229, 0.22);
+.interactive-bg__mesh--one {
+  background:
+    radial-gradient(ellipse at 16% 28%, rgba(56,  189, 248, 0.28), transparent 30%),
+    radial-gradient(ellipse at 74% 24%, rgba(129, 140, 248, 0.26), transparent 32%),
+    radial-gradient(ellipse at 50% 76%, rgba(14,  165, 233, 0.20), transparent 28%);
+  opacity: 0.60;
+}
+
+.interactive-bg__mesh--two {
+  background:
+    radial-gradient(ellipse at 70% 18%, rgba(34,  211, 238, 0.26), transparent 26%),
+    radial-gradient(ellipse at 18% 80%, rgba(56,  189, 248, 0.22), transparent 32%),
+    radial-gradient(ellipse at 86% 76%, rgba(99,  102, 241, 0.24), transparent 28%);
+  opacity: 0.52;
+}
+
+.interactive-bg__mesh--three {
+  inset: -20%;
+  background:
+    radial-gradient(ellipse at 50% 10%, rgba(167, 139, 250, 0.20), transparent 32%),
+    radial-gradient(ellipse at 5%  50%, rgba(34,  211, 238, 0.16), transparent 28%),
+    radial-gradient(ellipse at 92% 50%, rgba(56,  189, 248, 0.18), transparent 30%);
+  mix-blend-mode: screen;
   filter: blur(100px);
-  top:  -32%;
-  left: -22%;
-  animation: bgOrb2 26s ease-in-out infinite alternate;
+  opacity: 0.40;
+  will-change: transform;
 }
 
-.bg-orb-3 {
-  width:  min(65vw, 860px);
-  height: min(65vw, 860px);
-  background: rgba(6, 182, 212, 0.15);
-  filter: blur(110px);
-  bottom: -26%;
-  left:    12%;
-  animation: bgOrb3 32s ease-in-out infinite alternate;
+/* ── Layer 3: dot grid ───────────────────────────────────────── */
+.interactive-bg__grid {
+  inset: -10%;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.085) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.09) 0 1px, transparent 1px);
+  background-size: 150px 150px, 150px 150px, 26px 26px;
+  mask-image: radial-gradient(circle at center, black 28%, transparent 84%);
+  -webkit-mask-image: radial-gradient(circle at center, black 28%, transparent 84%);
+  opacity: 0.22;
+  will-change: transform;
+}
+
+/* ── Layer 4: canvas (particles + pulses) ────────────────────── */
+.interactive-bg__canvas {
+  opacity: 1;
+  mix-blend-mode: screen;
+}
+
+/* ── Layer 5: horizontal beam ────────────────────────────────── */
+.interactive-bg__beam {
+  width: min(92vw, 1100px);
+  height: 400px;
+  left: 0;
+  top: 0;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(34,  211, 238, 0)    0%,
+      rgba(34,  211, 238, 0.11) 16%,
+      rgba(56,  189, 248, 0.16) 36%,
+      rgba(129, 140, 248, 0.26) 50%,
+      rgba(56,  189, 248, 0.16) 64%,
+      rgba(34,  211, 238, 0.11) 84%,
+      rgba(34,  211, 238, 0)   100%
+    );
+  filter: blur(56px);
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+}
+
+/* ── Layer 6: cursor-following glows ─────────────────────────── */
+.interactive-bg__pointer {
+  border-radius: 999px;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.interactive-bg__pointer--primary {
+  width: 820px;
+  height: 820px;
+  background: radial-gradient(
+    circle at center,
+    rgba(56, 189, 248, 0.26)  0%,
+    rgba(34, 211, 238, 0.20) 22%,
+    rgba(129, 140, 248, 0.14) 44%,
+    transparent 70%
+  );
+  filter: blur(60px);
+  opacity: 0.90;
+}
+
+.interactive-bg__pointer--secondary {
+  width: 580px;
+  height: 580px;
+  background: radial-gradient(
+    circle at center,
+    rgba(129, 140, 248, 0.22)  0%,
+    rgba(56,  189, 248, 0.14) 40%,
+    transparent 70%
+  );
+  filter: blur(44px);
+  opacity: 0.82;
+}
+
+/* ── Layer 7: orbital halo ring ──────────────────────────────── */
+.interactive-bg__halo {
+  width: min(90vw, 920px);
+  height: min(90vw, 920px);
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 0 160px rgba(56, 189, 248, 0.08);
+  mask-image: radial-gradient(circle at center, transparent 52%, black 60%, transparent 72%);
+  -webkit-mask-image: radial-gradient(circle at center, transparent 52%, black 60%, transparent 72%);
+  opacity: 0.65;
+  will-change: transform;
+}
+
+/* ── Layer 8: noise grain ─────────────────────────────────────── */
+.interactive-bg__noise {
+  inset: -120px;
+  opacity: 0.09;
+  mix-blend-mode: soft-light;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.14) 0 1px, transparent 1px),
+    radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.09) 0 1px, transparent 1px),
+    radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.11) 0 1px, transparent 1px),
+    radial-gradient(circle at 65% 55%, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px);
+  background-size: 34px 34px, 46px 46px, 52px 52px, 29px 29px;
+  animation: bgNoiseDrift 18s linear infinite;
+}
+
+/* ── Layer 9: edge vignette ──────────────────────────────────── */
+.interactive-bg__vignette {
+  background:
+    radial-gradient(circle at center, transparent 38%, rgba(2, 6, 14, 0.24) 72%, rgba(2, 6, 14, 0.75) 100%),
+    linear-gradient(180deg, rgba(4, 9, 20, 0.20) 0%, rgba(4, 9, 20, 0.46) 100%);
+}
+
+@keyframes bgNoiseDrift {
+  0%   { transform: translate3d(0,   0,   0); }
+  50%  { transform: translate3d(-2%, -1%, 0); }
+  100% { transform: translate3d(1%,  2%,  0); }
+}
+
+@media (max-width: 768px) {
+  .interactive-bg__pointer--primary   { width: 560px; height: 560px; }
+  .interactive-bg__pointer--secondary { width: 380px; height: 380px; }
+  .interactive-bg__beam               { width: 88vw;  height: 280px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bg-orb { animation: none !important; }
-}
-
-@keyframes bgOrb1 {
-  0%   { transform: translate(  0%,   0%) scale(1.00); }
-  30%  { transform: translate( -5%,   9%) scale(1.08); }
-  70%  { transform: translate(  4%,  13%) scale(0.94); }
-  100% { transform: translate( -3%,   6%) scale(1.05); }
-}
-
-@keyframes bgOrb2 {
-  0%   { transform: translate(  0%,   0%) scale(1.00); }
-  30%  { transform: translate(  7%,  11%) scale(0.93); }
-  70%  { transform: translate( -5%,   7%) scale(1.10); }
-  100% { transform: translate(  9%,   3%) scale(0.97); }
-}
-
-@keyframes bgOrb3 {
-  0%   { transform: translate(  0%,   0%) scale(1.00); }
-  30%  { transform: translate( 11%,  -9%) scale(1.07); }
-  70%  { transform: translate(  4%, -15%) scale(0.92); }
-  100% { transform: translate( -8%,  -5%) scale(1.11); }
+  .interactive-bg__noise { animation: none; }
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -485,6 +619,12 @@ body :where(.text-slate-500, .text-slate-400) { color: var(--text-muted) !import
 body :where(.bg-white, .bg-white\/90, .bg-white\/80, .bg-white\/70) {
   background-color: var(--bg-card) !important;
   color: var(--text-primary);
+}
+body :where([class*="dark:bg-[#050A14]"]) {
+  background-color: rgba(5, 10, 20, 0.72) !important;
+}
+body :where([class*="dark:bg-[#04080F]"]) {
+  background-color: rgba(4, 8, 15, 0.78) !important;
 }
 body :where(.bg-\[#f4f7ff\]) {
   background-color: var(--bg-muted) !important;
