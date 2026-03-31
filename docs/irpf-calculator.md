@@ -19,4 +19,4 @@ Para usar CCAA reales:
 
 ## Tests
 Tests unitarios en `scripts/test-tax-engine.ts`.
-Ejecuta con `npx tsx scripts/test-tax-engine.ts` (o `ts-node` si prefieres).
+Ejecuta con `npx tsx scripts/test-tax-engine.ts` (o `ts-node` si prefieres). 
