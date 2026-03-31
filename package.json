@@ -4,10 +4,11 @@
   "private": true,
   "packageManager": "pnpm@10.30.3",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 3000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev:local": "next dev --port 3000"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.3.2",

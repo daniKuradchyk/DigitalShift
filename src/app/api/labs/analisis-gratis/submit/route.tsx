@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { Resend } from "resend";
 import { createHash } from "crypto";
 import { readFileSync } from "fs";
 import { join } from "path";
 import AuditReportPdf from "@/app/labs/analisis-gratis/AuditReportPdf";
 import { auditSubmissionSchema, calculateAuditResult, type AuditSubmission } from "@/lib/labs/audit";
+import {
+  sendCustomerLeadAcknowledgement,
+  sendInternalLeadNotification,
+} from "@/lib/email/lead-notifications";
 
 const RATE_WINDOW_MS = 5 * 60 * 1000;
 const RATE_MAX = 10;
@@ -128,7 +131,7 @@ async function syncLeadFromAudit(
   report: ReturnType<typeof calculateAuditResult>
 ) {
   const context = buildAuditLeadContext(submission, report);
-  if (!context.email) return false;
+  if (!context.email) return null;
 
   const { data: existing, error: existingError } = await supabase
     .from("leads")
@@ -156,7 +159,10 @@ async function syncLeadFromAudit(
       .eq("id", existing.id);
 
     if (error) throw error;
-    return true;
+    return {
+      created: false,
+      context,
+    };
   }
 
   const { error } = await supabase.from("leads").insert([{
@@ -175,54 +181,91 @@ async function syncLeadFromAudit(
   }]);
 
   if (error) throw error;
-  return true;
+  return {
+    created: true,
+    context,
+  };
 }
 
 async function maybeSendEmail(submission: AuditSubmission, report: ReturnType<typeof calculateAuditResult>) {
-  const enabled = process.env.LABS_AUDIT_EMAIL_ENABLED === "true";
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!enabled || !apiKey) return false;
   if (!submission.contact.email || !submission.contact.consent) return false;
 
-  const resend = new Resend(apiKey);
-  const from = process.env.LABS_AUDIT_EMAIL_FROM ?? process.env.CONTACT_FROM ?? "onboarding@resend.dev";
-  const to = submission.contact.email;
-
   try {
-    let logoSrc: string | undefined;
-    try {
-      const logoPath = join(process.cwd(), "public", "brand", "logo-qubelia-512-dark.png");
-      const logoB64 = readFileSync(logoPath).toString("base64");
-      logoSrc = `data:image/png;base64,${logoB64}`;
-    } catch { /* logo is optional */ }
+    const attachmentEnabled = process.env.LABS_AUDIT_EMAIL_ENABLED === "true";
+    let attachment: { filename: string; contentBase64: string } | null = null;
 
-    const renderer = await import("@react-pdf/renderer");
-    const buffer = await renderer.renderToBuffer(
-      <AuditReportPdf
-        report={report.report}
-        scores={report.scores}
-        verticalLabel={verticalLabel[submission.vertical] ?? submission.vertical}
-        goalLabel={goalLabel[submission.goal] ?? submission.goal}
-        logoSrc={logoSrc}
-      />
+    const normalizedEmail = submission.contact.email.trim().toLowerCase();
+    const contactName =
+      submission.contact.contactName?.trim() ||
+      submission.contact.companyName?.trim() ||
+      normalizedEmail;
+
+    if (attachmentEnabled) {
+      let logoSrc: string | undefined;
+      try {
+        const logoPath = join(process.cwd(), "public", "brand", "logo-qubelia-512-dark.png");
+        const logoB64 = readFileSync(logoPath).toString("base64");
+        logoSrc = `data:image/png;base64,${logoB64}`;
+      } catch {
+        // logo is optional
+      }
+
+      const renderer = await import("@react-pdf/renderer");
+      const buffer = await renderer.renderToBuffer(
+        <AuditReportPdf
+          report={report.report}
+          scores={report.scores}
+          verticalLabel={verticalLabel[submission.vertical] ?? submission.vertical}
+          goalLabel={goalLabel[submission.goal] ?? submission.goal}
+          logoSrc={logoSrc}
+        />
+      );
+
+      attachment = {
+        filename: "analisis-qubelia.pdf",
+        contentBase64: buffer.toString("base64"),
+      };
+    }
+
+    await sendCustomerLeadAcknowledgement(
+      {
+        source: "free_audit",
+        name: contactName,
+        email: normalizedEmail,
+        phone: submission.contact.phone?.trim() || null,
+        company: submission.contact.companyName?.trim() || null,
+        budget: null,
+        objective: `Analisis gratuito para ${goalLabel[submission.goal] ?? submission.goal}`,
+      },
+      { attachment }
     );
 
-    await resend.emails.send({
-      from,
-      to: [to],
-      subject: "Tu analisis gratuito - Qubelia Labs",
-      text: "Adjuntamos tu informe en PDF. Si quieres revisar el plan o agendar una llamada, responde a este email.",
-      attachments: [
-        {
-          filename: "analisis-qubelia.pdf",
-          content: buffer.toString("base64"),
-        },
-      ],
-    });
     return true;
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("Audit email error:", message);
+    return false;
+  }
+}
+
+async function maybeSendInternalLeadAlert(leadSyncResult: Awaited<ReturnType<typeof syncLeadFromAudit>>) {
+  if (!leadSyncResult?.created) return false;
+
+  try {
+    await sendInternalLeadNotification({
+      source: "free_audit",
+      name: leadSyncResult.context.contactName,
+      email: leadSyncResult.context.email,
+      phone: leadSyncResult.context.phone,
+      company: leadSyncResult.context.companyName,
+      budget: null,
+      objective: leadSyncResult.context.leadMessage,
+    });
+
+    return true;
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("Audit internal lead email error:", message);
     return false;
   }
 }
@@ -262,6 +305,7 @@ export async function POST(request: Request) {
   let id: string | null = null;
   let insertFailed = false;
   let leadSynced = false;
+  let leadSyncResult: Awaited<ReturnType<typeof syncLeadFromAudit>> = null;
 
   try {
     const supabase = getSupabase();
@@ -288,7 +332,8 @@ export async function POST(request: Request) {
     id = data?.id ?? null;
 
     try {
-      leadSynced = await syncLeadFromAudit(supabase, submission, report);
+      leadSyncResult = await syncLeadFromAudit(supabase, submission, report);
+      leadSynced = Boolean(leadSyncResult);
     } catch (leadError) {
       const message = leadError instanceof Error ? leadError.message : String(leadError);
       console.error("Audit CRM sync error:", message);
@@ -303,6 +348,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "No se pudo guardar el informe" }, { status: 500 });
   }
 
+  await maybeSendInternalLeadAlert(leadSyncResult);
   const emailSent = await maybeSendEmail(submission, report);
 
   return NextResponse.json({

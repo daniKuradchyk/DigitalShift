@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
 import { createClient } from "@supabase/supabase-js";
-
-const resend = new Resend(process.env.RESEND_API_KEY ?? "re_KS22b3gU_Pm3zXp9CGmsyveB1JqidifZk");
-
-const CONTACT_TO = process.env.CONTACT_TO ?? "daniil.kuradchyk@gmail.com";
-const CONTACT_FROM = process.env.CONTACT_FROM ?? "onboarding@resend.dev";
+import {
+  sendCustomerLeadAcknowledgement,
+  sendInternalLeadNotification,
+} from "@/lib/email/lead-notifications";
 
 type Payload = {
   name: string;
@@ -14,15 +12,16 @@ type Payload = {
   objective: string;
   company?: string;
   budget?: string;
-  website?: string; // honeypot anti-spam
+  website?: string;
+  privacyAccepted?: boolean;
 };
 
-function isEmail(v: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+function isEmail(value: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-function isPhone(v: string) {
-  return v.replace(/\D/g, "").length >= 7;
+function isPhone(value: string) {
+  return value.replace(/\D/g, "").length >= 7;
 }
 
 function getSupabase() {
@@ -35,71 +34,83 @@ function getSupabase() {
 export async function POST(request: Request) {
   const data = (await request.json().catch(() => null)) as Payload | null;
   if (!data) {
-    return NextResponse.json({ ok: false, message: "Formato inválido" }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "Formato invalido" }, { status: 400 });
   }
 
-  // Honeypot: si viene relleno, tratamos como bot pero devolvemos ok
   if (data.website && data.website.trim().length > 0) {
     return NextResponse.json({ ok: true });
   }
 
   const name = data.name?.trim();
-  const email = data.email?.trim();
+  const email = data.email?.trim().toLowerCase();
   const phone = data.phone?.trim();
   const objective = data.objective?.trim();
+  const company = data.company?.trim() || null;
+  const budget = data.budget?.trim() || null;
+  const privacyAccepted = data.privacyAccepted === true;
 
   if (!name || !email || !phone || !objective) {
     return NextResponse.json({ ok: false, message: "Faltan campos obligatorios" }, { status: 400 });
   }
   if (!isEmail(email)) {
-    return NextResponse.json({ ok: false, message: "Email inválido" }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "Email invalido" }, { status: 400 });
   }
   if (!isPhone(phone)) {
-    return NextResponse.json({ ok: false, message: "Teléfono inválido" }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "Telefono invalido" }, { status: 400 });
+  }
+  if (!privacyAccepted) {
+    return NextResponse.json(
+      { ok: false, message: "Debes aceptar la politica de privacidad" },
+      { status: 400 }
+    );
   }
 
-  // A) Guardar lead en Supabase
   try {
     const supabase = getSupabase();
-    const { error } = await supabase.from("leads").insert([{
-      nombre: name,
-      email,
-      telefono: phone,
-      empresa: data.company ?? null,
-      presupuesto: data.budget ?? null,
-      mensaje: objective,
-      estado: "nuevo",
-      score: "medio",
-      fuente: "web",
-    }]);
+    const { error } = await supabase.from("leads").insert([
+      {
+        nombre: name,
+        email,
+        telefono: phone,
+        empresa: company,
+        presupuesto: budget,
+        mensaje: objective,
+        estado: "nuevo",
+        score: "medio",
+        fuente: "web",
+      },
+    ]);
+
     if (error) throw error;
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : String(err);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
     console.error("[contact] Supabase error:", message);
-    return NextResponse.json({ ok: false, message: "Error al guardar el formulario" }, { status: 500 });
+    return NextResponse.json(
+      { ok: false, message: "Error al guardar el formulario" },
+      { status: 500 }
+    );
   }
 
-  // B) Notificación por email (no bloqueante — el lead ya está guardado)
-  try {
-    const subject = `Nuevo lead web — ${name}`;
-    const lines = [
-      `Nombre: ${name}`,
-      `Email: ${email}`,
-      `Teléfono: ${phone}`,
-      `Empresa: ${data.company ?? "-"}`,
-      `Presupuesto: ${data.budget ?? "-"}`,
-      `Objetivo: ${objective}`,
-    ];
-    await resend.emails.send({
-      from: CONTACT_FROM,
-      to: [CONTACT_TO],
-      subject,
-      text: lines.join("\n"),
-    });
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error("[contact] Resend error:", message);
-    // El lead ya está guardado en Supabase — devolvemos ok igualmente
+  const emailPayload = {
+    source: "contact" as const,
+    name,
+    email,
+    phone,
+    company,
+    budget,
+    objective,
+  };
+
+  const emailResults = await Promise.allSettled([
+    sendInternalLeadNotification(emailPayload),
+    sendCustomerLeadAcknowledgement(emailPayload),
+  ]);
+
+  for (const result of emailResults) {
+    if (result.status === "rejected") {
+      const message = result.reason instanceof Error ? result.reason.message : String(result.reason);
+      console.error("[contact] Lead email error:", message);
+    }
   }
 
   return NextResponse.json({ ok: true });
