@@ -6,14 +6,14 @@ import { CONTACT } from "@/config/contact";
 
 type Errors = { name?: string; email?: string; phone?: string; objective?: string; privacyAccepted?: string };
 
-const inputClass = "mt-1.5 w-full rounded-xl border border-slate-200 dark:border-sky-500/15 bg-white dark:bg-slate-900/60 px-3.5 py-2.5 text-sm text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-600 transition-all duration-200 focus:outline-none focus:border-sky-400 dark:focus:border-sky-500/40 focus:shadow-[0_0_0_3px_rgba(56,189,248,0.08)]";
+const inputClass = "mt-1.5 w-full rounded-xl border border-violet-400/15 bg-[#0F1117]/80 px-3.5 py-2.5 text-sm placeholder-violet-300/20 transition-all duration-200 focus:outline-none focus:border-violet-400/40 focus:shadow-[0_0_0_3px_rgba(167,139,250,0.08)]";
 const inputErrorClass = "border-red-400/60 focus:border-red-400/70 focus:shadow-[0_0_0_3px_rgba(239,68,68,0.08)]";
-const labelClass = "block text-xs font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-[0.12em]";
+const labelClass = "block text-xs font-semibold uppercase tracking-[0.12em]";
 
 const trustStats = [
-  { value: "24 h",   label: "Respuesta",    color: "text-sky-500 dark:text-sky-400"       },
-  { value: "48–72h", label: "Propuesta",    color: "text-emerald-500 dark:text-emerald-400" },
-  { value: "100%",   label: "Tuyo siempre", color: "text-violet-500 dark:text-violet-400"   },
+  { value: "24 h",   label: "Respuesta",    color: "text-violet-400" },
+  { value: "48–72h", label: "Propuesta",    color: "text-cyan-400"   },
+  { value: "100%",   label: "Tuyo siempre", color: "text-purple-400" },
 ];
 
 export default function Contact() {
@@ -71,11 +71,11 @@ export default function Contact() {
       {/* Ambient */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-x-0 top-0 h-px"
-          style={{ background: "linear-gradient(90deg, transparent 10%, rgba(56,189,248,0.35) 50%, transparent 90%)" }} />
-        <div className="absolute -left-20 bottom-1/4 h-96 w-96 rounded-full blur-3xl opacity-10 dark:opacity-20"
-          style={{ background: "rgba(56,189,248,0.4)" }} />
-        <div className="absolute -right-20 top-1/4 h-96 w-96 rounded-full blur-3xl opacity-10 dark:opacity-20"
-          style={{ background: "rgba(129,140,248,0.4)" }} />
+          style={{ background: "linear-gradient(90deg, transparent 10%, rgba(167,139,250,0.35) 50%, transparent 90%)" }} />
+        <div className="absolute -left-20 bottom-1/4 h-96 w-96 rounded-full blur-3xl opacity-20"
+          style={{ background: "rgba(167,139,250,0.25)" }} />
+        <div className="absolute -right-20 top-1/4 h-96 w-96 rounded-full blur-3xl opacity-20"
+          style={{ background: "rgba(192,132,252,0.25)" }} />
       </div>
 
       <Container>
@@ -86,35 +86,35 @@ export default function Contact() {
             {/* Gradient hero card */}
             <div
               className="relative rounded-2xl overflow-hidden p-8"
-              style={{ background: "linear-gradient(135deg, rgba(14,165,233,0.18) 0%, rgba(56,189,248,0.10) 40%, rgba(129,140,248,0.18) 100%)" }}
+              style={{ background: "linear-gradient(135deg, rgba(167,139,250,0.14) 0%, rgba(192,132,252,0.08) 40%, rgba(103,232,249,0.10) 100%)" }}
             >
-              <div className="absolute inset-0 border border-sky-200/60 dark:border-sky-500/20 rounded-2xl pointer-events-none" />
+              <div className="absolute inset-0 border border-violet-400/15 rounded-2xl pointer-events-none" />
 
               <div className="section-tag mb-5">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" style={{ boxShadow: "0 0 8px rgba(52,211,153,0.6)" }} aria-hidden />
                 Contacto
               </div>
-              <h2 id="contact-title" className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight sm:text-4xl mb-2">
+              <h2 id="contact-title" className="text-3xl font-bold tracking-tight sm:text-4xl mb-2" style={{ color: "var(--text-primary)" }}>
                 Agenda un{" "}
                 <span className="gradient-text-static">diagnóstico</span>
               </h2>
-              <p className="text-slate-500 dark:text-slate-400 text-sm mb-8">
+              <p className="text-sm mb-8" style={{ color: "var(--text-muted)" }}>
                 Cuéntanos el problema o el proceso que queréis mejorar. Devolvemos una propuesta clara y accionable en 48–72 h. Sin compromiso.
               </p>
 
               {/* Stats */}
-              <div className="grid grid-cols-3 divide-x divide-slate-200/60 dark:divide-white/[0.08] border border-slate-200/60 dark:border-white/[0.08] rounded-xl overflow-hidden bg-white/60 dark:bg-white/[0.02]">
+              <div className="grid grid-cols-3 divide-x divide-violet-400/10 border border-violet-400/10 rounded-xl overflow-hidden bg-[#0F1117]/60">
                 {trustStats.map((s) => (
                   <div key={s.label} className="flex flex-col items-center py-4 px-2 text-center">
                     <p className={`text-2xl font-extrabold tracking-tight ${s.color}`}>{s.value}</p>
-                    <p className="text-[10px] text-slate-500 dark:text-slate-500 mt-0.5">{s.label}</p>
+                    <p className="text-[10px] mt-0.5" style={{ color: "var(--text-muted)" }}>{s.label}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Contact info */}
-            <div className="rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] divide-y divide-slate-100 dark:divide-white/[0.05] overflow-hidden">
+            <div className="rounded-2xl border border-violet-400/10 bg-[#0F1117]/60 divide-y divide-violet-400/8 overflow-hidden">
               {[
                 {
                   label: "Llámanos",
@@ -154,19 +154,19 @@ export default function Contact() {
               ].map((card) => (
                 <div key={card.label} className="flex items-center gap-4 px-5 py-4">
                   <span
-                    className="inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl text-sky-400 border border-sky-200 dark:border-sky-500/20 bg-sky-50 dark:bg-sky-500/10"
+                    className="inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl text-violet-400 border border-violet-400/15 bg-violet-500/10"
                     aria-hidden
                   >
                     {card.icon}
                   </span>
                   <div className="min-w-0">
-                    <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-slate-400 dark:text-slate-500">{card.label}</p>
+                    <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-violet-400/50">{card.label}</p>
                     {card.href ? (
-                      <a href={card.href} className="block text-sm font-semibold text-slate-800 dark:text-slate-100 hover:text-sky-600 dark:hover:text-sky-300 transition-colors truncate">{card.value}</a>
+                      <a href={card.href} className="block text-sm font-semibold hover:text-violet-300 transition-colors truncate" style={{ color: "var(--text-primary)" }}>{card.value}</a>
                     ) : (
-                      <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{card.value}</p>
+                      <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{card.value}</p>
                     )}
-                    {card.sub && <p className="text-xs text-slate-400 dark:text-slate-500">{card.sub}</p>}
+                    {card.sub && <p className="text-xs" style={{ color: "var(--text-muted)" }}>{card.sub}</p>}
                   </div>
                 </div>
               ))}
@@ -174,7 +174,7 @@ export default function Contact() {
 
             {/* Social links */}
             <div className="flex items-center gap-3">
-              <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-slate-400 dark:text-slate-500">Redes</span>
+              <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-violet-400/50">Redes</span>
               {[
                 { href: CONTACT.linkedin, label: "LinkedIn de Qubelia", name: "LinkedIn", icon: (
                   <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -195,7 +195,8 @@ export default function Contact() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={s.label}
-                  className="inline-flex items-center gap-2 rounded-full border border-slate-200 dark:border-white/[0.08] px-3 py-1.5 text-xs font-medium text-slate-500 dark:text-slate-400 bg-white dark:bg-white/[0.03] hover:border-sky-300 dark:hover:border-sky-500/30 hover:text-sky-600 dark:hover:text-sky-400 transition-all"
+                  className="inline-flex items-center gap-2 rounded-full border border-violet-400/12 bg-violet-500/[0.04] px-3 py-1.5 text-xs font-medium hover:border-violet-400/25 hover:text-violet-300 transition-all"
+                  style={{ color: "var(--text-muted)" }}
                 >
                   {s.icon}
                   {s.name}
@@ -207,73 +208,76 @@ export default function Contact() {
           {/* ── Right: form ── */}
           <form
             onSubmit={onSubmit}
-            className="rounded-2xl border border-slate-200/80 dark:border-sky-500/12 p-6 sm:p-8 bg-white dark:bg-[#070E22] shadow-[0_4px_24px_rgba(0,0,40,0.06)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)]"
+            className="rounded-2xl border border-violet-400/12 p-6 sm:p-8 bg-[#0C0D14] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)]"
             aria-describedby="rgpd-note status-msg"
           >
-            {/* Form header */}
             <div className="flex flex-wrap items-start justify-between gap-3 mb-7">
               <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-sky-500 dark:text-sky-400">Diagnóstico gratuito</p>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mt-0.5">¿Qué proceso queréis mejorar?</h3>
-                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">Propuesta realista y sin compromiso en 48–72 h.</p>
+                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-violet-400">Diagnóstico gratuito</p>
+                <h3 className="text-xl font-bold mt-0.5" style={{ color: "var(--text-primary)" }}>¿Qué proceso queréis mejorar?</h3>
+                <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>Propuesta realista y sin compromiso en 48–72 h.</p>
               </div>
               <div className="flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/8 px-2.5 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/8 px-2.5 py-1 text-xs font-semibold text-emerald-400">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" style={{ boxShadow: "0 0 6px rgba(52,211,153,0.6)" }} aria-hidden />
                   Respuesta 24 h
                 </span>
-                <span className="inline-flex items-center gap-1 rounded-full border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.03] px-2.5 py-1 text-xs font-semibold text-slate-500 dark:text-slate-400">
-                  🔒 Confidencial
+                <span className="inline-flex items-center gap-1 rounded-full border border-violet-400/10 bg-violet-500/[0.04] px-2.5 py-1 text-xs font-semibold" style={{ color: "var(--text-muted)" }}>
+                  Confidencial
                 </span>
               </div>
             </div>
 
             <div className="grid gap-5 sm:grid-cols-2">
               <div>
-                <label htmlFor="name" className={labelClass}>Nombre*</label>
+                <label htmlFor="name" className={labelClass} style={{ color: "var(--text-muted)" }}>Nombre*</label>
                 <input
                   id="name" name="name" type="text" required autoComplete="name"
                   aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined}
                   className={`${inputClass} ${errors.name ? inputErrorClass : ""}`}
+                  style={{ color: "var(--text-primary)" }}
                   placeholder="Tu nombre"
                 />
                 {errors.name && <p id="name-error" className="mt-1.5 text-xs text-red-400">{errors.name}</p>}
               </div>
 
               <div>
-                <label htmlFor="email" className={labelClass}>Email*</label>
+                <label htmlFor="email" className={labelClass} style={{ color: "var(--text-muted)" }}>Email*</label>
                 <input
                   id="email" name="email" type="email" required autoComplete="email"
                   aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined}
                   className={`${inputClass} ${errors.email ? inputErrorClass : ""}`}
+                  style={{ color: "var(--text-primary)" }}
                   placeholder="tu@empresa.com"
                 />
                 {errors.email && <p id="email-error" className="mt-1.5 text-xs text-red-400">{errors.email}</p>}
               </div>
 
               <div>
-                <label htmlFor="phone" className={labelClass}>Teléfono*</label>
+                <label htmlFor="phone" className={labelClass} style={{ color: "var(--text-muted)" }}>Teléfono*</label>
                 <input
                   id="phone" name="phone" type="tel" required autoComplete="tel" inputMode="tel"
                   aria-invalid={!!errors.phone} aria-describedby={errors.phone ? "phone-error" : undefined}
                   className={`${inputClass} ${errors.phone ? inputErrorClass : ""}`}
+                  style={{ color: "var(--text-primary)" }}
                   placeholder="+34 600 000 000"
                 />
                 {errors.phone && <p id="phone-error" className="mt-1.5 text-xs text-red-400">{errors.phone}</p>}
               </div>
 
               <div>
-                <label htmlFor="company" className={labelClass}>Empresa (opcional)</label>
+                <label htmlFor="company" className={labelClass} style={{ color: "var(--text-muted)" }}>Empresa (opcional)</label>
                 <input
                   id="company" name="company" type="text" autoComplete="organization"
                   className={inputClass}
+                  style={{ color: "var(--text-primary)" }}
                   placeholder="Nombre de tu empresa"
                 />
               </div>
 
               <div className="sm:col-span-1">
-                <label htmlFor="budget" className={labelClass}>Presupuesto orientativo</label>
-                <select id="budget" name="budget" className={inputClass}>
+                <label htmlFor="budget" className={labelClass} style={{ color: "var(--text-muted)" }}>Presupuesto orientativo</label>
+                <select id="budget" name="budget" className={inputClass} style={{ color: "var(--text-primary)" }}>
                   <option value="">Selecciona un rango</option>
                   <option>Hasta 8.000 €</option>
                   <option>8.000–20.000 €</option>
@@ -283,11 +287,12 @@ export default function Contact() {
               </div>
 
               <div className="sm:col-span-2">
-                <label htmlFor="objective" className={labelClass}>¿Qué proceso o problema queréis resolver?*</label>
+                <label htmlFor="objective" className={labelClass} style={{ color: "var(--text-muted)" }}>¿Qué proceso o problema queréis resolver?*</label>
                 <textarea
                   id="objective" name="objective" required rows={4}
                   aria-invalid={!!errors.objective} aria-describedby={errors.objective ? "objective-error" : undefined}
                   className={`${inputClass} resize-none ${errors.objective ? inputErrorClass : ""}`}
+                  style={{ color: "var(--text-primary)" }}
                   placeholder="Ej: tenemos los pedidos en Excel y el ERP no se sincroniza con la tienda online. Gestionamos 200 pedidos/día y el proceso manual nos cuesta 3 personas..."
                 />
                 {errors.objective && <p id="objective-error" className="mt-1.5 text-xs text-red-400">{errors.objective}</p>}
@@ -306,12 +311,12 @@ export default function Contact() {
                     setPrivacyAccepted(ev.target.checked);
                     if (ev.target.checked) setPrivacyInfoOpen(true);
                   }}
-                  className="mt-0.5 h-4 w-4 rounded accent-sky-500"
+                  className="mt-0.5 h-4 w-4 rounded accent-violet-500"
                   aria-describedby={errors.privacyAccepted ? "privacy-error rgpd-note" : "rgpd-note"}
                 />
-                <label htmlFor="privacyAccepted" className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                <label htmlFor="privacyAccepted" className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
                   He leído y acepto la{" "}
-                  <a className="text-sky-500 dark:text-sky-400 hover:text-sky-600 dark:hover:text-sky-300 underline underline-offset-2" href="/legal/privacidad">
+                  <a className="text-violet-400 hover:text-violet-300 underline underline-offset-2" href="/legal/privacidad">
                     Política de privacidad
                   </a>
                   .
@@ -329,7 +334,8 @@ export default function Contact() {
               <p
                 id="status-msg"
                 aria-live="polite"
-                className={`text-sm ${status === "error" ? "text-red-400" : status === "ok" ? "text-emerald-400" : "text-slate-500"}`}
+                className={`text-sm ${status === "error" ? "text-red-400" : status === "ok" ? "text-emerald-400" : ""}`}
+                style={status === "idle" ? { color: "var(--text-muted)" } : {}}
               >
                 {status !== "idle" ? message : ""}
               </p>
@@ -340,7 +346,8 @@ export default function Contact() {
               <button
                 type="button"
                 onClick={() => setPrivacyInfoOpen((v) => !v)}
-                className="flex items-center gap-1.5 font-medium text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+                className="flex items-center gap-1.5 font-medium hover:text-violet-300 transition-colors"
+                style={{ color: "var(--text-muted)" }}
                 aria-expanded={privacyInfoOpen}
                 aria-controls="rgpd-note"
               >
@@ -350,16 +357,17 @@ export default function Contact() {
               {privacyInfoOpen && (
                 <div
                   id="rgpd-note"
-                  className="mt-3 rounded-xl border border-slate-200 dark:border-sky-500/10 bg-slate-50 dark:bg-white/[0.03] p-4 leading-relaxed text-slate-500 dark:text-slate-400"
+                  className="mt-3 rounded-xl border border-violet-400/10 bg-violet-500/[0.04] p-4 leading-relaxed"
+                  style={{ color: "var(--text-muted)" }}
                 >
                   <p>
-                    <strong className="text-slate-600 dark:text-slate-300">Responsable:</strong> Daniil Kuradchik Pekarskaya.{" "}
-                    <strong className="text-slate-600 dark:text-slate-300">Finalidad:</strong> atender tu consulta y gestionar solicitudes.{" "}
-                    <strong className="text-slate-600 dark:text-slate-300">Legitimación:</strong> consentimiento y medidas precontractuales.{" "}
-                    <strong className="text-slate-600 dark:text-slate-300">Destinatarios:</strong> sin cesiones salvo obligación legal o proveedores de servicio con contrato de encargo.{" "}
-                    <strong className="text-slate-600 dark:text-slate-300">Derechos:</strong> acceso, rectificación, supresión y demás en{" "}
-                    <a className="text-sky-500 dark:text-sky-400 hover:underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>.{" "}
-                    Más info en la <a className="text-sky-500 dark:text-sky-400 hover:underline" href="/legal/privacidad">Política de privacidad</a>.
+                    <strong style={{ color: "var(--text-secondary)" }}>Responsable:</strong> Daniil Kuradchik Pekarskaya.{" "}
+                    <strong style={{ color: "var(--text-secondary)" }}>Finalidad:</strong> atender tu consulta y gestionar solicitudes.{" "}
+                    <strong style={{ color: "var(--text-secondary)" }}>Legitimación:</strong> consentimiento y medidas precontractuales.{" "}
+                    <strong style={{ color: "var(--text-secondary)" }}>Destinatarios:</strong> sin cesiones salvo obligación legal o proveedores de servicio con contrato de encargo.{" "}
+                    <strong style={{ color: "var(--text-secondary)" }}>Derechos:</strong> acceso, rectificación, supresión y demás en{" "}
+                    <a className="text-violet-400 hover:underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>.{" "}
+                    Más info en la <a className="text-violet-400 hover:underline" href="/legal/privacidad">Política de privacidad</a>.
                   </p>
                 </div>
               )}

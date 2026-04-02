@@ -28,7 +28,7 @@ type AnchorButtonProps = Omit<AnchorButton, "variant" | "size" | "className" | "
 type NativeButtonProps = Omit<NativeButton, "variant" | "size" | "className" | "children" | "as">;
 
 const base =
-  "group inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold tracking-tight transition-all duration-200 will-change-transform active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none";
+  "group inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold tracking-tight transition-all duration-250 will-change-transform active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none";
 
 const sizes: Record<Sizes, string> = {
   sm: "px-3.5 py-1.5 text-xs",
@@ -39,32 +39,32 @@ const sizes: Record<Sizes, string> = {
 const variants: Record<Variants, string> = {
   primary: cn(
     "text-white",
-    "bg-[linear-gradient(135deg,#0284C7_0%,#0EA5E9_50%,#38BDF8_100%)] bg-[length:200%_100%]",
+    "bg-[linear-gradient(135deg,#7C3AED_0%,#A78BFA_50%,#C084FC_100%)] bg-[length:200%_100%]",
     "hover:bg-[position:100%_0]",
-    "border border-sky-400/30",
-    "shadow-[0_0_20px_rgba(56,189,248,0.20),0_8px_32px_-8px_rgba(14,165,233,0.40)]",
-    "hover:shadow-[0_0_35px_rgba(56,189,248,0.35),0_12px_40px_-8px_rgba(14,165,233,0.55)]",
+    "border border-violet-400/25",
+    "shadow-[0_0_20px_rgba(167,139,250,0.18),0_8px_32px_-8px_rgba(124,58,237,0.35)]",
+    "hover:shadow-[0_0_35px_rgba(167,139,250,0.30),0_12px_40px_-8px_rgba(124,58,237,0.50)]",
     "hover:-translate-y-0.5",
-    "focus-visible:ring-2 focus-visible:ring-sky-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+    "focus-visible:ring-2 focus-visible:ring-violet-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08090E]"
   ),
   ghost: cn(
-    "text-slate-600 dark:text-slate-300",
-    "bg-white/80 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60",
+    "text-violet-200",
+    "bg-violet-500/[0.06] border border-violet-400/15",
     "backdrop-blur-sm",
     "shadow-sm",
-    "hover:-translate-y-0.5 hover:bg-slate-50 dark:hover:bg-slate-800/80 hover:border-sky-300 dark:hover:border-sky-500/20 hover:text-sky-600 dark:hover:text-sky-300",
-    "hover:shadow-[0_0_20px_rgba(56,189,248,0.08)]",
-    "focus-visible:ring-2 focus-visible:ring-sky-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950"
+    "hover:-translate-y-0.5 hover:bg-violet-500/[0.12] hover:border-violet-400/30 hover:text-violet-100",
+    "hover:shadow-[0_0_20px_rgba(167,139,250,0.08)]",
+    "focus-visible:ring-2 focus-visible:ring-violet-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08090E]"
   ),
   shine: cn(
     "relative text-white overflow-hidden",
-    "bg-[linear-gradient(135deg,#0369A1_0%,#0EA5E9_35%,#22D3EE_65%,#818CF8_100%)] bg-[length:250%_100%]",
+    "bg-[linear-gradient(135deg,#6D28D9_0%,#A78BFA_30%,#C084FC_60%,#67E8F9_100%)] bg-[length:250%_100%]",
     "hover:bg-[position:100%_0]",
-    "border border-sky-500/30",
-    "shadow-[0_0_24px_rgba(56,189,248,0.22),0_8px_32px_-8px_rgba(14,165,233,0.45)]",
-    "hover:shadow-[0_0_40px_rgba(56,189,248,0.40),0_12px_44px_-8px_rgba(14,165,233,0.60)]",
+    "border border-violet-400/25",
+    "shadow-[0_0_24px_rgba(167,139,250,0.20),0_8px_32px_-8px_rgba(124,58,237,0.40)]",
+    "hover:shadow-[0_0_40px_rgba(167,139,250,0.35),0_12px_44px_-8px_rgba(192,132,252,0.50)]",
     "hover:-translate-y-0.5",
-    "focus-visible:ring-2 focus-visible:ring-sky-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+    "focus-visible:ring-2 focus-visible:ring-violet-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08090E]"
   ),
 };
 

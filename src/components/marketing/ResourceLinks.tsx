@@ -16,27 +16,27 @@ export default function ResourceLinks({ posts, labSlugs }: Props) {
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <div className={panelClass}>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-sky-400">Lecturas</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-400">Lecturas</p>
         <div className="mt-4 space-y-4">
           {postItems.map((post) => (
             <Link key={post!.slug} href={`/blog/${post!.slug}`} className="block">
-              <p className="text-base font-semibold text-slate-900 transition-colors hover:text-sky-400 dark:text-white">
+              <p className="text-base font-semibold transition-colors hover:text-violet-300" style={{ color: "var(--text-primary)" }}>
                 {post!.title}
               </p>
-              <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{post!.description}</p>
+              <p className="mt-1 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{post!.description}</p>
             </Link>
           ))}
         </div>
       </div>
       <div className={panelClass}>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-sky-400">Labs</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-400">Labs</p>
         <div className="mt-4 space-y-4">
           {labItems.map((lab) => (
             <Link key={lab!.slug} href={lab!.href ?? `/labs/${lab!.slug}`} className="block">
-              <p className="text-base font-semibold text-slate-900 transition-colors hover:text-sky-400 dark:text-white">
+              <p className="text-base font-semibold transition-colors hover:text-violet-300" style={{ color: "var(--text-primary)" }}>
                 {lab!.title}
               </p>
-              <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{lab!.desc}</p>
+              <p className="mt-1 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{lab!.desc}</p>
             </Link>
           ))}
         </div>

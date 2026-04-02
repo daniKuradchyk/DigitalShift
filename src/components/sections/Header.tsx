@@ -20,7 +20,7 @@ const navItems: NavItem[] = [
   { label: "Casos", homeHref: "#resultados", innerHref: "/#resultados" },
   { label: "Blog", href: "/blog" },
   { label: "Labs", href: "/labs" },
-  { label: "FAQ", homeHref: "#faq", innerHref: "/servicios#faq" },
+  { label: "FAQ", homeHref: "#faq", innerHref: "/#faq" },
 ];
 
 function resolveHref(item: NavItem, isHome: boolean) {
@@ -50,7 +50,7 @@ export default function Header() {
     <header
       className={`sticky top-0 z-40 transition-all duration-300 ${
         scrolled
-          ? "border-b border-slate-200/60 bg-white/90 shadow-[0_1px_16px_rgba(0,0,40,0.06)] backdrop-blur-xl dark:border-sky-500/10 dark:bg-slate-950/85 dark:shadow-[0_1px_0_rgba(56,189,248,0.06),0_16px_40px_-16px_rgba(0,0,0,0.7)]"
+          ? "border-b border-violet-500/10 bg-[#08090E]/90 shadow-[0_1px_0_rgba(167,139,250,0.06),0_16px_40px_-16px_rgba(0,0,0,0.7)] backdrop-blur-xl"
           : "border-b border-transparent bg-transparent"
       }`}
     >
@@ -68,12 +68,13 @@ export default function Header() {
                 <Link
                   key={`${item.label}-${href}`}
                   href={href}
-                  className="group relative rounded-lg px-3 py-1.5 text-slate-500 transition-all duration-200 hover:bg-sky-500/5 hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-300"
+                  className="group relative rounded-lg px-3 py-1.5 transition-all duration-200 hover:bg-violet-500/[0.06] hover:text-violet-300"
+                  style={{ color: "var(--text-muted)" }}
                 >
                   <span className="relative z-10">{item.label}</span>
                   <span
                     aria-hidden
-                    className="absolute inset-x-3 -bottom-0 h-px origin-center scale-x-0 bg-gradient-to-r from-transparent via-sky-400/60 to-transparent transition-transform duration-300 group-hover:scale-x-100"
+                    className="absolute inset-x-3 -bottom-0 h-px origin-center scale-x-0 bg-gradient-to-r from-transparent via-violet-400/60 to-transparent transition-transform duration-300 group-hover:scale-x-100"
                   />
                 </Link>
               );
@@ -89,7 +90,8 @@ export default function Header() {
           <div className="md:hidden">
             <button
               type="button"
-              className="inline-flex items-center justify-center rounded-lg p-2 text-slate-500 transition-all hover:bg-sky-500/5 hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-300"
+              className="inline-flex items-center justify-center rounded-lg p-2 transition-all hover:bg-violet-500/[0.06] hover:text-violet-300"
+              style={{ color: "var(--text-muted)" }}
               aria-label="Abrir menú"
               aria-controls={menuId}
               aria-expanded={open}
@@ -103,7 +105,7 @@ export default function Header() {
 
       {open ? (
         <div
-          className="border-t border-slate-200/60 bg-white/95 backdrop-blur-xl dark:border-sky-500/10 dark:bg-slate-950/95 md:hidden"
+          className="border-t border-violet-500/10 bg-[#08090E]/95 backdrop-blur-xl md:hidden"
           id={menuId}
         >
           <nav aria-label="Móvil" className="space-y-0.5 px-4 py-3">
@@ -113,7 +115,8 @@ export default function Header() {
               return (
                 <Link
                   key={`${item.label}-${href}-mobile`}
-                  className="block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-500 transition-all hover:bg-sky-500/5 hover:text-sky-600 dark:text-slate-400 dark:hover:text-sky-300"
+                  className="block rounded-lg px-3 py-2.5 text-sm font-medium transition-all hover:bg-violet-500/[0.06] hover:text-violet-300"
+                  style={{ color: "var(--text-muted)" }}
                   href={href}
                   onClick={() => setOpen(false)}
                 >

@@ -57,17 +57,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const site = websiteJsonLd({ name: `${SITE_NAME} | ${SITE_TAGLINE}`, url: BASE_URL });
 
   return (
-    <html lang="es" className={`${geist.variable} ${geistMono.variable}`}>
+    <html lang="es" className={`dark ${geist.variable} ${geistMono.variable}`}>
       <head>
-        <meta name="color-scheme" content="light" />
-        <meta name="theme-color" content="#eef4fb" />
+        <meta name="color-scheme" content="dark" />
+        <meta name="theme-color" content="#08090E" />
       </head>
       <body className="antialiased">
         <CookieConsentProvider>
           <InteractiveBackground />
           <a
             href="#contenido"
-            className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 rounded-md bg-white px-3 py-2 text-slate-900 shadow"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 rounded-md bg-violet-500/10 px-3 py-2 shadow"
+            style={{ color: "var(--text-primary)" }}
           >
             Saltar al contenido
           </a>

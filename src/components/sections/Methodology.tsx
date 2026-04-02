@@ -7,7 +7,7 @@ export default function Methodology() {
     <section
       id="metodologia"
       aria-labelledby="method-title"
-      className="scroll-mt-28 bg-slate-50/30 py-20 lg:py-24 dark:bg-white/[0.01]"
+      className="scroll-mt-28 bg-violet-500/[0.01] py-20 lg:py-24"
     >
       <Container>
         <SectionIntro
@@ -24,9 +24,9 @@ export default function Methodology() {
               className="surface-card relative overflow-hidden rounded-3xl p-6"
             >
               <div aria-hidden className="surface-line absolute inset-x-0 top-0 h-px" />
-              <p className="relative font-mono text-[11px] uppercase tracking-[0.18em] text-sky-400">{step.step}</p>
-              <h3 className="relative mt-4 text-xl font-bold tracking-tight text-slate-900 dark:text-white">{step.title}</h3>
-              <p className="relative mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{step.description}</p>
+              <p className="relative font-mono text-[11px] uppercase tracking-[0.18em] text-violet-400">{step.step}</p>
+              <h3 className="relative mt-4 text-xl font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>{step.title}</h3>
+              <p className="relative mt-3 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{step.description}</p>
             </li>
           ))}
         </ol>

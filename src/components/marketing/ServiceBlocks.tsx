@@ -11,8 +11,8 @@ export function ProblemGrid({ items }: { items: ServiceProblem[] }) {
       {items.map((item) => (
         <article key={item.title} className={cardClass}>
           <div aria-hidden className={lineClass} />
-          <h3 className="relative text-xl font-bold tracking-tight text-slate-900 dark:text-white">{item.title}</h3>
-          <p className="relative mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{item.description}</p>
+          <h3 className="relative text-xl font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>{item.title}</h3>
+          <p className="relative mt-3 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{item.description}</p>
         </article>
       ))}
     </div>
@@ -29,8 +29,8 @@ export function DeliverableList({ items }: { items: string[] }) {
         >
           <div aria-hidden className={lineClass} />
           <div className="relative flex gap-4">
-            <span className="font-mono text-sm text-sky-400">{String(index + 1).padStart(2, "0")}</span>
-            <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">{item}</p>
+            <span className="font-mono text-sm text-violet-400">{String(index + 1).padStart(2, "0")}</span>
+            <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{item}</p>
           </div>
         </div>
       ))}
@@ -44,9 +44,9 @@ export function ScenarioGrid({ items }: { items: ServiceScenario[] }) {
       {items.map((item) => (
         <article key={item.title} className={cardClass}>
           <div aria-hidden className={lineClass} />
-          <h3 className="relative text-lg font-bold tracking-tight text-slate-900 dark:text-white">{item.title}</h3>
-          <p className="relative mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{item.description}</p>
-          <p className="relative mt-4 border-t border-slate-200/70 pt-4 text-sm text-slate-600 dark:border-white/[0.08] dark:text-slate-300">
+          <h3 className="relative text-lg font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>{item.title}</h3>
+          <p className="relative mt-3 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{item.description}</p>
+          <p className="relative mt-4 border-t border-violet-500/8 pt-4 text-sm" style={{ color: "var(--text-muted)" }}>
             {item.note}
           </p>
         </article>
@@ -61,9 +61,9 @@ export function ProcessTimeline({ items }: { items: ServiceStep[] }) {
       {items.map((item) => (
         <li key={item.step} className={cardClass}>
           <div aria-hidden className={lineClass} />
-          <p className="relative font-mono text-[11px] uppercase tracking-[0.18em] text-sky-400">{item.step}</p>
-          <h3 className="relative mt-4 text-xl font-bold tracking-tight text-slate-900 dark:text-white">{item.title}</h3>
-          <p className="relative mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{item.description}</p>
+          <p className="relative font-mono text-[11px] uppercase tracking-[0.18em] text-violet-400">{item.step}</p>
+          <h3 className="relative mt-4 text-xl font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>{item.title}</h3>
+          <p className="relative mt-3 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{item.description}</p>
         </li>
       ))}
     </ol>
@@ -73,11 +73,11 @@ export function ProcessTimeline({ items }: { items: ServiceStep[] }) {
 export function FitPanels({ yes, no }: { yes: string[]; no: string[] }) {
   return (
     <div className="grid gap-5 lg:grid-cols-2">
-      <div className="rounded-3xl border border-emerald-500/20 bg-emerald-50/90 p-6 shadow-[0_18px_48px_-34px_rgba(16,185,129,0.22)] dark:bg-[linear-gradient(180deg,rgba(6,24,22,0.96),rgba(5,18,16,0.9))] dark:shadow-[0_20px_52px_-34px_rgba(0,0,0,0.85)]">
+      <div className="rounded-3xl border border-emerald-500/20 bg-[linear-gradient(180deg,rgba(6,24,22,0.96),rgba(5,18,16,0.9))] p-6 shadow-[0_20px_52px_-34px_rgba(0,0,0,0.85)]">
         <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-emerald-400">Si encaja</p>
         <ul className="mt-4 space-y-3">
           {yes.map((item) => (
-            <li key={item} className="text-sm leading-relaxed text-slate-700 dark:text-slate-200">
+            <li key={item} className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
               {item}
             </li>
           ))}
@@ -85,10 +85,10 @@ export function FitPanels({ yes, no }: { yes: string[]; no: string[] }) {
       </div>
       <div className={cardClass}>
         <div aria-hidden className={lineClass} />
-        <p className="relative font-mono text-[11px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-300">No encaja</p>
+        <p className="relative font-mono text-[11px] uppercase tracking-[0.18em]" style={{ color: "var(--text-muted)" }}>No encaja</p>
         <ul className="relative mt-4 space-y-3">
           {no.map((item) => (
-            <li key={item} className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            <li key={item} className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
               {item}
             </li>
           ))}
@@ -104,7 +104,8 @@ export function BenefitList({ items }: { items: string[] }) {
       {items.map((item) => (
         <div
           key={item}
-          className="surface-card relative overflow-hidden rounded-2xl px-5 py-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300"
+          className="surface-card relative overflow-hidden rounded-2xl px-5 py-4 text-sm leading-relaxed"
+          style={{ color: "var(--text-muted)" }}
         >
           <div aria-hidden className={lineClass} />
           <span className="relative">{item}</span>
@@ -122,14 +123,14 @@ export function CaseHighlights({ ids }: { ids: string[] }) {
       {selected.map((item) => (
         <article key={item.id} className={cardClass}>
           <div aria-hidden className={lineClass} />
-          <p className="relative font-mono text-[11px] uppercase tracking-[0.18em] text-sky-400">{item.client}</p>
-          <h3 className="relative mt-4 text-xl font-bold tracking-tight text-slate-900 dark:text-white">{item.headline}</h3>
-          <p className="relative mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{item.challenge}</p>
-          <div className="relative mt-4 border-t border-slate-200/70 pt-4 dark:border-white/[0.08]">
+          <p className="relative font-mono text-[11px] uppercase tracking-[0.18em] text-violet-400">{item.client}</p>
+          <h3 className="relative mt-4 text-xl font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>{item.headline}</h3>
+          <p className="relative mt-3 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{item.challenge}</p>
+          <div className="relative mt-4 border-t border-violet-500/8 pt-4">
             <p className="text-2xl font-black tracking-tight" style={{ color: item.accent }}>
               {item.metric}
             </p>
-            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{item.metricLabel}</p>
+            <p className="mt-1 text-sm" style={{ color: "var(--text-muted)" }}>{item.metricLabel}</p>
           </div>
         </article>
       ))}

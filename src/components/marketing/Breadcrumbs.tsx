@@ -8,20 +8,20 @@ export type BreadcrumbItem = {
 export default function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
   return (
     <nav aria-label="Breadcrumb" className="mb-8">
-      <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500 dark:text-slate-500">
+      <ol className="flex flex-wrap items-center gap-2 text-sm" style={{ color: "var(--text-muted)" }}>
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
 
           return (
             <li key={`${item.label}-${index}`} className="flex items-center gap-2">
               {item.href && !isLast ? (
-                <Link href={item.href} className="transition-colors hover:text-sky-600 dark:hover:text-sky-400">
+                <Link href={item.href} className="transition-colors hover:text-violet-300">
                   {item.label}
                 </Link>
               ) : (
-                <span className={isLast ? "text-slate-900 dark:text-slate-300" : undefined}>{item.label}</span>
+                <span style={isLast ? { color: "var(--text-secondary)" } : undefined}>{item.label}</span>
               )}
-              {!isLast ? <span aria-hidden className="text-slate-400 dark:text-slate-600">/</span> : null}
+              {!isLast ? <span aria-hidden className="text-violet-400/30">/</span> : null}
             </li>
           );
         })}
