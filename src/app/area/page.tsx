@@ -4,11 +4,15 @@ import StaticPageFrame from "@/components/marketing/StaticPageFrame";
 import { AREAS } from "@/lib/locations";
 import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = buildMetadata({
-  title: "Areas de servicio de Qubelia",
-  description: "Cobertura geografica y enfoque local de Qubelia para empresas que necesitan software, web e integraciones a medida.",
-  path: "/area",
-});
+export const metadata: Metadata = {
+  ...buildMetadata({
+    title: "Areas de servicio de Qubelia",
+    description:
+      "Cobertura geografica y enfoque local de Qubelia para empresas que necesitan software, web e integraciones a medida.",
+    path: "/area",
+  }),
+  robots: { index: false, follow: true },
+};
 
 export default function AreasIndex() {
   return (

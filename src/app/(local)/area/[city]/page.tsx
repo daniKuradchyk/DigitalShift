@@ -3,15 +3,15 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import StaticPageFrame from "@/components/marketing/StaticPageFrame";
 import { CONTACT } from "@/config/contact";
+import { AREAS } from "@/lib/locations";
 import { buildMetadata } from "@/lib/seo";
 
 type Params = { city: string };
 
-const SUPPORTED_CITIES = ["sevilla"] as const;
 const cardClass = "surface-card rounded-3xl p-6";
 
 export function generateStaticParams(): Params[] {
-  return SUPPORTED_CITIES.map((city) => ({ city }));
+  return AREAS.map((area) => ({ city: area.slug }));
 }
 
 export const revalidate = 86400;
@@ -20,16 +20,19 @@ export async function generateMetadata({ params }: { params: any }): Promise<Met
   const { city } = (await params) as Params;
   const cityName = city.charAt(0).toUpperCase() + city.slice(1);
 
-  return buildMetadata({
-    title: `Software, web e integraciones en ${cityName}`,
-    description: `Contexto local de Qubelia para proyectos de software a medida, web y automatizacion en ${cityName}.`,
-    path: `/area/${city}`,
-  });
+  return {
+    ...buildMetadata({
+      title: `Software, web e integraciones en ${cityName}`,
+      description: `Contexto local de Qubelia para proyectos de software a medida, web y automatizacion en ${cityName}.`,
+      path: `/area/${city}`,
+    }),
+    robots: { index: false, follow: true },
+  };
 }
 
 export default async function CityPage({ params }: { params: any }) {
   const { city } = (await params) as Params;
-  if (!SUPPORTED_CITIES.includes(city as (typeof SUPPORTED_CITIES)[number])) {
+  if (!AREAS.some((area) => area.slug === city)) {
     notFound();
   }
 

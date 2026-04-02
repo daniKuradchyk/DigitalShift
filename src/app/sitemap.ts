@@ -1,5 +1,4 @@
 import type { MetadataRoute } from "next";
-import { AREAS } from "@/lib/locations";
 import { postsMeta } from "@/lib/posts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -49,18 +48,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/legal/cookies`, lastModified: now, changeFrequency: "yearly", priority: 0.6 },
   ];
 
-  const areaPages: MetadataRoute.Sitemap = [
-    { url: `${base}/area`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
-    ...AREAS.map(
-      (area): MetadataRoute.Sitemap[number] => ({
-        url: `${base}/area/${area.slug}`,
-        lastModified: now,
-        changeFrequency: "monthly",
-        priority: 0.7,
-      })
-    ),
-  ];
-
   const blogPages: MetadataRoute.Sitemap = postsMeta.map(
     (post): MetadataRoute.Sitemap[number] => ({
       url: `${base}/blog/${post.slug}`,
@@ -70,5 +57,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  return [...staticPages, ...areaPages, ...blogPages];
+  return [...staticPages, ...blogPages];
 }

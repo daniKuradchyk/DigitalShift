@@ -15,7 +15,11 @@ const nextConfig = {
         destination: "/servicios/automatizacion-integraciones",
         permanent: true,
       },
-      { source: "/servicios/mvp-emprendedores", destination: "/servicios", permanent: true },
+      {
+        source: "/servicios/mvp-emprendedores",
+        destination: "/servicios/software-a-medida",
+        permanent: true,
+      },
       { source: "/servicios/landing-pages", destination: "/servicios/web-a-medida", permanent: true },
       { source: "/servicios/web-corporativa", destination: "/servicios/web-a-medida", permanent: true },
       { source: "/servicios/marketing-digital", destination: "/servicios/web-a-medida", permanent: true },
