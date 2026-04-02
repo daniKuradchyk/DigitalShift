@@ -12,7 +12,7 @@ export default function Faqs() {
   const active = faqItems.find((f) => f.id === selected) ?? faqItems[0];
 
   return (
-    <section id="faqs" aria-labelledby="faqs-title" className="relative py-20 lg:py-28 overflow-hidden">
+    <section id="faq" aria-labelledby="faqs-title" className="relative scroll-mt-28 overflow-hidden py-20 lg:py-28">
       {/* Ambient */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div

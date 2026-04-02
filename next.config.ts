@@ -4,9 +4,27 @@ const nextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
-    remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" },
-    ],
+    remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
+  },
+  async redirects() {
+    return [
+      { source: "/servicios/software-medida", destination: "/servicios/software-a-medida", permanent: true },
+      { source: "/servicios/diseno-web-sevilla", destination: "/servicios/web-a-medida", permanent: true },
+      {
+        source: "/servicios/ia-automatizacion",
+        destination: "/servicios/automatizacion-integraciones",
+        permanent: true,
+      },
+      { source: "/servicios/mvp-emprendedores", destination: "/servicios", permanent: true },
+      { source: "/servicios/landing-pages", destination: "/servicios/web-a-medida", permanent: true },
+      { source: "/servicios/web-corporativa", destination: "/servicios/web-a-medida", permanent: true },
+      { source: "/servicios/marketing-digital", destination: "/servicios/web-a-medida", permanent: true },
+      {
+        source: "/sevilla/desarrollo-software-a-medida",
+        destination: "/servicios/software-a-medida",
+        permanent: true,
+      },
+    ];
   },
   async headers() {
     const securityHeaders = [
@@ -18,18 +36,15 @@ const nextConfig = {
 
     return [
       {
-        // Applies to all app routes (SSR/ISR/SSG). HSTS se gestiona en Netlify si procede.
         source: "/:path*",
         headers: securityHeaders,
       },
     ];
   },
   experimental: {
-    // ƒ?O Elimina esto si lo tenÇðas en true
     ppr: false,
-    // o en algunas versiones antiguas:
-    // experimental_ppr: false,
     optimizePackageImports: ["react", "react-dom"],
   },
 };
+
 module.exports = nextConfig;

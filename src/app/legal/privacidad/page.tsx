@@ -1,160 +1,108 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import Container from "@/components/common/Container";
-import Logo from "@/components/common/Logo";
-import { canonical, titleTemplate } from "@/lib/seo";
+import StaticPageFrame from "@/components/marketing/StaticPageFrame";
 import { CONTACT } from "@/config/contact";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: titleTemplate("Politica de privacidad"),
-  description: "Politica de privacidad de Qubelia: tratamiento de datos, derechos y contactos.",
-  alternates: { canonical: canonical("/legal/privacidad") },
-  robots: { index: true, follow: true },
-};
+export const metadata: Metadata = buildMetadata({
+  title: "Politica de privacidad de Qubelia",
+  description: "Tratamiento de datos personales, bases juridicas, plazos de conservacion y ejercicio de derechos en Qubelia.",
+  path: "/legal/privacidad",
+});
 
-export const revalidate = 86400;
+const cardClass = "surface-card rounded-3xl p-6";
 
 export default function Privacidad() {
   return (
-    <main className="min-h-screen bg-white dark:bg-[#050A14]">
-      <header className="border-b border-slate-200/60 dark:border-white/[0.06] bg-white/90 dark:bg-[#050A14]/90 backdrop-blur-xl">
-        <Container>
-          <div className="flex h-16 items-center justify-between">
-            <Link href="/" aria-label="Inicio"><Logo /></Link>
-            <Link href="/" className="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 transition-colors">← Inicio</Link>
+    <StaticPageFrame
+      breadcrumbs={[
+        { label: "Inicio", href: "/" },
+        { label: "Legal", href: "/legal/privacidad" },
+        { label: "Privacidad" },
+      ]}
+      eyebrow="Privacidad"
+      title="Politica de privacidad"
+      description="Esta politica explica que datos personales tratamos, con que fines, cual es la base juridica de cada tratamiento y como puedes ejercer tus derechos."
+      aside={
+        <>
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-sky-400">Responsable</p>
+          <div className="mt-4 space-y-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            <p>Daniil Kuradchik Pekarskaya · Qubelia</p>
+            <p>{CONTACT.email}</p>
+            <p>{CONTACT.phone}</p>
+            <p>Atencion en materia de privacidad desde Sevilla, Espana.</p>
           </div>
-        </Container>
-      </header>
-
-      <Container className="py-14">
-        <header className="space-y-3">
-          <p className="text-sm font-semibold uppercase tracking-wide text-sky-600 dark:text-sky-400">Privacidad</p>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl">Política de privacidad</h1>
-          <p className="text-slate-600 dark:text-slate-300">
-            Esta Política de privacidad explica cómo tratamos los datos personales en qubelia.es conforme al RGPD y la LOPDGDD. Aquí encontrarás quién es el
-            responsable, con qué fines usamos tus datos y cuáles son tus derechos.
+        </>
+      }
+    >
+      <div className="grid gap-6">
+        <section className={cardClass}>
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">1. Responsable del tratamiento</h2>
+          <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            El responsable del tratamiento es Daniil Kuradchik Pekarskaya, que opera como Qubelia, con domicilio en Calle Torrelodones 84B, 41016 Sevilla, Espana. Para cualquier cuestion relacionada con datos personales puedes escribir a {CONTACT.email}.
           </p>
-        </header>
+        </section>
 
-        <div className="mt-8 grid gap-6">
-          <section className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.02] p-6">
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-white">1. Identificación del responsable del tratamiento</h2>
-            <p className="mt-3 text-slate-600 dark:text-slate-300">
-              Responsable: Daniil Kuradchik Pekarskaya (Qubelia) - NIF/CIF: 30865688X. Domicilio: Calle torrelodones 84B, Sevilla, Sevilla 41016, España.
-              Email de contacto en materia de privacidad: <a className="text-sky-600 dark:text-sky-400 hover:underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>.
-              Teléfono: <a className="text-sky-600 dark:text-sky-400 hover:underline" href="tel:+34674569372">674569372</a>. Delegado de Protección de Datos: no aplica. Sitio web: qubelia.es.
-            </p>
-          </section>
-
-          <section className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.02] p-6 space-y-4">
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-white">2. Datos tratados, finalidades y bases jurídicas</h2>
-
-            <div className="space-y-2">
-              <h3 className="font-semibold text-slate-900 dark:text-white">Formulario de contacto / solicitud de presupuesto</h3>
-              <ul className="list-disc space-y-1 pl-5 text-slate-600 dark:text-slate-300">
-                <li>Datos: nombre, apellidos, email, teléfono, empresa, cargo, país y la información incluida en el mensaje.</li>
-                <li>Finalidad: responder consultas, solicitudes de información y presupuestos, y gestionar la relación precontractual con potenciales clientes.</li>
-                <li>Base jurídica: consentimiento del interesado y, en su caso, aplicación de medidas precontractuales (art. 6.1.a y 6.1.b RGPD).</li>
-              </ul>
+        <section className={cardClass}>
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">2. Datos, finalidades y bases juridicas</h2>
+          <div className="mt-4 space-y-5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            <div>
+              <h3 className="font-semibold text-slate-900 dark:text-white">Formulario de contacto y solicitudes</h3>
+              <p className="mt-2">
+                Tratamos nombre, email, telefono, empresa y la informacion incluida en el mensaje para responder consultas y gestionar posibles relaciones precontractuales. La base juridica es el consentimiento y, en su caso, la aplicacion de medidas precontractuales.
+              </p>
             </div>
-
-            <div className="space-y-2">
-              <h3 className="font-semibold text-slate-900 dark:text-white">Gestión de clientes y facturación</h3>
-              <ul className="list-disc space-y-1 pl-5 text-slate-600 dark:text-slate-300">
-                <li>Datos: datos identificativos y de contacto, datos de facturación y medios de pago, histórico de servicios.</li>
-                <li>Finalidad: gestión administrativa, contable y fiscal de clientes, incluyendo facturación y atención al cliente.</li>
-                <li>Base jurídica: ejecución de un contrato y cumplimiento de obligaciones legales (art. 6.1.b y 6.1.c RGPD).</li>
-              </ul>
+            <div>
+              <h3 className="font-semibold text-slate-900 dark:text-white">Gestion de clientes y facturacion</h3>
+              <p className="mt-2">
+                Tratamos datos identificativos, de contacto y de facturacion necesarios para prestar el servicio, emitir facturas y cumplir obligaciones fiscales y contables. La base juridica es la ejecucion del contrato y el cumplimiento de obligaciones legales.
+              </p>
             </div>
-
-            <div className="space-y-2">
-              <h3 className="font-semibold text-slate-900 dark:text-white">Analítica web</h3>
-              <ul className="list-disc space-y-1 pl-5 text-slate-600 dark:text-slate-300">
-                <li>Datos: identificadores en línea, dirección IP abreviada, datos de uso y navegación obtenidos mediante cookies o tecnologías similares.</li>
-                <li>Finalidad: obtener estadísticas agregadas sobre el uso del sitio web para mejorar contenidos y servicios.</li>
-                <li>
-                  Base jurídica: consentimiento del usuario prestado a través del banner de cookies (art. 6.1.a RGPD). En caso de no prestar consentimiento, no se
-                  realizará analítica.
-                </li>
-              </ul>
+            <div>
+              <h3 className="font-semibold text-slate-900 dark:text-white">Analitica y mejora del sitio</h3>
+              <p className="mt-2">
+                Si se habilitan cookies o herramientas de analitica no esenciales, se usaran para medir el uso del sitio y mejorar su rendimiento solo con consentimiento previo del usuario.
+              </p>
             </div>
+          </div>
+        </section>
 
-            <div className="space-y-2">
-              <h3 className="font-semibold text-slate-900 dark:text-white">Comunicaciones comerciales por medios electrónicos</h3>
-              <ul className="list-disc space-y-1 pl-5 text-slate-600 dark:text-slate-300">
-                <li>Datos: nombre, email, teléfono y, en su caso, datos profesionales (empresa, cargo).</li>
-                <li>Finalidad: envío de información comercial relacionada con los servicios de consultoría tecnológica, desarrollo de software, IA y automatización.</li>
-                <li>Base jurídica: consentimiento del interesado (art. 6.1.a RGPD y art. 21 LSSI).</li>
-              </ul>
-            </div>
-          </section>
+        <section className={cardClass}>
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">3. Plazos de conservacion</h2>
+          <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            <li>Consultas y solicitudes: mientras se tramitan y durante el plazo necesario para atender posibles responsabilidades.</li>
+            <li>Datos de clientes y facturacion: durante la relacion contractual y los plazos legales exigibles.</li>
+            <li>Analitica o marketing: hasta la retirada del consentimiento o la expiracion del plazo configurado para la herramienta correspondiente.</li>
+          </ul>
+        </section>
 
-          <section className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.02] p-6">
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-white">3. Plazos de conservación de los datos</h2>
-            <ul className="mt-3 list-disc space-y-2 pl-5 text-slate-600 dark:text-slate-300">
-              <li>
-                Datos de contacto y solicitudes: mientras se gestionan las consultas y hasta 2 años tras la última interacción para atender posibles
-                responsabilidades.
-              </li>
-              <li>Datos de clientes y facturación: durante la relación contractual y los plazos legales aplicables (por ejemplo, 6 años a efectos contables y fiscales).</li>
-              <li>
-                Datos de analítica web: durante el periodo de retención configurado en la herramienta de analítica; en términos generales, se conservarán de forma
-                agregada y anonimizada cuando sea posible.
-              </li>
-              <li>
-                Datos para comunicaciones comerciales: hasta que el interesado retire el consentimiento o solicite la baja, y en todo caso mientras sea necesario
-                para la finalidad indicada.
-              </li>
-            </ul>
-          </section>
+        <section className={cardClass}>
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">4. Destinatarios y encargados</h2>
+          <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            Los datos solo se comunican a administraciones publicas, entidades financieras o proveedores necesarios para la prestacion del servicio cuando exista base legal o contractual para ello. En esos casos, Qubelia formaliza los encargos de tratamiento exigidos por la normativa aplicable.
+          </p>
+        </section>
 
-          <section className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.02] p-6">
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-white">4. Destinatarios y encargados del tratamiento</h2>
-            <ul className="mt-3 list-disc space-y-2 pl-5 text-slate-600 dark:text-slate-300">
-              <li>Administraciones públicas y entidades financieras cuando proceda por obligación legal.</li>
-              <li>Proveedor de hosting (Netlify) como encargado del tratamiento para la prestación de servicios de alojamiento y operaciones técnicas.</li>
-              <li>Proveedor de analítica web: actualmente no aplica; en caso de activarse, actuará como encargado del tratamiento para ofrecer métricas agregadas.</li>
-              <li>Otros proveedores necesarios para la prestación de servicios (por ejemplo, comunicaciones electrónicas), con quienes se firmarán contratos de encargo de tratamiento conforme al art. 28 RGPD.</li>
-            </ul>
-          </section>
+        <section className={cardClass}>
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">5. Transferencias internacionales</h2>
+          <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            Si se utilizan proveedores ubicados fuera del Espacio Economico Europeo, se adoptaran las garantias adecuadas previstas por el RGPD, como clausulas contractuales tipo o mecanismos equivalentes.
+          </p>
+        </section>
 
-          <section className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.02] p-6">
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-white">5. Transferencias internacionales de datos</h2>
-            <p className="mt-3 text-slate-600 dark:text-slate-300">
-              El uso de proveedores que presten servicios fuera del Espacio Económico Europeo puede implicar transferencias internacionales (por ejemplo,
-              servicios de hosting o, si se activan, herramientas de analítica). En estos casos se adoptarán las garantías adecuadas exigidas por el RGPD, como
-              la firma de Cláusulas Contractuales Tipo aprobadas por la Comisión Europea o mecanismos equivalentes, y se evaluarán las medidas complementarias
-              necesarias para proteger la información.
-            </p>
-          </section>
+        <section className={cardClass}>
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">6. Derechos de las personas interesadas</h2>
+          <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            Puedes ejercer tus derechos de acceso, rectificacion, supresion, oposicion, limitacion, portabilidad y retirada del consentimiento escribiendo a {CONTACT.email}. Si consideras que el tratamiento no es correcto, puedes presentar reclamacion ante la Agencia Espanola de Proteccion de Datos.
+          </p>
+        </section>
 
-          <section className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.02] p-6">
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-white">6. Derechos de las personas interesadas</h2>
-            <p className="mt-3 text-slate-600 dark:text-slate-300">
-              Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación del tratamiento, portabilidad y retirada del consentimiento
-              enviando un email a <a className="text-sky-600 dark:text-sky-400 hover:underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a> o por escrito al domicilio
-              indicado, acreditando tu identidad e indicando el derecho que deseas ejercer. Tienes derecho a presentar una reclamación ante la Agencia Española
-              de Protección de Datos (www.aepd.es) si consideras que no se ha atendido correctamente tu solicitud.
-            </p>
-          </section>
-
-          <section className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.02] p-6">
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-white">7. Seguridad de los datos personales</h2>
-            <p className="mt-3 text-slate-600 dark:text-slate-300">
-              Se aplican medidas técnicas y organizativas apropiadas para garantizar la confidencialidad, integridad, disponibilidad y resiliencia de los datos
-              personales, ajustadas al estado de la técnica, la naturaleza de los datos y los riesgos identificados.
-            </p>
-          </section>
-
-          <section className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.02] p-6">
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-white">8. Cambios en la política de privacidad</h2>
-            <p className="mt-3 text-slate-600 dark:text-slate-300">
-              Esta Política de privacidad puede actualizarse para adaptarla a cambios normativos o de tratamiento. Se publicará la versión vigente en
-              qubelia.es. Te recomendamos revisarla de forma periódica.
-            </p>
-          </section>
-        </div>
-      </Container>
-    </main>
+        <section className={cardClass}>
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">7. Seguridad y actualizaciones</h2>
+          <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            Qubelia aplica medidas tecnicas y organizativas razonables para proteger la confidencialidad, integridad y disponibilidad de los datos personales. Esta politica puede actualizarse si cambian la normativa o los tratamientos realizados.
+          </p>
+        </section>
+      </div>
+    </StaticPageFrame>
   );
 }

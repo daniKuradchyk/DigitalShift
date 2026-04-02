@@ -1,102 +1,169 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import FinalCta from "@/components/marketing/FinalCta";
+import Breadcrumbs from "@/components/marketing/Breadcrumbs";
+import FaqList from "@/components/marketing/FaqList";
+import JsonLd from "@/components/marketing/JsonLd";
+import ResourceLinks from "@/components/marketing/ResourceLinks";
+import SectionIntro from "@/components/marketing/SectionIntro";
+import ServiceCards from "@/components/marketing/ServiceCards";
+import { CaseHighlights, FitPanels, ProcessTimeline } from "@/components/marketing/ServiceBlocks";
 import Container from "@/components/common/Container";
-import Logo from "@/components/common/Logo";
-import Button from "@/components/common/Button";
-import { canonical, titleTemplate } from "@/lib/seo";
+import Footer from "@/components/sections/Footer";
+import Header from "@/components/sections/Header";
+import { serviceHubFaqs, serviceHubFit, serviceHubMethod } from "@/content/services";
+import { breadcrumbJsonLd } from "@/lib/jsonld";
+import { buildMetadata, canonical } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/urls";
 
-export const metadata: Metadata = {
-  title: titleTemplate("Servicios"),
-  description: "Servicios de Qubelia: software a medida, diseño web, IA y automatización, MVP y datos.",
-  alternates: { canonical: canonical("/servicios") },
-  robots: { index: true, follow: true },
-  openGraph: {
-    title: titleTemplate("Servicios"),
-    description: "Servicios de Qubelia: software a medida, diseño web, IA y automatización, MVP y datos.",
-    url: canonical("/servicios"),
-    images: [{ url: canonical("/images/og-cover.png"), width: 1200, height: 630 }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: titleTemplate("Servicios"),
-    description: "Servicios de Qubelia: software a medida, diseño web, IA y automatización, MVP y datos.",
-    images: [canonical("/images/og-cover.png")],
-  },
-};
+export const metadata: Metadata = buildMetadata({
+  title: "Servicios de Qubelia | Software, web, automatizacion y CRM a medida",
+  description:
+    "Hub de servicios de Qubelia: software a medida, web a medida, automatizacion e integraciones, y CRM o intranet a medida para empresas B2B.",
+  path: "/servicios",
+});
 
-const serviceLinks = [
-  { label: "Software a medida en Sevilla", href: "/sevilla/desarrollo-software-a-medida", tag: "Local SEO" },
-  { label: "Software a medida",            href: "/servicios/software-medida",              tag: "Servicio" },
-  { label: "Diseño web en Sevilla",        href: "/servicios/diseno-web-sevilla",           tag: "Servicio" },
-  { label: "IA y automatización",          href: "/servicios/ia-automatizacion",            tag: "Servicio" },
-  { label: "MVP para emprendedores",       href: "/servicios/mvp-emprendedores",            tag: "Servicio" },
-];
+export default function ServicesPage() {
+  const breadcrumbs = [
+    { label: "Inicio", href: "/" },
+    { label: "Servicios" },
+  ];
 
-export default function ServicesIndex() {
+  const breadcrumbData = breadcrumbJsonLd([
+    { name: "Inicio", url: absoluteUrl("/") },
+    { name: "Servicios", url: canonical("/servicios") },
+  ]);
+
   return (
-    <main className="min-h-screen bg-white dark:bg-[#050A14]">
-      {/* Inline header */}
-      <header className="border-b border-slate-200/60 dark:border-white/[0.06] bg-white/90 dark:bg-[#050A14]/90 backdrop-blur-xl">
-        <Container>
-          <div className="flex h-16 items-center justify-between">
-            <Link href="/" aria-label="Ir a inicio">
-              <Logo />
-            </Link>
-            <Link href="/" className="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 transition-colors">
-              ← Inicio
-            </Link>
-          </div>
-        </Container>
-      </header>
+    <>
+      <JsonLd id="ld-services-breadcrumbs" data={breadcrumbData} />
+      <Header />
+      <main id="contenido">
+        <section className="pb-12 pt-16 sm:pb-16 sm:pt-20">
+          <Container>
+            <Breadcrumbs items={breadcrumbs} />
 
-      <Container className="py-14">
-        <div className="max-w-2xl">
-          <div className="section-tag mb-5">
-            <span className="h-1.5 w-1.5 rounded-full bg-sky-400" aria-hidden />
-            Servicios
-          </div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight sm:text-4xl mb-4">
-            Soluciones enfocadas a{" "}
-            <span className="gradient-text-static">impacto real</span>
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400 mb-10">
-            De la auditoría de procesos al software a medida, IA y automatización para pymes.
-          </p>
+            <div className="surface-shell relative overflow-hidden rounded-[2rem] p-6 sm:p-8 lg:p-10">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.10),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(14,165,233,0.08),transparent_34%)]"
+              />
 
-          <ul className="space-y-3">
-            {serviceLinks.map((s) => (
-              <li key={s.href}>
-                <Link
-                  href={s.href}
-                  className="flex items-center justify-between gap-4 rounded-xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.03] px-5 py-4 hover:border-sky-300 dark:hover:border-sky-500/30 hover:-translate-y-0.5 hover:shadow-md dark:hover:shadow-none transition-all group"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="h-2 w-2 rounded-full bg-sky-400 group-hover:scale-110 transition-transform" aria-hidden />
-                    <span className="text-sm font-semibold text-slate-800 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors">
-                      {s.label}
-                    </span>
+              <div className="relative grid gap-8 lg:grid-cols-[1fr_320px] lg:items-end">
+                <div className="max-w-4xl">
+                  <div className="section-tag mb-5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-sky-400" aria-hidden />
+                    Hub de servicios
                   </div>
-                  <div className="flex items-center gap-3 flex-shrink-0">
-                    <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-[0.14em]">{s.tag}</span>
-                    <svg viewBox="0 0 24 24" className="h-4 w-4 text-slate-300 dark:text-slate-600 group-hover:text-sky-400 transition-colors" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      <path d="M9 18l6-6-6-6" />
-                    </svg>
-                  </div>
-                </Link>
-              </li>
-            ))}
-          </ul>
+                  <h1 className="text-4xl font-black tracking-[-0.03em] text-slate-900 dark:text-white sm:text-5xl">
+                    Servicios pensados como una arquitectura comercial seria, no como una landing que intenta explicarlo todo
+                  </h1>
+                  <p className="mt-5 max-w-3xl text-lg leading-relaxed text-slate-500 dark:text-slate-400">
+                    Qubelia trabaja una capa clara de servicios para empresas B2B: software a medida, web a medida,
+                    automatizacion e integraciones, y CRM o intranet a medida. Cada linea tiene entidad propia, una
+                    intencion de busqueda distinta y un encaje de negocio concreto.
+                  </p>
+                </div>
 
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Button as="a" href="/#contacto" variant="shine">
-              Agenda diagnóstico gratis
-            </Button>
-            <Button as="a" href="/" variant="ghost">
-              Ver toda la web
-            </Button>
-          </div>
-        </div>
-      </Container>
-    </main>
+                <div className="surface-panel relative overflow-hidden rounded-3xl p-6">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-sky-400">Que resuelve Qubelia</p>
+                  <ul className="mt-4 space-y-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+                    <li>Procesos manuales que frenan al equipo.</li>
+                    <li>Webs que no reflejan el nivel real de la empresa.</li>
+                    <li>Herramientas desconectadas y datos duplicados.</li>
+                    <li>Sistemas estandar que ya no encajan con la operativa.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </Container>
+        </section>
+
+        <section className="pb-20">
+          <Container>
+            <ServiceCards variant="hub" />
+          </Container>
+        </section>
+
+        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+          <Container>
+            <SectionIntro
+              eyebrow="Encaje"
+              title="Para quien tiene sentido Qubelia y para quien no"
+              description="No todo problema merece desarrollo a medida. Parte del trabajo es decidir con claridad cuando si compensa intervenir y cuando no."
+            />
+            <div className="mt-10">
+              <FitPanels yes={serviceHubFit.yes} no={serviceHubFit.no} />
+            </div>
+          </Container>
+        </section>
+
+        <section id="metodologia" className="scroll-mt-28 py-20">
+          <Container>
+            <SectionIntro
+              eyebrow="Metodo"
+              title="Metodologia resumida para tomar decisiones y entregar sin ruido"
+              description="Mismo principio en los cuatro servicios: entender el problema, definir encaje real, construir por bloques utiles y dejar una base que pueda evolucionar."
+            />
+            <div className="mt-10">
+              <ProcessTimeline items={serviceHubMethod} />
+            </div>
+          </Container>
+        </section>
+
+        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+          <Container>
+            <SectionIntro
+              eyebrow="Casos"
+              title="Mini casos relacionados con los servicios"
+              description="La capa comercial tiene sentido cuando conecta con operativa real y resultados medibles."
+            />
+            <div className="mt-10">
+              <CaseHighlights ids={["santander", "unicaja", "lfstudio", "accenture"]} />
+            </div>
+          </Container>
+        </section>
+
+        <section className="py-20">
+          <Container>
+            <SectionIntro
+              eyebrow="Recursos"
+              title="Blog y labs bien enlazados desde la capa de servicios"
+              description="Los servicios no se quedan aislados: apuntan a guias, herramientas y contenido util para seguir profundizando."
+            />
+            <div className="mt-10">
+              <ResourceLinks
+                posts={["presupuesto-software-medida-2026", "integraciones-erp-crm-pymes", "arquitectura-nextjs-seo-2026"]}
+                labSlugs={["analisis-gratis", "roi-automatizacion"]}
+              />
+            </div>
+          </Container>
+        </section>
+
+        <section id="faq" className="scroll-mt-28 bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+          <Container>
+            <SectionIntro
+              eyebrow="FAQ"
+              title="Preguntas transversales antes de pasar a una propuesta"
+              description="Respuestas directas para entender mejor el encaje del proyecto y como trabajamos."
+            />
+            <div className="mt-10">
+              <FaqList items={serviceHubFaqs} />
+            </div>
+          </Container>
+        </section>
+
+        <section className="py-20">
+          <Container>
+            <FinalCta
+              title="Si ya sabes que capa necesitas, la siguiente conversacion debe ser concreta"
+              text="Podemos revisar proceso, encaje, alcance y prioridad del proyecto. Sin humo, sin maquillar lo que no merece hacerse y con siguiente paso claro."
+              secondaryHref="/#resultados"
+              secondaryLabel="Ver casos"
+            />
+          </Container>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 }

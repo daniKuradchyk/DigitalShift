@@ -8,23 +8,23 @@
    ════════════════════════════════════════════════════════════════ */
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
   /* Backgrounds */
-  --bg-page:        #050A14;
-  --bg-surface:     #0D1526;
-  --bg-card:        rgba(255, 255, 255, 0.04);
-  --bg-muted:       rgba(255, 255, 255, 0.02);
-  --bg-hero:        #050A14;
+  --bg-page:        #edf3fb;
+  --bg-surface:     #ffffff;
+  --bg-card:        rgba(255, 255, 255, 0.90);
+  --bg-muted:       rgba(247, 250, 252, 0.92);
+  --bg-hero:        #edf3fb;
 
   /* Text */
-  --text-primary:   #F0F4FF;
-  --text-secondary: rgba(240, 244, 255, 0.60);
-  --text-muted:     rgba(240, 244, 255, 0.35);
+  --text-primary:   #0f172a;
+  --text-secondary: rgba(15, 23, 42, 0.78);
+  --text-muted:     rgba(51, 65, 85, 0.86);
 
   /* Borders */
-  --border:         rgba(255, 255, 255, 0.08);
-  --border-strong:  rgba(255, 255, 255, 0.14);
+  --border:         rgba(148, 163, 184, 0.26);
+  --border-strong:  rgba(148, 163, 184, 0.42);
 
   /* Accents */
   --accent:         #60A5FA;
@@ -51,6 +51,23 @@
   --particles-opacity: 0.40;
 }
 
+html.dark {
+  color-scheme: dark;
+
+  --bg-page:        #050A14;
+  --bg-surface:     #0D1526;
+  --bg-card:        rgba(255, 255, 255, 0.085);
+  --bg-muted:       rgba(255, 255, 255, 0.05);
+  --bg-hero:        #050A14;
+
+  --text-primary:   #F0F4FF;
+  --text-secondary: rgba(240, 244, 255, 0.84);
+  --text-muted:     rgba(240, 244, 255, 0.72);
+
+  --border:         rgba(255, 255, 255, 0.14);
+  --border-strong:  rgba(255, 255, 255, 0.24);
+}
+
 /* ── Tailwind theme bridge ─────────────────────────────────────── */
 @theme inline {
   --color-background: var(--bg-page);
@@ -65,7 +82,7 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: #050A14;
+  background-color: var(--bg-page);
 }
 
 body {
@@ -269,6 +286,47 @@ body::after {
   backdrop-filter: blur(6px);
 }
 
+.surface-shell {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(244, 247, 252, 0.90));
+  box-shadow: 0 24px 70px -40px rgba(15, 23, 42, 0.18);
+}
+
+.surface-card {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(247, 250, 252, 0.88));
+  box-shadow: 0 18px 48px -34px rgba(15, 23, 42, 0.16);
+}
+
+.surface-panel {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: linear-gradient(180deg, rgba(248, 251, 255, 0.96), rgba(241, 245, 249, 0.92));
+  box-shadow: 0 18px 48px -36px rgba(15, 23, 42, 0.14);
+}
+
+.surface-line {
+  background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.72), transparent);
+  opacity: 0.7;
+}
+
+html.dark .surface-shell {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(8, 16, 30, 0.96), rgba(6, 12, 22, 0.90));
+  box-shadow: 0 28px 90px -48px rgba(0, 0, 0, 0.85);
+}
+
+html.dark .surface-card {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(9, 16, 29, 0.95), rgba(7, 13, 24, 0.88));
+  box-shadow: 0 20px 52px -34px rgba(0, 0, 0, 0.85);
+}
+
+html.dark .surface-panel {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(9, 17, 31, 0.88);
+  box-shadow: 0 20px 52px -36px rgba(0, 0, 0, 0.85);
+}
+
 /* ════════════════════════════════════════════════════════════════
    ANIMATED BACKGROUND  —  canvas + Framer Motion
    Palette: sky-blue / cyan / indigo only
@@ -277,11 +335,11 @@ body::after {
 .interactive-bg {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
   overflow: hidden;
   isolation: isolate;
-  background: #040A14;
+  background: linear-gradient(180deg, #edf3fb 0%, #f8fbff 100%);
 }
 
 .interactive-bg__backdrop,
@@ -300,20 +358,20 @@ body::after {
 .interactive-bg__backdrop {
   inset: -16%;
   background:
-    radial-gradient(circle at 12% 16%, rgba(56,  189, 248, 0.22), transparent 28%),
-    radial-gradient(circle at 84% 12%, rgba(99,  102, 241, 0.28), transparent 32%),
-    radial-gradient(circle at 52% 80%, rgba(34,  211, 238, 0.18), transparent 34%),
-    radial-gradient(circle at 28% 60%, rgba(14,  165, 233, 0.12), transparent 32%);
-  filter: blur(38px) saturate(115%);
-  opacity: 0.95;
+    radial-gradient(circle at 12% 16%, rgba(56, 189, 248, 0.10), transparent 28%),
+    radial-gradient(circle at 84% 12%, rgba(99, 102, 241, 0.10), transparent 32%),
+    radial-gradient(circle at 52% 80%, rgba(34, 211, 238, 0.08), transparent 34%),
+    radial-gradient(circle at 28% 60%, rgba(14, 165, 233, 0.06), transparent 32%);
+  filter: blur(46px) saturate(108%);
+  opacity: 0.9;
   will-change: transform;
 }
 
 /* ── Color blobs ─────────────────────────────────────────────── */
 .interactive-bg__mesh {
   inset: -18%;
-  mix-blend-mode: screen;
-  filter: blur(55px);
+  mix-blend-mode: multiply;
+  filter: blur(65px);
   will-change: transform;
 }
 
@@ -322,7 +380,7 @@ body::after {
     radial-gradient(ellipse at 16% 28%, rgba(56,  189, 248, 0.24), transparent 30%),
     radial-gradient(ellipse at 74% 24%, rgba(99,  102, 241, 0.22), transparent 32%),
     radial-gradient(ellipse at 50% 76%, rgba(14,  165, 233, 0.16), transparent 28%);
-  opacity: 0.58;
+  opacity: 0.18;
 }
 
 .interactive-bg__mesh--two {
@@ -330,20 +388,20 @@ body::after {
     radial-gradient(ellipse at 70% 18%, rgba(34,  211, 238, 0.22), transparent 26%),
     radial-gradient(ellipse at 18% 80%, rgba(56,  189, 248, 0.18), transparent 32%),
     radial-gradient(ellipse at 86% 76%, rgba(99,  102, 241, 0.20), transparent 28%);
-  opacity: 0.50;
+  opacity: 0.15;
 }
 
 /* ── Dot grid ────────────────────────────────────────────────── */
 .interactive-bg__grid {
   inset: -10%;
   background-image:
-    linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(148, 163, 184, 0.065) 1px, transparent 1px),
-    radial-gradient(circle at center, rgba(56, 189, 248, 0.18) 0 1px, transparent 1px);
+    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at center, rgba(56, 189, 248, 0.08) 0 1px, transparent 1px);
   background-size: 80px 80px, 80px 80px, 20px 20px;
   mask-image: radial-gradient(ellipse 65% 55% at center, black 15%, transparent 80%);
   -webkit-mask-image: radial-gradient(ellipse 65% 55% at center, black 15%, transparent 80%);
-  opacity: 0.22;
+  opacity: 0.14;
   will-change: transform;
 }
 
@@ -361,13 +419,13 @@ body::after {
   background: linear-gradient(
     90deg,
     rgba(34, 211, 238, 0)    0%,
-    rgba(56, 189, 248, 0.12) 30%,
-    rgba(99, 102, 241, 0.20) 50%,
-    rgba(56, 189, 248, 0.12) 70%,
+    rgba(56, 189, 248, 0.08) 30%,
+    rgba(99, 102, 241, 0.12) 50%,
+    rgba(56, 189, 248, 0.08) 70%,
     rgba(34, 211, 238, 0)   100%
   );
   filter: blur(48px);
-  mix-blend-mode: screen;
+  mix-blend-mode: normal;
   will-change: transform, opacity;
 }
 
@@ -380,15 +438,15 @@ body::after {
   border: 1px solid rgba(56, 189, 248, 0.10);
   mask-image: radial-gradient(circle at center, transparent 54%, black 61%, transparent 72%);
   -webkit-mask-image: radial-gradient(circle at center, transparent 54%, black 61%, transparent 72%);
-  opacity: 0.50;
+  opacity: 0.18;
   will-change: transform;
 }
 
 /* ── Noise grain ─────────────────────────────────────────────── */
 .interactive-bg__noise {
   inset: -120px;
-  opacity: 0.07;
-  mix-blend-mode: soft-light;
+  opacity: 0.04;
+  mix-blend-mode: multiply;
   background-image:
     radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px),
     radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.09) 0 1px, transparent 1px),
@@ -399,6 +457,56 @@ body::after {
 
 /* ── Edge vignette ───────────────────────────────────────────── */
 .interactive-bg__vignette {
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,0.02) 40%, rgba(236,244,255,0.36) 78%, rgba(226,236,248,0.75) 100%),
+    linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(236,244,255,0.24) 100%);
+}
+
+html.dark .interactive-bg {
+  background: #040A14;
+}
+
+html.dark .interactive-bg__backdrop {
+  background:
+    radial-gradient(circle at 12% 16%, rgba(56,  189, 248, 0.22), transparent 28%),
+    radial-gradient(circle at 84% 12%, rgba(99,  102, 241, 0.28), transparent 32%),
+    radial-gradient(circle at 52% 80%, rgba(34,  211, 238, 0.18), transparent 34%),
+    radial-gradient(circle at 28% 60%, rgba(14,  165, 233, 0.12), transparent 32%);
+  filter: blur(38px) saturate(115%);
+  opacity: 0.95;
+}
+
+html.dark .interactive-bg__mesh {
+  mix-blend-mode: screen;
+  filter: blur(55px);
+}
+
+html.dark .interactive-bg__mesh--one {
+  opacity: 0.58;
+}
+
+html.dark .interactive-bg__mesh--two {
+  opacity: 0.50;
+}
+
+html.dark .interactive-bg__grid {
+  opacity: 0.22;
+}
+
+html.dark .interactive-bg__beam {
+  mix-blend-mode: screen;
+}
+
+html.dark .interactive-bg__halo {
+  opacity: 0.50;
+}
+
+html.dark .interactive-bg__noise {
+  opacity: 0.07;
+  mix-blend-mode: soft-light;
+}
+
+html.dark .interactive-bg__vignette {
   background:
     radial-gradient(circle at center, transparent 40%, rgba(2, 6, 14, 0.22) 74%, rgba(2, 6, 14, 0.72) 100%),
     linear-gradient(180deg, rgba(4, 9, 20, 0.16) 0%, rgba(4, 9, 20, 0.44) 100%);
@@ -558,14 +666,22 @@ input[type="checkbox"] {
 body :where(.text-slate-900, .text-slate-800) { color: var(--text-primary) !important; }
 body :where(.text-slate-700, .text-slate-600) { color: var(--text-secondary) !important; }
 body :where(.text-slate-500, .text-slate-400) { color: var(--text-muted) !important; }
+body :where(.text-slate-300, .text-slate-200) { color: var(--text-secondary) !important; }
 body :where(.bg-white, .bg-white\/90, .bg-white\/80, .bg-white\/70) {
   background-color: var(--bg-card) !important;
   color: var(--text-primary);
 }
-body :where([class*="dark:bg-[#050A14]"]) {
+body :where([class*="bg-white/[0.02]"], [class*="bg-white/[0.03]"], [class*="bg-white/[0.04]"]) {
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary);
+}
+body :where(.bg-slate-50\/30, .bg-slate-50\/50) {
+  background-color: rgba(241, 245, 249, 0.78) !important;
+}
+html.dark body :where([class*="dark:bg-[#050A14]"]) {
   background-color: rgba(5, 10, 20, 0.72) !important;
 }
-body :where([class*="dark:bg-[#04080F]"]) {
+html.dark body :where([class*="dark:bg-[#04080F]"]) {
   background-color: rgba(4, 8, 15, 0.78) !important;
 }
 body :where(.bg-\[#f4f7ff\]) {

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Metadata } from "next";
-import Container from "@/components/common/Container";
-import { canonical, titleTemplate } from "@/lib/seo";
+import StaticPageFrame from "@/components/marketing/StaticPageFrame";
+import { buildMetadata, canonical, titleTemplate } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -13,72 +13,99 @@ function getQuery(sp: SearchParams, key: string) {
   return Array.isArray(raw) ? (raw[0] ?? "") : (raw ?? "");
 }
 
-export async function generateMetadata(
-  { searchParams }: { searchParams: any }
-): Promise<Metadata> {
+export async function generateMetadata({ searchParams }: { searchParams: any }): Promise<Metadata> {
   const sp = (await searchParams) as SearchParams | undefined;
   const q = getQuery(sp ?? {}, "q").trim();
-  const title = q ? titleTemplate(`Buscar: ${q}`) : titleTemplate("Buscar");
-  const path = q ? `/buscar?q=${encodeURIComponent(q)}` : "/buscar";
-  const descBase = "Busca en contenidos, servicios y productos de Qubelia.";
+
+  if (!q) {
+    return buildMetadata({
+      title: "Buscar en Qubelia",
+      description: "Busqueda interna de contenidos, servicios y recursos publicados por Qubelia.",
+      path: "/buscar",
+    });
+  }
+
   return {
-    title,
-    description: q ? `Resultados de búsqueda para "${q}" en Qubelia.` : descBase,
-    alternates: { canonical: canonical(path) },
+    title: titleTemplate(`Buscar: ${q}`),
+    description: `Resultados de busqueda para "${q}" en Qubelia.`,
+    alternates: { canonical: canonical(`/buscar?q=${encodeURIComponent(q)}`) },
     robots: { index: false, follow: false },
-    openGraph: { title, description: q ? `Resultados para "${q}".` : descBase, url: path },
   };
 }
 
-export default async function SearchPage(
-  { searchParams }: { searchParams: any }
-) {
+export default async function SearchPage({ searchParams }: { searchParams: any }) {
   const sp = (await searchParams) as SearchParams | undefined;
   const q = getQuery(sp ?? {}, "q").trim();
-
-  // TODO: Reemplaza por tu búsqueda real (CMS/algolia/db)
   const results: Array<{ title: string; href: string; excerpt: string }> = [];
 
   return (
-    <main className="py-12 sm:py-16">
-      <Container>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Buscar</h1>
-        <form action="/buscar" method="get" className="mt-4 max-w-xl">
-          <label htmlFor="q" className="sr-only">Término de búsqueda</label>
-          <div className="flex gap-2">
+    <StaticPageFrame
+      breadcrumbs={[
+        { label: "Inicio", href: "/" },
+        { label: "Buscar" },
+      ]}
+      eyebrow="Busqueda"
+      title={q ? `Resultados para "${q}"` : "Buscar en Qubelia"}
+      description="Busqueda interna de contenidos, servicios y recursos. Esta capa esta preparada para enlazar una indexacion real cuando se conecte la fuente definitiva."
+      aside={
+        <>
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-sky-400">Estado</p>
+          <div className="mt-4 space-y-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            <p>Busqueda visible y navegable.</p>
+            <p>Preparada para conectarse a CMS, base de datos o indice externo.</p>
+          </div>
+        </>
+      }
+    >
+      <div className="space-y-8">
+        <form action="/buscar" method="get" className="surface-card rounded-3xl p-6">
+          <label htmlFor="q" className="block text-sm font-medium text-slate-900 dark:text-white">
+            Termino de busqueda
+          </label>
+          <div className="mt-4 flex gap-3">
             <input
               id="q"
               name="q"
               defaultValue={q}
-              placeholder="Ej. transformación digital, MVP, integraciones…"
-              className="w-full rounded-xl border border-slate-200 dark:border-white/[0.07] bg-white dark:bg-white/[0.03] px-3 py-2 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
+              placeholder="Ej. software a medida, integraciones ERP, ROI automatizacion"
+              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400"
               autoComplete="off"
             />
-            <button className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold tracking-tight text-white bg-[linear-gradient(115deg,#0369a1,#0284c7,#38bdf8)] bg-[length:200%_100%] hover:bg-[position:100%_0] border border-sky-700/40 shadow-[0_4px_16px_-4px_rgba(14,165,233,0.5)] hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-950 transition-all">
+            <button className="inline-flex items-center justify-center rounded-full bg-sky-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-sky-700">
               Buscar
             </button>
           </div>
         </form>
 
-        <section className="mt-8">
-          {!q && <p className="text-slate-600 dark:text-slate-300">Escribe algo para empezar.</p>}
-          {q && results.length === 0 && (
-            <p className="text-slate-600 dark:text-slate-300">
-              No hay resultados para "<strong>{q}</strong>". Prueba con otro término.
+        {!q ? (
+          <div className="surface-card rounded-3xl p-6">
+            <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+              Introduce un termino para empezar. Cuando se conecte la fuente de datos real, esta pagina devolvera resultados enlazados a servicios, blog, labs y recursos utiles.
             </p>
-          )}
-          {results.length > 0 && (
-            <ul className="space-y-4">
-              {results.map((r) => (
-                <li key={r.href} className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-slate-50 dark:bg-white/[0.02] p-4 shadow-sm">
-                  <a href={r.href} className="font-semibold text-slate-900 dark:text-white hover:underline">{r.title}</a>
-                  <p className="text-slate-600 dark:text-slate-300">{r.excerpt}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </section>
-      </Container>
-    </main>
+          </div>
+        ) : null}
+
+        {q && results.length === 0 ? (
+          <div className="surface-card rounded-3xl p-6">
+            <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+              No hay resultados para <strong className="text-slate-900 dark:text-white">{q}</strong>. Prueba con otro termino o navega por la capa de servicios.
+            </p>
+          </div>
+        ) : null}
+
+        {results.length > 0 ? (
+          <ul className="grid gap-4">
+            {results.map((result) => (
+              <li key={result.href} className="surface-card rounded-3xl p-6">
+                <a href={result.href} className="text-lg font-bold tracking-tight text-slate-900 transition-colors hover:text-sky-600 dark:text-white">
+                  {result.title}
+                </a>
+                <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{result.excerpt}</p>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </div>
+    </StaticPageFrame>
   );
 }

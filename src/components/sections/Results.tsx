@@ -324,7 +324,11 @@ export default function Results() {
   const compact = cases.filter((c) => !c.featured);
 
   return (
-    <section id="resultados" aria-labelledby="results-title" className="relative py-20 lg:py-28 overflow-hidden">
+    <section
+      id="resultados"
+      aria-labelledby="results-title"
+      className="relative scroll-mt-28 overflow-hidden py-20 lg:py-28"
+    >
 
       {/* Section tint */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-slate-50/50 dark:bg-white/[0.01]" />
