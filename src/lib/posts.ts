@@ -1,711 +1,349 @@
-export type PostMeta = {
-  slug: string;
-  title: string; // <title>
-  description: string; // meta description
-  h1: string;
-  date: string; // YYYY-MM-DD
-  author: { name: string; url?: string };
-  tags: string[];
+import { Post, PostMeta } from "@/types/blog";
+
+const baseAuthor = {
+  name: "Equipo Qubelia",
+  url: "https://www.linkedin.com/company/qubelia",
 };
 
-export type PostSection = {
-  title: string;
-  body: string[];
-};
-
-export type Post = PostMeta & {
-  intro: string;
-  sections: PostSection[];
-  highlights?: string[];
-  cta?: { label: string; href: string; text: string };
-  faqs?: { q: string; a: string }[];
-};
-
-export function estimateReadingTime(post: Post): number {
-  const wordsFromSections = post.sections.reduce((acc, section) => {
-    const bodyWords = section.body.join(" ").split(/\s+/).length;
-    const titleWords = section.title.split(/\s+/).length;
-    return acc + bodyWords + titleWords;
-  }, 0);
-  const words = post.intro.split(/\s+/).length + wordsFromSections + (post.highlights?.join(" ").split(/\s+/).length ?? 0);
-  return Math.max(3, Math.round(words / 180));
+export function estimateReadingTime(post: Post): string {
+  const wordsPerMinute = 200;
+  const text = [
+    post.intro,
+    ...post.sections.flatMap((s) => [s.title, ...s.body]),
+    ...post.faqs.flatMap((f) => [f.q, f.a]),
+  ].join(" ");
+  const wordCount = text.split(/\s+/).length;
+  const minutes = Math.ceil(wordCount / wordsPerMinute);
+  return `${minutes} min`;
 }
-
-const baseAuthor = { name: "Equipo Qubelia", url: "https://www.linkedin.com/company/qubelia" };
 
 export const posts: Post[] = [
   {
-    slug: "presupuesto-diseno-web-sevilla",
-    title: "Presupuesto diseño web en Sevilla: rangos y factores (2025)",
+    slug: "agentes-ia-pymes-guia-automatizacion-2026",
+    title: "Agentes de IA para Pymes: La guía definitiva de automatización en 2026",
     description:
-      "Descubre cuánto cuesta una web en Sevilla: rangos de precios, factores clave y qué incluir para no pagar de más ni de menos.",
-    h1: "¿Cuánto cuesta una web en Sevilla? Rangos y factores",
-    date: "2025-02-01",
+      "Descubre cómo los agentes de IA están transformando las pymes en 2026. Guía completa sobre automatización autónoma, razonamiento B2B y ahorro de costes operativos.",
+    h1: "Agentes de IA para Pymes: Cómo automatizar el razonamiento en 2026",
+    date: "2026-04-03",
     author: baseAuthor,
-    tags: ["Sevilla", "Diseño web", "Presupuesto"],
+    tags: ["IA", "Automatización", "Agentes", "Pymes"],
     intro:
-      "Los precios de una web corporativa en Sevilla varían mucho. El rango suele ir de 1.200 € a 12.000 € según alcance, riesgos y equipo. Aquí tienes los factores que marcan la diferencia y un checklist rápido para no pagar de más ni de menos.",
+      "En 2026, la automatización ha dejado de ser una simple secuencia de 'si pasa A, haz B'. Las pymes más competitivas están adoptando agentes de IA con capacidad de razonamiento autónomo. Ya no solo mueven datos de un CRM a un Excel; ahora analizan el contexto, toman decisiones informadas y ejecutan flujos complejos sin supervisión constante. Esta guía detalla cómo implementar esta tecnología para escalar tu operativa sin aumentar proporcionalmente tu estructura de costes.",
     sections: [
       {
-        title: "Rangos de referencia",
+        title: "¿Qué es un Agente de IA y en qué se diferencia de un bot tradicional?",
         body: [
-          "Landing de una página: 1.200 € – 2.500 € (copy, diseño, desarrollo, analítica básica).",
-          "Web corporativa 5-8 páginas: 2.500 € – 6.000 € (diseño a medida, CMS, formularios, SEO técnico básico).",
-          "Sitio avanzado con integraciones: 6.000 € – 12.000 € (intranets ligeras, CRM, automatizaciones).",
+          "Un bot tradicional es reactivo y lineal. Sigue reglas estrictas predefinidas por un humano. Si el escenario cambia mínimamente, el bot falla o se detiene. Es útil para tareas repetitivas de bajo valor, pero limitado para la gestión empresarial real.",
+          "Por el contrario, un agente de IA en 2026 utiliza modelos de lenguaje avanzados (LLMs) para razonar sobre una tarea. Si le pides 'gestiona las facturas pendientes de este trimestre', el agente no solo busca archivos; identifica cuáles faltan, contacta con el proveedor de forma educada, valida los datos contra el pedido original y solo te avisa si hay una discrepancia que no puede resolver solo.",
+          "La diferencia clave radica en la autonomía y el manejo de la incertidumbre. El agente tiene un objetivo (Goal), herramientas (Tools) y capacidad de planificación (Planning). Esto permite a las pymes delegar procesos completos, no solo clics individuales.",
         ],
       },
       {
-        title: "Factores que suben el coste",
+        title: "Casos de uso reales para pymes en 2026",
         body: [
-          "Complejidad de UX/UI y número de páginas o layouts distintos.",
-          "Integraciones (CRM, pasarelas de pago, ERP, marketing automation).",
-          "Velocidad/SEO técnico (Core Web Vitals, imágenes optimizadas, CDN, schema).",
-          "Contenido (copywriting, traducciones, assets) y propiedad intelectual.",
+          "Atención al cliente de nivel 2: Agentes que no solo responden dudas, sino que gestionan devoluciones, consultan stock en tiempo real y aplican políticas de fidelización personalizadas según el historial del cliente.",
+          "Automatización de compras y suministros: Agentes que monitorizan precios de materias primas, analizan niveles de inventario y realizan pedidos de reposición optimizando el flujo de caja y los tiempos de entrega.",
+          "Gestión de leads B2B: Un agente puede investigar a un prospecto en LinkedIn, personalizar un correo de contacto basado en las noticias recientes de su empresa y agendar una reunión en el calendario del comercial solo si el perfil cumple con el ICP (Ideal Customer Profile).",
+          "Análisis financiero predictivo: Agentes que revisan el flujo de caja diario, detectan patrones de gasto ineficientes y sugieren ajustes antes de que se conviertan en un problema de liquidez.",
         ],
       },
       {
-        title: "Qué debe incluir una propuesta seria",
+        title: "Arquitectura de un ecosistema de agentes conectados",
         body: [
-          "Alcance cerrado y entregables: diseño, desarrollo, QA, contenidos, formación.",
-          "Plan de analítica: eventos clave en GA4, dashboards y alertas.",
-          "Garantía y soporte post-lanzamiento: hotfixes y horas de acompañamiento.",
-          "Propiedad del código y acceso a repositorio/infraestructura.",
+          "Para que un agente sea útil, debe estar integrado. Un agente aislado es solo un juguete caro. La arquitectura ganadora en 2026 conecta el cerebro del agente con el ERP, el CRM y las bases de datos propietarias de la empresa.",
+          "Utilizamos protocolos de comunicación segura y APIs de última generación para que el agente pueda 'leer y escribir' en las herramientas que ya usa tu equipo. Esto garantiza que la información sea siempre veraz y esté actualizada en todos los sistemas.",
+          "Además, implementamos capas de observabilidad. Aunque el agente sea autónomo, el equipo humano siempre tiene un panel de control para supervisar las decisiones tomadas, auditar los registros y ajustar los límites de confianza del sistema.",
         ],
       },
       {
-        title: "Checklist antes de firmar",
+        title: "Seguridad y Ética: El control humano en la era autónoma",
         body: [
-          "Revisar casos similares y tiempos de entrega reales.",
-          "Exigir entorno de staging y despliegues versionados.",
-          "Validar que el dominio/email están configurados (SPF/DKIM) para evitar spam.",
-          "Acordar KPIs de éxito: velocidad, leads, conversión, ranking de keywords.",
+          "La autonomía no significa falta de control. En Qubelia, aplicamos el principio de 'Human-in-the-loop' para decisiones críticas. El agente propone y ejecuta tareas operativas, pero requiere validación humana para movimientos financieros de alto volumen o cambios estratégicos.",
+          "La seguridad es innegociable. Los datos de tu empresa no se utilizan para entrenar modelos públicos. Implementamos instancias privadas de IA y cifrado Zero Trust para asegurar que tu propiedad intelectual y los datos de tus clientes permanezcan protegidos bajo el marco del RGPD 2026.",
+          "El objetivo final no es sustituir al equipo, sino liberarlo de la carga cognitiva de bajo valor para que puedan enfocarse en la estrategia, la creatividad y la relación directa con el cliente.",
         ],
       },
+    ],
+    highlights: [
+      "Ahorro de hasta un 40% en tiempos operativos en los primeros 6 meses.",
+      "Escalabilidad horizontal: gestiona 10x más volumen de leads o pedidos sin contratar más personal.",
+      "Reducción de errores humanos en la entrada y validación de datos críticos.",
+      "Disponibilidad 24/7 para procesos que antes dependían de horarios de oficina.",
     ],
     faqs: [
       {
-        q: "¿Cuánto tarda un proyecto web típico?",
-        a: "Para una web corporativa de 6-8 páginas, el rango habitual son 4-7 semanas si hay contenidos listos. Con integraciones o copy a medida puede ir a 8-10 semanas.",
+        q: "¿Es muy caro implementar agentes de IA para una pyme?",
+        a: "En 2026, los costes de infraestructura han bajado significativamente. El retorno de inversión (ROI) suele ser positivo en menos de un año debido al ahorro directo en horas de trabajo y la eliminación de errores costosos.",
       },
       {
-        q: "¿Qué CMS usar para un sitio corporativo?",
-        a: "Si buscas rendimiento y seguridad, Next.js + un CMS headless ligero (Contentful, Sanity) o incluso sin CMS si el contenido cambia poco. WordPress sigue siendo válido si tienes equipo para mantenerlo.",
+        q: "¿Necesito un equipo técnico interno para mantener los agentes?",
+        a: "No necesariamente. En Qubelia entregamos soluciones llave en mano con soporte incluido. Los agentes están diseñados para ser gestionados por perfiles de negocio a través de interfaces sencillas.",
       },
       {
-        q: "¿Qué pasa con el mantenimiento?",
-        a: "Incluye al menos hotfixes de 30 días y un plan mensual para actualizaciones de seguridad, backups y pequeñas evoluciones. Déjalo por escrito en la propuesta.",
+        q: "¿Qué pasa si el agente comete un error?",
+        a: "Los agentes operan bajo umbrales de confianza. Si una tarea tiene una probabilidad de error superior al límite establecido, el sistema la marca para revisión humana inmediata. Además, todo queda registrado para auditoría.",
       },
     ],
+    cta: {
+      label: "Agendar diagnóstico de automatización",
+      href: "/#contacto",
+      text: "¿Quieres saber qué procesos de tu empresa puede gestionar un agente de IA? Analizamos tu operativa en 45 min.",
+    },
   },
   {
-    slug: "checklist-landing-conversion",
-    title: "Checklist para crear una landing que convierte (15 puntos)",
+    slug: "ecosistemas-software-conectados-erp-crm-pymes",
+    title: "Ecosistemas de software conectados: El fin de los silos de datos en 2026",
     description:
-      "La guía práctica de 15 puntos para aumentar la conversión de tus landing pages. Priorizada y accionable.",
-    h1: "Checklist para landings que convierten: 15 puntos prácticos",
-    date: "2025-02-05",
+      "Por qué tu ERP y CRM aislados están frenando tu crecimiento. Guía sobre integración profunda de software a medida, sincronización de datos y eficiencia operativa B2B.",
+    h1: "Silos de datos en 2026: Por qué necesitas un ecosistema de software conectado",
+    date: "2026-04-03",
     author: baseAuthor,
-    tags: ["Landing pages", "CRO", "Checklist"],
+    tags: ["ERP", "CRM", "Integración", "Software a medida"],
     intro:
-      "Una landing que convierte deja claro el problema, la propuesta de valor y el siguiente paso. Esta checklist prioriza lo esencial para captar leads o ventas en campañas PPC y orgánico.",
+      "Tener un ERP robusto y un CRM líder en el mercado ya no es suficiente. En 2026, la ventaja competitiva no reside en las herramientas individuales, sino en cómo se conectan entre sí. Los silos de datos —esa información atrapada en un departamento que no llega al resto de la empresa— son el mayor freno para la agilidad operativa. Esta guía explica cómo construir un ecosistema de software donde la información fluya sin fricciones desde la captación del lead hasta la facturación final.",
     sections: [
       {
-        title: "Propuesta de valor y jerarquía",
+        title: "El coste oculto de los silos de datos",
         body: [
-          "Título que explique el resultado, no la característica.",
-          "Subtítulo que aclare a quién ayudas y en cuánto tiempo.",
-          "CTA primario visible en el primer pantallazo y repetido más abajo.",
+          "Un silo de datos ocurre cuando el equipo comercial usa Salesforce o HubSpot, pero el equipo de operaciones usa un ERP propio o SAP, y la comunicación entre ambos depende de correos electrónicos, Excels compartidos o introducciones manuales duplicadas.",
+          "Esto genera errores humanos en el 15% de los registros, retrasos en la facturación de hasta 72 horas y una falta total de visibilidad en tiempo real. En 2026, un cliente B2B espera que si firma un contrato digital, el proyecto se active en el ERP de forma instantánea.",
+          "El coste no es solo operativo; es de oportunidad. Si no tienes los datos conectados, no puedes aplicar analítica avanzada ni agentes de IA para predecir la demanda o personalizar la oferta. Estás ciego ante la realidad de tu propio negocio.",
         ],
       },
       {
-        title: "Prueba social y confianza",
+        title: "Arquitectura de un ecosistema moderno: API-First",
         body: [
-          "Testimonios con nombre y rol verificable.",
-          "Casos de uso con métricas concretas (no genéricas).",
-          "Sellos de seguridad y datos de contacto visibles (NIF, email, teléfono).",
+          "La solución no es cambiar todas tus herramientas por una 'suite' monolítica que lo haga todo mal. La solución es la integración API-First. En Qubelia, conectamos tus herramientas actuales mediante capas de software a medida que actúan como traductores inteligentes.",
+          "Sincronización bidireccional: Si un comercial actualiza el estado de una oportunidad a 'Cerrada Ganada', el sistema crea automáticamente el cliente en el ERP, genera el primer hito de facturación y notifica al gestor de proyectos en Slack o Microsoft Teams.",
+          "Validación de datos en el origen: El ecosistema conectado asegura que la información sea coherente. No más duplicados de clientes con nombres ligeramente distintos o direcciones de envío desactualizadas.",
         ],
       },
       {
-        title: "UX y rendimiento",
+        title: "Integración de aplicaciones móviles y campo",
         body: [
-          "Tiempo de carga < 2 s en móvil; imágenes optimizadas y lazy loading.",
-          "Formularios cortos (3-5 campos) con validación inline y honeypot.",
-          "Botones contrastados, estados hover/focus y accesibilidad básica.",
+          "Un ecosistema conectado en 2026 se extiende fuera de la oficina. Las aplicaciones móviles para equipos de campo (técnicos, instaladores, comerciales de calle) deben alimentar el sistema central en tiempo real.",
+          "Implementamos apps ligeras que funcionan offline y sincronizan automáticamente al detectar conexión. Esto permite que un parte de trabajo firmado en la tablet del técnico se convierta en una factura proforma en el ERP en segundos, reduciendo el ciclo de cobro drásticamente.",
+          "La movilidad integrada elimina la necesidad de 'pasar los partes' al final del día, liberando al equipo administrativo de tareas de bajo valor y mejorando la satisfacción del empleado.",
         ],
       },
       {
-        title: "Medición y experimentos",
+        title: "El papel del Dashboard Unificado",
         body: [
-          "Eventos GA4: vistas de sección, clic en CTA, envíos de formulario, scroll 75%.",
-          "Heatmaps o recordings en primeras 2 semanas para detectar fricción.",
-          "A/B simple en titular o CTA una vez haya tráfico suficiente (>300 visitas).",
+          "Una vez que los datos fluyen, el siguiente paso es la visualización. Un ecosistema conectado permite crear un Dashboard de Mando Único donde el CEO o los directores de área ven KPIs que cruzan datos de varias fuentes.",
+          "CAC (Coste de Adquisición de Cliente) real: Cruzando la inversión en marketing (Ads/LinkedIn) con el valor del contrato final en el ERP y el coste de las horas de implementación.",
+          "LTV (Lifetime Value) predictivo: Analizando el comportamiento de compra histórico en el CRM junto con la rentabilidad por proyecto en el sistema de gestión interna.",
+          "Esta visibilidad 360° transforma la toma de decisiones de 'intuición' a 'ciencia basada en datos.",
         ],
       },
+    ],
+    highlights: [
+      "Reducción del 90% en la duplicidad de entrada de datos manual.",
+      "Ciclo de facturación hasta un 50% más rápido gracias a la automatización de flujos.",
+      "Visibilidad total del margen por cliente y proyecto en tiempo real.",
+      "Mejora drástica en la experiencia del cliente final por la agilidad de respuesta.",
     ],
     faqs: [
       {
-        q: "¿Cuántos campos debe tener el formulario?",
-        a: "3-5 campos suele ser el rango óptimo. Si necesitas datos extra, pídelos en el thank you o en el contacto posterior.",
+        q: "¿Es necesario cambiar mi ERP actual para integrarlo?",
+        a: "Casi nunca. En 2026, la mayoría de ERPs (incluso los antiguos o 'on-premise') pueden conectarse mediante conectores a medida o APIs intermedias. Nuestro enfoque es aprovechar lo que ya tienes y hacerlo hablar con el resto.",
       },
       {
-        q: "¿Cómo mido el éxito de una landing?",
-        a: "Define conversión primaria (envío de formulario, clic en WhatsApp) y secundaria (scroll 75%, tiempo en página). Configura estos eventos en GA4 antes de lanzar campañas.",
+        q: "¿Cuánto tiempo lleva una integración de este tipo?",
+        a: "Depende de la complejidad, pero una integración core (CRM-ERP) suele estar operativa en 4-8 semanas. El impacto es inmediato desde el primer día de sincronización.",
       },
       {
-        q: "¿Necesito varias versiones?",
-        a: "Empieza con una y prueba variantes de titular/CTA tras 300-500 visitas cualificadas. No lances 5 versiones sin datos.",
+        q: "¿Cómo se garantiza la seguridad de los datos sincronizados?",
+        a: "Utilizamos túneles cifrados, autenticación OAuth2 y registros de auditoría detallados. Solo los datos estrictamente necesarios viajan entre sistemas, y siempre bajo protocolos de seguridad Zero Trust.",
       },
     ],
+    cta: {
+      label: "Solicitar auditoría de sistemas",
+      href: "/#contacto",
+      text: "¿Tus herramientas no se hablan entre sí? Analizamos tus flujos de datos y te proponemos un plan de integración en 48 horas.",
+    },
   },
   {
-    slug: "seo-onpage-negocios-locales",
-    title: "SEO on-page para negocios locales: guía práctica",
+    slug: "seguridad-zero-trust-desarrollo-software-medida",
+    title: "Seguridad Zero Trust: Protegiendo tu software a medida en 2026",
     description:
-      "Optimiza tu SEO local: Title/Meta, H1-H3, enlazado interno, datos estructurados, NAP y rendimiento.",
-    h1: "SEO on-page para negocios locales: guía práctica",
-    date: "2025-02-09",
+      "Por qué el perímetro tradicional ha muerto. Guía sobre arquitectura Zero Trust, seguridad desde el diseño y protección de datos empresariales en software B2B.",
+    h1: "Seguridad Zero Trust en el desarrollo de software: Más allá del firewall",
+    date: "2026-04-03",
     author: baseAuthor,
-    tags: ["SEO", "Local", "On-page"],
+    tags: ["Seguridad", "Zero Trust", "Software a medida", "Ciberseguridad"],
     intro:
-      "Un negocio local compite por intención de búsqueda con ubicación. On-page sólido + consistencia de NAP + velocidad móvil = tráfico cualificado. Esto es lo mínimo viable.",
+      "En 2026, confiar en que tu software está seguro porque está 'detrás de un firewall' es una negligencia operativa. El auge del teletrabajo, los ecosistemas cloud y los ataques de ingeniería social han matado el concepto de perímetro. La arquitectura Zero Trust (Confianza Cero) se ha convertido en el estándar de oro para el software empresarial. Bajo este paradigma, nunca se confía en nada ni en nadie por defecto, ya esté dentro o fuera de la red corporativa. Esta guía explica cómo aplicamos estos principios en el desarrollo a medida para proteger tu activo más valioso: tus datos.",
     sections: [
       {
-        title: "Estructura y contenidos",
+        title: "¿Qué es Zero Trust y por qué es vital en 2026?",
         body: [
-          "Titles con keyword + ciudad + propuesta de valor. H1 único y coherente.",
-          "Página por servicio/ciudad con FAQs, precios orientativos y CTA local.",
-          "Enlazado interno claro hacia servicios, contacto y reseñas.",
+          "El modelo tradicional 'Castle and Moat' (Castillo y Foso) asume que todo lo que está dentro de la red es seguro. Sin embargo, si un atacante consigue las credenciales de un empleado, tiene vía libre por toda la infraestructura. Zero Trust elimina esta confianza implícita.",
+          "Los tres pilares de Zero Trust son: Verificar explícitamente (siempre autenticar basándose en todos los puntos de datos disponibles), usar acceso de privilegio mínimo (limitar el acceso del usuario solo a lo que necesita en ese momento) y asumir la brecha (minimizar el radio de explosión de un posible ataque).",
+          "En el desarrollo de software a medida, esto significa que cada microservicio, cada llamada a la API y cada acceso a la base de datos debe ser validado individualmente, independientemente del origen de la petición.",
         ],
       },
       {
-        title: "Datos estructurados y NAP",
+        title: "Seguridad desde el Diseño (Security by Design)",
         body: [
-          "Schema LocalBusiness con dirección, teléfono, horario y geo.",
-          "NAP consistente en web, GMB, directorios y footer.",
-          "BreadcrumbList y FAQPage donde aplique.",
+          "En Qubelia no añadimos la seguridad al final del proyecto como un parche; la integramos en el ADN del código desde la primera línea. Esto es lo que se conoce como 'Security by Design'.",
+          "Autenticación Multifactor (MFA) obligatoria: Implementamos protocolos como WebAuthn para permitir inicios de sesión biométricos y llaves físicas, eliminando la debilidad de las contraseñas tradicionales.",
+          "Cifrado de extremo a extremo: Los datos se cifran en tránsito y, lo más importante, en reposo. Incluso si alguien consiguiera acceso físico al servidor de la base de datos, la información sería ilegible sin las llaves de cifrado gestionadas de forma segura.",
+          "Validación estricta de entradas: Prevenimos ataques comunes como Inyección SQL o Cross-Site Scripting (XSS) mediante el uso de ORMs modernos y sanitización automática de cada dato introducido por el usuario.",
         ],
       },
       {
-        title: "Rendimiento y experiencia",
+        title: "Cumplimiento normativo y RGPD en 2026",
         body: [
-          "LCP < 2.5 s en móvil (optimizar hero, fuentes, imágenes).",
-          "Formularios con validación y envío fiable (SPF/DKIM en email).",
-          "Mapa estático o con lazy loading para no penalizar CLS.",
+          "El marco legal en 2026 es más estricto que nunca. El cumplimiento del RGPD ya no es solo una cuestión legal, sino una ventaja competitiva. Un software que garantiza la privacidad por defecto genera confianza inmediata en clientes y socios.",
+          "Implementamos registros de auditoría inmutables. Sabrás quién accedió a qué dato y cuándo, con una trazabilidad completa que simplifica cualquier proceso de auditoría externa.",
+          "Derecho al olvido automatizado: Diseñamos las bases de datos para que la eliminación de datos personales sea real y completa en todos los sistemas conectados, cumpliendo con la normativa vigente sin esfuerzo manual por parte de tu equipo administrativo.",
         ],
       },
       {
-        title: "Seguimiento",
+        title: "Protección contra ataques de IA",
         body: [
-          "Eventos clave en GA4 y objetivos en GMB (clic en llamada, cómo llegar).",
-          "Keywords locales monitorizadas y fichas GMB actualizadas.",
-          "Revisar Core Web Vitals trimestralmente.",
+          "En 2026, los atacantes también usan IA para detectar vulnerabilidades. Por eso, el software a medida debe ser resiliente y capaz de detectar patrones de acceso anómalos.",
+          "Integramos sistemas de detección de anomalías que bloquean automáticamente sesiones si detectan comportamientos no humanos o intentos de fuerza bruta inteligentes. La defensa debe ser tan rápida como el ataque.",
+          "Además, realizamos pruebas de penetración (Pentesting) automatizadas y manuales periódicas para asegurar que el software evoluciona al mismo ritmo que las amenazas externas.",
         ],
       },
+    ],
+    highlights: [
+      "Protección total de los datos sensibles de la empresa y de sus clientes.",
+      "Reducción drástica del riesgo de brechas de seguridad y sus costes asociados.",
+      "Cumplimiento garantizado de normativas internacionales de privacidad.",
+      "Mayor confianza de socios comerciales y clientes finales en tu plataforma.",
     ],
     faqs: [
       {
-        q: "¿Qué es NAP y por qué importa?",
-        a: "Name, Address, Phone. Debe ser idéntico en web, Google Business Profile y directorios. Inconsistencias restan confianza y pueden dañar rankings locales.",
+        q: "¿Zero Trust hace que el software sea más lento para el usuario?",
+        a: "No si se implementa correctamente. Los protocolos modernos de autenticación y autorización están optimizados para ejecutarse en milisegundos. La seguridad no debe ser un obstáculo para la productividad.",
       },
       {
-        q: "¿Necesito blog para SEO local?",
-        a: "No es imprescindible. Primero asegura páginas de servicio/localización sólidas. El blog ayuda si cubre dudas reales de tus clientes.",
+        q: "¿Es más caro desarrollar software con este nivel de seguridad?",
+        a: "Requiere una inversión inicial ligeramente superior en arquitectura, pero el ahorro a largo plazo es incalculable. Una sola brecha de seguridad puede costar 10 veces más que el desarrollo completo del software.",
       },
       {
-        q: "¿Cómo gestiono reseñas?",
-        a: "Responde todas, pide reseñas tras cada entrega y evita picos artificiales. Las reseñas con palabras clave locales ayudan.",
+        q: "¿Puedo aplicar Zero Trust a mis sistemas antiguos?",
+        a: "Sí, mediante la implementación de 'Identity Proxies' y capas de autenticación modernas que actúan como escudo para el software legacy, permitiéndote modernizar tu seguridad sin reescribir todo el código.",
       },
     ],
+    cta: {
+      label: "Solicitar auditoría de seguridad",
+      href: "/#contacto",
+      text: "¿Te preocupa la seguridad de tus sistemas actuales? Evaluamos tus vulnerabilidades y te proponemos un plan de blindaje Zero Trust.",
+    },
   },
   {
-    slug: "go-to-market-saas-90-dias",
-    title: "Plan de go-to-market SaaS en 90 días",
+    slug: "roi-automatizacion-procesos-b2b-guia-completa",
+    title: "Cómo calcular el ROI real de la automatización: Guía B2B 2026",
     description:
-      "Cómo lanzar y validar un SaaS en 90 días: ICP, propuesta de valor, pricing, demo, métricas y playbook comercial.",
-    h1: "Go-to-market SaaS en 90 días: plan operativo",
-    date: "2025-02-14",
+      "Más allá del ahorro de tiempo. Descubre cómo medir el retorno de inversión de la automatización de procesos en 2026 mediante métricas de negocio, reducción de errores y escalabilidad.",
+    h1: "El ROI de la automatización en 2026: Cómo medir el éxito de tu inversión",
+    date: "2026-04-03",
     author: baseAuthor,
-    tags: ["SaaS", "Go-to-market", "Producto"],
+    tags: ["ROI", "Automatización", "Eficiencia", "B2B"],
     intro:
-      "Lanzar un SaaS rápido exige foco: definir ICP, resolver un caso de uso claro, empaquetarlo con pricing sencillo y medir uso real. Este plan de 90 días prioriza lo imprescindible.",
+      "Invertir en automatización no es una cuestión de fe; es una decisión financiera que debe justificarse con números. En 2026, las pymes que lideran sus sectores no automatizan 'porque es tendencia', sino porque han calculado un Retorno de Inversión (ROI) claro. Sin embargo, el ROI de la automatización va mucho más allá de simplemente ahorrar horas de trabajo. Esta guía detalla las métricas clave, los costes ocultos y los beneficios estratégicos que debes considerar para medir el éxito real de tus proyectos de software.",
     sections: [
       {
-        title: "Semana 1-3: ICP y propuesta",
+        title: "El cálculo básico: Ahorro de horas-hombre",
         body: [
-          "Definir 1-2 perfiles con problema costoso y frecuencia alta.",
-          "Redactar casos de uso concretos y resultados esperados.",
-          "Landing + demo guiada (vídeo corto) para testear interés.",
+          "La métrica más evidente es el tiempo liberado. Si un administrativo dedica 10 horas a la semana a pasar facturas manualmente y ahora el sistema lo hace solo, has ahorrado 40 horas al mes. Multiplicado por el coste de la hora, tienes tu primer dato de ROI directo.",
+          "Pero el cálculo real debe incluir el 'coste de oportunidad'. ¿Qué valor genera ese empleado si dedica esas 10 horas a tareas de mayor valor, como la gestión de cobros difíciles o la atención personalizada a clientes VIP?",
+          "En 2026, la automatización no busca despedir gente, sino escalar la operativa. Si tu empresa crece un 30% en volumen de pedidos y no necesitas contratar a nadie más en administración, el ROI de tu software se dispara exponencialmente.",
         ],
       },
       {
-        title: "Semana 4-6: Producto mínimo demostrable",
+        title: "Reducción de errores y costes de corrección",
         body: [
-          "Funcionalidades core cerradas; lo demás como servicio manual.",
-          "Onboarding guiado y eventos GA4 de activación (acciones clave).",
-          "Soporte sincrónico (chat/llamada) para aprender fricciones.",
+          "El error humano es inevitable y costoso. Un dato mal introducido en un pedido puede significar una devolución, un cliente insatisfecho y horas de trabajo perdidas en rectificaciones. La automatización reduce la tasa de error manual de un promedio del 5-8% a prácticamente cero.",
+          "Calcula cuánto te cuesta cada error operativo (tiempo de soporte, logística inversa, pérdida de margen). Multiplica eso por el número de errores que evitas al mes. Este es un componente del ROI que muchas empresas olvidan, pero que suele ser el más impactante financieramente.",
+          "La consistencia de los datos automatizados permite además una analítica fiable. Tomar decisiones basadas en datos erróneos es infinitamente más caro que cualquier software de integración.",
         ],
       },
       {
-        title: "Semana 7-9: Pricing y ventas",
+        title: "Aceleración del ciclo de ingresos (Cash Flow)",
         body: [
-          "2 planes máximo; precios redondos basados en valor percibido.",
-          "Argumentario y secuencia de emails con casos de uso.",
-          "Pilotos pagados cortos (4-6 semanas) con objetivo medible.",
+          "El tiempo es dinero, literalmente. Si automatizas el flujo desde que se firma un contrato hasta que se emite la factura y se envía el recordatorio de cobro, reduces el DSO (Days Sales Outstanding).",
+          "En 2026, cobrar 5 días antes de media mejora tu liquidez y reduce la necesidad de financiación externa. Este impacto en el flujo de caja es una métrica de ROI de alto nivel que los directores financieros (CFOs) valoran por encima de todo.",
+          "La agilidad en la respuesta comercial también aumenta la tasa de conversión. Un presupuesto enviado en 2 horas tiene un 40% más de probabilidades de ser aceptado que uno enviado en 2 días. Automatizar la generación de propuestas es, por tanto, una inversión en ventas directas.",
         ],
       },
       {
-        title: "Semana 10-12: Métricas y escalado",
+        title: "Escalabilidad y resiliencia operativa",
         body: [
-          "Seguir activación, retención 4 semanas y NPS temprano.",
-          "Playbook de demos grabadas y guías rápidas en vídeo.",
-          "Automatizar facturación y provisioning antes de escalar marketing.",
+          "¿Puede tu empresa gestionar un pico de demanda del 200% mañana mismo? Sin automatización, esto significaría el colapso del equipo o una contratación de emergencia costosa e ineficiente. Con procesos automatizados, el sistema escala sin esfuerzo.",
+          "La resiliencia ante bajas laborales o rotación de personal es otro factor clave. Cuando el conocimiento del proceso está en el software y no solo en la cabeza de una persona, la empresa es mucho más robusta.",
+          "El ROI estratégico de la escalabilidad permite a las pymes competir con grandes corporaciones, ofreciendo la misma agilidad y profesionalidad con una estructura de costes mucho más ligera.",
         ],
       },
+    ],
+    highlights: [
+      "Recuperación de la inversión inicial (Payback) en un promedio de 6 a 12 meses.",
+      "Aumento de la capacidad operativa sin incrementar los costes fijos de personal.",
+      "Mejora del 15-20% en el flujo de caja gracias a la aceleración de procesos de facturación.",
+      "Eliminación casi total de los costes derivados de errores de entrada de datos.",
     ],
     faqs: [
       {
-        q: "¿Cuándo invertir en marketing pagado?",
-        a: "Después de demostrar activación y al menos retención temprana en un segmento. Antes, usa outreach y comunidades para validar mensaje.",
+        q: "¿Qué porcentaje de ROI es aceptable para un proyecto de software?",
+        a: "En B2B, buscamos proyectos que se paguen solos en menos de un año. Un ROI anual del 150-200% es común en automatizaciones core de procesos administrativos o comerciales.",
       },
       {
-        q: "¿Precio mensual o anual?",
-        a: "Empieza con mensual para reducir fricción. Ofrece anual solo con un claro descuento y cuando haya fit probado.",
+        q: "¿Cómo mido el ROI si el beneficio es 'mejorar la imagen de marca'?",
+        a: "La imagen de marca se traduce en tasa de retención de clientes (Churn Rate) y facilidad de cierre de ventas. Si tus clientes se quedan más tiempo porque tu servicio es más ágil, el ROI es el valor del ciclo de vida (LTV) adicional generado.",
       },
       {
-        q: "¿Necesito un free trial?",
-        a: "Solo si el producto es autoexplicable. Si requiere acompañamiento, mejor demo guiada + piloto de 4-6 semanas.",
+        q: "¿Debo incluir el coste de mantenimiento en el cálculo del ROI?",
+        a: "Siempre. El ROI real es (Beneficios - Coste de Desarrollo - Coste de Mantenimiento Anual) / Inversión Total. Ignorar el mantenimiento es el error más común en las previsiones financieras de software.",
       },
     ],
+    cta: {
+      label: "Calcular mi potencial de ahorro",
+      href: "/#contacto",
+      text: "¿No sabes por dónde empezar a automatizar? Identificamos los 3 procesos con mayor ROI de tu empresa en una sesión de diagnóstico gratuita.",
+    },
   },
   {
-    slug: "brief-tecnico-proyecto-digital",
-    title: "Cómo escribir un brief técnico que evite sobrecostes",
+    slug: "software-medida-vs-saas-guia-pymes",
+    title: "Software a medida vs SaaS: ¿Cuál elegir para tu empresa?",
     description:
-      "Estructura de un brief técnico para proyectos digitales: objetivos, alcance, riesgos, datos, dependencias y métricas.",
-    h1: "Brief técnico: la plantilla que evita sobrecostes y malentendidos",
-    date: "2025-02-18",
+      "Análisis comparativo entre desarrollo a medida y soluciones SaaS: costes, escalabilidad, propiedad y personalización.",
+    h1: "Software a medida o SaaS: la decisión estratégica",
+    date: "2026-03-15",
     author: baseAuthor,
-    tags: ["Producto", "Gestión", "Requisitos"],
+    tags: ["Software a medida", "SaaS", "Estrategia"],
     intro:
-      "Un buen brief evita cambios de alcance y mantiene a negocio y tecnología alineados. Usa esta estructura antes de pedir propuestas o asignar un equipo interno.",
+      "La eterna duda: ¿compro una solución que ya existe (SaaS) o construyo algo propio? La respuesta no es binaria. Depende de si el proceso que quieres digitalizar es un estándar del mercado o si es el corazón de tu ventaja competitiva. En 2026, la mayoría de empresas exitosas usan un modelo híbrido.",
     sections: [
       {
-        title: "Contexto y objetivos",
+        title: "SaaS: Velocidad y coste inicial bajo",
         body: [
-          "Problema, usuarios afectados y objetivo de negocio cuantificable.",
-          "Supuestos de éxito y lo que no está en alcance.",
-          "Stakeholders y responsable único de decisiones.",
+          "Ideal para procesos estándar: contabilidad, nóminas, CRM básico.",
+          "Implementación inmediata: te registras y empiezas a trabajar.",
+          "Coste predecible: pagas por usuario/mes.",
+          "Limitación: tu empresa se adapta al software, no al revés.",
         ],
       },
       {
-        title: "Alcance y priorización",
+        title: "Software a medida: Ventaja competitiva y propiedad",
         body: [
-          "Historias de usuario priorizadas (Must/Should/Could).",
-          "Integraciones necesarias y APIs disponibles.",
-          "Criterios de aceptación claros y demo-ready.",
-        ],
-      },
-      {
-        title: "Riesgos, seguridad y datos",
-        body: [
-          "Riesgos conocidos (legales, técnicos, dependencias externas).",
-          "Requisitos de seguridad y cumplimiento básicos (logs, backups, acceso).",
-          "Modelo de datos y fuentes de verdad (CRM, ERP, data warehouse).",
-        ],
-      },
-      {
-        title: "Métricas y entrega",
-        body: [
-          "KPIs a medir desde el día 1: adopción, tiempo de tarea, errores.",
-          "Plan de QA y entorno de staging obligatorios.",
-          "Checklist de handover: manuales, accesos, credenciales y soporte.",
+          "Ideal para procesos core: logística propia, algoritmos de pricing, gestión de producción única.",
+          "Propiedad total: el código es tuyo, sin cuotas mensuales infinitas.",
+          "Escalabilidad sin límites: añades las funcionalidades que necesitas cuando las necesitas.",
+          "Inversión inicial mayor, pero ROI superior a largo plazo en procesos críticos.",
         ],
       },
     ],
     faqs: [
       {
-        q: "¿Quién debe redactar el brief?",
-        a: "Producto/negocio con input técnico. Un responsable único que consolide feedback y decida prioridades.",
+        q: "¿Cuándo compensa el desarrollo a medida?",
+        a: "Cuando el software estándar te obliga a trabajar de forma ineficiente o cuando necesitas una funcionalidad que tus competidores no tienen.",
       },
       {
-        q: "¿Cómo evitar cambios de alcance?",
-        a: "Prioriza en Must/Should/Could, define criterios de aceptación y bloquea nuevas peticiones hasta el siguiente sprint o fase.",
-      },
-      {
-        q: "¿Qué formato usar?",
-        a: "Documento ligero con secciones fijas y tablas (alcance, riesgos, dependencias). Versiona el archivo y comparte un histórico de cambios.",
-      },
-    ],
-  },
-  {
-    slug: "kpis-producto-b2b",
-    title: "KPIs de producto B2B que importan (y cómo medirlos)",
-    description:
-      "Selecciona y mide los KPIs clave en producto B2B: activación, retención, expansión, soporte y salud técnica.",
-    h1: "KPIs de producto B2B que importan",
-    date: "2025-02-22",
-    author: baseAuthor,
-    tags: ["Producto", "B2B", "Métricas"],
-    intro:
-      "En B2B las ventas pueden maquillar la realidad. Los KPIs de producto deben validar que hay uso repetido, expansión y costes controlados. Estos son los mínimos para tomar decisiones.",
-    sections: [
-      {
-        title: "Adopción y activación",
-        body: [
-          "Tasa de activación basada en acciones clave (no solo login).",
-          "Time-to-value: tiempo hasta el primer resultado para el usuario.",
-          "Usuarios activos semanales por rol (no solo totales).",
-        ],
-      },
-      {
-        title: "Retención y expansión",
-        body: [
-          "Retención por cohorte a 4, 8 y 12 semanas.",
-          "Expansión neta: asientos o uso adicional sin ventas forzadas.",
-          "Uso de features core vs secundarias para priorizar roadmap.",
-        ],
-      },
-      {
-        title: "Calidad y soporte",
-        body: [
-          "Errores por sesión y tiempo de respuesta en soporte.",
-          "Backlog de bugs críticos abierto vs cerrado semanalmente.",
-          "Satisfacción rápida (CSAT) tras tickets y NPS trimestral.",
-        ],
-      },
-      {
-        title: "Salud técnica",
-        body: [
-          "Disponibilidad y tiempos de respuesta en endpoints clave.",
-          "Ritmo de despliegues y porcentaje revertido.",
-          "Deuda visible: módulos sin tests, integraciones frágiles, dependencias sin actualizar.",
-        ],
-      },
-    ],
-    faqs: [
-      {
-        q: "¿Cuál es un buen benchmark de activación?",
-        a: "Depende del caso de uso. Define 1-2 acciones clave (ej. crear proyecto + invitar usuario) y busca >40-60% en 14 días en segmentos core.",
-      },
-      {
-        q: "¿Qué mirar primero, retención o expansión?",
-        a: "Primero retención de la funcionalidad core. La expansión sin uso real suele ser frágil y genera churn oculto.",
-      },
-      {
-        q: "¿Cómo reportar a dirección?",
-        a: "Un panel mensual con 5 métricas: activación, retención, expansión, NRR y salud técnica (incidentes + deploys revertidos).",
-      },
-    ],
-  },
-  {
-    slug: "migrar-wordpress-a-nextjs",
-    title: "Cómo migrar una web de WordPress a Next.js sin perder SEO",
-    description:
-      "Pasos para migrar de WordPress a Next.js: inventario de URLs, estrategia de redirecciones, contenido, analítica y rendimiento.",
-    h1: "Migrar WordPress a Next.js sin perder tráfico",
-    date: "2025-02-26",
-    author: baseAuthor,
-    tags: ["Migraciones", "SEO técnico", "Next.js"],
-    intro:
-      "Migrar a Next.js mejora rendimiento y seguridad, pero mal ejecutado puede costar tráfico. Esta guía resume el plan para mover tu sitio desde WordPress sin perder posicionamiento.",
-    sections: [
-      {
-        title: "Planificación e inventario",
-        body: [
-          "Exportar todas las URLs y métricas clave (tráfico, backlinks, conversiones).",
-          "Identificar plantillas necesarias (blog, servicios, categorías).",
-          "Priorizar rutas críticas y contenido evergreen.",
-        ],
-      },
-      {
-        title: "SEO y redirecciones",
-        body: [
-          "Mapear 301 uno a uno; evitar redirecciones en cadena.",
-          "Mantener slugs y parámetros cuando sea posible.",
-          "Probar redirecciones antes de publicar con un entorno de staging.",
-        ],
-      },
-      {
-        title: "Contenido y datos",
-        body: [
-          "Migrar imágenes optimizadas y revisar alt/figcaption.",
-          "Recrear schema (Article, FAQ, Breadcrumb) en Next.js.",
-          "Configurar analítica y eventos equivalentes a los que ya medías.",
-        ],
-      },
-      {
-        title: "Rendimiento y lanzamiento",
-        body: [
-          "Core Web Vitals: LCP, CLS y TBT medidos en móvil.",
-          "Pruebas de estrés en formularios y envíos de correo.",
-          "Publicar en ventana de tráfico bajo y monitorizar logs/alertas las primeras 48 h.",
-        ],
-      },
-    ],
-    faqs: [
-      {
-        q: "¿Cómo evito perder posiciones al migrar?",
-        a: "Mantén slugs, titles y headings, replica el contenido crítico, y prepara redirecciones 301 uno a uno. Verifica que el sitemap nuevo incluye todas las URLs importantes.",
-      },
-      {
-        q: "¿Qué hacer con los plugins de WordPress?",
-        a: "Audita funcionalidades imprescindibles (formularios, SEO, caché) y reemplázalas por implementaciones en Next.js o servicios externos. No intentes clonar plugins prescindibles.",
-      },
-      {
-        q: "¿Cómo valido antes de publicar?",
-        a: "Usa un entorno de staging con contraseña, pasa un crawler (Screaming Frog) para comparar URLs, y prueba Core Web Vitals en móvil con páginas clave.",
-      },
-    ],
-  },
-  {
-    slug: "automatizacion-comercial-b2b",
-    title: "Automatización comercial B2B sin romper la entrega",
-    description:
-      "Secuencias comerciales B2B con datos fiables: scoring, cadencias, playbooks y handoff a Customer Success.",
-    h1: "Automatización comercial B2B que no quema a los leads",
-    date: "2025-03-02",
-    author: baseAuthor,
-    tags: ["Automatización", "Ventas B2B", "Operaciones"],
-    intro:
-      "Automatizar sin control quema leads y ensucia datos. Este enfoque prioriza calidad de datos, cadencias cuidadas y handoff claro entre marketing, ventas y CS.",
-    sections: [
-      {
-        title: "Datos y scoring",
-        body: [
-          "Campos obligatorios: sector, tamaño, rol, problema declarado.",
-          "Enriquecimiento automático con fuentes externas y validación de email/teléfono.",
-          "Scoring simple (A/B/C) según ICP y señales de intención.",
-        ],
-      },
-      {
-        title: "Secuencias y cadencias",
-        body: [
-          "Primera respuesta < 1 hora, personalizada con el problema citado.",
-          "4-6 toques multicanal en 14 días; sin spam masivo.",
-          "Plantillas con pruebas sociales y calls-to-action claros (demo, recurso, diagnóstico).",
-        ],
-      },
-      {
-        title: "Handoff y entrega",
-        body: [
-          "Notas estructuradas en CRM: contexto, dolor, próximos pasos.",
-          "Checklist de pre-venta para no prometer features inexistentes.",
-          "CS recibe expectativas claras y métricas de éxito acordadas.",
-        ],
-      },
-      {
-        title: "Medición y mejora continua",
-        body: [
-          "KPIs: velocidad de respuesta, conversión a demo, win rate y tiempo a cierre.",
-          "Revisión mensual de secuencias y limpieza de datos duplicados.",
-          "Automatizaciones con fallback manual para leads de alto valor.",
-        ],
-      },
-    ],
-    faqs: [
-      {
-        q: "¿Qué CRM recomiendas para empezar?",
-        a: "Uno ligero que tu equipo pueda mantener: HubSpot Starter, Pipedrive o Close. No necesitas Salesforce para validar procesos.",
-      },
-      {
-        q: "¿Cómo evitar spam en secuencias?",
-        a: "Limita los toques, personaliza con contexto real y respeta exclusiones. Monitoriza rebotes y quejas; limpia listas cada semana.",
-      },
-      {
-        q: "¿Qué medir en operaciones comerciales?",
-        a: "Tiempo a primera respuesta, conversión a reunión, win rate y razón de pérdida. Si uno se hunde, revisa la cadencia y el ICP.",
-      },
-    ],
-  },
-  {
-    slug: "ia-agentes-pymes-2026",
-    title: "IA agéntica para pymes: qué funciona y qué no en 2026",
-    description:
-      "Guía práctica sobre agentes de IA para pymes: casos reales, riesgos, cómo evaluar ROI y por dónde empezar sin quemarse.",
-    h1: "IA agéntica para pymes: casos reales, riesgos y cómo empezar",
-    date: "2026-01-10",
-    author: baseAuthor,
-    tags: ["IA", "Automatización", "Pymes"],
-    intro:
-      "Los agentes de IA ya no son ciencia ficción: clasifican emails, extraen datos de facturas y generan borradores de propuestas. Pero aplicarlos sin control genera errores silenciosos y frustración. Esta guía resume qué funciona para pymes, qué falla y cómo pilotar de forma segura.",
-    sections: [
-      {
-        title: "Casos que dan ROI real en pymes",
-        body: [
-          "Clasificación y borrador de respuesta de tickets de soporte con revisión humana.",
-          "Extracción de datos de albaranes, facturas y contratos hacia ERP o hoja de cálculo.",
-          "Generación de informes recurrentes a partir de datos validados (sin interpretación libre).",
-          "Resumen de llamadas o reuniones con acción siguiente y responsable.",
-        ],
-      },
-      {
-        title: "Lo que falla sin guardarraíles",
-        body: [
-          "Alucinaciones en contextos críticos: números, fechas y datos de clientes.",
-          "Deriva de comportamiento tras actualizaciones del modelo sin aviso.",
-          "Dependencia de un solo proveedor sin fallback ni versionado de prompts.",
-          "Ausencia de trazabilidad: si algo falla, no puedes saber qué procesó el agente.",
-        ],
-      },
-      {
-        title: "Cómo pilotar de forma segura",
-        body: [
-          "Empieza con una tarea acotada: una sola fuente de datos, un solo tipo de salida.",
-          "Define la métrica de calidad antes de lanzar (ej. precisión > 95% en extracción).",
-          "Revisión humana obligatoria en el piloto; automatiza solo cuando la calidad sea consistente.",
-          "Observabilidad desde el día 1: logs de entradas, salidas y rechazos.",
-        ],
-      },
-      {
-        title: "Evaluar ROI antes de escalar",
-        body: [
-          "Mide horas ahorradas reales, no potenciales.",
-          "Añade coste de prompt engineering, supervisión y mantenimiento del modelo.",
-          "Calcula el coste de un error: si un error tiene consecuencias legales o económicas altas, el ROI se reduce.",
-          "Revisa cada trimestre: los modelos mejoran, pero los costes de API también varían.",
-        ],
-      },
-    ],
-    faqs: [
-      {
-        q: "¿Qué modelo de IA usar para automatizaciones en pymes?",
-        a: "Depende del caso. Para extracción estructurada: modelos económicos con función calling (GPT-4o mini, Gemini Flash). Para redacción o análisis: modelos más capaces. Lo más importante es versionar los prompts y medir calidad.",
-      },
-      {
-        q: "¿Es seguro conectar IA a datos de clientes?",
-        a: "Sí, con las medidas adecuadas: control de acceso, anonimización donde sea posible, acuerdos DPA con el proveedor y logs. Empieza con datos no sensibles y amplía de forma controlada.",
-      },
-      {
-        q: "¿Cuánto tarda un piloto de IA en una pyme?",
-        a: "Un piloto funcional de una tarea acotada suele estar listo en 3-5 semanas: una semana de análisis, dos de desarrollo y dos de validación con datos reales.",
-      },
-    ],
-  },
-  {
-    slug: "arquitectura-nextjs-seo-2026",
-    title: "Arquitectura Next.js para SEO técnico en 2026: lo que importa",
-    description:
-      "App Router, Server Components, ISR, sitemap dinámico y Core Web Vitals. Cómo estructurar un proyecto Next.js que posicione bien.",
-    h1: "Next.js y SEO técnico en 2026: arquitectura que posiciona",
-    date: "2026-01-28",
-    author: baseAuthor,
-    tags: ["Next.js", "SEO técnico", "Rendimiento"],
-    intro:
-      "Con el App Router consolidado y los Core Web Vitals como señal de ranking, la arquitectura del proyecto marca la diferencia entre una web que posiciona y una que no. Este artículo resume las decisiones clave de configuración para proyectos Next.js orientados a SEO.",
-    sections: [
-      {
-        title: "Server Components y renderizado para SEO",
-        body: [
-          "Usa Server Components por defecto: el HTML llega completo al crawler sin JS.",
-          "Reserva Client Components ('use client') para interactividad real: formularios, tabs, sliders.",
-          "generateMetadata por ruta: title, description, canonical y og:image distintos en cada página.",
-          "Evita el patrón 'fetch en cliente + spinner': el crawler ve un skeleton vacío.",
-        ],
-      },
-      {
-        title: "ISR y caché para páginas con datos",
-        body: [
-          "revalidate = 86400 en páginas de contenido estable (servicios, blog); más bajo en precios o inventario.",
-          "generateStaticParams para rutas dinámicas de alto tráfico: el build las pre-renderiza.",
-          "fetch cache: 'force-cache' con next.revalidate para controlar granularidad por endpoint.",
-          "Evita force-dynamic en páginas que no lo necesiten: penaliza TTFB y coste de servidor.",
-        ],
-      },
-      {
-        title: "Sitemap y robots dinámicos",
-        body: [
-          "sitemap.ts con rutas estáticas + dinámicas (blog, productos): actualización automática en cada build.",
-          "robots.ts que bloquee /api, /admin y parámetros de tracking (?utm_*, ?ref=).",
-          "Canonical explícito en todas las rutas, incluidas paginaciones y filtros.",
-          "hreflang si hay versiones en varios idiomas; sin él Google puede elegir la URL incorrecta.",
-        ],
-      },
-      {
-        title: "Core Web Vitals: las palancas reales",
-        body: [
-          "LCP: imagen hero con priority={true} y tamaños responsive correctos (srcSet).",
-          "CLS: reserva de espacio en imágenes y fuentes (font-display: swap con subset).",
-          "INP: evita handlers síncronos pesados en eventos de usuario; usa startTransition para actualizaciones no urgentes.",
-          "Mide en campo (CrUX) y en laboratorio (Lighthouse CI en cada PR).",
-        ],
-      },
-    ],
-    faqs: [
-      {
-        q: "¿Merece la pena migrar de Pages Router a App Router en 2026?",
-        a: "Para proyectos nuevos, sí claramente. Para migraciones, evalúa el tamaño: si tienes más de 50 páginas con lógica compleja, migra de forma incremental usando el layout compartido.",
-      },
-      {
-        q: "¿Cómo gestiono el canonical en rutas con parámetros?",
-        a: "Genera el canonical en generateMetadata con la URL limpia (sin parámetros de tracking). En rutas con paginación, el canonical de la página 2 apunta a sí misma, no a la página 1.",
-      },
-      {
-        q: "¿Necesito un sitemap por sección o uno global?",
-        a: "Un sitemap global suele ser suficiente. Divide en múltiples sitemaps solo si superas 50.000 URLs o quieres métricas separadas por sección en Google Search Console.",
-      },
-    ],
-  },
-  {
-    slug: "presupuesto-software-medida-2026",
-    title: "Cuánto cuesta el software a medida en 2026: rangos y guía",
-    description:
-      "Rangos de precio para proyectos de software a medida en España: apps internas, integraciones ERP/CRM y plataformas. Factores reales que suben o bajan el coste.",
-    h1: "Cuánto cuesta el software a medida en 2026",
-    date: "2026-02-12",
-    author: baseAuthor,
-    tags: ["Software a medida", "Presupuesto", "Pymes"],
-    intro:
-      "Los presupuestos de software a medida varían desde 5.000 € hasta más de 100.000 € dependiendo del alcance, las integraciones y el equipo. Aquí tienes los rangos reales del mercado español en 2026 y los factores que de verdad importan para no quemar presupuesto.",
-    sections: [
-      {
-        title: "Rangos de mercado en España (2026)",
-        body: [
-          "Herramienta interna simple (1-3 módulos, sin integraciones): 5.000 € – 12.000 €.",
-          "App con integraciones a ERP/CRM y automatizaciones moderadas: 12.000 € – 30.000 €.",
-          "Plataforma con múltiples roles, seguridad reforzada y reporting: 30.000 € – 80.000 €.",
-          "Soporte y mantenimiento post-lanzamiento: 8-15 % del coste de desarrollo por año.",
-        ],
-      },
-      {
-        title: "Factores que disparan el coste",
-        body: [
-          "Integraciones: cada API externa (ERP, CRM, pasarela de pagos) añade 2.000 €–8.000 €.",
-          "Requisitos de seguridad y cumplimiento: SSO, auditoría de accesos, cifrado de datos sensibles.",
-          "Múltiples entornos: staging, producción y disaster recovery con CI/CD completo.",
-          "Alcance mal definido: el scope creep puede duplicar tiempos y presupuesto.",
-        ],
-      },
-      {
-        title: "Qué incluye una propuesta seria",
-        body: [
-          "Discovery documentado: objetivos, backlog priorizado y criterios de aceptación.",
-          "Arquitectura básica: diagrama de módulos, integraciones y modelo de datos.",
-          "Entrega iterativa: demos quincenales o mensuales con entregables medibles.",
-          "Handover completo: repositorio, documentación técnica, accesos y formación.",
-        ],
-      },
-      {
-        title: "Cómo reducir riesgo sin bajar calidad",
-        body: [
-          "Empieza con un MVP acotado: valida el uso real antes de invertir en el producto completo.",
-          "Define el alcance por Must/Should/Could y bloquea el scope en el contrato.",
-          "Pide referencias de proyectos similares en tamaño y sector.",
-          "Evita presupuestos sin discovery previo: nadie puede dar un precio fiable sin entender el problema.",
-        ],
-      },
-    ],
-    faqs: [
-      {
-        q: "¿Es mejor un equipo interno o una agencia?",
-        a: "Depende del volumen y continuidad. Para proyectos puntuales o cuando no hay equipo técnico propio, una agencia o consultora es más eficiente. Para producto en evolución constante, construye equipo interno apoyado en partners externos.",
-      },
-      {
-        q: "¿Cuánto tarda un proyecto de software a medida?",
-        a: "El primer release suele estar en 8-14 semanas para proyectos de complejidad media. Con buena definición de alcance y demos iterativas, los plazos son más predecibles.",
-      },
-      {
-        q: "¿Qué pasa con el mantenimiento?",
-        a: "Presupuesta mantenimiento desde el inicio: actualizaciones de seguridad, corrección de bugs y pequeñas mejoras. El coste típico es del 10-15% del desarrollo por año.",
+        q: "¿Es más caro el software a medida?",
+        a: "Al principio sí. Pero a partir del año 2 o 3, el coste de las licencias SaaS suele superar la inversión inicial del desarrollo propio, especialmente si tienes muchos usuarios.",
       },
     ],
   },
@@ -774,15 +412,17 @@ export const posts: Post[] = [
   },
 ];
 
-export const postsMeta: PostMeta[] = posts.map(({ slug, title, description, h1, date, author, tags }) => ({
-  slug,
-  title,
-  description,
-  h1,
-  date,
-  author,
-  tags,
-}));
+export const postsMeta: PostMeta[] = posts.map(
+  ({ slug, title, description, h1, date, author, tags }) => ({
+    slug,
+    title,
+    description,
+    h1,
+    date,
+    author,
+    tags,
+  })
+);
 
 export function getPost(slug: string) {
   return posts.find((p) => p.slug === slug);
@@ -817,13 +457,15 @@ export function getPostsWithReadingTime(limit?: number) {
 
 export function getRelatedPosts(slug: string, limit = 3): PostMeta[] {
   const filtered = posts.filter((p) => p.slug !== slug);
-  return filtered.slice(0, limit).map(({ slug, title, description, h1, date, author, tags }) => ({
-    slug,
-    title,
-    description,
-    h1,
-    date,
-    author,
-    tags,
-  }));
+  return filtered
+    .slice(0, limit)
+    .map(({ slug, title, description, h1, date, author, tags }) => ({
+      slug,
+      title,
+      description,
+      h1,
+      date,
+      author,
+      tags,
+    }));
 }
