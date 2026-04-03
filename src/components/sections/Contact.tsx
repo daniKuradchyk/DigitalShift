@@ -1,181 +1,318 @@
 "use client";
+
 import React, { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 import { CONTACT } from "@/config/contact";
 
+/* ─── Shared easing (same across ALL sections) ─────────────────── */
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+/* ─── Form types & styles ─────────────────────────────────────── */
 type Errors = { name?: string; email?: string; phone?: string; objective?: string; privacyAccepted?: string };
 
-const inputClass = "mt-1.5 w-full rounded-lg sm:rounded-xl border border-blue-400/15 bg-[#0A1128]/80 px-3 sm:px-3.5 py-2 sm:py-2.5 text-sm placeholder-blue-300/20 transition-all duration-200 focus:outline-none focus:border-blue-400/40 focus:shadow-[0_0_0_3px_rgba(65,105,225,0.08)]";
-const inputErrorClass = "border-red-400/60 focus:border-red-400/70 focus:shadow-[0_0_0_3px_rgba(239,68,68,0.08)]";
-const labelClass = "block text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em]";
+const inputBase =
+  "w-full rounded-xl border bg-transparent px-4 py-3 text-sm transition-all duration-300 focus:outline-none placeholder:text-blue-300/15";
+const inputNormal = "border-blue-400/10 focus:border-blue-400/30 focus:shadow-[0_0_0_3px_rgba(65,105,225,0.06)]";
+const inputError = "border-red-400/40 focus:border-red-400/50 focus:shadow-[0_0_0_3px_rgba(239,68,68,0.06)]";
+const labelClass = "block text-[11px] font-semibold uppercase tracking-[0.14em] mb-2";
 
-const trustStats = [
-  { value: "24 h",   label: "Respuesta",    color: "text-blue-400" },
-  { value: "48–72h", label: "Propuesta",    color: "text-blue-300"   },
-  { value: "100%",   label: "Tuyo siempre", color: "text-blue-400" },
+/* ─── Contact channels ────────────────────────────────────────── */
+const CHANNELS = [
+  {
+    label: "Email",
+    value: CONTACT.email,
+    sub: "Respuesta en 24 h laborables",
+    href: `mailto:${CONTACT.email}`,
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="M3 7l9 6 9-6" />
+      </svg>
+    ),
+  },
+  {
+    label: "Teléfono",
+    value: CONTACT.phone,
+    sub: CONTACT.phoneHours,
+    href: CONTACT.phoneHref,
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.08 4.18 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.72c.12.86.32 1.7.58 2.5a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.58-1.04a2 2 0 0 1 2.11-.45c.8.26 1.64.46 2.5.58A2 2 0 0 1 22 16.92Z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Ubicación",
+    value: CONTACT.address,
+    sub: CONTACT.addressFull,
+    href: null,
+    icon: (
+      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 21s-6-5.2-6-10a6 6 0 1 1 12 0c0 4.8-6 10-6 10Z" />
+        <circle cx="12" cy="11" r="2.5" />
+      </svg>
+    ),
+  },
 ];
 
-const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-
+/* ═══════════════════════════════════════════════════════════════════
+   MAIN CONTACT SECTION — Professional, standalone
+   ═══════════════════════════════════════════════════════════════════ */
 export default function Contact() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
-  const [message, setMessage] = useState<string>("");
+  const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<Errors>({});
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
-  const [privacyInfoOpen, setPrivacyInfoOpen] = useState(false);
 
   function validate(form: FormData, consent: boolean): Errors {
     const e: Errors = {};
-    if (!String(form.get("name") || "").trim()) e.name = "El nombre es obligatorio";
+    if (!String(form.get("name") || "").trim()) e.name = "Obligatorio";
     const email = String(form.get("email") || "").trim();
-    if (!email) e.email = "El email es obligatorio";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = "El email no es válido";
+    if (!email) e.email = "Obligatorio";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = "Email no válido";
     const phone = String(form.get("phone") || "").trim();
-    if (!phone) e.phone = "El teléfono es obligatorio";
-    else if (phone.replace(/\D/g, "").length < 7) e.phone = "Introduce un teléfono válido";
-    if (!String(form.get("objective") || "").trim()) e.objective = "Cuéntanos el objetivo del proyecto";
-    if (!consent) e.privacyAccepted = "Debes aceptar la Política de privacidad para enviar el formulario.";
+    if (!phone) e.phone = "Obligatorio";
+    else if (phone.replace(/\D/g, "").length < 7) e.phone = "Teléfono no válido";
+    if (!String(form.get("objective") || "").trim()) e.objective = "Obligatorio";
+    if (!consent) e.privacyAccepted = "Debes aceptar la Política de privacidad.";
     return e;
   }
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const formEl = e.currentTarget;
+  async function onSubmit(ev: React.FormEvent<HTMLFormElement>) {
+    ev.preventDefault();
+    const formEl = ev.currentTarget;
     const form = new FormData(formEl);
     const v = validate(form, privacyAccepted);
     setErrors(v);
-    if (Object.keys(v).length > 0) { setStatus("error"); setMessage("Revisa los campos marcados."); return; }
+    if (Object.keys(v).length > 0) {
+      setStatus("error");
+      setMessage("Revisa los campos marcados.");
+      return;
+    }
     setStatus("loading");
     const payload = { ...Object.fromEntries(form.entries()), privacyAccepted };
-    const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-    if (res.ok) { setStatus("ok"); setMessage("¡Gracias! Te responderemos en 24 h laborables."); formEl.reset(); setPrivacyAccepted(false); }
-    else { setStatus("error"); setMessage("Ha ocurrido un error. Inténtalo de nuevo."); }
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (res.ok) {
+      setStatus("ok");
+      setMessage("¡Gracias! Te responderemos en 24 h laborables.");
+      formEl.reset();
+      setPrivacyAccepted(false);
+    } else {
+      setStatus("error");
+      setMessage("Ha ocurrido un error. Inténtalo de nuevo.");
+    }
   }
 
   return (
-    <section ref={ref} id="contacto" aria-labelledby="contact-title" className="relative py-16 sm:py-20 md:py-28 lg:py-32 overflow-hidden">
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent 10%, rgba(65,105,225,0.3) 50%, transparent 90%)" }} />
-        <div className="absolute -left-20 bottom-1/4 h-64 sm:h-96 w-64 sm:w-96 rounded-full blur-3xl opacity-15" style={{ background: "rgba(65,105,225,0.25)" }} />
-        <div className="absolute -right-20 top-1/4 h-64 sm:h-96 w-64 sm:w-96 rounded-full blur-3xl opacity-15" style={{ background: "rgba(91,141,239,0.25)" }} />
+    <section
+      ref={ref}
+      id="contacto"
+      aria-labelledby="contact-title"
+      className="relative scroll-mt-24 py-16 sm:py-20 md:py-28 lg:py-36 overflow-hidden"
+    >
+      {/* ── Background ── */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <motion.div
+          className="absolute top-0 left-0 right-0 h-px"
+          initial={{ scaleX: 0 }}
+          animate={inView ? { scaleX: 1 } : {}}
+          transition={{ duration: 1.4, ease: EASE }}
+          style={{
+            transformOrigin: "center",
+            background: "linear-gradient(90deg, transparent, rgba(65,105,225,0.2), transparent)",
+          }}
+        />
+        {/* Ambient glows */}
+        <div
+          className="absolute -left-40 top-1/4 w-[500px] h-[500px] rounded-full blur-[140px] opacity-[0.04]"
+          style={{ background: "rgba(65,105,225,1)" }}
+        />
+        <div
+          className="absolute -right-40 bottom-1/4 w-[400px] h-[400px] rounded-full blur-[120px] opacity-[0.03]"
+          style={{ background: "rgba(96,165,250,1)" }}
+        />
       </div>
 
-      <Container>
-        <div className="grid gap-6 sm:gap-8 lg:grid-cols-[1fr_1.35fr] lg:items-start">
-          {/* Left: visual panel */}
+      <Container className="relative">
+        {/* ── Header — centrado ── */}
+        <div className="max-w-2xl mx-auto text-center mb-12 sm:mb-16">
           <motion.div
-            className="space-y-4 sm:space-y-6"
-            initial={{ opacity: 0, x: -20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, ease: EASE }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease: EASE }}
           >
-            <div className="relative rounded-xl sm:rounded-2xl overflow-hidden p-5 sm:p-8" style={{ background: "linear-gradient(135deg, rgba(65,105,225,0.14) 0%, rgba(91,141,239,0.08) 40%, rgba(133,162,255,0.10) 100%)" }}>
-              <div className="absolute inset-0 border border-blue-400/15 rounded-xl sm:rounded-2xl pointer-events-none" />
-              <div className="section-tag mb-4 sm:mb-5">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" style={{ boxShadow: "0 0 8px rgba(52,211,153,0.6)" }} aria-hidden />
-                Contacto
-              </div>
-              <h2 id="contact-title" className="text-h2 mb-2" style={{ color: "var(--text-primary)" }}>
-                Agenda un <span className="gradient-text-static">diagnóstico</span>
-              </h2>
-              <p className="text-xs sm:text-sm mb-5 sm:mb-8" style={{ color: "var(--text-muted)" }}>
-                Cuéntanos el problema o el proceso que queréis mejorar. Devolvemos una propuesta clara y accionable en 48–72 h. Sin compromiso.
-              </p>
-              <div className="grid grid-cols-3 divide-x divide-blue-400/10 border border-blue-400/10 rounded-lg sm:rounded-xl overflow-hidden bg-[#0A1128]/60">
-                {trustStats.map((s) => (
-                  <div key={s.label} className="flex flex-col items-center py-3 sm:py-4 px-1.5 sm:px-2 text-center">
-                    <p className={`text-lg sm:text-2xl font-extrabold tracking-tight ${s.color}`}>{s.value}</p>
-                    <p className="text-[8px] sm:text-[10px] mt-0.5" style={{ color: "var(--text-muted)" }}>{s.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-xl sm:rounded-2xl border border-blue-400/10 bg-[#0A1128]/60 divide-y divide-blue-400/8 overflow-hidden">
-              {[
-                { label: "Llámanos", value: CONTACT.phone, sub: CONTACT.phoneHours, href: CONTACT.phoneHref, icon: (<svg viewBox="0 0 24 24" className="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.08 4.18 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.72c.12.86.32 1.7.58 2.5a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.58-1.04a2 2 0 0 1 2.11-.45c.8.26 1.64.46 2.5.58A2 2 0 0 1 22 16.92Z" /></svg>) },
-                { label: "Email", value: CONTACT.email, sub: "Respuesta en 24 h laborables", href: `mailto:${CONTACT.email}`, icon: (<svg viewBox="0 0 24 24" className="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" /></svg>) },
-                { label: "Ubicación", value: CONTACT.address, sub: CONTACT.addressFull, href: null as string | null, icon: (<svg viewBox="0 0 24 24" className="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21s-6-5.2-6-10a6 6 0 1 1 12 0c0 4.8-6 10-6 10Z" /><circle cx="12" cy="11" r="2.5" /></svg>) },
-              ].map((card) => (
-                <div key={card.label} className="flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3 sm:py-4">
-                  <span className="inline-flex h-8 w-8 sm:h-9 sm:w-9 flex-shrink-0 items-center justify-center rounded-lg sm:rounded-xl text-blue-400 border border-blue-400/15 bg-blue-500/10">{card.icon}</span>
-                  <div className="min-w-0">
-                    <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.18em] font-semibold" style={{ color: "rgba(91,141,239,0.5)" }}>{card.label}</p>
-                    {card.href ? (
-                      <a href={card.href} className="block text-xs sm:text-sm font-semibold hover:text-blue-300 transition-colors truncate" style={{ color: "var(--text-primary)" }}>{card.value}</a>
-                    ) : (
-                      <p className="text-xs sm:text-sm font-semibold truncate" style={{ color: "var(--text-primary)" }}>{card.value}</p>
-                    )}
-                    {card.sub && <p className="text-[10px] sm:text-xs truncate" style={{ color: "var(--text-muted)" }}>{card.sub}</p>}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-2 sm:gap-3">
-              <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-semibold" style={{ color: "rgba(91,141,239,0.5)" }}>Redes</span>
-              {[
-                { href: CONTACT.linkedin, label: "LinkedIn de Qubelia", name: "LinkedIn", icon: (<svg viewBox="0 0 24 24" className="h-3 w-3 sm:h-3.5 sm:w-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M7.5 10.5V16" /><circle cx="7.5" cy="7.5" r="1" /><path d="M11 16v-3.2a2 2 0 0 1 4 0V16M11 10.5h4" /></svg>) },
-                { href: CONTACT.instagram, label: "Instagram de Qubelia", name: "Instagram", icon: (<svg viewBox="0 0 24 24" className="h-3 w-3 sm:h-3.5 sm:w-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="3.5" /><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" /></svg>) },
-              ].map((s) => (
-                <a key={s.name} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label} className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-blue-400/12 bg-blue-500/[0.04] px-2.5 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-medium hover:border-blue-400/25 hover:text-blue-300 transition-all" style={{ color: "var(--text-muted)" }}>
-                  {s.icon} {s.name}
-                </a>
-              ))}
-            </div>
+            <span className="section-tag mb-5">
+              <span
+                className="h-2 w-2 rounded-full bg-emerald-400"
+                style={{ boxShadow: "0 0 8px rgba(52,211,153,0.6)" }}
+              />
+              Contacto
+            </span>
           </motion.div>
 
-          {/* Right: form */}
+          <motion.h2
+            id="contact-title"
+            className="text-h2 mt-4 mb-4"
+            style={{ color: "var(--text-primary)" }}
+            initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
+            animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+            transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
+          >
+            Cuéntanos tu{" "}
+            <span className="gradient-text-static">proyecto</span>
+          </motion.h2>
+
+          <motion.p
+            className="text-sm sm:text-base md:text-lg leading-relaxed max-w-lg mx-auto"
+            style={{ color: "var(--text-secondary)" }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
+          >
+            Diagnóstico gratuito y propuesta clara en 48–72 h. Sin compromiso.
+          </motion.p>
+        </div>
+
+        {/* ── Main content: form left + info right ── */}
+        <div className="grid lg:grid-cols-[1.3fr_1fr] gap-8 lg:gap-14 items-start max-w-5xl mx-auto">
+          {/* ── Left: Form ── */}
           <motion.form
             onSubmit={onSubmit}
-            className="rounded-xl sm:rounded-2xl border border-blue-400/12 p-4 sm:p-6 md:p-8 bg-[#0A1128] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)]"
-            aria-describedby="rgpd-note status-msg"
-            initial={{ opacity: 0, x: 20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
+            className="relative rounded-2xl overflow-hidden p-6 sm:p-8 md:p-10"
+            style={{
+              background: "linear-gradient(180deg, rgba(10,17,40,0.97), rgba(6,11,26,0.95))",
+              borderWidth: "1px",
+              borderColor: "rgba(65,105,225,0.1)",
+            }}
+            aria-describedby="rgpd-note"
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
           >
-            <div className="flex flex-wrap items-start justify-between gap-2 sm:gap-3 mb-5 sm:mb-7">
-              <div>
-                <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] font-bold text-blue-400">Diagnóstico gratuito</p>
-                <h3 className="text-lg sm:text-xl font-bold mt-0.5" style={{ color: "var(--text-primary)" }}>¿Qué proceso queréis mejorar?</h3>
-                <p className="mt-1 text-xs sm:text-sm" style={{ color: "var(--text-muted)" }}>Propuesta realista y sin compromiso en 48–72 h.</p>
+            {/* Accent line top */}
+            <motion.div
+              className="absolute top-0 left-0 right-0 h-[2px]"
+              style={{
+                background: "linear-gradient(90deg, transparent, rgba(65,105,225,0.4), rgba(96,165,250,0.3), transparent)",
+              }}
+              initial={{ scaleX: 0 }}
+              animate={inView ? { scaleX: 1 } : {}}
+              transition={{ duration: 1, delay: 0.3, ease: EASE }}
+            />
+
+            {/* Form header */}
+            <div className="flex items-center gap-3 mb-8">
+              <div
+                className="w-10 h-10 rounded-xl flex items-center justify-center"
+                style={{
+                  background: "rgba(65,105,225,0.1)",
+                  border: "1px solid rgba(65,105,225,0.15)",
+                }}
+              >
+                <svg className="w-5 h-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                </svg>
               </div>
-              <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                <span className="inline-flex items-center gap-1 sm:gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/8 px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold text-emerald-400">
-                  <span className="h-1 w-1 sm:h-1.5 sm:w-1.5 rounded-full bg-emerald-400" style={{ boxShadow: "0 0 6px rgba(52,211,153,0.6)" }} aria-hidden />
-                  Respuesta 24 h
-                </span>
-                <span className="inline-flex items-center gap-1 rounded-full border border-blue-400/10 bg-blue-500/[0.04] px-2 sm:px-2.5 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold" style={{ color: "var(--text-muted)" }}>Confidencial</span>
+              <div>
+                <h3
+                  className="text-lg font-bold"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  Solicita un diagnóstico
+                </h3>
+                <p className="text-xs" style={{ color: "var(--text-muted)" }}>
+                  Todos los campos con * son obligatorios
+                </p>
               </div>
             </div>
 
-            <div className="grid gap-3 sm:gap-5 sm:grid-cols-2">
+            {/* Fields */}
+            <div className="grid gap-5 sm:grid-cols-2">
               <div>
-                <label htmlFor="name" className={labelClass} style={{ color: "var(--text-muted)" }}>Nombre*</label>
-                <input id="name" name="name" type="text" required autoComplete="name" aria-invalid={!!errors.name} className={`${inputClass} ${errors.name ? inputErrorClass : ""}`} style={{ color: "var(--text-primary)" }} placeholder="Tu nombre" />
-                {errors.name && <p className="mt-1 text-[10px] sm:text-xs text-red-400">{errors.name}</p>}
+                <label htmlFor="ct-name" className={labelClass} style={{ color: "var(--text-muted)" }}>
+                  Nombre *
+                </label>
+                <input
+                  id="ct-name"
+                  name="name"
+                  type="text"
+                  required
+                  autoComplete="name"
+                  className={`${inputBase} ${errors.name ? inputError : inputNormal}`}
+                  style={{ color: "var(--text-primary)" }}
+                  placeholder="Tu nombre"
+                />
+                {errors.name && <p className="mt-1.5 text-[11px] text-red-400">{errors.name}</p>}
               </div>
+
               <div>
-                <label htmlFor="email" className={labelClass} style={{ color: "var(--text-muted)" }}>Email*</label>
-                <input id="email" name="email" type="email" required autoComplete="email" aria-invalid={!!errors.email} className={`${inputClass} ${errors.email ? inputErrorClass : ""}`} style={{ color: "var(--text-primary)" }} placeholder="tu@empresa.com" />
-                {errors.email && <p className="mt-1 text-[10px] sm:text-xs text-red-400">{errors.email}</p>}
+                <label htmlFor="ct-email" className={labelClass} style={{ color: "var(--text-muted)" }}>
+                  Email *
+                </label>
+                <input
+                  id="ct-email"
+                  name="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  className={`${inputBase} ${errors.email ? inputError : inputNormal}`}
+                  style={{ color: "var(--text-primary)" }}
+                  placeholder="tu@empresa.com"
+                />
+                {errors.email && <p className="mt-1.5 text-[11px] text-red-400">{errors.email}</p>}
               </div>
+
               <div>
-                <label htmlFor="phone" className={labelClass} style={{ color: "var(--text-muted)" }}>Teléfono*</label>
-                <input id="phone" name="phone" type="tel" required autoComplete="tel" inputMode="tel" aria-invalid={!!errors.phone} className={`${inputClass} ${errors.phone ? inputErrorClass : ""}`} style={{ color: "var(--text-primary)" }} placeholder="+34 600 000 000" />
-                {errors.phone && <p className="mt-1 text-[10px] sm:text-xs text-red-400">{errors.phone}</p>}
+                <label htmlFor="ct-phone" className={labelClass} style={{ color: "var(--text-muted)" }}>
+                  Teléfono *
+                </label>
+                <input
+                  id="ct-phone"
+                  name="phone"
+                  type="tel"
+                  required
+                  autoComplete="tel"
+                  inputMode="tel"
+                  className={`${inputBase} ${errors.phone ? inputError : inputNormal}`}
+                  style={{ color: "var(--text-primary)" }}
+                  placeholder="+34 600 000 000"
+                />
+                {errors.phone && <p className="mt-1.5 text-[11px] text-red-400">{errors.phone}</p>}
               </div>
+
               <div>
-                <label htmlFor="company" className={labelClass} style={{ color: "var(--text-muted)" }}>Empresa</label>
-                <input id="company" name="company" type="text" autoComplete="organization" className={inputClass} style={{ color: "var(--text-primary)" }} placeholder="Nombre de tu empresa" />
+                <label htmlFor="ct-company" className={labelClass} style={{ color: "var(--text-muted)" }}>
+                  Empresa
+                </label>
+                <input
+                  id="ct-company"
+                  name="company"
+                  type="text"
+                  autoComplete="organization"
+                  className={`${inputBase} ${inputNormal}`}
+                  style={{ color: "var(--text-primary)" }}
+                  placeholder="Nombre de tu empresa"
+                />
               </div>
-              <div className="sm:col-span-1">
-                <label htmlFor="budget" className={labelClass} style={{ color: "var(--text-muted)" }}>Presupuesto orientativo</label>
-                <select id="budget" name="budget" className={inputClass} style={{ color: "var(--text-primary)" }}>
+
+              <div>
+                <label htmlFor="ct-budget" className={labelClass} style={{ color: "var(--text-muted)" }}>
+                  Presupuesto orientativo
+                </label>
+                <select
+                  id="ct-budget"
+                  name="budget"
+                  className={`${inputBase} ${inputNormal}`}
+                  style={{ color: "var(--text-primary)" }}
+                >
                   <option value="">Selecciona un rango</option>
                   <option>Hasta 8.000 €</option>
                   <option>8.000–20.000 €</option>
@@ -183,49 +320,283 @@ export default function Contact() {
                   <option>Más de 50.000 €</option>
                 </select>
               </div>
-              <div className="sm:col-span-2">
-                <label htmlFor="objective" className={labelClass} style={{ color: "var(--text-muted)" }}>¿Qué proceso o problema queréis resolver?*</label>
-                <textarea id="objective" name="objective" required rows={3} aria-invalid={!!errors.objective} className={`${inputClass} resize-none ${errors.objective ? inputErrorClass : ""}`} style={{ color: "var(--text-primary)" }} placeholder="Ej: tenemos los pedidos en Excel y el ERP no se sincroniza con la tienda online..." />
-                {errors.objective && <p className="mt-1 text-[10px] sm:text-xs text-red-400">{errors.objective}</p>}
+
+              <div>
+                <label htmlFor="ct-timeline" className={labelClass} style={{ color: "var(--text-muted)" }}>
+                  Plazo deseado
+                </label>
+                <select
+                  id="ct-timeline"
+                  name="timeline"
+                  className={`${inputBase} ${inputNormal}`}
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  <option value="">Selecciona un plazo</option>
+                  <option>Lo antes posible</option>
+                  <option>1–3 meses</option>
+                  <option>3–6 meses</option>
+                  <option>Sin prisa, estoy explorando</option>
+                </select>
               </div>
+
+              <div className="sm:col-span-2">
+                <label htmlFor="ct-objective" className={labelClass} style={{ color: "var(--text-muted)" }}>
+                  ¿Qué proceso o problema queréis resolver? *
+                </label>
+                <textarea
+                  id="ct-objective"
+                  name="objective"
+                  required
+                  rows={4}
+                  className={`${inputBase} resize-none ${errors.objective ? inputError : inputNormal}`}
+                  style={{ color: "var(--text-primary)" }}
+                  placeholder="Ej: tenemos los pedidos en Excel y el ERP no se sincroniza con la tienda online..."
+                />
+                {errors.objective && <p className="mt-1.5 text-[11px] text-red-400">{errors.objective}</p>}
+              </div>
+
+              {/* Honeypot */}
               <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
-              <div className="sm:col-span-2 flex items-start gap-2 sm:gap-3">
-                <input id="privacyAccepted" name="privacyAccepted" type="checkbox" checked={privacyAccepted} onChange={(ev) => { setPrivacyAccepted(ev.target.checked); if (ev.target.checked) setPrivacyInfoOpen(true); }} className="mt-0.5 h-3.5 w-3.5 sm:h-4 sm:w-4 rounded accent-blue-500" />
-                <label htmlFor="privacyAccepted" className="text-xs sm:text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                  He leído y acepto la <a className="text-blue-400 hover:text-blue-300 underline underline-offset-2" href="/legal/privacidad">Política de privacidad</a>.
+
+              {/* Privacy */}
+              <div className="sm:col-span-2 flex items-start gap-3">
+                <input
+                  id="ct-privacy"
+                  name="privacyAccepted"
+                  type="checkbox"
+                  checked={privacyAccepted}
+                  onChange={(ev) => setPrivacyAccepted(ev.target.checked)}
+                  className="mt-0.5 h-4 w-4 rounded accent-blue-500"
+                />
+                <label htmlFor="ct-privacy" className="text-xs sm:text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                  He leído y acepto la{" "}
+                  <a className="text-blue-400 hover:text-blue-300 underline underline-offset-2" href="/legal/privacidad">
+                    Política de privacidad
+                  </a>
+                  .
                 </label>
               </div>
-              {errors.privacyAccepted && <p className="sm:col-span-2 text-[10px] sm:text-xs text-red-400">{errors.privacyAccepted}</p>}
-            </div>
-
-            <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
-              <Button type="submit" variant="shine" disabled={status === "loading"} className="w-full sm:w-auto">
-                {status === "loading" ? "Enviando…" : "Pedir diagnóstico"}
-              </Button>
-              <p id="status-msg" aria-live="polite" className={`text-xs sm:text-sm ${status === "error" ? "text-red-400" : status === "ok" ? "text-emerald-400" : ""}`} style={status === "idle" ? { color: "var(--text-muted)" } : {}}>
-                {status !== "idle" ? message : ""}
-              </p>
-            </div>
-
-            <div className="mt-4 sm:mt-5 text-[10px] sm:text-xs">
-              <button type="button" onClick={() => setPrivacyInfoOpen((v) => !v)} className="flex items-center gap-1.5 font-medium hover:text-blue-300 transition-colors" style={{ color: "var(--text-muted)" }} aria-expanded={privacyInfoOpen}>
-                <span className="text-sm sm:text-base leading-none">{privacyInfoOpen ? "−" : "+"}</span>
-                {privacyInfoOpen ? "Ocultar información de privacidad" : "Ver información de privacidad"}
-              </button>
-              {privacyInfoOpen && (
-                <div id="rgpd-note" className="mt-2 sm:mt-3 rounded-lg sm:rounded-xl border border-blue-400/10 bg-blue-500/[0.04] p-3 sm:p-4 leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                  <p>
-                    <strong style={{ color: "var(--text-secondary)" }}>Responsable:</strong> Daniil Kuradchik Pekarskaya.{" "}
-                    <strong style={{ color: "var(--text-secondary)" }}>Finalidad:</strong> atender tu consulta y gestionar solicitudes.{" "}
-                    <strong style={{ color: "var(--text-secondary)" }}>Legitimación:</strong> consentimiento y medidas precontractuales.{" "}
-                    <strong style={{ color: "var(--text-secondary)" }}>Destinatarios:</strong> sin cesiones salvo obligación legal o proveedores de servicio con contrato de encargo.{" "}
-                    <strong style={{ color: "var(--text-secondary)" }}>Derechos:</strong> acceso, rectificación, supresión y demás en <a className="text-blue-400 hover:underline" href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>.{" "}
-                    Más info en la <a className="text-blue-400 hover:underline" href="/legal/privacidad">Política de privacidad</a>.
-                  </p>
-                </div>
+              {errors.privacyAccepted && (
+                <p className="sm:col-span-2 text-[11px] text-red-400">{errors.privacyAccepted}</p>
               )}
             </div>
+
+            {/* Submit */}
+            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+              <Button type="submit" variant="shine" disabled={status === "loading"} className="w-full sm:w-auto">
+                {status === "loading" ? "Enviando…" : "Pedir diagnóstico gratis"}
+              </Button>
+              {status !== "idle" && (
+                <p
+                  className={`text-sm ${
+                    status === "error" ? "text-red-400" : status === "ok" ? "text-emerald-400" : ""
+                  }`}
+                >
+                  {message}
+                </p>
+              )}
+            </div>
+
+            {/* RGPD */}
+            <p id="rgpd-note" className="mt-5 text-[10px] leading-relaxed" style={{ color: "var(--text-muted)", opacity: 0.5 }}>
+              Responsable: Daniil Kuradchik Pekarskaya. Finalidad: atender tu consulta.
+              Derechos: acceso, rectificación, supresión en{" "}
+              <a className="text-blue-400 hover:underline" href={`mailto:${CONTACT.email}`}>
+                {CONTACT.email}
+              </a>
+              .
+            </p>
           </motion.form>
+
+          {/* ── Right: Contact info ── */}
+          <motion.div
+            className="space-y-6 lg:sticky lg:top-28"
+            initial={{ opacity: 0, y: 30 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.3, ease: EASE }}
+          >
+            {/* Trust badges */}
+            <div
+              className="rounded-2xl p-6 sm:p-8"
+              style={{
+                background: "linear-gradient(180deg, rgba(10,17,40,0.97), rgba(6,11,26,0.95))",
+                borderWidth: "1px",
+                borderColor: "rgba(65,105,225,0.1)",
+              }}
+            >
+              <h3
+                className="text-base font-bold mb-5"
+                style={{ color: "var(--text-primary)" }}
+              >
+                Qué puedes esperar
+              </h3>
+
+              <div className="space-y-4">
+                {[
+                  {
+                    icon: (
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    ),
+                    title: "Respuesta en 24 h",
+                    desc: "Con diagnóstico inicial y siguiente paso concreto",
+                  },
+                  {
+                    icon: (
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    ),
+                    title: "Propuesta en 48–72 h",
+                    desc: "Alcance, plazos y precio cerrados antes de comprometer nada",
+                  },
+                  {
+                    icon: (
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                    ),
+                    title: "100% confidencial",
+                    desc: "Tu información nunca se comparte con terceros",
+                  },
+                ].map((item, i) => (
+                  <motion.div
+                    key={item.title}
+                    className="flex items-start gap-3"
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={inView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.6, delay: 0.4 + i * 0.08, ease: EASE }}
+                  >
+                    <span
+                      className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-blue-400"
+                      style={{
+                        background: "rgba(65,105,225,0.08)",
+                        border: "1px solid rgba(65,105,225,0.12)",
+                      }}
+                    >
+                      {item.icon}
+                    </span>
+                    <div>
+                      <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
+                        {item.title}
+                      </p>
+                      <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>
+                        {item.desc}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            {/* Contact channels */}
+            <div
+              className="rounded-2xl overflow-hidden divide-y"
+              style={{
+                background: "linear-gradient(180deg, rgba(10,17,40,0.97), rgba(6,11,26,0.95))",
+                borderWidth: "1px",
+                borderColor: "rgba(65,105,225,0.1)",
+                divideColor: "rgba(65,105,225,0.06)",
+              }}
+            >
+              {CHANNELS.map((ch, i) => (
+                <motion.div
+                  key={ch.label}
+                  className="flex items-center gap-4 px-6 py-4 transition-colors duration-300 hover:bg-blue-500/[0.02]"
+                  initial={{ opacity: 0, x: 16 }}
+                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.55 + i * 0.08, ease: EASE }}
+                >
+                  <span
+                    className="flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-blue-400"
+                    style={{
+                      background: "rgba(65,105,225,0.08)",
+                      border: "1px solid rgba(65,105,225,0.12)",
+                    }}
+                  >
+                    {ch.icon}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[10px] uppercase tracking-[0.16em] font-semibold" style={{ color: "rgba(96,165,250,0.45)" }}>
+                      {ch.label}
+                    </p>
+                    {ch.href ? (
+                      <a
+                        href={ch.href}
+                        className="block text-sm font-semibold hover:text-blue-300 transition-colors truncate"
+                        style={{ color: "var(--text-primary)" }}
+                      >
+                        {ch.value}
+                      </a>
+                    ) : (
+                      <p className="text-sm font-semibold truncate" style={{ color: "var(--text-primary)" }}>
+                        {ch.value}
+                      </p>
+                    )}
+                    {ch.sub && (
+                      <p className="text-[11px] truncate" style={{ color: "var(--text-muted)" }}>
+                        {ch.sub}
+                      </p>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Social links */}
+            <motion.div
+              className="flex items-center gap-3"
+              initial={{ opacity: 0, y: 10 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.8, ease: EASE }}
+            >
+              <span className="text-[10px] uppercase tracking-[0.18em] font-semibold" style={{ color: "rgba(96,165,250,0.4)" }}>
+                Redes
+              </span>
+              {[
+                {
+                  href: CONTACT.linkedin,
+                  name: "LinkedIn",
+                  icon: (
+                    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="2" />
+                      <path d="M7.5 10.5V16" />
+                      <circle cx="7.5" cy="7.5" r="1" />
+                      <path d="M11 16v-3.2a2 2 0 0 1 4 0V16M11 10.5h4" />
+                    </svg>
+                  ),
+                },
+                {
+                  href: CONTACT.instagram,
+                  name: "Instagram",
+                  icon: (
+                    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="5" />
+                      <circle cx="12" cy="12" r="3.5" />
+                      <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
+                    </svg>
+                  ),
+                },
+              ].map((s) => (
+                <a
+                  key={s.name}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${s.name} de Qubelia`}
+                  className="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-300 hover:border-blue-400/25 hover:text-blue-300"
+                  style={{
+                    borderColor: "rgba(65,105,225,0.1)",
+                    background: "rgba(65,105,225,0.03)",
+                    color: "var(--text-muted)",
+                  }}
+                >
+                  {s.icon} {s.name}
+                </a>
+              ))}
+            </motion.div>
+          </motion.div>
         </div>
       </Container>
     </section>

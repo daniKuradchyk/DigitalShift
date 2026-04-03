@@ -7,7 +7,6 @@ import Hero from "@/components/sections/Hero";
 import Methodology from "@/components/sections/Methodology";
 import Results from "@/components/sections/Results";
 import Services from "@/components/sections/Services";
-// import StatsStrip from "@/components/sections/StatsStrip";
 import TrustStrip from "@/components/sections/TrustStrip";
 import JsonLd from "@/components/marketing/JsonLd";
 import { CONTACT } from "@/config/contact";

@@ -6,6 +6,7 @@ import JsonLd from "@/components/marketing/JsonLd";
 import ResourceLinks from "@/components/marketing/ResourceLinks";
 import ServicePageHero from "@/components/marketing/ServicePageHero";
 import SectionIntro from "@/components/marketing/SectionIntro";
+import ServiceCards from "@/components/marketing/ServiceCards";
 import {
   BenefitList,
   CaseHighlights,
@@ -24,6 +25,7 @@ import { absoluteUrl } from "@/lib/urls";
 
 const service = getService("crm-intranet-a-medida");
 
+/* ─── Contenido editorial único ─── */
 const modules = [
   {
     title: "Roles y permisos",
@@ -82,6 +84,7 @@ export default function CrmIntranetServicePage() {
       <JsonLd id="ld-crm-faq" data={faqJsonLd(service.faqs)} />
       <Header />
       <main id="contenido">
+        {/* ═══ HERO ═══ */}
         <ServicePageHero
           breadcrumbs={breadcrumbs}
           eyebrow={service.eyebrow}
@@ -89,9 +92,11 @@ export default function CrmIntranetServicePage() {
           subtitle={service.heroSubtitle}
           panelTitle={service.heroPanelTitle}
           panelLines={service.heroPanelLines}
+          image="/images/svc-crm.png"
         />
 
-        <section className="pb-20">
+        {/* ═══ PROBLEMAS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionIntro
               eyebrow="Problemas"
@@ -104,34 +109,47 @@ export default function CrmIntranetServicePage() {
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ MÓDULOS CLAVE ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionIntro
               eyebrow="Módulos clave"
               title="Qué suele incluir este tipo de sistema"
               description="No se trata de replicar un CRM genérico. Se trata de modelar bien la operativa, el control y la visibilidad."
             />
-            <div className="mt-10 grid gap-5 lg:grid-cols-2">
+            <div className="mt-10 grid gap-4 sm:grid-cols-2">
               {modules.map((item) => (
-                <article key={item.title} className="surface-card relative overflow-hidden rounded-3xl p-6">
-                  <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{item.text}</p>
+                <article
+                  key={item.title}
+                  className="card-glass rounded-2xl p-6 transition-all hover:border-blue-400/25"
+                >
+                  <h3 className="text-lg font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                    {item.text}
+                  </p>
                 </article>
               ))}
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ ENTREGABLES ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Qué entregamos" title="Qué entrega Qubelia en este servicio" />
+            <SectionIntro
+              eyebrow="Qué entregamos"
+              title="Qué entrega Qubelia en este servicio"
+            />
             <div className="mt-10">
               <DeliverableList items={service.deliverables} />
             </div>
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ ESCENARIOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionIntro
               eyebrow="Escenarios"
@@ -144,73 +162,103 @@ export default function CrmIntranetServicePage() {
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ PROCESO ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Proceso" title="Cómo se construye un sistema interno útil" />
+            <SectionIntro
+              eyebrow="Proceso"
+              title="Cómo se construye un sistema interno útil"
+            />
             <div className="mt-10">
               <ProcessTimeline items={service.process} />
             </div>
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ VISIÓN A LARGO PLAZO ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionIntro
               eyebrow="Visión a largo plazo"
               title="Este tipo de sistema tiene sentido cuando se piensa como infraestructura de negocio"
               description="No es una herramienta decorativa. Es una base operativa que debe ganar valor con el tiempo."
             />
-            <div className="mt-10 grid gap-3">
-              {longTerm.map((item, index) => (
-                <div key={item} className="surface-card relative overflow-hidden flex gap-4 rounded-2xl p-4">
-                  <span className="font-mono text-sm text-sky-400">{String(index + 1).padStart(2, "0")}</span>
-                  <p className="text-sm leading-relaxed text-slate-500 dark:text-slate-400">{item}</p>
-                </div>
-              ))}
+            <div className="mt-10">
+              <DeliverableList items={longTerm} />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ ENCAJE Y BENEFICIOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Encaje y beneficios" title="Cuándo sí encaja este servicio y qué mejoras debería producir" />
+            <SectionIntro
+              eyebrow="Encaje y beneficios"
+              title="Cuándo sí encaja este servicio y qué mejoras debería producir"
+            />
             <div className="mt-10">
               <FitPanels yes={service.fitYes} no={service.fitNo} />
             </div>
-            <div className="mt-10">
+            <div className="mt-8">
               <BenefitList items={service.benefits} />
             </div>
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ CASOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Casos" title="Resultados relacionados con esta capa de sistema interno" />
+            <SectionIntro
+              eyebrow="Casos"
+              title="Resultados relacionados con esta capa de sistema interno"
+            />
             <div className="mt-10">
               <CaseHighlights ids={service.caseStudyIds} />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ RECURSOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Recursos" title="Contenido y labs relacionados" />
+            <SectionIntro
+              eyebrow="Recursos"
+              title="Contenido y labs relacionados"
+            />
             <div className="mt-10">
               <ResourceLinks posts={service.relatedPosts} labSlugs={service.relatedLabs} />
             </div>
           </Container>
         </section>
 
-        <section id="faq" className="scroll-mt-28 bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ FAQ ═══ */}
+        <section id="faq" className="scroll-mt-28 py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="FAQ" title="Preguntas frecuentes sobre CRM e intranet a medida" />
-            <div className="mt-10">
+            <SectionIntro
+              eyebrow="FAQ"
+              title="Preguntas frecuentes sobre CRM e intranet a medida"
+            />
+            <div className="mt-10 max-w-3xl">
               <FaqList items={service.faqs} />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ SERVICIOS RELACIONADOS ═══ */}
+        <section className="py-16 sm:py-20">
+          <Container>
+            <SectionIntro
+              eyebrow="Servicios relacionados"
+              title="Otras líneas que pueden complementar este servicio"
+            />
+            <div className="mt-10">
+              <ServiceCards variant="related" slugs={service.relatedServices} />
+            </div>
+          </Container>
+        </section>
+
+        {/* ═══ CTA FINAL ═══ */}
+        <section className="pb-20 pt-4">
           <Container>
             <FinalCta
               title="Si el equipo ya trabaja fuera del sistema, la prioridad no es añadir más parches"

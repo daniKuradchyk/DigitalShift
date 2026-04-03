@@ -1,157 +1,152 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Container from "@/components/common/Container";
-import Button from "@/components/common/Button";
 import { serviceOrder, services } from "@/content/services";
 
+/* ─── Shared easing (same across ALL sections) ─────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-const SVC_META: Record<string, { img: string; gradient: string; accentRgb: string }> = {
-  "software-a-medida":           { img: "/images/svc-software.png",   gradient: "from-blue-500/20 to-blue-600/5",   accentRgb: "91,141,239" },
-  "web-a-medida":                { img: "/images/svc-web.png",        gradient: "from-sky-500/20 to-blue-500/5",    accentRgb: "133,162,255" },
-  "automatizacion-integraciones":{ img: "/images/svc-automation.png", gradient: "from-indigo-500/20 to-blue-600/5", accentRgb: "65,105,225" },
-  "crm-intranet-a-medida":      { img: "/images/svc-crm.png",        gradient: "from-violet-500/15 to-blue-500/5", accentRgb: "173,193,255" },
+/* ─── Visual metadata per service ──────────────────────────────── */
+const SVC_META: Record<string, { img: string; accent: string; accentRgb: string }> = {
+  "software-a-medida":            { img: "/images/svc-software.png",   accent: "#5B8DEF", accentRgb: "91,141,239"  },
+  "web-a-medida":                 { img: "/images/svc-web.png",        accent: "#85A2FF", accentRgb: "133,162,255" },
+  "automatizacion-integraciones": { img: "/images/svc-automation.png", accent: "#4169E1", accentRgb: "65,105,225"  },
+  "crm-intranet-a-medida":       { img: "/images/svc-crm.png",        accent: "#ADC1FF", accentRgb: "173,193,255" },
 };
 
 /* ═══════════════════════════════════════════════════════════════════
-   SERVICE CARD
+   SERVICE CARD — image as integrated visual, no numbers, no margins
    ═══════════════════════════════════════════════════════════════════ */
-function ServiceCard({
-  slug,
-  index,
-  isActive,
-  onActivate,
-}: {
-  slug: string;
-  index: number;
-  isActive: boolean;
-  onActivate: () => void;
-}) {
+function ServiceCard({ slug, index }: { slug: string; index: number }) {
   const s = services[slug as keyof typeof services];
   const meta = SVC_META[slug];
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const delay = 0.15 + index * 0.12;
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 32 }}
+      className="group relative"
+      initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: 0.08 + index * 0.12, ease: EASE }}
-      onMouseEnter={onActivate}
-      onFocus={onActivate}
-      className="group"
+      transition={{ duration: 0.8, delay, ease: EASE }}
     >
-      <Link
-        href={s.href}
-        className="relative flex flex-col h-full rounded-2xl overflow-hidden transition-all duration-500"
-        style={{
-          background: "linear-gradient(180deg, rgba(10, 17, 40, 0.92), rgba(6, 11, 26, 0.88))",
-          borderWidth: "1px",
-          borderColor: isActive ? `rgba(${meta.accentRgb}, 0.3)` : "rgba(65, 105, 225, 0.1)",
-          boxShadow: isActive ? `0 0 40px rgba(${meta.accentRgb}, 0.08), 0 20px 60px -20px rgba(0,0,0,0.5)` : "0 4px 24px -8px rgba(0,0,0,0.3)",
-          transform: isActive ? "translateY(-4px)" : "translateY(0)",
-        }}
-      >
-        {/* Top accent line */}
+      <Link href={s.href} className="block relative rounded-2xl overflow-hidden h-full">
         <div
-          className="h-[2px] w-full transition-opacity duration-500"
+          className="relative flex flex-col h-full rounded-2xl overflow-hidden transition-all duration-500"
           style={{
-            background: `linear-gradient(90deg, transparent, rgba(${meta.accentRgb}, ${isActive ? 0.6 : 0.2}), transparent)`,
+            background: `linear-gradient(160deg, rgba(${meta.accentRgb},0.06) 0%, rgba(10,17,40,0.97) 40%, rgba(6,11,26,0.95) 100%)`,
+            borderWidth: "1px",
+            borderColor: `rgba(${meta.accentRgb},0.10)`,
           }}
-        />
-
-        {/* Image area */}
-        <div className={`relative w-full aspect-[16/10] overflow-hidden bg-gradient-to-br ${meta.gradient}`}>
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center p-6 sm:p-8"
-            animate={isActive ? { scale: 1.05, y: -4 } : { scale: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: EASE }}
-          >
-            <Image
-              src={meta.img}
-              alt={s.shortTitle}
-              width={320}
-              height={320}
-              className="w-full max-w-[180px] sm:max-w-[200px] h-auto object-contain drop-shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+        >
+          {/* ── Image as full-bleed background visual ── */}
+          <div className="relative w-full aspect-[16/10] overflow-hidden">
+            {/* Ambient gradient behind image */}
+            <div
+              className="absolute inset-0 transition-all duration-700"
+              style={{
+                background: `
+                  radial-gradient(ellipse at 50% 40%, rgba(${meta.accentRgb},0.18) 0%, transparent 60%),
+                  linear-gradient(180deg, rgba(${meta.accentRgb},0.04) 0%, rgba(6,11,26,1) 100%)
+                `,
+              }}
             />
-          </motion.div>
 
-          {/* Glow on hover */}
+            {/* Image — full bleed, no padding, covers the area */}
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center"
+              initial={{ scale: 1.1, opacity: 0 }}
+              animate={inView ? { scale: 1, opacity: 1 } : {}}
+              transition={{ duration: 1.2, delay: delay + 0.1, ease: EASE }}
+            >
+              <Image
+                src={meta.img}
+                alt={s.shortTitle}
+                width={500}
+                height={500}
+                className="w-[75%] sm:w-[65%] h-auto object-contain transition-all duration-700 group-hover:scale-[1.08]"
+                style={{
+                  filter: `drop-shadow(0 20px 60px rgba(${meta.accentRgb},0.25))`,
+                }}
+              />
+            </motion.div>
+
+            {/* Bottom fade — seamless blend into text area */}
+            <div
+              className="absolute bottom-0 left-0 right-0 h-1/2 pointer-events-none"
+              style={{
+                background: "linear-gradient(to top, rgba(6,11,26,1) 0%, rgba(6,11,26,0.8) 40%, transparent 100%)",
+              }}
+            />
+
+            {/* Hover glow overlay */}
+            <div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+              style={{
+                background: `radial-gradient(circle at 50% 50%, rgba(${meta.accentRgb},0.15), transparent 65%)`,
+              }}
+            />
+          </div>
+
+          {/* ── Text overlapping the fade — feels integrated ── */}
+          <div className="relative -mt-8 sm:-mt-10 px-5 sm:px-6 pb-5 sm:pb-6 flex flex-col flex-1 z-10">
+            {/* Eyebrow */}
+            <span
+              className="text-[10px] font-semibold uppercase tracking-[0.16em] mb-1.5"
+              style={{ color: meta.accent }}
+            >
+              {s.eyebrow}
+            </span>
+
+            {/* Title */}
+            <h3
+              className="text-lg sm:text-xl font-bold mb-2 transition-colors duration-400 group-hover:text-blue-200"
+              style={{ color: "var(--text-primary)", letterSpacing: "-0.015em", lineHeight: 1.25 }}
+            >
+              {s.shortTitle}
+            </h3>
+
+            {/* Short description */}
+            <p
+              className="text-[13px] sm:text-sm leading-relaxed flex-1"
+              style={{ color: "var(--text-secondary)", opacity: 0.85 }}
+            >
+              {s.cardSummary}
+            </p>
+
+            {/* CTA */}
+            <div className="mt-3 sm:mt-4 flex items-center gap-2 text-sm font-semibold" style={{ color: meta.accent }}>
+              <span className="transition-all duration-400 group-hover:tracking-wide">Explorar servicio</span>
+              <svg
+                className="w-4 h-4 transition-transform duration-400 group-hover:translate-x-2"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </div>
+          </div>
+
+          {/* ── Bottom accent line — hover ── */}
           <div
-            className="absolute inset-0 transition-opacity duration-700 pointer-events-none"
+            className="absolute bottom-0 left-0 right-0 h-[2px] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
             style={{
-              background: `radial-gradient(circle at 50% 80%, rgba(${meta.accentRgb}, 0.15), transparent 60%)`,
-              opacity: isActive ? 1 : 0,
+              background: `linear-gradient(90deg, transparent, ${meta.accent}, transparent)`,
             }}
           />
 
-          {/* Index number — decorative */}
-          <span
-            className="absolute top-4 right-5 text-5xl sm:text-6xl font-black tracking-tighter pointer-events-none select-none"
-            style={{ color: `rgba(${meta.accentRgb}, 0.07)` }}
-          >
-            {s.index}
-          </span>
-        </div>
-
-        {/* Text content */}
-        <div className="flex flex-col flex-1 p-5 sm:p-6">
-          {/* Eyebrow */}
-          <span
-            className="text-[10px] font-semibold uppercase tracking-[0.14em] mb-2"
-            style={{ color: `rgba(${meta.accentRgb}, 0.7)` }}
-          >
-            {s.eyebrow}
-          </span>
-
-          {/* Title */}
-          <h3
-            className="text-lg sm:text-xl font-bold mb-2 transition-colors duration-400 group-hover:text-blue-300"
-            style={{ color: "var(--text-primary)", letterSpacing: "-0.015em", lineHeight: 1.25 }}
-          >
-            {s.shortTitle}
-          </h3>
-
-          {/* Summary */}
-          <p
-            className="text-sm leading-relaxed mb-4 flex-1"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            {s.cardSummary}
-          </p>
-
-          {/* Deliverables — always visible, compact */}
-          <div className="flex flex-wrap gap-1.5 mb-4">
-            {s.deliverables.slice(0, 3).map((d, j) => (
-              <span
-                key={j}
-                className="text-[10px] sm:text-[11px] px-2.5 py-1 rounded-full"
-                style={{
-                  border: `1px solid rgba(${meta.accentRgb}, 0.15)`,
-                  background: `rgba(${meta.accentRgb}, 0.05)`,
-                  color: "var(--text-muted)",
-                }}
-              >
-                {d.split(".")[0].slice(0, 35)}
-              </span>
-            ))}
-          </div>
-
-          {/* CTA */}
+          {/* ── Border glow on hover ── */}
           <div
-            className="flex items-center gap-2 text-sm font-semibold transition-all duration-400 group-hover:gap-3"
-            style={{ color: `rgba(${meta.accentRgb}, 0.9)` }}
-          >
-            <span>Explorar servicio</span>
-            <svg className="w-4 h-4 transition-transform duration-400 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </div>
+            className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            style={{
+              boxShadow: `inset 0 0 0 1px rgba(${meta.accentRgb},0.20), 0 0 50px rgba(${meta.accentRgb},0.06)`,
+            }}
+          />
         </div>
       </Link>
     </motion.div>
@@ -164,7 +159,12 @@ function ServiceCard({
 export default function Services() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerInView = useInView(sectionRef, { once: true, margin: "-60px" });
-  const [active, setActive] = useState(0);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
   return (
     <section
@@ -173,15 +173,27 @@ export default function Services() {
       aria-labelledby="services-title"
       className="relative scroll-mt-24 py-16 sm:py-20 md:py-28 lg:py-36 overflow-hidden"
     >
-      {/* Background accents */}
+      {/* ── Background ── */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden>
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/10 to-transparent" />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-blue-500/[0.03] blur-[100px]" />
+        <motion.div
+          className="absolute top-0 left-0 right-0 h-px"
+          initial={{ scaleX: 0 }}
+          animate={headerInView ? { scaleX: 1 } : {}}
+          transition={{ duration: 1.4, ease: EASE }}
+          style={{
+            transformOrigin: "center",
+            background: "linear-gradient(90deg, transparent, rgba(65,105,225,0.2), transparent)",
+          }}
+        />
+        <motion.div
+          className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full bg-blue-500/[0.03] blur-[100px]"
+          style={{ y: bgY }}
+        />
       </div>
 
       <Container className="relative">
-        {/* ── Header ───────────────────────────────────────────── */}
-        <div className="max-w-2xl mx-auto text-center mb-10 sm:mb-14 lg:mb-18">
+        {/* ── Section header ── */}
+        <div className="max-w-2xl mx-auto text-center mb-12 sm:mb-16 lg:mb-20">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={headerInView ? { opacity: 1, y: 0 } : {}}
@@ -197,9 +209,9 @@ export default function Services() {
             id="services-title"
             className="text-h2 mt-4 mb-4"
             style={{ color: "var(--text-primary)" }}
-            initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
+            initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
             animate={headerInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
-            transition={{ duration: 0.8, delay: 0.08, ease: EASE }}
+            transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
           >
             Cuatro líneas claras.{" "}
             <span className="gradient-text-static">Un solo estándar.</span>
@@ -210,39 +222,18 @@ export default function Services() {
             style={{ color: "var(--text-secondary)" }}
             initial={{ opacity: 0, y: 14 }}
             animate={headerInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.18, ease: EASE }}
+            transition={{ duration: 0.7, delay: 0.25, ease: EASE }}
           >
             Cada servicio tiene un propósito definido, un proceso propio y un tipo de empresa al que encaja.
           </motion.p>
         </div>
 
-        {/* ── Cards grid — 1 col mobile, 2 cols tablet+desktop ── */}
+        {/* ── Cards grid — 2x2 ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 lg:gap-6">
           {serviceOrder.map((slug, i) => (
-            <ServiceCard
-              key={slug}
-              slug={slug}
-              index={i}
-              isActive={active === i}
-              onActivate={() => setActive(i)}
-            />
+            <ServiceCard key={slug} slug={slug} index={i} />
           ))}
         </div>
-
-        {/* ── Bottom CTA ─────────────────────────────────────── */}
-        <motion.div
-          className="mt-10 sm:mt-14 flex flex-col sm:flex-row justify-center gap-3"
-          initial={{ opacity: 0, y: 16 }}
-          animate={headerInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.6, ease: EASE }}
-        >
-          <Button as="a" href="/servicios" variant="shine" size="lg" className="w-full sm:w-auto">
-            Ver todos los servicios
-          </Button>
-          <Button as="a" href="/#contacto" variant="ghost" size="lg" className="w-full sm:w-auto">
-            Solicitar diagnóstico
-          </Button>
-        </motion.div>
       </Container>
     </section>
   );

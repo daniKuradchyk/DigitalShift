@@ -1,145 +1,288 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Container from "@/components/common/Container";
-import { CONTACT } from "@/config/contact";
 import { faqItems } from "@/content/faqs";
 
 export { faqItems };
 
-const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+/* ─── Shared easing (same across ALL sections) ─────────────────── */
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-export default function Faqs() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-  const [selected, setSelected] = useState<string>(faqItems[0].id);
-  const active = faqItems.find((f) => f.id === selected) ?? faqItems[0];
+/* ─── Group FAQs by category ─────────────────────────────────────── */
+const CATEGORIES = Array.from(new Set(faqItems.map((f) => f.category)));
+
+/* ═══════════════════════════════════════════════════════════════════
+   FAQ ACCORDION ITEM
+   ═══════════════════════════════════════════════════════════════════ */
+function FaqItem({
+  faq,
+  isOpen,
+  onToggle,
+  index,
+  inView,
+}: {
+  faq: (typeof faqItems)[number];
+  isOpen: boolean;
+  onToggle: () => void;
+  index: number;
+  inView: boolean;
+}) {
+  const delay = 0.08 + index * 0.04;
 
   return (
-    <section ref={ref} id="faq" aria-labelledby="faqs-title" className="relative scroll-mt-24 overflow-hidden py-16 sm:py-20 md:py-28 lg:py-32">
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] sm:w-[700px] h-[400px] sm:h-[500px] rounded-full opacity-15 blur-3xl" style={{ background: "radial-gradient(ellipse, rgba(65,105,225,0.12) 0%, rgba(91,141,239,0.06) 50%, transparent 70%)" }} />
-      </div>
-
-      <Container>
-        {/* Mobile: stacked. Desktop: side-by-side */}
-        <div className="grid gap-6 sm:gap-8 lg:gap-12 lg:grid-cols-[1fr_1.5fr] lg:items-start">
-          {/* Left: nav */}
-          <motion.div
-            className="space-y-4 sm:space-y-6"
-            initial={{ opacity: 0, x: -20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, ease: EASE }}
+    <motion.div
+      initial={{ opacity: 0, y: 14 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6, delay, ease: EASE }}
+      className="group"
+    >
+      <button
+        type="button"
+        onClick={onToggle}
+        className="w-full text-left flex items-start gap-4 py-4 sm:py-5 transition-all duration-300"
+        aria-expanded={isOpen}
+      >
+        {/* Animated icon */}
+        <span
+          className="flex-shrink-0 mt-1 w-6 h-6 rounded-md flex items-center justify-center transition-all duration-400"
+          style={{
+            background: isOpen ? "rgba(65,105,225,0.15)" : "rgba(65,105,225,0.05)",
+            border: `1px solid ${isOpen ? "rgba(65,105,225,0.3)" : "rgba(65,105,225,0.08)"}`,
+          }}
+        >
+          <svg
+            className="w-3 h-3 transition-transform duration-400"
+            style={{
+              transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
+              color: isOpen ? "rgb(96,165,250)" : "var(--text-muted)",
+            }}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2.5}
           >
-            <div>
-              <div className="section-tag mb-4 sm:mb-5">
-                <span className="h-1.5 w-1.5 rounded-full bg-blue-400" aria-hidden />
-                FAQ
-              </div>
-              <h2 id="faqs-title" className="text-h2" style={{ color: "var(--text-primary)" }}>
-                Lo que preguntáis{" "}
-                <span className="gradient-text-static">antes de contratar</span>
-              </h2>
-              <p className="mt-2 sm:mt-3 text-xs sm:text-sm" style={{ color: "var(--text-muted)" }}>
-                Preguntas reales de compra B2B, con respuestas sin rodeos.
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+        </span>
+
+        <div className="flex-1 min-w-0">
+          <span
+            className="text-sm sm:text-[15px] font-semibold leading-snug transition-colors duration-300 block"
+            style={{ color: isOpen ? "var(--text-primary)" : "var(--text-secondary)" }}
+          >
+            {faq.q}
+          </span>
+
+          {/* Category tag */}
+          <span
+            className="inline-block mt-1.5 text-[9px] font-bold uppercase tracking-[0.15em] rounded-full px-2 py-0.5 transition-opacity duration-300"
+            style={{
+              background: "rgba(65,105,225,0.06)",
+              color: "rgba(96,165,250,0.5)",
+              opacity: isOpen ? 0 : 1,
+            }}
+          >
+            {faq.category}
+          </span>
+        </div>
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4, ease: EASE }}
+            className="overflow-hidden"
+          >
+            <div className="pl-10 pb-5 pr-4">
+              <p
+                className="text-sm leading-[1.8]"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                {faq.a}
               </p>
             </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-            <nav aria-label="FAQ navigation">
-              <ul className="space-y-1">
-                {faqItems.map((f) => {
-                  const isActive = f.id === selected;
-                  return (
-                    <li key={f.id}>
-                      <button
-                        type="button"
-                        onClick={() => setSelected(f.id)}
-                        className={`w-full flex items-center gap-2 sm:gap-3 rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-left transition-all duration-200 ${
-                          isActive
-                            ? "bg-blue-500/10 border border-blue-400/20"
-                            : "border border-transparent hover:bg-blue-500/[0.04] hover:border-blue-400/10"
-                        }`}
-                        aria-pressed={isActive}
-                      >
-                        <span className="text-sm sm:text-base flex-shrink-0" aria-hidden>{f.icon}</span>
-                        <div className="flex-1 min-w-0">
-                          <span className={`block text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] mb-0.5 ${isActive ? "text-blue-400" : "text-blue-400/50"}`}>
-                            {f.category}
-                          </span>
-                          <span className={`block text-xs sm:text-sm font-medium leading-snug truncate ${isActive ? "text-white" : ""}`} style={isActive ? {} : { color: "var(--text-secondary)" }}>
-                            {f.q}
-                          </span>
-                        </div>
-                        {isActive && <span className="flex-shrink-0 h-1.5 w-1.5 rounded-full bg-blue-400" aria-hidden />}
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
+      {/* Divider */}
+      <div
+        className="h-px transition-colors duration-400"
+        style={{
+          background: isOpen
+            ? "linear-gradient(90deg, rgba(65,105,225,0.2), rgba(65,105,225,0.06))"
+            : "rgba(65,105,225,0.05)",
+        }}
+      />
+    </motion.div>
+  );
+}
 
-            <div className="rounded-xl sm:rounded-2xl border border-blue-400/10 bg-blue-500/[0.04] p-4 sm:p-5">
-              <p className="text-xs sm:text-sm font-bold mb-1" style={{ color: "var(--text-primary)" }}>¿Tienes más dudas?</p>
-              <p className="text-[10px] sm:text-xs mb-2 sm:mb-3" style={{ color: "var(--text-muted)" }}>Respuesta en menos de 24 h laborables.</p>
-              <a href={`mailto:${CONTACT.email}`} className="inline-flex items-center gap-2 rounded-lg sm:rounded-xl bg-blue-500/10 border border-blue-400/20 px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-semibold text-blue-400 hover:bg-blue-500/15 transition-colors">
-                <svg viewBox="0 0 24 24" className="h-3 w-3 sm:h-3.5 sm:w-3.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" /></svg>
-                Escribir un email
-              </a>
-            </div>
+/* ═══════════════════════════════════════════════════════════════════
+   MAIN FAQ SECTION — Independent, professional
+   ═══════════════════════════════════════════════════════════════════ */
+export default function Faqs() {
+  const ref = useRef<HTMLElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-80px" });
+  const [openId, setOpenId] = useState<string>(faqItems[0].id);
+
+  /* Split FAQs into two columns */
+  const mid = Math.ceil(faqItems.length / 2);
+  const leftFaqs = faqItems.slice(0, mid);
+  const rightFaqs = faqItems.slice(mid);
+
+  return (
+    <section
+      ref={ref}
+      id="faq"
+      aria-labelledby="faqs-title"
+      className="relative scroll-mt-24 py-16 sm:py-20 md:py-28 lg:py-32 overflow-hidden"
+    >
+      {/* ── Background ── */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
+        <motion.div
+          className="absolute top-0 left-0 right-0 h-px"
+          initial={{ scaleX: 0 }}
+          animate={inView ? { scaleX: 1 } : {}}
+          transition={{ duration: 1.4, ease: EASE }}
+          style={{
+            transformOrigin: "center",
+            background: "linear-gradient(90deg, transparent, rgba(65,105,225,0.2), transparent)",
+          }}
+        />
+        {/* Subtle ambient glow */}
+        <div
+          className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-[120px] opacity-[0.03]"
+          style={{ background: "rgba(65,105,225,1)" }}
+        />
+      </div>
+
+      <Container className="relative">
+        {/* ── Header ── */}
+        <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, ease: EASE }}
+          >
+            <span className="section-tag mb-5">
+              <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+              Preguntas frecuentes
+            </span>
           </motion.div>
 
-          {/* Right: answer panel */}
-          <motion.div
-            className="rounded-xl sm:rounded-2xl p-[1px] transition-all duration-300"
-            style={{ background: "linear-gradient(135deg, rgba(65,105,225,0.35), rgba(91,141,239,0.12) 45%, rgba(133,162,255,0.20))" }}
-            initial={{ opacity: 0, x: 20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
+          <motion.h2
+            id="faqs-title"
+            className="text-h2 mt-4 mb-4"
+            style={{ color: "var(--text-primary)" }}
+            initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
+            animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+            transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
           >
-            <div className="h-full rounded-xl sm:rounded-2xl bg-[#0A1128] p-5 sm:p-7 lg:p-10">
-              <div className="flex items-center gap-3 mb-4 sm:mb-6">
-                <span className="inline-flex h-10 w-10 sm:h-14 sm:w-14 items-center justify-center rounded-xl sm:rounded-2xl text-xl sm:text-2xl border border-blue-400/15 bg-blue-500/10 flex-shrink-0" aria-hidden>
-                  {active.icon}
-                </span>
-                <div>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/15 bg-blue-500/[0.06] px-2.5 sm:px-3 py-0.5 sm:py-1 text-[9px] sm:text-[10px] font-semibold text-blue-400">
-                    <span aria-hidden className="h-1 w-1 rounded-full bg-blue-400" />
-                    {active.category}
-                  </span>
-                </div>
-              </div>
+            Lo que preguntáis{" "}
+            <span className="gradient-text-static">antes de empezar</span>
+          </motion.h2>
 
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={active.id}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -8 }}
-                  transition={{ duration: 0.3, ease: EASE }}
-                >
-                  <h3 className="text-base sm:text-lg lg:text-xl font-bold leading-snug mb-3 sm:mb-4" style={{ color: "var(--text-primary)" }}>{active.q}</h3>
-                  <div className="h-px w-12 sm:w-16 mb-4 sm:mb-6" style={{ background: "linear-gradient(90deg, rgba(65,105,225,0.6), transparent)" }} />
-                  <p className="leading-relaxed text-sm sm:text-[15px]" style={{ color: "var(--text-secondary)" }}>{active.a}</p>
-                </motion.div>
-              </AnimatePresence>
+          <motion.p
+            className="text-sm sm:text-base md:text-lg leading-relaxed max-w-xl mx-auto"
+            style={{ color: "var(--text-secondary)" }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
+          >
+            Respuestas directas a las dudas más comunes sobre proceso, inversión y propiedad.
+          </motion.p>
 
-              <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-blue-400/8 flex items-center justify-between">
-                <span className="text-[10px] sm:text-xs" style={{ color: "var(--text-muted)" }}>
-                  {faqItems.findIndex((f) => f.id === selected) + 1} / {faqItems.length}
-                </span>
-                <div className="flex gap-1.5 sm:gap-2">
-                  <button type="button" onClick={() => { const idx = faqItems.findIndex((f) => f.id === selected); if (idx > 0) setSelected(faqItems[idx - 1].id); }} disabled={faqItems.findIndex((f) => f.id === selected) === 0} className="inline-flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg border border-blue-400/10 hover:border-blue-400/25 hover:text-blue-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all bg-blue-500/[0.04]" style={{ color: "var(--text-muted)" }} aria-label="Pregunta anterior">
-                    <svg viewBox="0 0 24 24" className="h-3 w-3 sm:h-3.5 sm:w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>
-                  </button>
-                  <button type="button" onClick={() => { const idx = faqItems.findIndex((f) => f.id === selected); if (idx < faqItems.length - 1) setSelected(faqItems[idx + 1].id); }} disabled={faqItems.findIndex((f) => f.id === selected) === faqItems.length - 1} className="inline-flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg border border-blue-400/10 hover:border-blue-400/25 hover:text-blue-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all bg-blue-500/[0.04]" style={{ color: "var(--text-muted)" }} aria-label="Pregunta siguiente">
-                    <svg viewBox="0 0 24 24" className="h-3 w-3 sm:h-3.5 sm:w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>
-                  </button>
-                </div>
-              </div>
-            </div>
+          {/* Category pills */}
+          <motion.div
+            className="flex flex-wrap items-center justify-center gap-2 mt-6"
+            initial={{ opacity: 0, y: 10 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.3, ease: EASE }}
+          >
+            {CATEGORIES.map((cat) => (
+              <span
+                key={cat}
+                className="inline-flex items-center rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em]"
+                style={{
+                  background: "rgba(65,105,225,0.05)",
+                  border: "1px solid rgba(65,105,225,0.1)",
+                  color: "rgba(96,165,250,0.6)",
+                }}
+              >
+                {cat}
+              </span>
+            ))}
           </motion.div>
         </div>
+
+        {/* ── Two-column FAQ grid ── */}
+        <div className="grid md:grid-cols-2 gap-x-8 lg:gap-x-14 gap-y-0 max-w-5xl mx-auto">
+          {/* Left column */}
+          <div>
+            {leftFaqs.map((faq, i) => (
+              <FaqItem
+                key={faq.id}
+                faq={faq}
+                isOpen={openId === faq.id}
+                onToggle={() => setOpenId(openId === faq.id ? "" : faq.id)}
+                index={i}
+                inView={inView}
+              />
+            ))}
+          </div>
+
+          {/* Right column */}
+          <div>
+            {rightFaqs.map((faq, i) => (
+              <FaqItem
+                key={faq.id}
+                faq={faq}
+                isOpen={openId === faq.id}
+                onToggle={() => setOpenId(openId === faq.id ? "" : faq.id)}
+                index={i + mid}
+                inView={inView}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* ── Bottom CTA ── */}
+        <motion.div
+          className="mt-12 sm:mt-16 text-center"
+          initial={{ opacity: 0, y: 16 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
+        >
+          <div
+            className="inline-flex items-center gap-3 rounded-full px-5 py-2.5 sm:px-6 sm:py-3"
+            style={{
+              background: "rgba(65,105,225,0.04)",
+              border: "1px solid rgba(65,105,225,0.1)",
+            }}
+          >
+            <span
+              className="text-sm sm:text-base font-medium"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              ¿Tienes otra pregunta?
+            </span>
+            <a
+              href="#contacto"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors"
+            >
+              Escríbenos
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </a>
+          </div>
+        </motion.div>
       </Container>
     </section>
   );

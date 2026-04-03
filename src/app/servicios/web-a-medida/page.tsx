@@ -6,6 +6,7 @@ import JsonLd from "@/components/marketing/JsonLd";
 import ResourceLinks from "@/components/marketing/ResourceLinks";
 import ServicePageHero from "@/components/marketing/ServicePageHero";
 import SectionIntro from "@/components/marketing/SectionIntro";
+import ServiceCards from "@/components/marketing/ServiceCards";
 import {
   BenefitList,
   CaseHighlights,
@@ -24,18 +25,22 @@ import { absoluteUrl } from "@/lib/urls";
 
 const service = getService("web-a-medida");
 
+/* ─── Contenido editorial único ─── */
 const comparison = [
   {
     title: "Web low-cost",
     text: "Sale rápido, pero suele quedarse corta en mensaje, arquitectura, rendimiento y evolución.",
+    tone: "weak" as const,
   },
   {
     title: "Plantilla bien montada",
     text: "Puede valer en algunos casos, pero arrastra límites si la web debe sostener posicionamiento, integraciones o una narrativa comercial seria.",
+    tone: "neutral" as const,
   },
   {
     title: "Web a medida",
     text: "Permite definir estructura, bloques, ritmo editorial, SEO técnico y sistema visual con criterio propio y margen de crecimiento.",
+    tone: "strong" as const,
   },
 ];
 
@@ -78,6 +83,7 @@ export default function WebServicePage() {
       <JsonLd id="ld-web-faq" data={faqJsonLd(service.faqs)} />
       <Header />
       <main id="contenido">
+        {/* ═══ HERO ═══ */}
         <ServicePageHero
           breadcrumbs={breadcrumbs}
           eyebrow={service.eyebrow}
@@ -85,9 +91,11 @@ export default function WebServicePage() {
           subtitle={service.heroSubtitle}
           panelTitle={service.heroPanelTitle}
           panelLines={service.heroPanelLines}
+          image="/images/svc-web.png"
         />
 
-        <section className="pb-20">
+        {/* ═══ PROBLEMAS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionIntro
               eyebrow="Problemas"
@@ -100,113 +108,161 @@ export default function WebServicePage() {
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ COMPARATIVA ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionIntro
               eyebrow="Comparativa"
               title="Web a medida frente a plantilla o solución low-cost"
               description="No siempre hace falta una base a medida. Pero cuando la web es una pieza comercial seria, las diferencias se vuelven estructurales."
             />
-            <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            <div className="mt-10 grid gap-4 lg:grid-cols-3">
               {comparison.map((item) => (
-                <article key={item.title} className="surface-card relative overflow-hidden rounded-3xl p-6">
-                  <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{item.text}</p>
+                <article
+                  key={item.title}
+                  className={`card-glass rounded-2xl p-6 transition-all hover:border-blue-400/25 ${
+                    item.tone === "strong" ? "border-blue-400/20 bg-blue-500/[0.04]" : ""
+                  }`}
+                >
+                  <h3 className="text-lg font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                    {item.text}
+                  </p>
                 </article>
               ))}
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ ENTREGABLES ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Qué entregamos" title="Qué entrega exactamente Qubelia en este servicio" />
+            <SectionIntro
+              eyebrow="Qué entregamos"
+              title="Qué entrega exactamente Qubelia en este servicio"
+            />
             <div className="mt-10">
               <DeliverableList items={service.deliverables} />
             </div>
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ FOCO TÉCNICO ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionIntro
               eyebrow="Foco técnico"
               title="Rendimiento, SEO técnico base y conversión desde el principio"
               description="La base técnica importa porque condiciona cómo se posiciona la web, cómo se mantiene y cómo se mide lo que está funcionando."
             />
-            <div className="mt-10 grid gap-3">
-              {technicalFocus.map((item, index) => (
-                <div key={item} className="surface-card relative overflow-hidden flex gap-4 rounded-2xl p-4">
-                  <span className="font-mono text-sm text-sky-400">{String(index + 1).padStart(2, "0")}</span>
-                  <p className="text-sm leading-relaxed text-slate-500 dark:text-slate-400">{item}</p>
-                </div>
-              ))}
+            <div className="mt-10">
+              <DeliverableList items={technicalFocus} />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ ESCENARIOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Escenarios" title="Dónde suele encajar mejor una web a medida" />
+            <SectionIntro
+              eyebrow="Escenarios"
+              title="Dónde suele encajar mejor una web a medida"
+            />
             <div className="mt-10">
               <ScenarioGrid items={service.scenarios} />
             </div>
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ PROCESO ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Proceso" title="Cómo trabajamos este tipo de proyecto" />
+            <SectionIntro
+              eyebrow="Proceso"
+              title="Cómo trabajamos este tipo de proyecto"
+            />
             <div className="mt-10">
               <ProcessTimeline items={service.process} />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ ENCAJE Y BENEFICIOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Encaje y beneficios" title="Cuándo sí compensa y qué deberías notar después" />
+            <SectionIntro
+              eyebrow="Encaje y beneficios"
+              title="Cuándo sí compensa y qué deberías notar después"
+            />
             <div className="mt-10">
               <FitPanels yes={service.fitYes} no={service.fitNo} />
             </div>
-            <div className="mt-10">
+            <div className="mt-8">
               <BenefitList items={service.benefits} />
             </div>
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ CASOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Casos" title="Resultado relacionado con este servicio" />
+            <SectionIntro
+              eyebrow="Casos"
+              title="Resultado relacionado con este servicio"
+            />
             <div className="mt-10">
               <CaseHighlights ids={service.caseStudyIds} />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ RECURSOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Recursos" title="Guías y herramientas relacionadas" />
+            <SectionIntro
+              eyebrow="Recursos"
+              title="Guías y herramientas relacionadas"
+            />
             <div className="mt-10">
               <ResourceLinks posts={service.relatedPosts} labSlugs={service.relatedLabs} />
             </div>
           </Container>
         </section>
 
-        <section id="faq" className="scroll-mt-28 bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ FAQ ═══ */}
+        <section id="faq" className="scroll-mt-28 py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="FAQ" title="Preguntas frecuentes sobre web a medida" />
-            <div className="mt-10">
+            <SectionIntro
+              eyebrow="FAQ"
+              title="Preguntas frecuentes sobre web a medida"
+            />
+            <div className="mt-10 max-w-3xl">
               <FaqList items={service.faqs} />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ SERVICIOS RELACIONADOS ═══ */}
+        <section className="py-16 sm:py-20">
+          <Container>
+            <SectionIntro
+              eyebrow="Servicios relacionados"
+              title="Otras líneas que pueden complementar este servicio"
+            />
+            <div className="mt-10">
+              <ServiceCards variant="related" slugs={service.relatedServices} />
+            </div>
+          </Container>
+        </section>
+
+        {/* ═══ CTA FINAL ═══ */}
+        <section className="pb-20 pt-4">
           <Container>
             <FinalCta
               title="Si la web forma parte del negocio, conviene tratarla como una pieza de negocio"
-              text="Podemos revisar estructura, mensaje, SEO técnico base e integraciones para definir una web a medida que sirva a posicionamiento y captación sin caer en plantillas clónicas."
+              text="Podemos revisar estructura, mensaje, SEO técnico base e integraciones para definir una web a medida que sirva a posicionamiento y captación."
               secondaryHref="/servicios/software-a-medida"
               secondaryLabel="Ver software a medida"
             />

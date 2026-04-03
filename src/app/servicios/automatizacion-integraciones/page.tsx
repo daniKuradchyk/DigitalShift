@@ -6,6 +6,7 @@ import JsonLd from "@/components/marketing/JsonLd";
 import ResourceLinks from "@/components/marketing/ResourceLinks";
 import ServicePageHero from "@/components/marketing/ServicePageHero";
 import SectionIntro from "@/components/marketing/SectionIntro";
+import ServiceCards from "@/components/marketing/ServiceCards";
 import {
   BenefitList,
   CaseHighlights,
@@ -24,11 +25,12 @@ import { absoluteUrl } from "@/lib/urls";
 
 const service = getService("automatizacion-integraciones");
 
+/* ─── Contenido editorial único ─── */
 const flowBlocks = [
-  "Formularios, CRM y procesos comerciales.",
-  "ERP, facturación, reporting y consolidación.",
-  "Email, documentación, aprobaciones y alertas.",
-  "APIs, bases de datos y servicios internos o legacy.",
+  { label: "Comercial", text: "Formularios, CRM y procesos comerciales." },
+  { label: "Finanzas", text: "ERP, facturación, reporting y consolidación." },
+  { label: "Operaciones", text: "Email, documentación, aprobaciones y alertas." },
+  { label: "Sistemas", text: "APIs, bases de datos y servicios internos o legacy." },
 ];
 
 const robustness = [
@@ -79,6 +81,7 @@ export default function AutomationServicePage() {
       <JsonLd id="ld-automation-faq" data={faqJsonLd(service.faqs)} />
       <Header />
       <main id="contenido">
+        {/* ═══ HERO ═══ */}
         <ServicePageHero
           breadcrumbs={breadcrumbs}
           eyebrow={service.eyebrow}
@@ -86,9 +89,11 @@ export default function AutomationServicePage() {
           subtitle={service.heroSubtitle}
           panelTitle={service.heroPanelTitle}
           panelLines={service.heroPanelLines}
+          image="/images/svc-automation.png"
         />
 
-        <section className="pb-20">
+        {/* ═══ PROBLEMAS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionIntro
               eyebrow="Problemas"
@@ -101,111 +106,170 @@ export default function AutomationServicePage() {
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ ALCANCE TÉCNICO ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionIntro
               eyebrow="Alcance técnico"
               title="Qué tipo de herramientas y sistemas solemos conectar"
               description="Automatización e integraciones se plantean como servicio operativo, no como una suma de zaps o escenarios sin dueño técnico."
             />
-            <div className="mt-10 grid gap-5 lg:grid-cols-4">
-              {flowBlocks.map((item, index) => (
-                <div key={item} className="surface-card relative overflow-hidden rounded-3xl p-6">
-                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-sky-400">
-                    {String(index + 1).padStart(2, "0")}
+            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {flowBlocks.map((item, i) => (
+                <div
+                  key={item.label}
+                  className="card-glass rounded-2xl p-6 transition-all hover:border-blue-400/25"
+                >
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-blue-400">
+                    {String(i + 1).padStart(2, "0")}
                   </p>
-                  <p className="mt-4 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{item}</p>
+                  <h3 className="mt-3 text-base font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>
+                    {item.label}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                    {item.text}
+                  </p>
                 </div>
               ))}
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ ENTREGABLES ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Qué entregamos" title="Qué entrega exactamente Qubelia en automatización e integraciones" />
+            <SectionIntro
+              eyebrow="Qué entregamos"
+              title="Qué entrega exactamente Qubelia en automatización e integraciones"
+            />
             <div className="mt-10">
               <DeliverableList items={service.deliverables} />
             </div>
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ SOLUCIÓN ROBUSTA ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionIntro
               eyebrow="Solución robusta"
               title="Por qué no vendemos automatizaciones frágiles"
               description="Conectar herramientas es fácil. Lo difícil es que siga funcionando cuando cambian campos, procesos o volumen."
             />
-            <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            <div className="mt-10 grid gap-4 lg:grid-cols-3">
               {robustness.map((item) => (
-                <article key={item.title} className="surface-card relative overflow-hidden rounded-3xl p-6">
-                  <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{item.text}</p>
+                <article
+                  key={item.title}
+                  className="card-glass rounded-2xl p-6 transition-all hover:border-blue-400/25"
+                >
+                  <h3 className="text-lg font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                    {item.text}
+                  </p>
                 </article>
               ))}
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ ESCENARIOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Escenarios" title="Escenarios habituales" />
+            <SectionIntro
+              eyebrow="Escenarios"
+              title="Escenarios habituales"
+            />
             <div className="mt-10">
               <ScenarioGrid items={service.scenarios} />
             </div>
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ PROCESO ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Proceso" title="Cómo se diseña y despliega este tipo de servicio" />
+            <SectionIntro
+              eyebrow="Proceso"
+              title="Cómo se diseña y despliega este tipo de servicio"
+            />
             <div className="mt-10">
               <ProcessTimeline items={service.process} />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ ENCAJE Y BENEFICIOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Encaje y beneficios" title="Dónde aporta más y dónde no" />
+            <SectionIntro
+              eyebrow="Encaje y beneficios"
+              title="Dónde aporta más y dónde no"
+            />
             <div className="mt-10">
               <FitPanels yes={service.fitYes} no={service.fitNo} />
             </div>
-            <div className="mt-10">
+            <div className="mt-8">
               <BenefitList items={service.benefits} />
             </div>
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ CASOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Casos" title="Resultados relacionados con automatización e integraciones" />
+            <SectionIntro
+              eyebrow="Casos"
+              title="Resultados relacionados con automatización e integraciones"
+            />
             <div className="mt-10">
               <CaseHighlights ids={service.caseStudyIds} />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ RECURSOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Recursos" title="Lecturas y herramientas relacionadas" />
+            <SectionIntro
+              eyebrow="Recursos"
+              title="Lecturas y herramientas relacionadas"
+            />
             <div className="mt-10">
               <ResourceLinks posts={service.relatedPosts} labSlugs={service.relatedLabs} />
             </div>
           </Container>
         </section>
 
-        <section id="faq" className="scroll-mt-28 bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ FAQ ═══ */}
+        <section id="faq" className="scroll-mt-28 py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="FAQ" title="Preguntas frecuentes sobre automatización e integraciones" />
-            <div className="mt-10">
+            <SectionIntro
+              eyebrow="FAQ"
+              title="Preguntas frecuentes sobre automatización e integraciones"
+            />
+            <div className="mt-10 max-w-3xl">
               <FaqList items={service.faqs} />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ SERVICIOS RELACIONADOS ═══ */}
+        <section className="py-16 sm:py-20">
+          <Container>
+            <SectionIntro
+              eyebrow="Servicios relacionados"
+              title="Otras líneas que pueden complementar este servicio"
+            />
+            <div className="mt-10">
+              <ServiceCards variant="related" slugs={service.relatedServices} />
+            </div>
+          </Container>
+        </section>
+
+        {/* ═══ CTA FINAL ═══ */}
+        <section className="pb-20 pt-4">
           <Container>
             <FinalCta
               title="Si ya tienes herramientas pero la operativa sigue siendo manual, el cuello de botella casi nunca es la herramienta"

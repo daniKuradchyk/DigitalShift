@@ -6,6 +6,7 @@ import JsonLd from "@/components/marketing/JsonLd";
 import ResourceLinks from "@/components/marketing/ResourceLinks";
 import ServicePageHero from "@/components/marketing/ServicePageHero";
 import SectionIntro from "@/components/marketing/SectionIntro";
+import ServiceCards from "@/components/marketing/ServiceCards";
 import {
   BenefitList,
   CaseHighlights,
@@ -24,33 +25,25 @@ import { absoluteUrl } from "@/lib/urls";
 
 const service = getService("software-a-medida");
 
+/* ─── Contenido editorial único ─── */
 const decisionRows = [
   {
     title: "Sí merece la pena",
-    points: [
+    items: [
       "El proceso es específico y da ventaja o ahorro real.",
       "Las herramientas actuales generan retrabajo o duplicidad.",
       "Hay necesidad de reglas de negocio, permisos o trazabilidad propia.",
     ],
+    tone: "positive" as const,
   },
   {
     title: "Probablemente no",
-    points: [
+    items: [
       "Un SaaS estándar cubre bien el proceso sin fricción seria.",
       "Todavía no existe una operativa estable que merezca sistematizar.",
       "La empresa solo quiere una app por imagen o moda.",
     ],
-  },
-];
-
-const patchVsSystem = [
-  {
-    title: "Herramientas sueltas",
-    text: "Resuelven piezas concretas, pero crean dependencias, reglas dispersas y poco control del dato.",
-  },
-  {
-    title: "Software a medida bien planteado",
-    text: "Modela el proceso completo, define una fuente de verdad y deja una base que puede crecer sin parches acumulados.",
+    tone: "negative" as const,
   },
 ];
 
@@ -88,6 +81,7 @@ export default function SoftwareServicePage() {
       <JsonLd id="ld-software-faq" data={faqData} />
       <Header />
       <main id="contenido">
+        {/* ═══ HERO ═══ */}
         <ServicePageHero
           breadcrumbs={breadcrumbs}
           eyebrow={service.eyebrow}
@@ -95,9 +89,11 @@ export default function SoftwareServicePage() {
           subtitle={service.heroSubtitle}
           panelTitle={service.heroPanelTitle}
           panelLines={service.heroPanelLines}
+          image="/images/svc-software.png"
         />
 
-        <section className="pb-20">
+        {/* ═══ PROBLEMAS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionIntro
               eyebrow="Problemas"
@@ -110,56 +106,38 @@ export default function SoftwareServicePage() {
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ DECISIÓN ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionIntro
               eyebrow="Decisión"
               title="Cuándo compensa desarrollar a medida y cuándo no"
               description="El mejor proyecto a veces es el que no se hace. La clave está en el peso real del proceso, el coste del parche y la necesidad de control."
             />
-            <div className="mt-10 grid gap-5 lg:grid-cols-2">
-              {decisionRows.map((row) => (
-                <article key={row.title} className="surface-card relative overflow-hidden rounded-3xl p-6">
-                  <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">{row.title}</h3>
-                  <ul className="mt-4 space-y-3 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-                    {row.points.map((point) => (
-                      <li key={point}>{point}</li>
-                    ))}
-                  </ul>
-                </article>
-              ))}
+            <div className="mt-10">
+              <FitPanels
+                yes={decisionRows[0].items}
+                no={decisionRows[1].items}
+              />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ ENTREGABLES ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionIntro
-              eyebrow="Enfoque"
-              title="La diferencia entre parchear herramientas y construir un sistema útil"
-              description="Encadenar herramientas puede servir durante un tiempo. Pero cuando el proceso ya es crítico, el coste oculto de los parches suele superar el de una base propia bien planteada."
+              eyebrow="Qué entregamos"
+              title="Qué incluye Qubelia en este servicio"
             />
-            <div className="mt-10 grid gap-5 lg:grid-cols-2">
-              {patchVsSystem.map((item) => (
-                <article key={item.title} className="surface-card relative overflow-hidden rounded-3xl p-6">
-                  <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{item.text}</p>
-                </article>
-              ))}
-            </div>
-          </Container>
-        </section>
-
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
-          <Container>
-            <SectionIntro eyebrow="Qué entregamos" title="Qué incluye Qubelia en este servicio" />
             <div className="mt-10">
               <DeliverableList items={service.deliverables} />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ ESCENARIOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
             <SectionIntro
               eyebrow="Escenarios"
@@ -172,55 +150,89 @@ export default function SoftwareServicePage() {
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ PROCESO ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Proceso" title="Cómo trabajamos en proyectos de software a medida" />
+            <SectionIntro
+              eyebrow="Proceso"
+              title="Cómo trabajamos en proyectos de software a medida"
+            />
             <div className="mt-10">
               <ProcessTimeline items={service.process} />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ ENCAJE Y BENEFICIOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Encaje y beneficios" title="Dónde suele generar más valor este tipo de proyecto" />
+            <SectionIntro
+              eyebrow="Encaje y beneficios"
+              title="Dónde suele generar más valor este tipo de proyecto"
+            />
             <div className="mt-10">
               <FitPanels yes={service.fitYes} no={service.fitNo} />
             </div>
-            <div className="mt-10">
+            <div className="mt-8">
               <BenefitList items={service.benefits} />
             </div>
           </Container>
         </section>
 
-        <section className="bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ CASOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Casos" title="Resultados relacionados con esta capa de servicio" />
+            <SectionIntro
+              eyebrow="Casos"
+              title="Resultados relacionados con esta capa de servicio"
+            />
             <div className="mt-10">
               <CaseHighlights ids={service.caseStudyIds} />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ RECURSOS ═══ */}
+        <section className="py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="Recursos" title="Contenido y herramientas relacionadas" />
+            <SectionIntro
+              eyebrow="Recursos"
+              title="Contenido y herramientas relacionadas"
+            />
             <div className="mt-10">
               <ResourceLinks posts={service.relatedPosts} labSlugs={service.relatedLabs} />
             </div>
           </Container>
         </section>
 
-        <section id="faq" className="scroll-mt-28 bg-slate-50/30 py-20 dark:bg-white/[0.01]">
+        {/* ═══ FAQ ═══ */}
+        <section id="faq" className="scroll-mt-28 py-16 sm:py-20">
           <Container>
-            <SectionIntro eyebrow="FAQ" title="Preguntas frecuentes sobre software a medida" />
-            <div className="mt-10">
+            <SectionIntro
+              eyebrow="FAQ"
+              title="Preguntas frecuentes sobre software a medida"
+            />
+            <div className="mt-10 max-w-3xl">
               <FaqList items={service.faqs} />
             </div>
           </Container>
         </section>
 
-        <section className="py-20">
+        {/* ═══ SERVICIOS RELACIONADOS ═══ */}
+        <section className="py-16 sm:py-20">
+          <Container>
+            <SectionIntro
+              eyebrow="Servicios relacionados"
+              title="Otras líneas que pueden complementar este servicio"
+            />
+            <div className="mt-10">
+              <ServiceCards variant="related" slugs={service.relatedServices} />
+            </div>
+          </Container>
+        </section>
+
+        {/* ═══ CTA FINAL ═══ */}
+        <section className="pb-20 pt-4">
           <Container>
             <FinalCta
               title="Si el proceso importa de verdad, conviene decidir pronto qué parte merece una base propia"

@@ -7,7 +7,7 @@ type Props = {
   labSlugs: string[];
 };
 
-const panelClass = "surface-card relative overflow-hidden rounded-2xl p-5";
+const panelClass = "card-glass relative overflow-hidden rounded-2xl p-6";
 
 export default function ResourceLinks({ posts, labSlugs }: Props) {
   const postItems = posts.map((slug) => getPost(slug)).filter(Boolean);
@@ -16,11 +16,11 @@ export default function ResourceLinks({ posts, labSlugs }: Props) {
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <div className={panelClass}>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-400">Lecturas</p>
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-blue-400">Lecturas</p>
         <div className="mt-4 space-y-4">
           {postItems.map((post) => (
-            <Link key={post!.slug} href={`/blog/${post!.slug}`} className="block">
-              <p className="text-base font-semibold transition-colors hover:text-violet-300" style={{ color: "var(--text-primary)" }}>
+            <Link key={post!.slug} href={`/blog/${post!.slug}`} className="group block">
+              <p className="text-base font-semibold transition-colors group-hover:text-blue-300" style={{ color: "var(--text-primary)" }}>
                 {post!.title}
               </p>
               <p className="mt-1 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{post!.description}</p>
@@ -29,11 +29,11 @@ export default function ResourceLinks({ posts, labSlugs }: Props) {
         </div>
       </div>
       <div className={panelClass}>
-        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-violet-400">Labs</p>
+        <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-blue-400">Labs</p>
         <div className="mt-4 space-y-4">
           {labItems.map((lab) => (
-            <Link key={lab!.slug} href={lab!.href ?? `/labs/${lab!.slug}`} className="block">
-              <p className="text-base font-semibold transition-colors hover:text-violet-300" style={{ color: "var(--text-primary)" }}>
+            <Link key={lab!.slug} href={lab!.href ?? `/labs/${lab!.slug}`} className="group block">
+              <p className="text-base font-semibold transition-colors group-hover:text-blue-300" style={{ color: "var(--text-primary)" }}>
                 {lab!.title}
               </p>
               <p className="mt-1 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{lab!.desc}</p>

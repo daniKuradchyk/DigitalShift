@@ -15,6 +15,7 @@ import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import { partnerLogos } from "@/content/proof";
 
+/* ─── Shared animation constants (used across ALL sections) ────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -145,32 +146,6 @@ function FloatingParticles() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   COUNTER
-   ═══════════════════════════════════════════════════════════════════ */
-function Counter({ value, suffix = "" }: { value: number; suffix?: string }) {
-  const [display, setDisplay] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
-
-  useEffect(() => {
-    if (!inView) return;
-    const dur = 1600;
-    const steps = 50;
-    const step = dur / steps;
-    let i = 0;
-    const timer = setInterval(() => {
-      i++;
-      const p = 1 - Math.pow(1 - i / steps, 4);
-      setDisplay(Math.round(value * p));
-      if (i >= steps) clearInterval(timer);
-    }, step);
-    return () => clearInterval(timer);
-  }, [inView, value]);
-
-  return <span ref={ref} className="tabular-nums">{display}{suffix}</span>;
-}
-
-/* ═══════════════════════════════════════════════════════════════════
    ROTATING WORDS
    ═══════════════════════════════════════════════════════════════════ */
 const WORDS = ["impulsa", "transforma", "escala", "diferencia"];
@@ -204,40 +179,12 @@ function RotatingWord() {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   LOGO STRIP — simple row, no marquee to avoid mobile issues
-   ═══════════════════════════════════════════════════════════════════ */
-function LogoStrip() {
-  return (
-    <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 sm:gap-x-10 md:gap-x-14">
-      {partnerLogos.map((p, i) => (
-        <motion.div
-          key={p.name}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 + i * 0.1, duration: 0.6 }}
-        >
-          <Image
-            src={p.logo}
-            alt={p.name}
-            width={p.width}
-            height={p.height}
-            className="h-5 sm:h-6 w-auto object-contain brightness-0 invert opacity-30 hover:opacity-60 transition-opacity duration-500"
-          />
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════════════════
    MAIN HERO
    ═══════════════════════════════════════════════════════════════════ */
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "-10px" });
 
-  /* Parallax — only on the cube, NOT on the content.
-     Content stays static so nothing gets cut on mobile. */
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
@@ -257,7 +204,7 @@ export default function Hero() {
     >
       <FloatingParticles />
 
-      {/* ── 3D Cube — decorative, behind content ────────────── */}
+      {/* ── 3D Cube — decorative, behind content ── */}
       <motion.div
         className="pointer-events-none absolute left-1/2 top-[40%] -translate-x-1/2 -translate-y-1/2 z-0 hidden sm:block"
         style={{
@@ -274,7 +221,7 @@ export default function Hero() {
         <HeroCube className="w-full h-full" />
       </motion.div>
 
-      {/* ── Content ──────────────────────────────────────────── */}
+      {/* ── Content ── */}
       <Container className="relative z-10">
         <div className="flex flex-col items-center text-center pt-28 sm:pt-32 md:pt-40 lg:pt-48 pb-16 sm:pb-20 md:pb-24">
 
@@ -283,7 +230,6 @@ export default function Hero() {
             initial={{ opacity: 0, y: 16 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: EASE }}
-            className="mb-5 sm:mb-6"
           >
             <span className="section-tag">
               <span className="relative flex h-2 w-2 shrink-0">
@@ -342,30 +288,24 @@ export default function Hero() {
             </Button>
           </motion.div>
 
-          {/* Metrics — compact row */}
+          {/* Single hero metric — 100+ proyectos */}
           <motion.div
-            className="mb-10 sm:mb-12 flex items-center justify-center gap-6 sm:gap-10"
-            initial={{ opacity: 0, y: 14 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
+            className="mb-10 sm:mb-12"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={inView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.7, delay: 0.6, ease: EASE }}
           >
-            {[
-              { val: 8, suf: "+", label: "proyectos" },
-              { val: 100, suf: "%", label: "tu código" },
-              { val: 24, suf: "h", label: "respuesta" },
-            ].map((m, i) => (
-              <div key={i} className="flex flex-col items-center gap-0.5">
-                <span className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight" style={{ color: "var(--accent-light)" }}>
-                  <Counter value={m.val} suffix={m.suf} />
-                </span>
-                <span className="text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.1em]" style={{ color: "var(--text-muted)" }}>
-                  {m.label}
-                </span>
-              </div>
-            ))}
+            <div className="inline-flex items-center gap-3 rounded-full border border-blue-400/15 bg-blue-500/[0.06] px-5 py-2.5">
+              <span className="text-2xl sm:text-3xl font-extrabold tracking-tight" style={{ color: "var(--accent-light)" }}>
+                100+
+              </span>
+              <span className="text-xs sm:text-sm font-medium" style={{ color: "var(--text-secondary)" }}>
+                proyectos entregados a empresas B2B
+              </span>
+            </div>
           </motion.div>
 
-          {/* Client logos — simple wrap, always visible */}
+          {/* Client logos */}
           <motion.div
             className="w-full max-w-xl"
             initial={{ opacity: 0 }}
@@ -375,14 +315,31 @@ export default function Hero() {
             <p className="mb-3 text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.18em]" style={{ color: "var(--text-muted)", opacity: 0.6 }}>
               Empresas que confían en nosotros
             </p>
-            <LogoStrip />
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 sm:gap-x-10 md:gap-x-14">
+              {partnerLogos.map((p, i) => (
+                <motion.div
+                  key={p.name}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.0 + i * 0.1, duration: 0.6 }}
+                >
+                  <Image
+                    src={p.logo}
+                    alt={p.name}
+                    width={p.width}
+                    height={p.height}
+                    className="h-5 sm:h-6 w-auto object-contain brightness-0 invert opacity-30 hover:opacity-60 transition-opacity duration-500"
+                  />
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
         </div>
       </Container>
 
-      {/* ── Bottom gradient — seamless transition to next section ── */}
+      {/* ── Bottom gradient — seamless transition ── */}
       <div
-        className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 sm:h-32"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 sm:h-40"
         style={{ background: "linear-gradient(to top, var(--bg-page), transparent)" }}
         aria-hidden
       />
