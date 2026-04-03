@@ -62,11 +62,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="color-scheme" content="dark" />
         <meta name="theme-color" content="#060B1A" />
+        {/* Cookie-Script Manager */}
         <Script
           type="text/javascript"
           src="//cdn.cookie-script.com/s/efb073fb4c7103bb6e910a2a4a32a436.js"
           strategy="beforeInteractive"
         />
+        {/* Google tag (gtag.js) */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-CQ4PGTB0KS"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-CQ4PGTB0KS');
+          `}
+        </Script>
       </head>
       <body className="antialiased">
         <CookieConsentProvider>
