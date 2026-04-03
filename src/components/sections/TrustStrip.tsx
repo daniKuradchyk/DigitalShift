@@ -15,23 +15,23 @@ export default function TrustStrip() {
   return (
     <section
       aria-labelledby="stack-title"
-      className="border-y border-brand-500/8 bg-brand-500/[0.015] py-8"
+      className="border-y border-blue-500/8 bg-blue-500/[0.015] py-6 sm:py-8"
     >
       <Container>
-        <div className="grid gap-6 lg:grid-cols-[320px_1fr] lg:items-center">
-          <div className="surface-panel rounded-3xl p-6">
-            <h2 id="stack-title" className="text-lg font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>
-              Stack estable y criterio de produccion
+        <div className="grid gap-4 sm:gap-6 lg:grid-cols-[280px_1fr] lg:items-center">
+          <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6" style={{ background: "rgba(10,17,40,0.6)", border: "1px solid rgba(65,105,225,0.1)" }}>
+            <h2 id="stack-title" className="text-base sm:text-lg font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>
+              Stack estable y criterio de producción
             </h2>
-            <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
-              La tecnologia cambia. Lo importante es dejar una base rapida, mantenible y comprensible para el equipo.
+            <p className="mt-1.5 text-xs sm:text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
+              La tecnología cambia. Lo importante es dejar una base rápida, mantenible y comprensible para el equipo.
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
             {stack.map((name) => (
               <span
                 key={name}
-                className="inline-flex items-center rounded-full border border-brand-400/12 bg-brand-500/[0.04] px-4 py-1.5 text-sm font-medium shadow-[0_10px_24px_-20px_rgba(0,0,0,0.40)]"
+                className="inline-flex items-center rounded-full border border-blue-400/12 bg-blue-500/[0.04] px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-medium"
                 style={{ color: "var(--text-secondary)" }}
               >
                 {name}
