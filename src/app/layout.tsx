@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import InteractiveBackground from "@/components/common/InteractiveBackground";
 import { CookieConsentProvider } from "@/components/cookies/CookieConsentProvider";
 import CookieBanner from "@/components/cookies/CookieBanner";
@@ -61,6 +62,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="color-scheme" content="dark" />
         <meta name="theme-color" content="#060B1A" />
+        <Script
+          type="text/javascript"
+          src="//cdn.cookie-script.com/s/efb073fb4c7103bb6e910a2a4a32a436.js"
+          strategy="beforeInteractive"
+        />
       </head>
       <body className="antialiased">
         <CookieConsentProvider>
