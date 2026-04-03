@@ -39,32 +39,32 @@ const sizes: Record<Sizes, string> = {
 const variants: Record<Variants, string> = {
   primary: cn(
     "text-white",
-    "bg-[linear-gradient(135deg,#7C3AED_0%,#A78BFA_50%,#C084FC_100%)] bg-[length:200%_100%]",
+    "bg-[linear-gradient(135deg,#1E50C8_0%,#4169E1_50%,#5B8DEF_100%)] bg-[length:200%_100%]",
     "hover:bg-[position:100%_0]",
-    "border border-violet-400/25",
-    "shadow-[0_0_20px_rgba(167,139,250,0.18),0_8px_32px_-8px_rgba(124,58,237,0.35)]",
-    "hover:shadow-[0_0_35px_rgba(167,139,250,0.30),0_12px_40px_-8px_rgba(124,58,237,0.50)]",
+    "border border-brand-400/25",
+    "shadow-[0_0_20px_rgba(65,105,225,0.18),0_8px_32px_-8px_rgba(30,80,200,0.35)]",
+    "hover:shadow-[0_0_35px_rgba(65,105,225,0.30),0_12px_40px_-8px_rgba(30,80,200,0.50)]",
     "hover:-translate-y-0.5",
-    "focus-visible:ring-2 focus-visible:ring-violet-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08090E]"
+    "focus-visible:ring-2 focus-visible:ring-brand-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#060B1A]"
   ),
   ghost: cn(
-    "text-violet-200",
-    "bg-violet-500/[0.06] border border-violet-400/15",
+    "text-brand-200",
+    "bg-brand-500/[0.06] border border-brand-400/15",
     "backdrop-blur-sm",
     "shadow-sm",
-    "hover:-translate-y-0.5 hover:bg-violet-500/[0.12] hover:border-violet-400/30 hover:text-violet-100",
-    "hover:shadow-[0_0_20px_rgba(167,139,250,0.08)]",
-    "focus-visible:ring-2 focus-visible:ring-violet-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08090E]"
+    "hover:-translate-y-0.5 hover:bg-brand-500/[0.12] hover:border-brand-400/30 hover:text-brand-100",
+    "hover:shadow-[0_0_20px_rgba(65,105,225,0.08)]",
+    "focus-visible:ring-2 focus-visible:ring-brand-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#060B1A]"
   ),
   shine: cn(
     "relative text-white overflow-hidden",
-    "bg-[linear-gradient(135deg,#6D28D9_0%,#A78BFA_30%,#C084FC_60%,#67E8F9_100%)] bg-[length:250%_100%]",
+    "bg-[linear-gradient(135deg,#1E50C8_0%,#4169E1_30%,#5B8DEF_60%,#85A2FF_100%)] bg-[length:250%_100%]",
     "hover:bg-[position:100%_0]",
-    "border border-violet-400/25",
-    "shadow-[0_0_24px_rgba(167,139,250,0.20),0_8px_32px_-8px_rgba(124,58,237,0.40)]",
-    "hover:shadow-[0_0_40px_rgba(167,139,250,0.35),0_12px_44px_-8px_rgba(192,132,252,0.50)]",
+    "border border-brand-400/25",
+    "shadow-[0_0_24px_rgba(65,105,225,0.20),0_8px_32px_-8px_rgba(30,80,200,0.40)]",
+    "hover:shadow-[0_0_40px_rgba(65,105,225,0.35),0_12px_44px_-8px_rgba(91,141,239,0.50)]",
     "hover:-translate-y-0.5",
-    "focus-visible:ring-2 focus-visible:ring-violet-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#08090E]"
+    "focus-visible:ring-2 focus-visible:ring-brand-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#060B1A]"
   ),
 };
 

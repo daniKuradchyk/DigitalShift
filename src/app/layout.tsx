@@ -60,14 +60,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es" className={`dark ${geist.variable} ${geistMono.variable}`}>
       <head>
         <meta name="color-scheme" content="dark" />
-        <meta name="theme-color" content="#08090E" />
+        <meta name="theme-color" content="#060B1A" />
       </head>
       <body className="antialiased">
         <CookieConsentProvider>
           <InteractiveBackground />
           <a
             href="#contenido"
-            className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 rounded-md bg-violet-500/10 px-3 py-2 shadow"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 rounded-md bg-brand-500/10 px-3 py-2 shadow"
             style={{ color: "var(--text-primary)" }}
           >
             Saltar al contenido
