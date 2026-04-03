@@ -492,12 +492,11 @@ export default function Contact() {
 
             {/* Contact channels */}
             <div
-              className="rounded-2xl overflow-hidden divide-y"
+              className="rounded-2xl overflow-hidden divide-y divide-[rgba(65,105,225,0.06)]"
               style={{
                 background: "linear-gradient(180deg, rgba(10,17,40,0.97), rgba(6,11,26,0.95))",
                 borderWidth: "1px",
                 borderColor: "rgba(65,105,225,0.1)",
-                divideColor: "rgba(65,105,225,0.06)",
               }}
             >
               {CHANNELS.map((ch, i) => (

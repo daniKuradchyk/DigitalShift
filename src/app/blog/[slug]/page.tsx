@@ -127,7 +127,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
           <Container className="py-12 sm:py-16">
             <div className="max-w-3xl">
               <div className="mb-6 flex flex-wrap gap-2.5">
-                {post.tags.map((tag) => (
+                {post.tags.map((tag: string) => (
                   <span key={tag} className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400">
                     {tag}
                   </span>
