@@ -52,10 +52,13 @@ export default function Footer() {
           </nav>
 
           <nav aria-label="Navegación en footer" className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
-            <p className="mb-2 sm:mb-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "rgba(91,141,239,0.5)" }}>Navegación</p>
-            <Link href={isHome ? "#resultados" : "/#resultados"} className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Casos y resultados</Link>
+            <p className="mb-2 sm:mb-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "rgba(91,141,239,0.5)" }}>Recursos</p>
+            <Link href="/casos" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Casos de exito</Link>
             <Link href="/blog" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Blog</Link>
-            <Link href="/labs" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Labs</Link>
+            <Link href="/labs" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Herramientas gratuitas</Link>
+            <Link href="/labs/roi-automatizacion" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Calculadora ROI</Link>
+            <Link href="/labs/calculadora-coste-software" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Calculadora coste software</Link>
+            <Link href="/herramientas/calculadora-irpf" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Calculadora IRPF</Link>
             <Link href={isHome ? "#faq" : "/#faq"} className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>FAQ</Link>
           </nav>
 

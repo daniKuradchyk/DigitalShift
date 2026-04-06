@@ -19,7 +19,7 @@ export const revalidate = 86400;
 export const metadata: Metadata = buildMetadata({
   title: "Servicios de Qubelia | Software, web, automatización y CRM a medida",
   description:
-    "Cuatro líneas de servicio para empresas B2B: software a medida, web a medida, automatización e integraciones, y CRM o intranet a medida. Criterio técnico, propiedad del código y entrega real.",
+    "Software a medida, web, automatización e integraciones y CRM a medida para empresas B2B. Criterio técnico, propiedad del código y entrega real.",
   path: "/servicios",
 });
 

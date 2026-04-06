@@ -20,14 +20,11 @@ export async function generateMetadata({ params }: { params: any }): Promise<Met
   const { city } = (await params) as Params;
   const cityName = city.charAt(0).toUpperCase() + city.slice(1);
 
-  return {
-    ...buildMetadata({
-      title: `Software, web e integraciones en ${cityName}`,
-      description: `Contexto local de Qubelia para proyectos de software a medida, web y automatizacion en ${cityName}.`,
-      path: `/area/${city}`,
-    }),
-    robots: { index: false, follow: true },
-  };
+  return buildMetadata({
+    title: `Software a medida en ${cityName} | Desarrollo web y automatizacion para empresas`,
+    description: `Qubelia desarrolla software a medida, web y automatizacion de procesos para empresas B2B en ${cityName}. Diagnostico gratuito y propuesta en 48h.`,
+    path: `/area/${city}`,
+  });
 }
 
 export default async function CityPage({ params }: { params: any }) {

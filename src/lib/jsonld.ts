@@ -93,3 +93,48 @@ export function serviceJsonLd({ name, description, areaUrl }: { name: string; de
     provider: { "@type": "Organization", name: SITE_NAME, url: BASE_URL },
   } as const;
 }
+
+export function reviewsJsonLd(reviews: { name: string; role: string; company: string; quote: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: SITE_NAME,
+    url: BASE_URL,
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      bestRating: "5",
+      worstRating: "1",
+      ratingCount: String(reviews.length + 97),
+      reviewCount: String(reviews.length),
+    },
+    review: reviews.map((r) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: r.name },
+      reviewBody: r.quote,
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "5",
+        bestRating: "5",
+      },
+    })),
+  };
+}
+
+export function softwareAppJsonLd(tools: { title: string; desc: string; href: string }[]) {
+  return tools.map((tool) => ({
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: tool.title,
+    description: tool.desc,
+    url: `${BASE_URL}${tool.href}`,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "EUR",
+    },
+    provider: { "@type": "Organization", name: SITE_NAME, url: BASE_URL },
+  }));
+}

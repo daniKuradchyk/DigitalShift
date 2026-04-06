@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Container from "@/components/common/Container";
+import Breadcrumbs from "@/components/marketing/Breadcrumbs";
 import Button from "@/components/common/Button";
+import JsonLd from "@/components/marketing/JsonLd";
 import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
 import { getPostsWithReadingTime } from "@/lib/posts";
+import { breadcrumbJsonLd } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
+import { absoluteUrl } from "@/lib/urls";
 
 export const revalidate = 86400;
 
@@ -25,13 +29,20 @@ export default function BlogIndex() {
   const [featured, ...rest] = posts;
   const allTags = Array.from(new Set(posts.flatMap((p) => p.tags)));
 
+  const blogBreadcrumb = breadcrumbJsonLd([
+    { name: "Inicio", url: absoluteUrl("/") },
+    { name: "Blog", url: absoluteUrl("/blog") },
+  ]);
+
   return (
     <>
+      <JsonLd id="ld-blog-breadcrumbs" data={blogBreadcrumb} />
       <Header />
       <main>
         {/* Editorial hero */}
         <div className="relative border-b border-slate-200/60 dark:border-white/[0.06]">
           <Container className="py-16 sm:py-24">
+            <Breadcrumbs items={[{ label: "Inicio", href: "/" }, { label: "Blog" }]} />
             <div className="max-w-3xl">
               <div className="flex items-center gap-2.5 mb-6">
                 <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />

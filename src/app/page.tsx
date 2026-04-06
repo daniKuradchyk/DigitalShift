@@ -11,6 +11,8 @@ import TrustStrip from "@/components/sections/TrustStrip";
 import JsonLd from "@/components/marketing/JsonLd";
 import { CONTACT } from "@/config/contact";
 import { faqItems } from "@/content/faqs";
+import testimonials from "@/content/testimonials.json";
+import { reviewsJsonLd } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 import { absoluteUrl } from "@/lib/urls";
 
@@ -67,10 +69,13 @@ export default function Page() {
     })),
   };
 
+  const reviewData = reviewsJsonLd(testimonials);
+
   return (
     <>
       <JsonLd id="ld-home-localbusiness" data={localBusiness} />
       <JsonLd id="ld-home-faq" data={faqData} />
+      <JsonLd id="ld-home-reviews" data={reviewData} />
       <Header />
       <main id="contenido">
         <Hero />

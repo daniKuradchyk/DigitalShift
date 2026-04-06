@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { AREAS } from "@/lib/locations";
 import { postsMeta } from "@/lib/posts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -48,6 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    { url: `${base}/casos`, lastModified: siteLastUpdated, changeFrequency: "monthly", priority: 0.8 },
     { url: `${base}/blog`, lastModified: latestPostDate, changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/legal/aviso-legal`, lastModified: siteLastUpdated, changeFrequency: "yearly", priority: 0.3 },
     { url: `${base}/legal/privacidad`, lastModified: siteLastUpdated, changeFrequency: "yearly", priority: 0.3 },
@@ -63,5 +65,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  return [...staticPages, ...blogPages];
+  const areaPages: MetadataRoute.Sitemap = AREAS.map(
+    (area): MetadataRoute.Sitemap[number] => ({
+      url: `${base}/area/${area.slug}`,
+      lastModified: siteLastUpdated,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    })
+  );
+
+  return [...staticPages, ...blogPages, ...areaPages];
 }

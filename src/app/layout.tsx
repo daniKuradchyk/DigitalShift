@@ -67,29 +67,31 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://cdn.cookie-script.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        {/* Google Tag Manager — head snippet */}
+        <Script id="gtm-head" strategy="afterInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NBXTD444');`}
+        </Script>
         {/* Cookie-Script Manager — loaded after interactive to avoid render-blocking */}
         <Script
           type="text/javascript"
           src="//cdn.cookie-script.com/s/efb073fb4c7103bb6e910a2a4a32a436.js"
           strategy="afterInteractive"
         />
-        {/* Google tag (gtag.js) */}
-        <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-CQ4PGTB0KS"
-          strategy="lazyOnload"
-        />
-        <Script id="google-analytics" strategy="lazyOnload">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-CQ4PGTB0KS', { send_page_view: true });
-          `}
-        </Script>
       </head>
       <body className="antialiased">
+        {/* Google Tag Manager (noscript) — fallback for JS-disabled browsers */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-NBXTD444"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         <CookieConsentProvider>
           <LazyBackground />
           <a

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Breadcrumbs from "@/components/marketing/Breadcrumbs";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import Header from "@/components/sections/Header";
@@ -125,6 +126,13 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
       <main className="min-h-screen pb-20">
         <div className="border-b border-slate-200/60 dark:border-white/[0.06]">
           <Container className="py-12 sm:py-16">
+            <Breadcrumbs
+              items={[
+                { label: "Inicio", href: "/" },
+                { label: "Blog", href: "/blog" },
+                { label: post.h1 },
+              ]}
+            />
             <div className="max-w-3xl">
               <div className="mb-6 flex flex-wrap gap-2.5">
                 {post.tags.map((tag: string) => (

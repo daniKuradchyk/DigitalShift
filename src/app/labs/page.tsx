@@ -3,6 +3,8 @@ import Link from "next/link";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 import Logo from "@/components/common/Logo";
+import JsonLd from "@/components/marketing/JsonLd";
+import { softwareAppJsonLd } from "@/lib/jsonld";
 import { buildMetadata } from "@/lib/seo";
 import labs from "@/content/labs.json";
 
@@ -122,8 +124,20 @@ function isComingSoon(status: string) {
 export default function LabsPage() {
   const available = labs.filter((t) => !isComingSoon(t.status));
 
+  const toolsForSchema = available.map((t) => ({
+    title: t.title,
+    desc: t.desc,
+    href: (t as Record<string, unknown>).href
+      ? String((t as Record<string, unknown>).href)
+      : `/labs/${t.slug}`,
+  }));
+  const appSchemas = softwareAppJsonLd(toolsForSchema);
+
   return (
     <main className="relative overflow-hidden min-h-screen bg-white dark:bg-[#050A14]">
+      {appSchemas.map((schema, i) => (
+        <JsonLd key={`ld-lab-${i}`} id={`ld-lab-${i}`} data={schema} />
+      ))}
       {/* Ambient */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
         <div className="absolute -left-20 top-20 h-96 w-96 rounded-full blur-3xl opacity-10 dark:opacity-20"
