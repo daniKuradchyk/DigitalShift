@@ -76,11 +76,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-NBXTD444');`}
         </Script>
         {/* Cookie-Script Manager — loaded after interactive to avoid render-blocking */}
-        <Script
-          type="text/javascript"
-          src="//cdn.cookie-script.com/s/efb073fb4c7103bb6e910a2a4a32a436.js"
-          strategy="afterInteractive"
-        />
+        
       </head>
       <body className="antialiased">
         {/* Google Tag Manager (noscript) — fallback for JS-disabled browsers */}
