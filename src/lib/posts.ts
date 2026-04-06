@@ -410,6 +410,365 @@ export const posts: Post[] = [
       },
     ],
   },
+
+  /* ─── NEW SEO-TARGETED POSTS (April 2026) ─── */
+  {
+    slug: "desarrollo-web-a-medida-vs-wordpress-cuando-dar-el-salto",
+    title: "Desarrollo web a medida vs WordPress: Cuándo dar el salto en 2026",
+    description:
+      "Comparativa real entre web a medida y WordPress para empresas B2B. Rendimiento, SEO, seguridad y coste total de propiedad analizados con datos de 2026.",
+    h1: "Web a medida vs WordPress: La decisión que define tu presencia digital",
+    date: "2026-04-06",
+    author: baseAuthor,
+    tags: ["Web a medida", "WordPress", "Rendimiento", "SEO"],
+    intro:
+      "WordPress domina el 43% de la web mundial y ha sido la opción por defecto durante más de una década. Pero en 2026, las exigencias de rendimiento, seguridad y experiencia de usuario de Google han cambiado las reglas del juego. Para una empresa B2B cuya web es su principal canal de captación, la pregunta ya no es '¿funciona mi web?' sino '¿está mi web trabajando a mi favor o en mi contra?'. Este análisis honesto desglosa cuándo WordPress sigue siendo la mejor opción y cuándo el desarrollo a medida se convierte en una inversión estratégica ineludible.",
+    sections: [
+      {
+        title: "Rendimiento y Core Web Vitals: La batalla de los milisegundos",
+        body: [
+          "Google mide tu web con tres métricas clave: LCP (Largest Contentful Paint), INP (Interaction to Next Paint) y CLS (Cumulative Layout Shift). Estas métricas afectan directamente a tu posicionamiento y, por tanto, a tu facturación.",
+          "Un WordPress típico con tema premium, WooCommerce, 5 plugins de funcionalidad y un builder visual arroja un LCP de 3.5-5 segundos en móvil. Cada plugin añade peticiones HTTP, CSS y JavaScript que el navegador debe procesar antes de mostrar contenido útil. El resultado: una web que pierde entre un 7% y un 15% de visitantes por cada segundo adicional de carga.",
+          "Una web a medida construida con Next.js o Astro en 2026 consigue un LCP inferior a 1.2 segundos, un INP de menos de 100ms y un CLS prácticamente nulo. No carga código que no necesita, genera las páginas de forma estática y sirve imágenes optimizadas automáticamente. En un mercado B2B donde cada lead vale cientos o miles de euros, la diferencia de rendimiento se traduce directamente en ingresos.",
+          "Caso real: Un distribuidor industrial en Sevilla migró de WordPress a una web a medida y redujo su tasa de rebote del 68% al 31%, aumentando las solicitudes de presupuesto un 47% en el primer trimestre sin cambiar ni un euro en publicidad.",
+        ],
+      },
+      {
+        title: "SEO técnico: Lo que Google ve y tú no",
+        body: [
+          "El SEO en 2026 no se gana solo con contenido de calidad; la estructura técnica es igual de importante. WordPress genera un HTML inflado con clases genéricas, scripts de terceros inyectados sin control y una estructura de headings que depende del tema y los plugins instalados.",
+          "Con desarrollo a medida tienes control total sobre el HTML semántico, los datos estructurados (JSON-LD), las etiquetas Open Graph, los canonical URLs, el sitemap dinámico y los headers HTTP de caché. Cada elemento está colocado con intención, no por defecto de un plugin.",
+          "El renderizado del lado del servidor (SSR) y la generación estática (SSG) permiten que Google indexe tu contenido de forma inmediata. En WordPress con contenido dinámico renderizado con JavaScript, Google necesita un segundo paso de renderizado que puede tardar días o semanas. Para una empresa que publica contenido de valor, eso significa perder posiciones críticas frente a competidores más rápidos.",
+          "Además, la gestión del crawl budget es más eficiente. Una web a medida no genera URLs basura (/wp-admin/, /wp-json/, parámetros de query innecesarios) que diluyen la autoridad de tus páginas importantes.",
+        ],
+      },
+      {
+        title: "Seguridad: El talón de Aquiles de los CMS genéricos",
+        body: [
+          "WordPress es el CMS más atacado del mundo, no porque sea malo, sino porque es el más popular. En 2026, se descubren una media de 120 vulnerabilidades al mes en plugins y temas del ecosistema WordPress. Si no actualizas constantemente, eres un objetivo fácil.",
+          "Un plugin desactualizado puede abrir una puerta trasera a tu base de datos de clientes. En el contexto del RGPD, esto no solo es un problema técnico sino legal, con multas de hasta el 4% de la facturación anual.",
+          "Una web a medida tiene una superficie de ataque mínima. No hay panel de administración público (/wp-login.php) que los bots prueben miles de veces al día. No hay plugins de terceros con acceso a tu base de datos. El código es tuyo, auditado y desplegado en infraestructura controlada.",
+          "Esto no significa que WordPress no pueda ser seguro. Con un administrador técnico dedicado, actualizaciones semanales, WAF (Web Application Firewall) y plugins de seguridad premium, se puede blindar. Pero ese mantenimiento tiene un coste mensual que muchas empresas no contabilizan al elegir WordPress 'porque es gratis'.",
+        ],
+      },
+      {
+        title: "Coste total de propiedad (TCO): La cuenta real a 3 años",
+        body: [
+          "WordPress parece barato al inicio: hosting por 10-30€/mes, tema premium por 60€, plugins esenciales por 200-400€/año. Un freelance monta la web por 1.500-3.000€ y estás online en semanas. Total año 1: unos 4.000-6.000€. Suena bien.",
+          "Pero el año 2 empiezan los problemas: el tema necesita una actualización que rompe un plugin, necesitas un desarrollador para arreglarlo (300-500€). Un plugin cambia su modelo de precios y ahora cuesta el triple. La velocidad se degrada y necesitas un plugin de caché premium (100€/año) y optimización de imágenes (otro plugin de pago). Total año 2: 3.000-5.000€ en mantenimiento reactivo.",
+          "El año 3, Google cambia sus Core Web Vitals y tu web ya no pasa. Necesitas rediseño parcial o migración. Coste: 5.000-10.000€. TCO a 3 años: 12.000-21.000€, sin contar el coste de oportunidad de los leads perdidos.",
+          "Una web a medida profesional para B2B cuesta entre 8.000-20.000€ el año 1. El mantenimiento anual es predecible (1.000-3.000€/año) porque no hay dependencias externas que se rompan. TCO a 3 años: 10.000-26.000€, pero con un rendimiento, seguridad y control infinitamente superiores. Y sin sorpresas.",
+          "La regla es sencilla: si tu web genera más de 50.000€/año en negocio, el desarrollo a medida no es un gasto, es la inversión con mejor retorno de tu empresa.",
+        ],
+      },
+      {
+        title: "Cuándo WordPress sigue siendo la mejor opción",
+        body: [
+          "No todo es blanco o negro. WordPress sigue siendo excelente para blogs personales, webs informativas simples, tiendas online pequeñas con WooCommerce y MVPs (Productos Mínimos Viables) donde la velocidad de lanzamiento es más importante que la optimización.",
+          "Si tu empresa no depende de la web para captar clientes (por ejemplo, vendes por relaciones directas y la web es solo un escaparate básico), WordPress cumple perfectamente. No necesitas un Ferrari para ir al supermercado.",
+          "El error es asumir que porque WordPress te sirvió para empezar, debe seguir sirviendo cuando tu empresa ha crecido. El momento de dar el salto es cuando tu web deja de ser un folleto digital y se convierte en tu principal herramienta de generación de negocio.",
+        ],
+      },
+    ],
+    highlights: [
+      "Las webs a medida logran un LCP un 60-70% más rápido que WordPress con plugins.",
+      "El coste total de propiedad a 3 años puede ser similar o inferior al de WordPress.",
+      "Control total sobre SEO técnico, seguridad y experiencia de usuario.",
+      "WordPress sigue siendo válido para webs simples que no son canal principal de captación.",
+    ],
+    faqs: [
+      {
+        q: "¿Puedo migrar mi web de WordPress a una solución a medida sin perder SEO?",
+        a: "Sí, con una planificación adecuada. Se implementan redirecciones 301 para cada URL existente, se migra el contenido con las mismas keywords y se mantiene la estructura de URLs siempre que sea posible. En la mayoría de los casos, el posicionamiento mejora tras la migración gracias al rendimiento superior.",
+      },
+      {
+        q: "¿Cuánto tarda el desarrollo de una web a medida frente a WordPress?",
+        a: "Una web WordPress básica se monta en 2-4 semanas. Una web a medida profesional requiere 6-10 semanas. La diferencia de tiempo se recupera en el primer año con creces gracias a la reducción de mantenimiento reactivo y la mejora en conversión.",
+      },
+      {
+        q: "¿Necesito un equipo técnico para mantener una web a medida?",
+        a: "No necesariamente. En Qubelia entregamos un panel de gestión de contenidos integrado (headless CMS) que permite al equipo no técnico actualizar textos, imágenes y publicar blog posts sin tocar código. El mantenimiento técnico lo gestionamos nosotros con un plan de soporte mensual.",
+      },
+    ],
+    cta: {
+      label: "Solicitar análisis de mi web actual",
+      href: "/#contacto",
+      text: "¿Tu web de WordPress se ha quedado corta? Analizamos su rendimiento, seguridad y SEO, y te proponemos un plan de evolución concreto.",
+    },
+  },
+  {
+    slug: "digitalizacion-pymes-espana-guia-2026",
+    title: "Digitalización de pymes en España: Guía estratégica 2026",
+    description:
+      "Estado real de la digitalización en pymes españolas en 2026. Kit Digital, errores comunes, prioridades de inversión y hoja de ruta para empresas B2B.",
+    h1: "Digitalización de pymes en España: Dónde estamos y qué falta por hacer en 2026",
+    date: "2026-04-07",
+    author: baseAuthor,
+    tags: ["Digitalización", "Pymes", "España", "Kit Digital"],
+    intro:
+      "España ocupa la posición 11 en el índice DESI de la Unión Europea en 2026, pero la realidad es que el 62% de las pymes españolas aún gestionan procesos críticos con hojas de Excel, correos electrónicos y herramientas desconectadas entre sí. La digitalización no es instalar un software; es repensar cómo opera tu empresa para ser más competitiva, más ágil y más rentable. Esta guía analiza el estado actual, los errores más costosos y las prioridades reales de inversión para pymes B2B que quieren dejar de hablar de transformación digital y empezar a vivirla.",
+    sections: [
+      {
+        title: "El estado real de la digitalización en pymes españolas",
+        body: [
+          "Según datos del INE y el Observatorio Nacional de Tecnología y Sociedad (ONTSI), el 89% de las pymes españolas tiene presencia web en 2026, pero solo el 34% utiliza algún tipo de CRM, el 28% tiene su ERP integrado con otros sistemas y apenas el 12% ha implementado automatizaciones reales de procesos.",
+          "El problema no es la falta de herramientas sino la falta de estrategia. Muchas empresas compraron software durante el boom del Kit Digital sin un plan de implementación, formación ni integración. El resultado: licencias que se pagan pero no se usan, datos duplicados en múltiples sistemas y equipos que vuelven al Excel porque 'es más rápido'.",
+          "La brecha digital en España no es entre grandes y pequeñas empresas; es entre empresas que digitalizan con criterio y las que digitalizan por inercia. Una micropyme con 8 empleados y un ecosistema de software bien integrado puede operar con la eficiencia de una empresa de 30 personas. Lo hemos visto.",
+        ],
+      },
+      {
+        title: "Kit Digital y ayudas públicas: Oportunidad o trampa",
+        body: [
+          "El programa Kit Digital ha sido una palanca importante para acelerar la digitalización. Pero también ha generado un mercado de soluciones 'de catálogo' donde el objetivo era facturar la subvención, no resolver el problema del cliente.",
+          "Resultado: miles de pymes con una web básica que no convierte, un CRM genérico que nadie usa y una factura electrónica implementada a medias. La subvención se gastó, pero el nivel de digitalización real no mejoró.",
+          "En 2026, la lección es clara: las ayudas son un acelerador, no un fin. Antes de solicitar cualquier subvención, define qué problema real de tu empresa quieres resolver. ¿Tardas demasiado en facturar? ¿Pierdes leads porque no haces seguimiento? ¿Tu equipo de campo no puede reportar en tiempo real? El software viene después del diagnóstico, no antes.",
+          "Dicho esto, las convocatorias de ayudas siguen activas y pueden cubrir entre el 50% y el 90% de la inversión. Aprovecharlas con criterio es inteligente; usarlas sin estrategia es tirar dinero público.",
+        ],
+      },
+      {
+        title: "Las 5 prioridades de inversión para pymes B2B en 2026",
+        body: [
+          "Prioridad 1: CRM real con automatización de seguimiento. El 70% de los leads B2B se pierden por falta de seguimiento, no por falta de interés. Un CRM bien configurado con secuencias automáticas de contacto puede duplicar tu tasa de conversión sin aumentar el equipo comercial.",
+          "Prioridad 2: Facturación electrónica e integración con el ERP. Con la obligatoriedad de la factura electrónica B2B en España, tener este flujo automatizado no es opcional. Las empresas que lo integren bien ahorrarán entre 5 y 15 horas semanales de trabajo administrativo.",
+          "Prioridad 3: Web profesional optimizada para captación. Tu web es tu comercial 24/7. Si tarda más de 2 segundos en cargar, no tiene formularios inteligentes o no aparece en Google cuando buscan tus servicios, estás perdiendo dinero cada día.",
+          "Prioridad 4: Automatización de procesos repetitivos. Identifica las 3 tareas que más tiempo consumen en tu empresa y que no requieren juicio humano. Presupuestos, partes de trabajo, confirmaciones de pedido... Son candidatas perfectas para automatización.",
+          "Prioridad 5: Dashboard de gestión unificado. Si tus datos de ventas están en un sitio, los de producción en otro y los financieros en otro, no tienes visibilidad real. Un cuadro de mando que cruce información de todas las fuentes transforma la toma de decisiones.",
+        ],
+      },
+      {
+        title: "Errores que frenan la digitalización en España",
+        body: [
+          "Error 1: Empezar por la herramienta en vez de por el proceso. 'Necesitamos un CRM' no es un buen punto de partida. 'Perdemos el 60% de los leads porque no hacemos seguimiento después del primer contacto' sí lo es. La herramienta es la solución, no el diagnóstico.",
+          "Error 2: No formar al equipo. Comprar un software y enviar un email diciendo 'a partir de ahora usamos esto' es una receta para el fracaso. La adopción requiere formación práctica, acompañamiento y un responsable interno que impulse el cambio.",
+          "Error 3: Digitalizar el caos. Si tu proceso de ventas es caótico en papel, será caótico en digital. Antes de automatizar, simplifica. Elimina los pasos innecesarios, define responsables claros y documenta el flujo. Después, digitalízalo.",
+          "Error 4: No medir el impacto. Si no defines KPIs antes de implementar (tiempo de proceso, errores, coste por operación), nunca sabrás si la inversión ha merecido la pena. Medir no es opcional; es lo que diferencia una inversión de un gasto.",
+        ],
+      },
+      {
+        title: "Hoja de ruta realista para una pyme B2B",
+        body: [
+          "Mes 1-2: Diagnóstico. Mapea tus procesos críticos, identifica cuellos de botella y calcula el coste de no hacer nada. Define 3 objetivos medibles (reducir tiempo de facturación un 50%, responder leads en menos de 2 horas, etc.).",
+          "Mes 3-4: Implementación del primer proyecto piloto. Elige el proceso con mayor impacto y menor complejidad. Integra una herramienta y forma al equipo. Mide resultados semanalmente.",
+          "Mes 5-8: Escalado. Si el piloto funciona, extiende la digitalización a procesos conectados. Integra sistemas entre sí para eliminar trabajo manual duplicado.",
+          "Mes 9-12: Optimización y automatización avanzada. Con datos reales de uso, implementa automatizaciones más sofisticadas, dashboards de gestión y, si procede, agentes de IA para tareas de mayor complejidad.",
+          "La clave es empezar pequeño, medir siempre y escalar solo lo que funciona. La digitalización no es un proyecto con fecha de fin; es una forma de operar.",
+        ],
+      },
+    ],
+    highlights: [
+      "Solo el 34% de pymes españolas utiliza un CRM real en 2026.",
+      "La facturación electrónica B2B será obligatoria: integrarla a tiempo ahorra hasta 15h/semana.",
+      "Las ayudas del Kit Digital cubren hasta el 90% de la inversión si se usan con estrategia.",
+      "Empezar por un proyecto piloto con KPIs claros multiplica las probabilidades de éxito.",
+    ],
+    faqs: [
+      {
+        q: "¿Sigue habiendo ayudas del Kit Digital en 2026?",
+        a: "Sí, el programa continúa con nuevas convocatorias. Además, existen ayudas autonómicas (especialmente en Andalucía, Cataluña y Madrid) y fondos europeos NextGeneration para digitalización industrial. La clave es presentar un proyecto con objetivos claros y medibles.",
+      },
+      {
+        q: "¿Cuánto debería invertir una pyme en digitalización?",
+        a: "Como referencia, las pymes B2B más competitivas destinan entre el 3% y el 6% de su facturación anual a tecnología y digitalización. Para una empresa que factura 500.000€, eso son entre 15.000€ y 30.000€/año, incluyendo software, desarrollo y formación.",
+      },
+      {
+        q: "¿Por dónde empiezo si mi empresa no tiene nada digitalizado?",
+        a: "Por el CRM y la web. Son las dos herramientas que impactan directamente en la captación y conversión de clientes. Todo lo demás (ERP, automatizaciones, dashboards) viene después y se construye sobre esta base.",
+      },
+    ],
+    cta: {
+      label: "Solicitar diagnóstico de digitalización",
+      href: "/#contacto",
+      text: "¿No sabes por dónde empezar? En 45 minutos analizamos tus procesos y te proponemos una hoja de ruta priorizada y realista.",
+    },
+  },
+  {
+    slug: "como-elegir-empresa-desarrollo-software-espana",
+    title: "Cómo elegir empresa de desarrollo de software en España: Guía 2026",
+    description:
+      "Criterios objetivos para elegir un partner de desarrollo de software a medida en España. Señales de alarma, preguntas clave y checklist de evaluación.",
+    h1: "Cómo elegir la empresa de desarrollo de software adecuada para tu proyecto",
+    date: "2026-04-08",
+    author: baseAuthor,
+    tags: ["Software a medida", "Outsourcing", "España", "B2B"],
+    intro:
+      "Elegir un partner de desarrollo de software es una de las decisiones más críticas para una empresa B2B. Un mal proveedor puede costarte meses de retraso, un presupuesto duplicado y un producto que no resuelve el problema original. El mercado español en 2026 tiene cientos de consultoras, estudios y freelances que prometen lo mismo: 'desarrollamos lo que necesites'. Esta guía te da los criterios objetivos, las preguntas incómodas y las señales de alarma que necesitas para tomar una decisión informada.",
+    sections: [
+      {
+        title: "Los 7 criterios que realmente importan",
+        body: [
+          "1. Experiencia en tu sector o en problemas similares. No necesitan haber trabajado exactamente en tu industria, pero sí deben demostrar que entienden la lógica de negocio B2B: ciclos de venta largos, integraciones con sistemas existentes y la necesidad de un software que evolucione con tu empresa.",
+          "2. Stack tecnológico justificado. Desconfía de quien solo trabaja con una tecnología. La elección de stack (React, Next.js, Python, Node.js, etc.) debe responder a tu problema, no a las preferencias del desarrollador. Una buena consultora te explica por qué recomienda una tecnología específica para tu caso.",
+          "3. Proceso de trabajo transparente. Sprints, entregables, demos, comunicación... Si no te explican cómo van a trabajar contigo antes de firmar, no esperes claridad después. Pide ver su metodología documentada.",
+          "4. Equipo estable, no subcontratado. Pregunta directamente: '¿Las personas que van a construir mi software son empleados o freelances subcontratados?'. La rotación de equipo es el mayor destructor de calidad y plazos en proyectos de software.",
+          "5. Portfolio con resultados, no solo capturas de pantalla. Una captura bonita no demuestra nada. Pide métricas: '¿Cuánto mejoró la eficiencia del cliente? ¿En cuánto tiempo se entregó? ¿Sigue en producción?'.",
+          "6. Mantenimiento y soporte post-entrega. El desarrollo es el 60% del proyecto. El otro 40% es mantenimiento, evolución y soporte. Si el proveedor no ofrece esto o lo ofrece como un servicio separado y caro, tendrás un problema cuando necesites tu primer cambio urgente.",
+          "7. Comunicación clara y honesta. Si en la fase comercial ya recibes respuestas ambiguas, plazos poco realistas o promesas de 'lo hacemos todo', corre. El mejor indicador de un buen proveedor es que te diga lo que NO puede hacer y por qué.",
+        ],
+      },
+      {
+        title: "Señales de alarma: Cuándo salir corriendo",
+        body: [
+          "Presupuesto cerrado sin análisis previo. Si te dan un precio firme sin haber entendido tu problema en profundidad, están adivinando. Y adivinar en software sale caro, para uno de los dos.",
+          "No preguntan sobre tu negocio. Si la primera reunión trata solo de tecnología y no de tus procesos, tus clientes y tus objetivos, no van a construir lo que necesitas. Van a construir lo que saben hacer.",
+          "Plazos irrealistas. Un proyecto de software a medida serio tarda entre 2 y 6 meses dependiendo de la complejidad. Si alguien promete tu ERP personalizado en 3 semanas, miente o va a entregar algo que se romperá.",
+          "Sin contrato de propiedad intelectual. El código fuente del software que pagas debe ser tuyo. Si el contrato no especifica que recibes la propiedad total del código al finalizar, estás alquilando, no comprando.",
+          "Cero referencias verificables. Cualquier empresa seria puede ponerte en contacto con al menos 2-3 clientes que confirmen su experiencia. Si no pueden o no quieren, hay un motivo.",
+        ],
+      },
+      {
+        title: "Las 10 preguntas que debes hacer antes de firmar",
+        body: [
+          "1. ¿Quién va a trabajar en mi proyecto y cuál es su experiencia? — Quieres nombres, no roles genéricos.",
+          "2. ¿Cómo gestionáis los cambios de alcance durante el proyecto? — Todo proyecto cambia. Su respuesta revela si son rígidos o adaptativos.",
+          "3. ¿Cada cuánto veré una demo funcional? — La respuesta correcta es 'cada 1-2 semanas'. Si dicen 'al final', huye.",
+          "4. ¿Quién es el propietario del código fuente? — Debe ser tuyo. Sin excepciones.",
+          "5. ¿Qué pasa si no estoy satisfecho con el resultado? — Busca garantías concretas, no promesas vagas.",
+          "6. ¿Tenéis experiencia integrando con [tu ERP/CRM actual]? — La integración es donde la mayoría de proyectos se complican.",
+          "7. ¿Cuál es vuestro plan de testing y QA? — Si no tienen uno definido, los bugs los encontrarás tú en producción.",
+          "8. ¿Qué incluye el soporte post-entrega? — Horas de soporte, tiempos de respuesta, coste adicional.",
+          "9. ¿Podéis mostrarme un proyecto similar en producción? — No maquetas ni demos: software real funcionando.",
+          "10. ¿Qué pasa si la empresa o el equipo desaparece? — Documentación, acceso al código, plan de contingencia.",
+        ],
+      },
+      {
+        title: "Comparativa: Consultora grande vs estudio especializado vs freelance",
+        body: [
+          "Consultora grande (Accenture, Everis, Indra...): Capacidad ilimitada, metodología formal, coste alto (150-300€/hora). Ideal para proyectos de gran escala con equipos de más de 10 personas. Riesgo: tu proyecto puede ser el menos importante de su cartera.",
+          "Estudio especializado (5-20 personas): Conocimiento profundo, equipo estable, coste medio (80-150€/hora). Ideal para pymes y proyectos de complejidad media-alta. Ventaja: eres un cliente importante para ellos. Riesgo: capacidad limitada si necesitas escalar rápido.",
+          "Freelance senior: Flexibilidad máxima, coste variable (40-100€/hora). Ideal para proyectos pequeños o fases concretas. Riesgo: dependencia de una sola persona, sin backup si enferma o se va.",
+          "Para la mayoría de pymes B2B en España, el punto dulce es un estudio especializado. Tienes la cercanía y dedicación que no obtienes en una gran consultora, con la estabilidad y equipo que no puede ofrecerte un freelance solo.",
+        ],
+      },
+      {
+        title: "Checklist de evaluación: Puntúa a tus candidatos",
+        body: [
+          "Usa esta checklist para comparar proveedores de forma objetiva. Puntúa cada criterio de 1 a 5:",
+          "Comprensión de mi negocio y mis objetivos — ¿Hicieron preguntas relevantes sobre mi operativa?",
+          "Claridad en la propuesta técnica — ¿Entendí qué van a construir y por qué eligieron esa tecnología?",
+          "Transparencia en costes y plazos — ¿Desglosaron el presupuesto por fases con rangos realistas?",
+          "Equipo asignado — ¿Sé quién va a trabajar en mi proyecto y puedo hablar con esa persona?",
+          "Portfolio verificable — ¿Puedo ver software en producción y hablar con sus clientes?",
+          "Metodología de trabajo — ¿Tienen un proceso definido con demos frecuentes y comunicación clara?",
+          "Soporte post-entrega — ¿Ofrecen mantenimiento continuado con SLAs definidos?",
+          "Propiedad intelectual — ¿El contrato establece claramente que el código es mío?",
+          "El proveedor con mayor puntuación total es tu mejor candidato. Si ninguno supera 30/40, sigue buscando.",
+        ],
+      },
+    ],
+    highlights: [
+      "La propiedad del código fuente debe estar en el contrato. Sin excepciones.",
+      "Demos cada 1-2 semanas son el mejor indicador de un proceso de desarrollo sano.",
+      "Un estudio especializado de 5-20 personas suele ser el mejor partner para pymes B2B.",
+      "Pide resultados medibles del portfolio, no solo capturas de pantalla.",
+    ],
+    faqs: [
+      {
+        q: "¿Es mejor contratar desarrollo de software en España o en el extranjero?",
+        a: "Para empresas B2B españolas, recomendamos un proveedor local o al menos en la misma zona horaria. La comunicación directa, el conocimiento del mercado local, la normativa legal española y la posibilidad de reuniones presenciales reducen enormemente el riesgo del proyecto. El ahorro de un equipo offshore se pierde rápidamente en malentendidos y retrasos.",
+      },
+      {
+        q: "¿Cuánto cuesta un proyecto de software a medida en España en 2026?",
+        a: "Un proyecto básico (app interna o integración sencilla): 8.000-20.000€. Un proyecto medio (CRM a medida, portal de cliente, automatización compleja): 20.000-60.000€. Un proyecto complejo (plataforma SaaS, ERP a medida): 60.000-150.000€+. Desconfía de presupuestos significativamente por debajo de estos rangos.",
+      },
+      {
+        q: "¿Qué metodología de desarrollo debo exigir?",
+        a: "Agile/Scrum adaptado a pymes. No necesitas ceremonias pesadas, pero sí sprints de 1-2 semanas, demos regulares, backlog priorizado y un canal de comunicación directo con el equipo técnico. Lo importante no es el nombre de la metodología, sino la transparencia y la frecuencia de entrega.",
+      },
+    ],
+    cta: {
+      label: "Hablar con nuestro equipo",
+      href: "/#contacto",
+      text: "¿Buscas un partner técnico que entienda tu negocio? Cuéntanos tu proyecto en una llamada de 30 minutos sin compromiso.",
+    },
+  },
+  {
+    slug: "crm-a-medida-vs-hubspot-salesforce-pymes",
+    title: "CRM a medida vs HubSpot vs Salesforce: Cuál elegir para tu pyme en 2026",
+    description:
+      "Comparativa objetiva entre CRM a medida, HubSpot y Salesforce para pymes B2B. Costes reales, limitaciones ocultas y criterios de decisión.",
+    h1: "CRM a medida, HubSpot o Salesforce: La guía de decisión para pymes B2B",
+    date: "2026-04-09",
+    author: baseAuthor,
+    tags: ["CRM", "HubSpot", "Salesforce", "Software a medida", "Pymes"],
+    intro:
+      "El CRM es probablemente la herramienta más importante para una empresa B2B después de su cuenta bancaria. Es donde vive la relación con tus clientes, tu pipeline de ventas y la información que alimenta las decisiones comerciales. HubSpot y Salesforce dominan el mercado, pero ¿son siempre la mejor opción? En 2026, un número creciente de pymes está optando por CRMs a medida que se adaptan como un guante a su proceso de venta en lugar de obligar al equipo a adaptarse al software. Este artículo no intenta venderte ninguna opción. Te da los datos, los costes reales y los criterios para que tomes la mejor decisión para tu empresa.",
+    sections: [
+      {
+        title: "HubSpot: El todoterreno con techo de cristal",
+        body: [
+          "HubSpot es la elección más popular para pymes que empiezan con un CRM. Su plan gratuito es generoso y su interfaz es intuitiva. Un comercial sin formación técnica puede empezar a usarlo el mismo día.",
+          "Ventajas reales: Ecosistema integrado de marketing, ventas y servicio. Automatizaciones visuales sin código. Excelente documentación y comunidad. Plan gratuito suficiente para equipos de 2-5 personas.",
+          "Limitaciones que descubres después: Los planes de pago escalan agresivamente. El plan Professional de Sales Hub cuesta 90€/usuario/mes y el Enterprise 150€/usuario/mes. Para un equipo de 10 comerciales, estás pagando entre 10.800€ y 18.000€/año solo en licencias de CRM.",
+          "La personalización tiene límites claros. Si tu proceso de venta no encaja en el modelo de HubSpot (deals → pipelines → stages), te pasarás el tiempo creando workarounds con propiedades personalizadas que complican la analítica.",
+          "Las integraciones con ERPs españoles (Sage, A3, Holded, etc.) existen pero son superficiales. Si necesitas sincronización bidireccional real con tu sistema de facturación, prepárate para desarrollo adicional o herramientas de integración de terceros.",
+        ],
+      },
+      {
+        title: "Salesforce: El gigante que puede aplastarte o impulsarte",
+        body: [
+          "Salesforce es el CRM más potente del mercado. Punto. Puede hacer prácticamente cualquier cosa que necesites. Pero ese poder tiene un precio, y no solo económico.",
+          "Ventajas reales: Personalización casi ilimitada con Apex y Lightning. Marketplace de miles de integraciones. Escalable desde 5 hasta 50.000 usuarios. Estándar del sector, lo que facilita encontrar consultores y documentación.",
+          "El problema para pymes: La licencia básica (Essentials) cuesta 25€/usuario/mes pero es extremadamente limitada. Para funcionalidad real necesitas Professional (80€/usuario/mes) o Enterprise (165€/usuario/mes). Y eso sin contar la implementación.",
+          "Un proyecto de implementación de Salesforce para una pyme cuesta entre 15.000€ y 50.000€ con un consultor certificado. Sin esa implementación, Salesforce es una herramienta genérica y abrumadora que tu equipo no usará.",
+          "El TCO (Total Cost of Ownership) de Salesforce para una pyme de 15 usuarios durante 3 años puede superar fácilmente los 100.000€ entre licencias, implementación, personalizaciones y mantenimiento. Para muchas pymes, esto es desproporcionado.",
+        ],
+      },
+      {
+        title: "CRM a medida: El traje que se ajusta a tu cuerpo",
+        body: [
+          "Un CRM a medida se construye desde cero para reflejar exactamente cómo vende tu empresa. No adaptas tu proceso al software; el software replica tu proceso optimizado.",
+          "Ventajas reales: Cada campo, cada automatización y cada vista están diseñados para tu equipo. La integración con tu ERP, facturación y herramientas internas es nativa, no un plugin de terceros. No pagas licencias por usuario, lo que lo hace más económico a largo plazo.",
+          "Limitaciones honestas: Requiere inversión inicial más alta que empezar con HubSpot gratuito. Necesitas un partner técnico de confianza para el desarrollo y mantenimiento. No tienes el ecosistema de plugins y extensiones de un CRM comercial.",
+          "El CRM a medida brilla cuando tu proceso de venta es complejo o diferencial. Si vendes proyectos con ciclos de 3-12 meses, con múltiples interlocutores, presupuestos técnicos y fases de implementación, ningún CRM genérico refleja esa realidad sin forzar la herramienta.",
+          "El coste típico de un CRM a medida para una pyme B2B es de 15.000-40.000€ para el desarrollo inicial y 2.000-5.000€/año de mantenimiento. Sin licencias por usuario. Para equipos de más de 10 personas, el ahorro frente a HubSpot o Salesforce es significativo a partir del año 2.",
+        ],
+      },
+      {
+        title: "Comparativa de costes a 3 años (equipo de 10 usuarios)",
+        body: [
+          "HubSpot Professional: Licencias 10.800€/año × 3 = 32.400€. Implementación y formación: 5.000€. Integraciones adicionales: 3.000€/año × 3 = 9.000€. Total 3 años: ~46.400€.",
+          "Salesforce Professional: Licencias 9.600€/año × 3 = 28.800€. Implementación por consultor: 25.000€. Personalizaciones y mantenimiento: 5.000€/año × 3 = 15.000€. Total 3 años: ~68.800€.",
+          "CRM a medida: Desarrollo inicial: 30.000€. Mantenimiento anual: 4.000€/año × 3 = 12.000€. Licencias por usuario: 0€. Total 3 años: ~42.000€.",
+          "La diferencia se amplía con cada usuario adicional. HubSpot y Salesforce escalan linealmente por usuario; el CRM a medida no. Con 20 usuarios, la diferencia a 3 años puede superar los 50.000€ a favor del desarrollo a medida.",
+          "Importante: estos son costes medios del mercado español en 2026. Tu caso concreto puede variar significativamente según la complejidad de tu proceso comercial y las integraciones necesarias.",
+        ],
+      },
+      {
+        title: "Matriz de decisión: ¿Cuál es para ti?",
+        body: [
+          "Elige HubSpot si: Tu equipo es pequeño (menos de 5 comerciales), tu proceso de venta es relativamente estándar, necesitas resultados inmediatos y no tienes presupuesto inicial para desarrollo. Es el mejor punto de partida si nunca has usado un CRM.",
+          "Elige Salesforce si: Tienes más de 50 usuarios, tu empresa necesita integraciones con un ecosistema amplio de herramientas enterprise, tienes presupuesto para implementación profesional y buscas el estándar del sector para facilitar la incorporación de talento.",
+          "Elige CRM a medida si: Tu proceso de venta es complejo y diferencial, necesitas integración profunda con tu ERP y sistemas internos, tienes un equipo de 10-50 usuarios donde las licencias se disparan, y valoras la propiedad total de tus datos y tu herramienta.",
+          "La opción híbrida también existe: muchas empresas empiezan con HubSpot gratuito para validar su proceso y, cuando crecen, migran a un CRM a medida que incorpora las lecciones aprendidas. No es dinero tirado; es un prototipo barato.",
+        ],
+      },
+    ],
+    highlights: [
+      "HubSpot Professional para 10 usuarios cuesta más de 10.000€/año solo en licencias.",
+      "Un CRM a medida no tiene coste por usuario, lo que lo hace más rentable a partir de 10 usuarios.",
+      "Salesforce requiere implementación profesional (15.000-50.000€) para ser útil en una pyme.",
+      "La mejor estrategia puede ser empezar con HubSpot gratis y migrar a medida cuando crezcas.",
+    ],
+    faqs: [
+      {
+        q: "¿Puedo migrar mis datos de HubSpot o Salesforce a un CRM a medida?",
+        a: "Sí, ambas plataformas permiten la exportación completa de datos. En Qubelia gestionamos la migración incluyendo contactos, empresas, deals, notas, emails y archivos adjuntos. El proceso típico de migración dura 2-4 semanas con validación de datos incluida.",
+      },
+      {
+        q: "¿Un CRM a medida puede tener marketing automation como HubSpot?",
+        a: "Sí, pero hay que ser honestos: replicar todo el ecosistema de marketing de HubSpot (email marketing, landing pages, workflows, lead scoring) desde cero es costoso. La solución inteligente es construir el CRM a medida para ventas e integrarlo con una herramienta de marketing especializada (Mailchimp, Brevo, ActiveCampaign) para lo que HubSpot hace bien.",
+      },
+      {
+        q: "¿Cuánto tarda en desarrollarse un CRM a medida?",
+        a: "Una primera versión funcional (MVP) con gestión de contactos, pipeline de ventas, tareas y reporting básico se entrega en 8-12 semanas. Las funcionalidades avanzadas (automatizaciones, integraciones con ERP, app móvil) se añaden en fases posteriores de 4-6 semanas cada una.",
+      },
+    ],
+    cta: {
+      label: "Comparar opciones para mi empresa",
+      href: "/#contacto",
+      text: "¿No tienes claro qué CRM necesitas? Analizamos tu proceso comercial y te recomendamos la opción con mejor ROI para tu caso concreto.",
+    },
+  },
 ];
 
 export const postsMeta: PostMeta[] = posts.map(

@@ -1,0 +1,24 @@
+@echo off
+REM ─── Setup Weekly Auto-Blog Task ──────────────────────────────────
+REM Run this file AS ADMINISTRATOR to create the scheduled task.
+REM It will publish a new blog post every Monday at 10:00 AM.
+REM ───────────────────────────────────────────────────────────────────
+
+schtasks /create /tn "Qubelia-AutoBlog" /tr "C:\Users\DANIIL KURADCHIK\Documents\Qubelia\DigitalShift\scripts\publish-blog.bat" /sc weekly /d MON /st 10:00 /f
+
+if %ERRORLEVEL% EQU 0 (
+    echo.
+    echo ========================================
+    echo  Tarea programada creada exitosamente!
+    echo  Nombre: Qubelia-AutoBlog
+    echo  Frecuencia: Cada lunes a las 10:00
+    echo ========================================
+    echo.
+    echo Para verificar: schtasks /query /tn "Qubelia-AutoBlog"
+    echo Para eliminar:  schtasks /delete /tn "Qubelia-AutoBlog" /f
+) else (
+    echo.
+    echo ERROR: No se pudo crear la tarea. Ejecuta este script como Administrador.
+)
+
+pause

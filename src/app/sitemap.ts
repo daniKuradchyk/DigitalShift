@@ -6,7 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://qubelia.es").replace(/\/$/, "");
 
   // Use a stable date for static pages (update this when content changes)
-  const siteLastUpdated = "2026-04-03";
+  const siteLastUpdated = "2026-04-09";
 
   const latestPostDate =
     postsMeta.reduce((latest, p) => (p.date > latest ? p.date : latest), "2020-01-01") ||
