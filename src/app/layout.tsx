@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
-import InteractiveBackground from "@/components/common/InteractiveBackground";
 import { CookieConsentProvider } from "@/components/cookies/CookieConsentProvider";
 import CookieBanner from "@/components/cookies/CookieBanner";
+import LazyBackground from "@/components/common/LazyBackground";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/jsonld";
 import { BASE_URL, SITE_NAME, SITE_TAGLINE, openGraphImage, titleTemplate } from "@/lib/seo";
 import "./globals.css";
@@ -41,6 +41,7 @@ export const metadata: Metadata = {
     images: openGraphImage(),
   },
   alternates: { canonical: BASE_URL },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
@@ -62,31 +63,35 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="color-scheme" content="dark" />
         <meta name="theme-color" content="#060B1A" />
-        {/* Cookie-Script Manager */}
+        {/* Preconnect to third-party origins for faster resource loading */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://cdn.cookie-script.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        {/* Cookie-Script Manager — loaded after interactive to avoid render-blocking */}
         <Script
           type="text/javascript"
           src="//cdn.cookie-script.com/s/efb073fb4c7103bb6e910a2a4a32a436.js"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
         />
         {/* Google tag (gtag.js) */}
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-CQ4PGTB0KS"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
 
-            gtag('config', 'G-CQ4PGTB0KS');
+            gtag('config', 'G-CQ4PGTB0KS', { send_page_view: true });
           `}
         </Script>
       </head>
       <body className="antialiased">
         <CookieConsentProvider>
-          <InteractiveBackground />
+          <LazyBackground />
           <a
             href="#contenido"
             className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 rounded-md bg-brand-500/10 px-3 py-2 shadow"

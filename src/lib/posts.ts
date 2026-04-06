@@ -456,16 +456,22 @@ export function getPostsWithReadingTime(limit?: number) {
 }
 
 export function getRelatedPosts(slug: string, limit = 3): PostMeta[] {
+  const current = posts.find((p) => p.slug === slug);
   const filtered = posts.filter((p) => p.slug !== slug);
-  return filtered
-    .slice(0, limit)
-    .map(({ slug, title, description, h1, date, author, tags }) => ({
-      slug,
-      title,
-      description,
-      h1,
-      date,
-      author,
-      tags,
-    }));
+
+  if (!current) return filtered.slice(0, limit).map(toMeta);
+
+  // Score by shared tags for better relevance
+  const scored = filtered
+    .map((p) => ({
+      post: p,
+      score: p.tags.filter((t) => current.tags.includes(t)).length,
+    }))
+    .sort((a, b) => b.score - a.score || b.post.date.localeCompare(a.post.date));
+
+  return scored.slice(0, limit).map((s) => toMeta(s.post));
+}
+
+function toMeta({ slug, title, description, h1, date, author, tags }: Post): PostMeta {
+  return { slug, title, description, h1, date, author, tags };
 }

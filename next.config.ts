@@ -2,12 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  compress: true,
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
   },
   async redirects() {
     return [
+      // Legacy service URL redirects
       { source: "/servicios/software-medida", destination: "/servicios/software-a-medida", permanent: true },
       { source: "/servicios/diseno-web-sevilla", destination: "/servicios/web-a-medida", permanent: true },
       {
@@ -28,6 +30,18 @@ const nextConfig = {
         destination: "/servicios/software-a-medida",
         permanent: true,
       },
+      // Blog slugs discovered by Google that no longer exist — redirect to relevant content
+      { source: "/blog/ia-agentes-pymes-2026", destination: "/blog/agentes-ia-pymes-guia-automatizacion-2026", permanent: true },
+      { source: "/blog/automatizacion-comercial-b2b", destination: "/blog/roi-automatizacion-procesos-b2b-guia-completa", permanent: true },
+      { source: "/blog/seo-onpage-negocios-locales", destination: "/blog", permanent: true },
+      { source: "/blog/presupuesto-diseno-web-sevilla", destination: "/blog", permanent: true },
+      { source: "/blog/presupuesto-software-medida-2026", destination: "/blog", permanent: true },
+      { source: "/blog/checklist-landing-conversion", destination: "/blog", permanent: true },
+      { source: "/blog/go-to-market-saas-90-dias", destination: "/blog", permanent: true },
+      { source: "/blog/brief-tecnico-proyecto-digital", destination: "/blog", permanent: true },
+      { source: "/blog/kpis-producto-b2b", destination: "/blog", permanent: true },
+      { source: "/blog/migrar-wordpress-a-nextjs", destination: "/blog", permanent: true },
+      { source: "/blog/arquitectura-nextjs-seo-2026", destination: "/blog", permanent: true },
     ];
   },
   async headers() {
@@ -43,11 +57,15 @@ const nextConfig = {
         source: "/:path*",
         headers: securityHeaders,
       },
+      {
+        source: "/fonts/(.*)",
+        headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
     ];
   },
   experimental: {
     ppr: false,
-    optimizePackageImports: ["react", "react-dom"],
+    optimizePackageImports: ["react", "react-dom", "framer-motion", "lucide-react"],
   },
 };
 

@@ -3,6 +3,8 @@ import StaticPageFrame from "@/components/marketing/StaticPageFrame";
 import { CONTACT } from "@/config/contact";
 import { buildMetadata } from "@/lib/seo";
 
+export const revalidate = 86400;
+
 export const metadata: Metadata = buildMetadata({
   title: "Politica de privacidad de Qubelia",
   description: "Tratamiento de datos personales, bases juridicas, plazos de conservacion y ejercicio de derechos en Qubelia.",

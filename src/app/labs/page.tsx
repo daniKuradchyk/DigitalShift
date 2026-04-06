@@ -1,10 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 import Logo from "@/components/common/Logo";
+import { buildMetadata } from "@/lib/seo";
 import labs from "@/content/labs.json";
 
 export const revalidate = 86400;
+
+export const metadata: Metadata = buildMetadata({
+  title: "Labs Qubelia | Herramientas gratuitas para empresas",
+  description:
+    "Calculadoras, análisis y herramientas gratuitas para pymes y empresas B2B. ROI de automatización, coste de software, auditoría web y más.",
+  path: "/labs",
+});
 
 type Lab = typeof labs[number];
 

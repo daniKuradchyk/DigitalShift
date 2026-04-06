@@ -23,6 +23,8 @@ import { breadcrumbJsonLd, faqJsonLd, serviceJsonLd } from "@/lib/jsonld";
 import { buildMetadata, canonical } from "@/lib/seo";
 import { absoluteUrl } from "@/lib/urls";
 
+export const revalidate = 86400;
+
 const service = getService("automatizacion-integraciones");
 
 /* ─── Contenido editorial único ─── */

@@ -13,6 +13,8 @@ import { breadcrumbJsonLd } from "@/lib/jsonld";
 import { buildMetadata, canonical } from "@/lib/seo";
 import { absoluteUrl } from "@/lib/urls";
 
+export const revalidate = 86400;
+
 /* ─── SEO ─── */
 export const metadata: Metadata = buildMetadata({
   title: "Servicios de Qubelia | Software, web, automatización y CRM a medida",

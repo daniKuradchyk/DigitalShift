@@ -5,28 +5,16 @@ import Button from "@/components/common/Button";
 import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
 import { getPostsWithReadingTime } from "@/lib/posts";
-import { titleTemplate, canonical, openGraphImage } from "@/lib/seo";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: titleTemplate("Blog de Qubelia"),
-  description: "Automatización, integraciones ERP/CRM y software a medida para empresas. Guías prácticas sin humo.",
-  alternates: { canonical: canonical("/blog") },
-  robots: { index: true, follow: true },
-  openGraph: {
-    title: titleTemplate("Blog de Qubelia"),
-    description: "Automatización, integraciones ERP/CRM y software a medida para empresas. Guías prácticas sin humo.",
-    url: canonical("/blog"),
-    siteName: "Qubelia",
-    images: openGraphImage(),
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: titleTemplate("Blog de Qubelia"),
-    description: "Automatización, integraciones ERP/CRM y software a medida para empresas. Guías prácticas sin humo.",
-    images: openGraphImage(),
-  },
-};
+export const revalidate = 86400;
+
+export const metadata: Metadata = buildMetadata({
+  title: "Blog de Qubelia | Guías de automatización, software a medida y ERP/CRM",
+  description:
+    "Automatización, integraciones ERP/CRM y software a medida para empresas B2B. Guías prácticas, casos reales y estrategias sin humo.",
+  path: "/blog",
+});
 
 function fmtDate(s: string) {
   return new Date(s).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });

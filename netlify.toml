@@ -49,9 +49,42 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# (Opcional) carpeta de imágenes estáticas públicas
-# Ajusta la ruta si tus imágenes están en otra (por ejemplo /assets/img/*)
+# Imágenes estáticas públicas
 [[headers]]
   for = "/images/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Logos
+[[headers]]
+  for = "/logos/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Brand assets
+[[headers]]
+  for = "/brand/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Favicons
+[[headers]]
+  for = "/favicon*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+[[headers]]
+  for = "/apple-icon.png"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
+
+# Sitemap & robots — cache short to allow frequent updates
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, s-maxage=86400"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, s-maxage=86400"
