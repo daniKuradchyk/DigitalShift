@@ -1,12 +1,13 @@
 @echo off
-REM ─── Auto Blog Publisher ───────────────────────────────────────────
-REM Runs the auto-blog script to generate, commit and push a new post.
-REM Schedule this with Windows Task Scheduler for weekly execution.
+REM ─── Daily Auto Blog Publisher ─────────────────────────────────────
+REM Publishes one new SEO blog post every day.
+REM Schedule with Windows Task Scheduler for daily execution.
 REM ────────────────────────────────────────────────────────────────────
 
 cd /d "C:\Users\DANIIL KURADCHIK\Documents\Qubelia\DigitalShift"
 
-echo [%date% %time%] Starting auto-blog generation... >> scripts\auto-blog.log
+echo ──────────────────────────────────────── >> scripts\auto-blog.log
+echo [%date% %time%] Starting daily blog publish... >> scripts\auto-blog.log
 
 node scripts\auto-blog.cjs >> scripts\auto-blog.log 2>&1
 
