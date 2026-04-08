@@ -6,6 +6,7 @@ import Container from "@/components/common/Container";
 import { useCookieConsent } from "@/components/cookies/CookieConsentProvider";
 import { CONTACT } from "@/config/contact";
 import { getServices } from "@/content/services";
+import { trackContactChannelClick } from "@/lib/gtm";
 
 const legal = [
   { label: "Aviso legal", href: "/legal/aviso-legal" },
@@ -65,8 +66,36 @@ export default function Footer() {
           <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
             <p className="mb-2 sm:mb-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "rgba(91,141,239,0.5)" }}>Contacto</p>
             <p className="leading-relaxed" style={{ color: "var(--text-muted)" }}>Calle Torrelodones 84B<br />41016 Sevilla, España</p>
-            <a href={`mailto:${CONTACT.email}`} className="block break-all transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>{CONTACT.email}</a>
-            <a href={CONTACT.phoneHref} className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>{CONTACT.phone}</a>
+            <a
+              href={`mailto:${CONTACT.email}`}
+              onClick={() =>
+                trackContactChannelClick({
+                  channel: "email",
+                  href: `mailto:${CONTACT.email}`,
+                  placement: "footer",
+                  pagePath: pathname,
+                })
+              }
+              className="block break-all transition-colors hover:text-blue-300"
+              style={{ color: "var(--text-muted)" }}
+            >
+              {CONTACT.email}
+            </a>
+            <a
+              href={CONTACT.phoneHref}
+              onClick={() =>
+                trackContactChannelClick({
+                  channel: "phone",
+                  href: CONTACT.phoneHref,
+                  placement: "footer",
+                  pagePath: pathname,
+                })
+              }
+              className="block transition-colors hover:text-blue-300"
+              style={{ color: "var(--text-muted)" }}
+            >
+              {CONTACT.phone}
+            </a>
             <div className="pt-2 sm:pt-3 text-xs sm:text-sm">
               {legal.map((item) => (
                 <Link key={item.href} href={item.href} className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>{item.label}</Link>

@@ -23,7 +23,7 @@ type CookieConsentContextValue = {
 const STORAGE_KEY = "qubelia-cookie-consent";
 
 // Cambia a true cuando añadas cookies no esenciales (por ejemplo, analítica) para mostrar el banner automáticamente.
-const HAS_NON_ESSENTIAL_COOKIES = false;
+const HAS_NON_ESSENTIAL_COOKIES = Boolean(process.env.NEXT_PUBLIC_GTM_ID);
 
 const CookieConsentContext = createContext<CookieConsentContextValue | null>(null);
 

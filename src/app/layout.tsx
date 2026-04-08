@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
-import { CookieConsentProvider } from "@/components/cookies/CookieConsentProvider";
-import CookieBanner from "@/components/cookies/CookieBanner";
+import GoogleTagManagerLoader from "@/components/analytics/GoogleTagManagerLoader";
 import LazyBackground from "@/components/common/LazyBackground";
+import CookieBanner from "@/components/cookies/CookieBanner";
+import { CookieConsentProvider } from "@/components/cookies/CookieConsentProvider";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/jsonld";
 import { BASE_URL, SITE_NAME, SITE_TAGLINE, openGraphImage, titleTemplate } from "@/lib/seo";
 import "./globals.css";
@@ -63,32 +63,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="color-scheme" content="dark" />
         <meta name="theme-color" content="#060B1A" />
-        {/* Preconnect to third-party origins for faster resource loading */}
-        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://cdn.cookie-script.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-        {/* Google Tag Manager — head snippet */}
-        <Script id="gtm-head" strategy="afterInteractive">
-          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-NBXTD444');`}
-        </Script>
-        {/* Cookie-Script Manager — loaded after interactive to avoid render-blocking */}
-        
       </head>
       <body className="antialiased">
-        {/* Google Tag Manager (noscript) — fallback for JS-disabled browsers */}
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-NBXTD444"
-            height="0"
-            width="0"
-            style={{ display: "none", visibility: "hidden" }}
-          />
-        </noscript>
         <CookieConsentProvider>
+          <GoogleTagManagerLoader />
           <LazyBackground />
           <a
             href="#contenido"

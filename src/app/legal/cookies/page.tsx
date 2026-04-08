@@ -46,7 +46,7 @@ export default function Cookies() {
         <section className={cardClass}>
           <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">2. Tipos de cookies utilizadas</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-            En la configuracion actual del sitio se emplean cookies tecnicas o estrictamente necesarias para asegurar el funcionamiento basico, la seguridad y la gestion del consentimiento. Si se incorporan cookies de analitica u otras no necesarias, se solicitara autorizacion previa.
+            El sitio utiliza cookies tecnicas o estrictamente necesarias para asegurar el funcionamiento basico, la seguridad y la gestion del consentimiento. Cuando se habilita la capa de analitica mediante Google Tag Manager, las cookies no esenciales solo se activan tras obtener autorizacion previa.
           </p>
         </section>
 
@@ -60,7 +60,7 @@ export default function Cookies() {
         <section className={cardClass}>
           <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">4. Cookies no necesarias</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-            Si en el futuro se activan herramientas de analitica, publicidad o personalizacion, se mostrara informacion adicional sobre cada cookie, su finalidad y duracion, y solo se instalaran tras obtener consentimiento expreso.
+            La capa de analitica y medicion se gestiona mediante Google Tag Manager. Estas cookies o tecnologias equivalentes solo se cargan cuando existe consentimiento expreso, y puedes retirarlo en cualquier momento desde el banner o desde el enlace de preferencias.
           </p>
         </section>
 

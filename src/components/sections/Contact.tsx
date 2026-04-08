@@ -2,9 +2,11 @@
 
 import React, { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { usePathname } from "next/navigation";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 import { CONTACT } from "@/config/contact";
+import { trackContactChannelClick, trackLeadFormSuccess } from "@/lib/gtm";
 
 /* ─── Shared easing (same across ALL sections) ─────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -25,6 +27,7 @@ const CHANNELS = [
     value: CONTACT.email,
     sub: "Respuesta en 24 h laborables",
     href: `mailto:${CONTACT.email}`,
+    trackingChannel: "email" as const,
     icon: (
       <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="5" width="18" height="14" rx="2" />
@@ -37,6 +40,7 @@ const CHANNELS = [
     value: CONTACT.phone,
     sub: CONTACT.phoneHours,
     href: CONTACT.phoneHref,
+    trackingChannel: "phone" as const,
     icon: (
       <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.08 4.18 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.72c.12.86.32 1.7.58 2.5a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.58-1.04a2 2 0 0 1 2.11-.45c.8.26 1.64.46 2.5.58A2 2 0 0 1 22 16.92Z" />
@@ -63,6 +67,8 @@ const CHANNELS = [
 export default function Contact() {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  const pathname = usePathname();
+  const isSubmittingRef = useRef(false);
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<Errors>({});
@@ -82,8 +88,22 @@ export default function Contact() {
     return e;
   }
 
+  function handleContactChannelClick(
+    channel: "email" | "phone",
+    href: string,
+    placement: string,
+  ) {
+    trackContactChannelClick({
+      channel,
+      href,
+      placement,
+      pagePath: pathname,
+    });
+  }
+
   async function onSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
+    if (isSubmittingRef.current) return;
     const formEl = ev.currentTarget;
     const form = new FormData(formEl);
     const v = validate(form, privacyAccepted);
@@ -93,14 +113,25 @@ export default function Contact() {
       setMessage("Revisa los campos marcados.");
       return;
     }
+    isSubmittingRef.current = true;
     setStatus("loading");
     const payload = { ...Object.fromEntries(form.entries()), privacyAccepted };
     const res = await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
-    });
-    if (res.ok) {
+    }).catch(() => null);
+    const result = res ? ((await res.json().catch(() => null)) as { ok?: boolean } | null) : null;
+    if (res?.ok && result?.ok) {
+      const serviceInterest =
+        typeof window === "undefined"
+          ? undefined
+          : new URLSearchParams(window.location.search).get("service")?.trim() || undefined;
+      trackLeadFormSuccess({
+        formName: "home_contact_form",
+        pagePath: pathname,
+        serviceInterest,
+      });
       setStatus("ok");
       setMessage("¡Gracias! Te responderemos en 24 h laborables.");
       formEl.reset();
@@ -109,6 +140,7 @@ export default function Contact() {
       setStatus("error");
       setMessage("Ha ocurrido un error. Inténtalo de nuevo.");
     }
+    isSubmittingRef.current = false;
   }
 
   return (
@@ -401,7 +433,11 @@ export default function Contact() {
             <p id="rgpd-note" className="mt-5 text-[10px] leading-relaxed" style={{ color: "var(--text-muted)", opacity: 0.5 }}>
               Responsable: Daniil Kuradchik Pekarskaya. Finalidad: atender tu consulta.
               Derechos: acceso, rectificación, supresión en{" "}
-              <a className="text-blue-400 hover:underline" href={`mailto:${CONTACT.email}`}>
+              <a
+                className="text-blue-400 hover:underline"
+                href={`mailto:${CONTACT.email}`}
+                onClick={() => handleContactChannelClick("email", `mailto:${CONTACT.email}`, "contact_legal_note")}
+              >
                 {CONTACT.email}
               </a>
               .
@@ -523,6 +559,11 @@ export default function Contact() {
                     {ch.href ? (
                       <a
                         href={ch.href}
+                        onClick={
+                          ch.trackingChannel
+                            ? () => handleContactChannelClick(ch.trackingChannel, ch.href, "contact_section")
+                            : undefined
+                        }
                         className="block text-sm font-semibold hover:text-blue-300 transition-colors truncate"
                         style={{ color: "var(--text-primary)" }}
                       >
