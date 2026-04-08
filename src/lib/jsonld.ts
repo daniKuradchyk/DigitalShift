@@ -75,12 +75,6 @@ export function professionalServiceJsonLd({
       opens: "09:00",
       closes: "18:00",
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      bestRating: "5",
-      ratingCount: "102",
-    },
     sameAs,
     hasOfferCatalog: {
       "@type": "OfferCatalog",

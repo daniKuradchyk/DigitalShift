@@ -255,10 +255,10 @@ export default function Hero() {
             animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
             transition={{ duration: 0.9, delay: 0.12, ease: EASE }}
           >
-            Software que{" "}
+            Software a medida que{" "}
             <RotatingWord />
             <br className="hidden sm:block" />
-            {" "}tu negocio
+            {" "}tu empresa
           </motion.h1>
 
           {/* Subtitle */}
@@ -269,8 +269,8 @@ export default function Hero() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.3, ease: EASE }}
           >
-            Desarrollo a medida, sin plantillas ni dependencia de proveedor.
-            Herramientas que encajan en tu operativa real.
+            Desarrollo de software a medida para empresas B2B en España.
+            Sin plantillas ni dependencia de proveedor.
           </motion.p>
 
           {/* CTAs */}
@@ -325,7 +325,7 @@ export default function Hero() {
                 >
                   <Image
                     src={p.logo}
-                    alt={p.name}
+                    alt={`Logo de ${p.name} — cliente de Qubelia`}
                     width={p.width}
                     height={p.height}
                     className="h-5 sm:h-6 w-auto object-contain brightness-0 invert opacity-30 hover:opacity-60 transition-opacity duration-500"

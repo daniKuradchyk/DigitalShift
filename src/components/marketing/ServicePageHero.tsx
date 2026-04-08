@@ -16,6 +16,7 @@ type Props = {
   panelTitle: string;
   panelLines: string[];
   image?: string;
+  imageAlt?: string;
 };
 
 export default function ServicePageHero({
@@ -26,6 +27,7 @@ export default function ServicePageHero({
   panelTitle,
   panelLines,
   image,
+  imageAlt,
 }: Props) {
   const words = title.split(" ");
 
@@ -111,7 +113,7 @@ export default function ServicePageHero({
                   />
                   <Image
                     src={image}
-                    alt=""
+                    alt={imageAlt || title}
                     width={400}
                     height={400}
                     className="relative w-full drop-shadow-[0_20px_60px_rgba(65,105,225,0.25)]"

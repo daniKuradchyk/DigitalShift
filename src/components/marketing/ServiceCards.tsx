@@ -65,7 +65,7 @@ export default function ServiceCards({ variant = "hub", slugs }: Props) {
                     />
                     <Image
                       src={image}
-                      alt=""
+                      alt={`${service.title} — servicio de Qubelia para empresas B2B`}
                       width={200}
                       height={200}
                       className="relative w-32 h-32 object-contain transition-transform duration-500 group-hover:scale-110 drop-shadow-[0_12px_40px_rgba(65,105,225,0.20)]"

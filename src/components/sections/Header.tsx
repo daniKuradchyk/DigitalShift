@@ -18,7 +18,7 @@ type NavItem = {
 const navItems: NavItem[] = [
   { label: "Servicios", homeHref: "#servicios", innerHref: "/servicios" },
   { label: "Método", homeHref: "#metodologia", innerHref: "/servicios#metodologia" },
-  { label: "Casos", homeHref: "#resultados", innerHref: "/#resultados" },
+  { label: "Casos", homeHref: "#resultados", innerHref: "/casos" },
   { label: "Blog", href: "/blog" },
   { label: "Labs", href: "/labs" },
   { label: "FAQ", homeHref: "#faq", innerHref: "/#faq" },

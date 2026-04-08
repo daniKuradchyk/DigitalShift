@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import StaticPageFrame from "@/components/marketing/StaticPageFrame";
 import { CONTACT } from "@/config/contact";
 import { AREAS } from "@/lib/locations";
-import { buildMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/jsonld";
+import { buildMetadata, BASE_URL } from "@/lib/seo";
 
 type Params = { city: string };
 
@@ -36,6 +37,7 @@ export default async function CityPage({ params }: { params: any }) {
   const cityName = city.charAt(0).toUpperCase() + city.slice(1);
 
   return (
+    <>
     <StaticPageFrame
       breadcrumbs={[
         { label: "Inicio", href: "/" },
@@ -84,5 +86,30 @@ export default async function CityPage({ params }: { params: any }) {
         </section>
       </div>
     </StaticPageFrame>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(
+          breadcrumbJsonLd([
+            { name: "Inicio", url: BASE_URL },
+            { name: "Áreas", url: `${BASE_URL}/area` },
+            { name: cityName, url: `${BASE_URL}/area/${city}` },
+          ])
+        ),
+      }}
+    />
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(
+          serviceJsonLd({
+            name: `Software a medida en ${cityName}`,
+            description: `Desarrollo de software a medida, web profesional y automatización de procesos para empresas B2B en ${cityName}. Diagnóstico gratuito y propuesta en 48h.`,
+            areaUrl: `${BASE_URL}/area/${city}`,
+          })
+        ),
+      }}
+    />
+    </>
   );
 }

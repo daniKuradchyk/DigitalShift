@@ -94,6 +94,7 @@ export default function WebServicePage() {
           panelTitle={service.heroPanelTitle}
           panelLines={service.heroPanelLines}
           image="/images/svc-web.png"
+          imageAlt="Diseño y desarrollo web a medida para empresas B2B por Qubelia"
         />
 
         {/* ═══ PROBLEMAS ═══ */}

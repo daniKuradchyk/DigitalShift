@@ -92,6 +92,7 @@ export default function AutomationServicePage() {
           panelTitle={service.heroPanelTitle}
           panelLines={service.heroPanelLines}
           image="/images/svc-automation.png"
+          imageAlt="Automatizacion e integracion de sistemas empresariales por Qubelia"
         />
 
         {/* ═══ PROBLEMAS ═══ */}

@@ -92,6 +92,7 @@ export default function SoftwareServicePage() {
           panelTitle={service.heroPanelTitle}
           panelLines={service.heroPanelLines}
           image="/images/svc-software.png"
+          imageAlt="Desarrollo de software a medida para empresas B2B por Qubelia"
         />
 
         {/* ═══ PROBLEMAS ═══ */}

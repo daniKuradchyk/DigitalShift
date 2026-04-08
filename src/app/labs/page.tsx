@@ -276,7 +276,7 @@ export default function LabsPage() {
             <Button as="a" href="/#contacto" variant="shine">
               Hablar con Qubelia
             </Button>
-            <Button as="a" href="/" variant="ghost">
+            <Button as="a" href="/servicios" variant="ghost">
               Ver todos los servicios
             </Button>
           </div>

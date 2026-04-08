@@ -95,6 +95,7 @@ export default function CrmIntranetServicePage() {
           panelTitle={service.heroPanelTitle}
           panelLines={service.heroPanelLines}
           image="/images/svc-crm.png"
+          imageAlt="CRM e intranet a medida para empresas B2B por Qubelia"
         />
 
         {/* ═══ PROBLEMAS ═══ */}

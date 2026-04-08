@@ -7,6 +7,7 @@ import Container from "@/components/common/Container";
 import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
 import { BASE_URL, canonical, openGraphImage, titleTemplate } from "@/lib/seo";
+import { faqJsonLd } from "@/lib/jsonld";
 import { estimateReadingTime, getPost, getRelatedPosts, posts } from "@/lib/posts";
 
 type Params = { slug: string };
@@ -211,14 +212,13 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                       </span>
                       <h2 className="pt-2 text-xl font-bold leading-snug text-slate-900 dark:text-white">{section.title}</h2>
                     </div>
-                    <ul className="space-y-3">
+                    <div className="space-y-4">
                       {section.body.map((item, itemIndex) => (
-                        <li key={itemIndex} className="flex gap-3.5 text-[15px] leading-relaxed text-slate-600 dark:text-slate-300">
-                          <span aria-hidden className="mt-[0.6em] h-1.5 w-1.5 flex-none rounded-full bg-sky-400/60" />
-                          <span>{item}</span>
-                        </li>
+                        <p key={itemIndex} className="text-[15px] leading-relaxed text-slate-600 dark:text-slate-300">
+                          {item}
+                        </p>
                       ))}
-                    </ul>
+                    </div>
                   </section>
                 ))}
               </div>
@@ -353,6 +353,9 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
 
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+          {post.faqs && post.faqs.length > 0 && (
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(post.faqs)) }} />
+          )}
         </Container>
       </main>
       <Footer />

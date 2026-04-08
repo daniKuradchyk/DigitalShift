@@ -51,12 +51,12 @@ export default function BlogIndex() {
                 </span>
               </div>
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.04] mb-6">
-                <span className="text-slate-900 dark:text-white">Guías</span>
+                <span className="text-slate-900 dark:text-white">Blog de software</span>
                 <br />
-                <span className="text-slate-300 dark:text-white/20">sin relleno</span>
+                <span className="text-slate-300 dark:text-white/20">y automatización B2B</span>
               </h1>
               <p className="text-lg sm:text-xl text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed mb-10">
-                Playbooks de go-to-market, SEO técnico, migraciones y automatización. Para equipos que prefieren hacer antes que leer.
+                Guías sobre desarrollo a medida, digitalización, CRM, integraciones ERP y automatización de procesos para empresas en España.
               </p>
               <div className="flex flex-wrap gap-2">
                 {allTags.map((tag) => (
