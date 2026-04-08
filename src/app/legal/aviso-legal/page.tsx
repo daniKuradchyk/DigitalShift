@@ -7,7 +7,7 @@ export const revalidate = 86400;
 
 export const metadata: Metadata = buildMetadata({
   title: "Aviso legal de Qubelia",
-  description: "Titularidad, condiciones de uso, propiedad intelectual y limitacion de responsabilidad del sitio web de Qubelia.",
+  description: "Titularidad, condiciones de uso, propiedad intelectual y limitacion de responsabilidad del sitio web de Qubelia. Informacion legal conforme a la LSSI-CE.",
   path: "/legal/aviso-legal",
 });
 

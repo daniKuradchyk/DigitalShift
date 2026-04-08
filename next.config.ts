@@ -40,8 +40,12 @@ const nextConfig = {
       { source: "/blog/go-to-market-saas-90-dias", destination: "/blog", permanent: true },
       { source: "/blog/brief-tecnico-proyecto-digital", destination: "/blog", permanent: true },
       { source: "/blog/kpis-producto-b2b", destination: "/blog", permanent: true },
-      { source: "/blog/migrar-wordpress-a-nextjs", destination: "/blog", permanent: true },
+      { source: "/blog/migrar-wordpress-a-nextjs", destination: "/blog/desarrollo-web-a-medida-vs-wordpress-cuando-dar-el-salto", permanent: true },
       { source: "/blog/arquitectura-nextjs-seo-2026", destination: "/blog", permanent: true },
+      // Redirect common search variations to relevant new posts
+      { source: "/blog/digitalizacion-pymes", destination: "/blog/digitalizacion-pymes-espana-guia-2026", permanent: true },
+      { source: "/blog/elegir-empresa-desarrollo", destination: "/blog/como-elegir-empresa-desarrollo-software-espana", permanent: true },
+      { source: "/blog/crm-medida-vs-saas", destination: "/blog/crm-a-medida-vs-hubspot-salesforce-pymes", permanent: true },
     ];
   },
   async headers() {
@@ -50,6 +54,14 @@ const nextConfig = {
       { key: "X-Content-Type-Options", value: "nosniff" },
       { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
       { key: "X-XSS-Protection", value: "1; mode=block" },
+      {
+        key: "Permissions-Policy",
+        value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+      },
+      {
+        key: "Strict-Transport-Security",
+        value: "max-age=63072000; includeSubDomains; preload",
+      },
     ];
 
     return [
@@ -60,6 +72,26 @@ const nextConfig = {
       {
         source: "/fonts/(.*)",
         headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }],
+      },
+      {
+        source: "/logos/(.*)",
+        headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }],
+      },
+      {
+        source: "/brand/(.*)",
+        headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }],
+      },
+      {
+        source: "/favicon(.*)",
+        headers: [{ key: "Cache-Control", value: "public, max-age=2592000" }],
+      },
+      {
+        source: "/sitemap.xml",
+        headers: [{ key: "Cache-Control", value: "public, max-age=3600, stale-while-revalidate=600" }],
+      },
+      {
+        source: "/robots.txt",
+        headers: [{ key: "Cache-Control", value: "public, max-age=86400" }],
       },
     ];
   },

@@ -4,7 +4,7 @@ import GoogleTagManagerLoader from "@/components/analytics/GoogleTagManagerLoade
 import LazyBackground from "@/components/common/LazyBackground";
 import CookieBanner from "@/components/cookies/CookieBanner";
 import { CookieConsentProvider } from "@/components/cookies/CookieConsentProvider";
-import { organizationJsonLd, websiteJsonLd } from "@/lib/jsonld";
+import { organizationJsonLd, professionalServiceJsonLd, websiteJsonLd } from "@/lib/jsonld";
 import { BASE_URL, SITE_NAME, SITE_TAGLINE, openGraphImage, titleTemplate } from "@/lib/seo";
 import "./globals.css";
 
@@ -50,11 +50,30 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const socialLinks = [
+    "https://www.linkedin.com/company/qubelia",
+    "https://www.instagram.com/qubelia.tech",
+    "https://github.com/daniKuradchyk",
+  ];
   const org = organizationJsonLd({
     name: SITE_NAME,
     url: BASE_URL,
     logoUrl: `${BASE_URL}/favicon.ico`,
-    sameAs: [],
+    sameAs: socialLinks,
+  });
+  const professionalService = professionalServiceJsonLd({
+    name: SITE_NAME,
+    url: BASE_URL,
+    logoUrl: `${BASE_URL}/favicon.ico`,
+    telephone: "+34 674 569 372",
+    address: {
+      streetAddress: "Calle Torrelodones 84B",
+      addressLocality: "Sevilla",
+      postalCode: "41016",
+      addressRegion: "Andalucía",
+      addressCountry: "ES",
+    },
+    sameAs: socialLinks,
   });
   const site = websiteJsonLd({ name: `${SITE_NAME} | ${SITE_TAGLINE}`, url: BASE_URL });
 
@@ -78,6 +97,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
           <CookieBanner />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
+          <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalService) }} />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(site) }} />
         </CookieConsentProvider>
       </body>

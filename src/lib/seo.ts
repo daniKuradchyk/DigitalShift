@@ -22,22 +22,25 @@ export function buildMetadata({
   title,
   description,
   path,
+  noIndex = false,
 }: {
   title: string;
   description: string;
   path: string;
+  noIndex?: boolean;
 }): Metadata {
   return {
     title,
     description,
     alternates: { canonical: canonical(path) },
-    robots: { index: true, follow: true },
+    robots: { index: !noIndex, follow: true },
     openGraph: {
       title,
       description,
       url: canonical(path),
       siteName: SITE_NAME,
       images: openGraphImage(),
+      locale: "es_ES",
       type: "website",
     },
     twitter: {

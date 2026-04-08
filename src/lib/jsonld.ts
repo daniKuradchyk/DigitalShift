@@ -11,7 +11,100 @@ export function organizationJsonLd({
   logoUrl: string;
   sameAs?: string[];
 }) {
-  return { "@context": "https://schema.org", "@type": "Organization", name, url, logo: logoUrl, sameAs };
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name,
+    url,
+    logo: logoUrl,
+    sameAs,
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+34-674-569-372",
+      contactType: "sales",
+      areaServed: "ES",
+      availableLanguage: "Spanish",
+    },
+  };
+}
+
+export function professionalServiceJsonLd({
+  name,
+  url,
+  logoUrl,
+  telephone,
+  address,
+  sameAs = [] as string[],
+}: {
+  name: string;
+  url: string;
+  logoUrl: string;
+  telephone: string;
+  address: {
+    streetAddress: string;
+    addressLocality: string;
+    postalCode: string;
+    addressRegion: string;
+    addressCountry: string;
+  };
+  sameAs?: string[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name,
+    url,
+    logo: logoUrl,
+    image: logoUrl,
+    telephone,
+    email: "hola@qubelia.es",
+    address: { "@type": "PostalAddress", ...address },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: "37.3891",
+      longitude: "-5.9845",
+    },
+    areaServed: {
+      "@type": "Country",
+      name: "España",
+    },
+    priceRange: "€€€",
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:00",
+      closes: "18:00",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      bestRating: "5",
+      ratingCount: "102",
+    },
+    sameAs,
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Servicios de desarrollo de software",
+      itemListElement: [
+        {
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: "Software a medida", description: "Desarrollo de herramientas internas, portales y plataformas a medida para empresas B2B" },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: "Web a medida", description: "Diseño y desarrollo de páginas web profesionales orientadas a captación y posicionamiento SEO" },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: "Automatización e integraciones", description: "Flujos automáticos e integraciones entre ERP, CRM y herramientas empresariales" },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: "CRM / Intranet a medida", description: "CRM personalizado e intranet corporativa para procesos comerciales y operativos complejos" },
+        },
+      ],
+    },
+  };
 }
 
 export function websiteJsonLd({ url, name }: { url: string; name: string }) {
@@ -20,6 +113,7 @@ export function websiteJsonLd({ url, name }: { url: string; name: string }) {
     "@type": "WebSite",
     name,
     url,
+    inLanguage: "es",
     potentialAction: {
       "@type": "SearchAction",
       target: `${url}/buscar?q={search_term_string}`,
@@ -89,7 +183,8 @@ export function serviceJsonLd({ name, description, areaUrl }: { name: string; de
     "@type": "Service",
     name,
     description,
-    areaServed: areaUrl ?? BASE_URL,
+    inLanguage: "es",
+    areaServed: areaUrl ?? { "@type": "Country", name: "España" },
     provider: { "@type": "Organization", name: SITE_NAME, url: BASE_URL },
   } as const;
 }

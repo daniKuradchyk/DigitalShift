@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   ...buildMetadata({
     title: "Areas de servicio de Qubelia",
     description:
-      "Cobertura geografica y enfoque local de Qubelia para empresas que necesitan software, web e integraciones a medida.",
+      "Cobertura geografica de Qubelia: software a medida, desarrollo web y automatizacion para empresas B2B en Sevilla, Madrid, Barcelona y toda Espana.",
     path: "/area",
   }),
   robots: { index: false, follow: true },

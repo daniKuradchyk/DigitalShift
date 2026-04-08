@@ -8,7 +8,7 @@ import { canonical, openGraphImage, titleTemplate } from "@/lib/seo";
 
 const pageTitle = "Calculadora de ROI de automatización";
 const pageDescription =
-  "Calcula en 2 minutos el ahorro potencial de automatizar un proceso en tu empresa: coste operativo actual, horas recuperables, payback estimado y nivel de oportunidad.";
+  "Calcula en 2 minutos el ahorro de automatizar un proceso en tu empresa: coste operativo, horas recuperables, payback y nivel de oportunidad.";
 
 export const metadata: Metadata = {
   title: titleTemplate(pageTitle),
@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     description: pageDescription,
     url: canonical("/labs/roi-automatizacion"),
     images: openGraphImage(),
+    locale: "es_ES",
+    type: "website",
+    siteName: "Qubelia",
   },
   twitter: {
     card: "summary_large_image",

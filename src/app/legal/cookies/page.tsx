@@ -7,7 +7,7 @@ export const revalidate = 86400;
 
 export const metadata: Metadata = buildMetadata({
   title: "Politica de cookies de Qubelia",
-  description: "Informacion sobre cookies tecnicas, consentimiento, configuracion y gestion de preferencias en Qubelia.",
+  description: "Informacion sobre cookies tecnicas, analiticas y de marketing, consentimiento, configuracion y gestion de preferencias en el sitio web de Qubelia.",
   path: "/legal/cookies",
 });
 

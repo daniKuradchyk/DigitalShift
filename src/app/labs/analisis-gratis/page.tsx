@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     description: pageDescription,
     url: canonical("/labs/analisis-gratis"),
     images: openGraphImage(),
+    locale: "es_ES",
+    type: "website",
+    siteName: "Qubelia",
   },
   twitter: {
     card: "summary_large_image",

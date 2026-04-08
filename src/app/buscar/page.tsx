@@ -18,17 +18,21 @@ export async function generateMetadata({ searchParams }: { searchParams: any }):
   const q = getQuery(sp ?? {}, "q").trim();
 
   if (!q) {
-    return buildMetadata({
-      title: "Buscar en Qubelia",
-      description: "Busqueda interna de contenidos, servicios y recursos publicados por Qubelia.",
-      path: "/buscar",
-    });
+    return {
+      ...buildMetadata({
+        title: "Buscar en Qubelia",
+        description:
+          "Busca entre servicios de software a medida, articulos del blog, herramientas gratuitas y recursos sobre automatizacion, CRM e integraciones para empresas B2B.",
+        path: "/buscar",
+      }),
+      robots: { index: false, follow: true },
+    };
   }
 
   return {
     title: titleTemplate(`Buscar: ${q}`),
-    description: `Resultados de busqueda para "${q}" en Qubelia.`,
-    alternates: { canonical: canonical(`/buscar?q=${encodeURIComponent(q)}`) },
+    description: `Resultados de busqueda para "${q}" en servicios, blog y herramientas de Qubelia.`,
+    alternates: { canonical: canonical("/buscar") },
     robots: { index: false, follow: false },
   };
 }

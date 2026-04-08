@@ -7,7 +7,7 @@ export const revalidate = 86400;
 
 export const metadata: Metadata = buildMetadata({
   title: "Politica de privacidad de Qubelia",
-  description: "Tratamiento de datos personales, bases juridicas, plazos de conservacion y ejercicio de derechos en Qubelia.",
+  description: "Tratamiento de datos personales, bases juridicas, plazos de conservacion y ejercicio de derechos ARCO en Qubelia conforme al RGPD y la LOPDGDD.",
   path: "/legal/privacidad",
 });
 

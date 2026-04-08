@@ -4,12 +4,25 @@ import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
+import { BASE_URL, SITE_NAME, openGraphImage } from "@/lib/seo";
+
+export const revalidate = 86400;
 
 export const metadata: Metadata = {
   title: "Pagina no encontrada | Qubelia",
   description:
-    "La pagina que buscas no existe o ha sido movida. Encuentra software a medida, web a medida y automatizacion para empresas B2B.",
+    "La pagina que buscas no existe o ha sido movida. Encuentra software a medida, web profesional, automatizacion y CRM para empresas B2B en Espana.",
   robots: { index: false, follow: true },
+  openGraph: {
+    title: "Pagina no encontrada | Qubelia",
+    description:
+      "La pagina que buscas no existe o ha sido movida. Explora nuestros servicios de software a medida para empresas B2B.",
+    url: `${BASE_URL}/404`,
+    siteName: SITE_NAME,
+    images: openGraphImage(),
+    locale: "es_ES",
+    type: "website",
+  },
 };
 
 export default function NotFound() {
