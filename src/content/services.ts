@@ -36,6 +36,12 @@ export type ServiceSummary = {
   intent: string;
   cardSummary: string;
   homeSummary: string;
+  /** Stack/integraciones que mostramos como tags en home. Editorial. */
+  homeStack: string[];
+  /** Mini fit "Cuando sí" (3-4 frases cortas, en home). */
+  homeFitYes: string[];
+  /** Mini fit "Cuando no" (3-4 frases cortas, en home). */
+  homeFitNo: string[];
   metaTitle: string;
   metaDescription: string;
   heroTitle: string;
@@ -74,9 +80,24 @@ export const services: Record<ServiceSlug, ServiceSummary> = {
     eyebrow: "Servicio principal",
     intent: "Herramientas internas, portales y plataformas que no encajan en un SaaS genérico.",
     cardSummary:
-      "Diseñamos software propio para procesos concretos: operaciones, backoffice, portal cliente, extranet o plataformas internas.",
+      "Cuando ningún SaaS encaja con tu proceso real. Construimos la herramienta interna, el portal o la plataforma operativa que sí.",
     homeSummary:
-      "Cuando el proceso es importante y el SaaS obliga a trabajar peor, construimos la herramienta correcta.",
+      "Si el proceso es crítico y el SaaS obliga a trabajar peor, no se parchea: se construye con cabeza.",
+    homeStack: [
+      "Next.js · TypeScript",
+      "PostgreSQL · Prisma",
+      "API REST / GraphQL",
+      "SSO · roles · auditoría",
+    ],
+    homeFitYes: [
+      "Tu operativa depende de Excel y notas paralelas",
+      "Necesitas trazabilidad, permisos o roles a medida",
+      "El proceso es ventaja competitiva, no admin",
+    ],
+    homeFitNo: [
+      "Un SaaS estándar cubre el 90% sin fricción",
+      "Solo querer 'tener una app' por imagen",
+    ],
     metaTitle: "Software a medida para empresas B2B | Qubelia",
     metaDescription:
       "Desarrollo de software a medida para empresas B2B: herramientas internas, portales, plataformas operativas e integraciones sin vendor lock-in.",
@@ -220,9 +241,24 @@ export const services: Record<ServiceSlug, ServiceSummary> = {
     eyebrow: "Servicio principal",
     intent: "Web corporativa o comercial orientada a negocio, posicionamiento y rendimiento técnico.",
     cardSummary:
-      "Diseñamos webs corporativas y comerciales a medida para empresas que necesitan presencia seria, estructura clara y una base sólida para captar demanda.",
+      "Una web que transmite el nivel real de tu empresa, posiciona en Google y convierte con criterio. No otra plantilla maquillada.",
     homeSummary:
-      "No vendemos una web bonita sin más. Vendemos una web que explica, posiciona y convierte con criterio.",
+      "Web a medida con estructura, rendimiento y SEO base de verdad. Sin plantillas clónicas ni promesas de IA generativa.",
+    homeStack: [
+      "Next.js · React",
+      "SEO técnico · Schema.org",
+      "Core Web Vitals 95+",
+      "CMS opcional",
+    ],
+    homeFitYes: [
+      "La web es pieza comercial, no folleto",
+      "Necesitas posicionar en Google con cabeza",
+      "Quieres una base que crezca sin rehacerse",
+    ],
+    homeFitNo: [
+      "Solo necesitas una landing temporal",
+      "No vas a cuidar el contenido después",
+    ],
     metaTitle: "Web a medida para empresas B2B | Qubelia",
     metaDescription:
       "Diseño y desarrollo web a medida para empresas B2B: estructura, rendimiento, SEO técnico base, conversión e integraciones sin plantillas clónicas.",
@@ -365,9 +401,24 @@ export const services: Record<ServiceSlug, ServiceSummary> = {
     eyebrow: "Servicio principal",
     intent: "Flujos automáticos e integraciones robustas entre herramientas, datos y procesos.",
     cardSummary:
-      "Diseñamos automatizaciones e integraciones con criterio técnico: menos tareas manuales, más consistencia y mejor visibilidad entre sistemas.",
+      "Conectamos tus sistemas y automatizamos lo repetitivo. Con IA donde de verdad ahorra horas — y reglas claras donde no.",
     homeSummary:
-      "No vendemos 'hacer clic en Make'. Diseñamos flujos fiables, observables y mantenibles.",
+      "Flujos robustos, observables y mantenibles. Ni cajas negras de IA ni 'clics en Make' que se rompen al primer cambio.",
+    homeStack: [
+      "ERP · CRM · APIs",
+      "n8n · Make · código",
+      "Logs · alertas · reintentos",
+      "IA cuando ahorra horas",
+    ],
+    homeFitYes: [
+      "Mismo dato se introduce en 3 sitios distintos",
+      "Hay automatizaciones frágiles que nadie mantiene",
+      "El equipo pierde horas en tareas repetitivas",
+    ],
+    homeFitNo: [
+      "Necesitas un sistema propio, no integrar",
+      "Buscas un 'flujo rápido' sin responsable",
+    ],
     metaTitle: "Automatización e integraciones para empresas | Qubelia",
     metaDescription:
       "Automatización de procesos e integraciones entre CRM, ERP, formularios, email, APIs y hojas de cálculo. Soluciones robustas y mantenibles para empresas.",
@@ -511,9 +562,24 @@ export const services: Record<ServiceSlug, ServiceSummary> = {
     eyebrow: "Servicio principal",
     intent: "Sistema interno propio para procesos comerciales, operativos o internos con reglas concretas.",
     cardSummary:
-      "Diseñamos CRM, intranet o extranet a medida cuando un sistema estándar se queda corto y el proceso necesita control fino.",
+      "CRM, intranet o extranet propios cuando HubSpot o Pipedrive obligan a torcer tu operativa. Roles, permisos y trazabilidad de verdad.",
     homeSummary:
-      "Si tu operativa no cabe bien en HubSpot, Pipedrive o una intranet genérica, construimos el sistema interno que sí encaja.",
+      "El sistema interno que refleja cómo trabajáis, no cómo tendría que ser para encajar en una herramienta genérica.",
+    homeStack: [
+      "CRM · intranet · extranet",
+      "Roles · permisos finos",
+      "Paneles · trazabilidad",
+      "Integraciones ERP · email · firma",
+    ],
+    homeFitYes: [
+      "El equipo trabaja fuera del CRM por excepciones",
+      "Necesitas roles, permisos o aprobaciones reales",
+      "Vendes con proceso largo o consultivo",
+    ],
+    homeFitNo: [
+      "Un HubSpot bien configurado os basta",
+      "El proceso aún no está definido",
+    ],
     metaTitle: "CRM e intranet a medida para empresas | Qubelia",
     metaDescription:
       "CRM, intranet y sistemas internos a medida para empresas: roles, permisos, trazabilidad, paneles y operativa adaptada a procesos reales.",

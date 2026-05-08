@@ -19,9 +19,9 @@ import { absoluteUrl } from "@/lib/urls";
 export const revalidate = 86400;
 
 export const metadata: Metadata = buildMetadata({
-  title: "Qubelia | Software, web y sistemas a medida para empresas B2B",
+  title: "Qubelia | Software a medida para empresas que no se creen el hype de la IA",
   description:
-    "Qubelia desarrolla software a medida, web a medida, automatización e integraciones, y CRM o intranet a medida para empresas B2B en España.",
+    "Ingeniería de software, automatización y sistemas internos a medida para empresas españolas. Con IA cuando aporta, sin IA cuando no. Sin humo, sin vendor lock-in.",
   path: "/",
 });
 

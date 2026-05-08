@@ -7,7 +7,9 @@
       "Bash(taskkill /IM node.exe /F)",
       "Bash(cmd /c \"taskkill /IM node.exe /F\")",
       "Bash(npx next:*)",
-      "Read(//c/Users/DANIIL KURADCHIK/.claude/projects/c--Users-DANIIL-KURADCHIK-Documents-DigitalShift/memory/**)"
+      "Read(//c/Users/DANIIL KURADCHIK/.claude/projects/c--Users-DANIIL-KURADCHIK-Documents-DigitalShift/memory/**)",
+      "Bash(npx tsc *)",
+      "Bash(echo \"exit=$?\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\DANIIL KURADCHIK\\.claude\\projects\\c--Users-DANIIL-KURADCHIK-Documents-DigitalShift\\memory"

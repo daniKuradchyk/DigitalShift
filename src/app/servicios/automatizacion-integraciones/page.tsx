@@ -1,21 +1,20 @@
 import type { Metadata } from "next";
 import Container from "@/components/common/Container";
 import FaqList from "@/components/marketing/FaqList";
-import FinalCta from "@/components/marketing/FinalCta";
 import JsonLd from "@/components/marketing/JsonLd";
-import ResourceLinks from "@/components/marketing/ResourceLinks";
-import ServicePageHero from "@/components/marketing/ServicePageHero";
-import SectionIntro from "@/components/marketing/SectionIntro";
-import ServiceCards from "@/components/marketing/ServiceCards";
+import EditorialHero from "@/components/marketing/editorial/EditorialHero";
+import EditorialSection from "@/components/marketing/editorial/EditorialSection";
 import {
-  BenefitList,
-  CaseHighlights,
-  DeliverableList,
-  FitPanels,
-  ProblemGrid,
-  ProcessTimeline,
-  ScenarioGrid,
-} from "@/components/marketing/ServiceBlocks";
+  CaseInline,
+  DecisionDuo,
+  DeliverableSheet,
+  EditorialFinalCta,
+  IntegrationStrip,
+  ProblemNarrative,
+  ProcessRail,
+  RelatedNav,
+  ScenarioRows,
+} from "@/components/marketing/editorial/EditorialBlocks";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/Header";
 import { getService } from "@/content/services";
@@ -26,29 +25,6 @@ import { absoluteUrl } from "@/lib/urls";
 export const revalidate = 86400;
 
 const service = getService("automatizacion-integraciones");
-
-/* ─── Contenido editorial único ─── */
-const flowBlocks = [
-  { label: "Comercial", text: "Formularios, CRM y procesos comerciales." },
-  { label: "Finanzas", text: "ERP, facturación, reporting y consolidación." },
-  { label: "Operaciones", text: "Email, documentación, aprobaciones y alertas." },
-  { label: "Sistemas", text: "APIs, bases de datos y servicios internos o legacy." },
-];
-
-const robustness = [
-  {
-    title: "Fuente de verdad definida",
-    text: "Antes de automatizar hay que saber qué sistema manda en cada dato y qué reglas deben mantenerse.",
-  },
-  {
-    title: "Observabilidad",
-    text: "Los flujos deben dejar logs, alertas y contexto suficiente para detectar y corregir fallos rápido.",
-  },
-  {
-    title: "Mantenimiento",
-    text: "La solución tiene que resistir cambios de campos, APIs o procesos sin convertirse en una bomba silenciosa.",
-  },
-];
 
 export const metadata: Metadata = buildMetadata({
   title: service.metaTitle,
@@ -69,219 +45,215 @@ export default function AutomationServicePage() {
     { name: service.shortTitle, url: canonical(service.href) },
   ]);
 
+  const serviceData = serviceJsonLd({
+    name: service.shortTitle,
+    description: service.metaDescription,
+    areaUrl: canonical(service.href),
+  });
+
   return (
     <>
       <JsonLd id="ld-automation-breadcrumbs" data={breadcrumbData} />
-      <JsonLd
-        id="ld-automation-service"
-        data={serviceJsonLd({
-          name: service.shortTitle,
-          description: service.metaDescription,
-          areaUrl: canonical(service.href),
-        })}
-      />
+      <JsonLd id="ld-automation-service" data={serviceData} />
       <JsonLd id="ld-automation-faq" data={faqJsonLd(service.faqs)} />
       <Header />
       <main id="contenido">
-        {/* ═══ HERO ═══ */}
-        <ServicePageHero
+        <EditorialHero
+          slug="automatizacion-integraciones"
           breadcrumbs={breadcrumbs}
-          eyebrow={service.eyebrow}
-          title={service.heroTitle}
-          subtitle={service.heroSubtitle}
-          panelTitle={service.heroPanelTitle}
-          panelLines={service.heroPanelLines}
-          image="/images/svc-automation.png"
-          imageAlt="Automatizacion e integracion de sistemas empresariales por Qubelia"
+          eyebrow="Automatización · Integraciones · IA aplicada"
+          title="Conectamos tus sistemas. Eliminamos lo repetitivo. Sin cajas negras."
+          subtitle="Integraciones entre CRM, ERP, formularios, email, APIs y bases de datos. Flujos robustos con logs, alertas, reintentos y trazabilidad. Con IA donde de verdad ahorra horas — no como argumento de venta."
+          honestyLine="Si lo tuyo es un solo flujo simple sin recorrido futuro, montarlo en una hora con Make y olvidarse es honestamente más barato. Te lo decimos antes de proponer proyecto."
+          metaPills={[
+            { label: "Stack", value: "n8n · Make · código" },
+            { label: "Primera entrega", value: "2–4 semanas" },
+            { label: "ROI típico", value: "20–60h/mes" },
+            { label: "Cajas negras", value: "Cero" },
+          ]}
         />
 
-        {/* ═══ PROBLEMAS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Problemas"
-              title="Qué problemas operativos suele atacar este servicio"
-              description="El objetivo no es automatizar por moda. Es quitar tareas repetitivas, evitar errores y dejar mejor conectadas áreas que ya dependen unas de otras."
-            />
-            <div className="mt-10">
-              <ProblemGrid items={service.problems} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="01"
+          eyebrow="Síntomas"
+          title="Si te resulta familiar, llevas perdiendo tiempo desde hace meses."
+        >
+          <ProblemNarrative
+            intro="La operativa mal conectada no se ve en una sola tarea — se ve en la suma de muchas. Estos son los cuatro síntomas más comunes en empresas B2B con cinco o más herramientas digitales."
+            items={service.problems}
+          />
+        </EditorialSection>
 
-        {/* ═══ ALCANCE TÉCNICO ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Alcance técnico"
-              title="Qué tipo de herramientas y sistemas solemos conectar"
-              description="Automatización e integraciones se plantean como servicio operativo, no como una suma de zaps o escenarios sin dueño técnico."
-            />
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {flowBlocks.map((item, i) => (
-                <div
-                  key={item.label}
-                  className="card-glass rounded-2xl p-6 transition-all hover:border-blue-400/25"
-                >
-                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-blue-400">
-                    {String(i + 1).padStart(2, "0")}
-                  </p>
-                  <h3 className="mt-3 text-base font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>
-                    {item.label}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                    {item.text}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="02"
+          eyebrow="Casos típicos"
+          title="Las tres formas más comunes en que esto aterriza."
+        >
+          <ScenarioRows items={service.scenarios} />
+        </EditorialSection>
 
-        {/* ═══ ENTREGABLES ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Qué entregamos"
-              title="Qué entrega exactamente Qubelia en automatización e integraciones"
-            />
-            <div className="mt-10">
-              <DeliverableList items={service.deliverables} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="03"
+          eyebrow="Lo que conectamos"
+          title="Sistemas, datos y eventos que viajan entre herramientas — bien."
+          lead="No es 'usamos n8n'. La clave es el diseño del flujo, las reglas de sincronización, el manejo de errores y el mantenimiento. Estas son las piezas que solemos tocar."
+        >
+          <IntegrationStrip
+            items={[
+              "SAP · Holded · A3 · Odoo",
+              "Salesforce · HubSpot · Pipedrive",
+              "ERP a medida · APIs propias",
+              "Webhooks · colas · eventos",
+              "Email transaccional · Postmark",
+              "Hojas de cálculo · Google Sheets",
+              "Formularios · Typeform · Tally",
+              "Calendarios · Google · Outlook",
+              "Firma digital · Docusign · Signaturit",
+              "Logs · Sentry · BetterStack",
+              "Bases de datos · PostgreSQL · MySQL",
+              "IA: clasificación · extracción · OCR",
+            ]}
+          />
+        </EditorialSection>
 
-        {/* ═══ SOLUCIÓN ROBUSTA ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Solución robusta"
-              title="Por qué no vendemos automatizaciones frágiles"
-              description="Conectar herramientas es fácil. Lo difícil es que siga funcionando cuando cambian campos, procesos o volumen."
-            />
-            <div className="mt-10 grid gap-4 lg:grid-cols-3">
-              {robustness.map((item) => (
-                <article
-                  key={item.title}
-                  className="card-glass rounded-2xl p-6 transition-all hover:border-blue-400/25"
-                >
-                  <h3 className="text-lg font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                    {item.text}
-                  </p>
-                </article>
-              ))}
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="04"
+          eyebrow="Decisión"
+          title="Cuándo automatizar — y cuándo es matar moscas a cañonazos."
+          lead="No todo problema operativo se arregla con un flujo. A veces es un proceso mal definido, no una herramienta mal conectada."
+        >
+          <DecisionDuo
+            yes={[
+              "Hay varias herramientas que ya deberían hablar entre sí y no lo hacen bien.",
+              "El coste del trabajo manual repetitivo es visible en horas, errores o quejas.",
+              "Necesitáis trazabilidad, mantenimiento y diseño técnico serio de los flujos.",
+              "Queréis automatizar sin crear una caja negra que nadie pueda tocar mañana.",
+            ]}
+            no={[
+              "Solo se busca una automatización puntual sin criterio de continuidad.",
+              "No existe ninguna definición mínima del proceso o del dato correcto.",
+              "Se espera resultado crítico sin revisar riesgos, validaciones o fallback.",
+              "La necesidad real es un sistema propio más amplio, no integraciones.",
+            ]}
+          />
+        </EditorialSection>
 
-        {/* ═══ ESCENARIOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Escenarios"
-              title="Escenarios habituales"
-            />
-            <div className="mt-10">
-              <ScenarioGrid items={service.scenarios} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="05"
+          eyebrow="Cómo trabajamos"
+          title="Mapa primero. Construcción después. Observabilidad siempre."
+          variant="narrow"
+          lead="Antes de tocar n8n, Make o código, definimos qué sistema manda en cada dato y qué pasa cuando algo se rompe. Sin esto, las automatizaciones se caen al primer cambio."
+        >
+          <ProcessRail items={service.process} />
+        </EditorialSection>
 
-        {/* ═══ PROCESO ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Proceso"
-              title="Cómo se diseña y despliega este tipo de servicio"
-            />
-            <div className="mt-10">
-              <ProcessTimeline items={service.process} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="06"
+          eyebrow="Qué entregamos"
+          title="Lo que se queda en producción cuando terminamos."
+        >
+          <DeliverableSheet
+            items={service.deliverables}
+            footer="Documentación del flujo, accesos a logs, alertas configuradas en Slack o email, runbook básico de incidencias y formación al equipo si se necesita."
+          />
+        </EditorialSection>
 
-        {/* ═══ ENCAJE Y BENEFICIOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Encaje y beneficios"
-              title="Dónde aporta más y dónde no"
-            />
-            <div className="mt-10">
-              <FitPanels yes={service.fitYes} no={service.fitNo} />
+        <EditorialSection
+          marker="07"
+          eyebrow="La IA, sin marketing"
+          title="La metemos cuando ahorra horas. No para tener algo que vender."
+          variant="narrow"
+          lead="Aquí dejamos por escrito dónde la IA aporta y dónde es ruido. Esta página es honesta porque queremos clientes que sepan dónde están entrando."
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            <div
+              className="rounded-xl border p-6"
+              style={{
+                background: "rgba(91,141,239,0.04)",
+                borderColor: "rgba(91,141,239,0.2)",
+              }}
+            >
+              <p
+                className="font-mono text-[11px] uppercase tracking-[0.2em] mb-4"
+                style={{ color: "var(--accent-light)" }}
+              >
+                ✓ Sí encaja
+              </p>
+              <ul
+                className="space-y-3 text-[15px] leading-relaxed"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                <li>· Clasificación masiva de emails, tickets o documentos.</li>
+                <li>· Extracción de datos de facturas, contratos o PDFs estructurados.</li>
+                <li>· OCR + validación contra reglas de negocio.</li>
+                <li>· Resumen automático de actas o conversaciones largas.</li>
+                <li>· Asistencia interna a equipos sobre conocimiento propio.</li>
+              </ul>
             </div>
-            <div className="mt-8">
-              <BenefitList items={service.benefits} />
+            <div
+              className="rounded-xl border p-6"
+              style={{
+                background: "rgba(173,193,255,0.02)",
+                borderColor: "rgba(173,193,255,0.12)",
+              }}
+            >
+              <p
+                className="font-mono text-[11px] uppercase tracking-[0.2em] mb-4"
+                style={{ color: "var(--text-muted)" }}
+              >
+                × Mejor no
+              </p>
+              <ul
+                className="space-y-3 text-[15px] leading-relaxed"
+                style={{ color: "var(--text-muted)" }}
+              >
+                <li>· Reglas claras y deterministas: una API o un if/else basta.</li>
+                <li>· Datos críticos sin posibilidad de error: la IA aún se equivoca.</li>
+                <li>· Volumen bajo: el coste por llamada no compensa.</li>
+                <li>· &quot;Para impresionar al consejo&quot;: eso no es un caso de uso.</li>
+              </ul>
             </div>
-          </Container>
-        </section>
+          </div>
+        </EditorialSection>
 
-        {/* ═══ CASOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Casos"
-              title="Resultados relacionados con automatización e integraciones"
-            />
-            <div className="mt-10">
-              <CaseHighlights ids={service.caseStudyIds} />
-            </div>
-          </Container>
-        </section>
+        {service.caseStudyIds.length > 0 && (
+          <EditorialSection
+            marker="08"
+            eyebrow="Resultados reales"
+            title="Horas recuperadas, errores eliminados, datos consistentes."
+          >
+            <CaseInline ids={service.caseStudyIds} />
+          </EditorialSection>
+        )}
 
-        {/* ═══ RECURSOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Recursos"
-              title="Lecturas y herramientas relacionadas"
-            />
-            <div className="mt-10">
-              <ResourceLinks posts={service.relatedPosts} labSlugs={service.relatedLabs} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          id="faq"
+          marker="09"
+          eyebrow="Preguntas frecuentes"
+          title="Lo que se pregunta antes de empezar."
+          variant="narrow"
+        >
+          <FaqList items={service.faqs} />
+        </EditorialSection>
 
-        {/* ═══ FAQ ═══ */}
-        <section id="faq" className="scroll-mt-28 py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="FAQ"
-              title="Preguntas frecuentes sobre automatización e integraciones"
-            />
-            <div className="mt-10 max-w-3xl">
-              <FaqList items={service.faqs} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          eyebrow="Sigue por aquí"
+          title="Otros servicios que suelen ir de la mano."
+          variant="narrow"
+        >
+          <RelatedNav slugs={service.relatedServices} />
+        </EditorialSection>
 
-        {/* ═══ SERVICIOS RELACIONADOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Servicios relacionados"
-              title="Otras líneas que pueden complementar este servicio"
-            />
-            <div className="mt-10">
-              <ServiceCards variant="related" slugs={service.relatedServices} />
-            </div>
-          </Container>
-        </section>
-
-        {/* ═══ CTA FINAL ═══ */}
-        <section className="pb-20 pt-4">
-          <Container>
-            <FinalCta
-              title="Si ya tienes herramientas pero la operativa sigue siendo manual, el cuello de botella casi nunca es la herramienta"
-              text="Podemos revisar procesos, fuentes de verdad y puntos de sincronización para montar una solución operativa robusta y mantenible."
-              secondaryHref="/servicios/crm-intranet-a-medida"
-              secondaryLabel="Ver CRM / intranet a medida"
-            />
-          </Container>
-        </section>
+        <Container>
+          <EditorialFinalCta
+            kicker="Antes de invertir"
+            title="Mapeamos contigo dónde se pierde tiempo de verdad."
+            body="30 minutos para identificar los flujos que realmente generan dolor y estimar el ROI de automatizarlos. Si no compensa, te lo decimos. Sin presión, sin marketing."
+            secondaryHref="/servicios/software-a-medida"
+            secondaryLabel="Ver software a medida"
+          />
+        </Container>
       </main>
       <Footer />
     </>

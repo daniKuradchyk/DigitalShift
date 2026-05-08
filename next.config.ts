@@ -82,6 +82,10 @@ const nextConfig = {
         headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }],
       },
       {
+        source: "/images/(.*)",
+        headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }],
+      },
+      {
         source: "/favicon(.*)",
         headers: [{ key: "Cache-Control", value: "public, max-age=2592000" }],
       },

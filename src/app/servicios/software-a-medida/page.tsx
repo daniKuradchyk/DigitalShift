@@ -1,21 +1,19 @@
 import type { Metadata } from "next";
 import Container from "@/components/common/Container";
 import FaqList from "@/components/marketing/FaqList";
-import FinalCta from "@/components/marketing/FinalCta";
 import JsonLd from "@/components/marketing/JsonLd";
-import ResourceLinks from "@/components/marketing/ResourceLinks";
-import ServicePageHero from "@/components/marketing/ServicePageHero";
-import SectionIntro from "@/components/marketing/SectionIntro";
-import ServiceCards from "@/components/marketing/ServiceCards";
+import EditorialHero from "@/components/marketing/editorial/EditorialHero";
+import EditorialSection from "@/components/marketing/editorial/EditorialSection";
 import {
-  BenefitList,
-  CaseHighlights,
-  DeliverableList,
-  FitPanels,
-  ProblemGrid,
-  ProcessTimeline,
-  ScenarioGrid,
-} from "@/components/marketing/ServiceBlocks";
+  CaseInline,
+  DecisionDuo,
+  DeliverableSheet,
+  EditorialFinalCta,
+  ProblemNarrative,
+  ProcessRail,
+  RelatedNav,
+  ScenarioRows,
+} from "@/components/marketing/editorial/EditorialBlocks";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/Header";
 import { getService } from "@/content/services";
@@ -26,28 +24,6 @@ import { absoluteUrl } from "@/lib/urls";
 export const revalidate = 86400;
 
 const service = getService("software-a-medida");
-
-/* ─── Contenido editorial único ─── */
-const decisionRows = [
-  {
-    title: "Sí merece la pena",
-    items: [
-      "El proceso es específico y da ventaja o ahorro real.",
-      "Las herramientas actuales generan retrabajo o duplicidad.",
-      "Hay necesidad de reglas de negocio, permisos o trazabilidad propia.",
-    ],
-    tone: "positive" as const,
-  },
-  {
-    title: "Probablemente no",
-    items: [
-      "Un SaaS estándar cubre bien el proceso sin fricción seria.",
-      "Todavía no existe una operativa estable que merezca sistematizar.",
-      "La empresa solo quiere una app por imagen o moda.",
-    ],
-    tone: "negative" as const,
-  },
-];
 
 export const metadata: Metadata = buildMetadata({
   title: service.metaTitle,
@@ -83,168 +59,121 @@ export default function SoftwareServicePage() {
       <JsonLd id="ld-software-faq" data={faqData} />
       <Header />
       <main id="contenido">
-        {/* ═══ HERO ═══ */}
-        <ServicePageHero
+        <EditorialHero
+          slug="software-a-medida"
           breadcrumbs={breadcrumbs}
-          eyebrow={service.eyebrow}
-          title={service.heroTitle}
-          subtitle={service.heroSubtitle}
-          panelTitle={service.heroPanelTitle}
-          panelLines={service.heroPanelLines}
-          image="/images/svc-software.png"
-          imageAlt="Desarrollo de software a medida para empresas B2B por Qubelia"
+          eyebrow="Software a medida · Ingeniería B2B"
+          title="El SaaS no encaja en tu proceso. Construimos el que sí."
+          subtitle="Herramientas internas, portales de cliente, plataformas operativas. Cuando el proceso es ventaja competitiva — no algo que un Pipedrive cualquiera resuelve — diseñamos el sistema que refleja cómo trabaja tu empresa."
+          honestyLine="Si un SaaS estándar cubre el 90% de tu proceso sin fricción seria, te lo decimos antes de cobrar la primera hora. No vendemos proyectos que no deberían existir."
+          metaPills={[
+            { label: "Primera entrega", value: "4–8 semanas" },
+            { label: "Inversión típica", value: "20–80k €" },
+            { label: "Código y datos", value: "Vuestros, siempre" },
+            { label: "Vendor lock-in", value: "Cero" },
+          ]}
         />
 
-        {/* ═══ PROBLEMAS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Problemas"
-              title="Qué resuelve de verdad este servicio"
-              description="No se trata de construir por construir. Se trata de dar soporte serio a procesos que ya están haciendo perder tiempo, control o capacidad de escalar."
-            />
-            <div className="mt-10">
-              <ProblemGrid items={service.problems} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="01"
+          eyebrow="El problema real"
+          title="No sois lentos. Es que el sistema no está hecho para vuestro proceso."
+        >
+          <ProblemNarrative
+            intro="Software a medida no se justifica con 'queremos algo nuevo'. Se justifica con dolor operativo medible: horas perdidas, errores que se repiten, datos que no cuadran. Estos son los cuatro síntomas que vemos antes de que una empresa nos llame."
+            items={service.problems}
+          />
+        </EditorialSection>
 
-        {/* ═══ DECISIÓN ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Decisión"
-              title="Cuándo compensa desarrollar a medida y cuándo no"
-              description="El mejor proyecto a veces es el que no se hace. La clave está en el peso real del proceso, el coste del parche y la necesidad de control."
-            />
-            <div className="mt-10">
-              <FitPanels
-                yes={decisionRows[0].items}
-                no={decisionRows[1].items}
-              />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="02"
+          eyebrow="Antes de empezar"
+          title="Cuándo desarrollar a medida es la respuesta — y cuándo no."
+          lead="El mejor proyecto a veces es el que no se hace. Esta es la conversación que tenemos en el diagnóstico inicial, gratuito y honesto."
+        >
+          <DecisionDuo
+            yes={[
+              "El proceso es específico y ya genera ventaja o ahorro real medible.",
+              "Las herramientas actuales obligan a parches, duplicidades o trabajo paralelo.",
+              "Necesitáis control de datos, permisos finos, trazabilidad o integraciones a medida.",
+              "Queréis una base propia que evolucione a 3–5 años, no un parche temporal.",
+            ]}
+            no={[
+              "Existe un SaaS que cubre el 90% del proceso sin fricción seria.",
+              "El problema todavía no está definido y solo se busca 'tener una app'.",
+              "No hay responsables de negocio disponibles para validar decisiones.",
+              "La necesidad es estética o de presencia, no operativa.",
+            ]}
+          />
+        </EditorialSection>
 
-        {/* ═══ ENTREGABLES ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Qué entregamos"
-              title="Qué incluye Qubelia en este servicio"
-            />
-            <div className="mt-10">
-              <DeliverableList items={service.deliverables} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="03"
+          eyebrow="Casos de uso"
+          title="Tres formas en que esto suele aterrizar."
+          lead="No empezamos con 'una app'. Empezamos con un escenario operativo concreto. Estos son los más recurrentes."
+        >
+          <ScenarioRows items={service.scenarios} />
+        </EditorialSection>
 
-        {/* ═══ ESCENARIOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Escenarios"
-              title="Casos de uso típicos"
-              description="Herramientas internas, portales, extranet, plataformas operativas o sistemas híbridos con varias áreas trabajando sobre el mismo flujo."
-            />
-            <div className="mt-10">
-              <ScenarioGrid items={service.scenarios} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="04"
+          eyebrow="Cómo trabajamos"
+          title="Primero pensar. Después construir. Sin estimaciones al aire."
+          variant="narrow"
+          lead="Cuatro fases. Cada una con un entregable concreto que podéis usar para decidir si seguimos. No hay sprint cero, ni 'fase de descubrimiento de tres meses'."
+        >
+          <ProcessRail items={service.process} />
+        </EditorialSection>
 
-        {/* ═══ PROCESO ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Proceso"
-              title="Cómo trabajamos en proyectos de software a medida"
-            />
-            <div className="mt-10">
-              <ProcessTimeline items={service.process} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="05"
+          eyebrow="Qué incluye"
+          title="Lo que entra en el alcance — y lo que sale de aquí cuando terminamos."
+        >
+          <DeliverableSheet
+            items={service.deliverables}
+            footer="Y un repositorio limpio, documentación técnica, formación de tu equipo si la queréis, y la garantía de que mañana podéis continuar con quien queráis."
+          />
+        </EditorialSection>
 
-        {/* ═══ ENCAJE Y BENEFICIOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Encaje y beneficios"
-              title="Dónde suele generar más valor este tipo de proyecto"
-            />
-            <div className="mt-10">
-              <FitPanels yes={service.fitYes} no={service.fitNo} />
-            </div>
-            <div className="mt-8">
-              <BenefitList items={service.benefits} />
-            </div>
-          </Container>
-        </section>
+        {service.caseStudyIds.length > 0 && (
+          <EditorialSection
+            marker="06"
+            eyebrow="Resultados reales"
+            title="Lo que han conseguido empresas con problemas parecidos al tuyo."
+          >
+            <CaseInline ids={service.caseStudyIds} />
+          </EditorialSection>
+        )}
 
-        {/* ═══ CASOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Casos"
-              title="Resultados relacionados con esta capa de servicio"
-            />
-            <div className="mt-10">
-              <CaseHighlights ids={service.caseStudyIds} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          id="faq"
+          marker="07"
+          eyebrow="Preguntas frecuentes"
+          title="Lo que preguntan los directivos antes de firmar."
+          variant="narrow"
+        >
+          <FaqList items={service.faqs} />
+        </EditorialSection>
 
-        {/* ═══ RECURSOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Recursos"
-              title="Contenido y herramientas relacionadas"
-            />
-            <div className="mt-10">
-              <ResourceLinks posts={service.relatedPosts} labSlugs={service.relatedLabs} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          eyebrow="Sigue por aquí"
+          title="Otros servicios que suelen ir de la mano."
+          variant="narrow"
+        >
+          <RelatedNav slugs={service.relatedServices} />
+        </EditorialSection>
 
-        {/* ═══ FAQ ═══ */}
-        <section id="faq" className="scroll-mt-28 py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="FAQ"
-              title="Preguntas frecuentes sobre software a medida"
-            />
-            <div className="mt-10 max-w-3xl">
-              <FaqList items={service.faqs} />
-            </div>
-          </Container>
-        </section>
-
-        {/* ═══ SERVICIOS RELACIONADOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Servicios relacionados"
-              title="Otras líneas que pueden complementar este servicio"
-            />
-            <div className="mt-10">
-              <ServiceCards variant="related" slugs={service.relatedServices} />
-            </div>
-          </Container>
-        </section>
-
-        {/* ═══ CTA FINAL ═══ */}
-        <section className="pb-20 pt-4">
-          <Container>
-            <FinalCta
-              title="Si el proceso importa de verdad, conviene decidir pronto qué parte merece una base propia"
-              text="Podemos revisar contigo el proceso, estimar si compensa desarrollo a medida y definir una primera fase útil sin inflar alcance."
-              secondaryHref="/servicios/automatizacion-integraciones"
-              secondaryLabel="Ver automatización e integraciones"
-            />
-          </Container>
-        </section>
+        <Container>
+          <EditorialFinalCta
+            kicker="Antes de pedir presupuesto"
+            title="Empieza por entender si esto merece construirse."
+            body="Una conversación de 30 minutos. Te decimos si tu caso entra limpio aquí, si encaja mejor con otro servicio, o si la respuesta correcta es no hacer nada todavía. Sin presión comercial."
+            secondaryHref="/servicios/automatizacion-integraciones"
+            secondaryLabel="Ver automatización"
+          />
+        </Container>
       </main>
       <Footer />
     </>

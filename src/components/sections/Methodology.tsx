@@ -212,8 +212,8 @@ export default function Methodology() {
             animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
             transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
           >
-            Del diagnóstico al{" "}
-            <span className="gradient-text-static">resultado medible</span>
+            Primero pensar.{" "}
+            <span className="gradient-text-static">Después construir</span>.
           </motion.h2>
 
           <motion.p
@@ -223,8 +223,9 @@ export default function Methodology() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.25, ease: EASE }}
           >
-            Un proceso claro en cuatro fases. Sin sorpresas, sin estimaciones al aire,
-            con entregables reales desde la primera semana.
+            Cuatro fases pensadas para empresas que ya han pagado el coste de
+            decidir rápido. Si algo no merece construirse, lo decimos antes de
+            cobrar la primera hora.
           </motion.p>
         </div>
 

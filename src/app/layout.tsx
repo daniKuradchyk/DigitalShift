@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: titleTemplate(),
   description:
-    "Qubelia desarrolla software a medida, web a medida, automatización e integraciones, y CRM o intranet a medida para empresas B2B.",
+    "Ingeniería de software, web, automatización y sistemas internos a medida para empresas B2B españolas. Con IA cuando aporta, sin IA cuando no.",
   icons: {
     icon: [
       { url: "/favicon-48.png", sizes: "48x48", type: "image/png" },
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: SITE_NAME,
     description:
-      "Software a medida, web a medida, automatización e integraciones y CRM o intranet a medida para empresas B2B.",
+      "Ingeniería B2B en España. Software, web, automatización y sistemas internos a medida — con IA cuando aporta, sin IA cuando no.",
     url: BASE_URL,
     siteName: SITE_NAME,
     images: openGraphImage(),
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SITE_NAME,
     description:
-      "Software a medida, web a medida, automatización e integraciones y CRM o intranet a medida para empresas B2B.",
+      "Ingeniería B2B en España. Software, web, automatización y sistemas internos a medida — con IA cuando aporta, sin IA cuando no.",
     images: openGraphImage(),
   },
   alternates: { canonical: BASE_URL },

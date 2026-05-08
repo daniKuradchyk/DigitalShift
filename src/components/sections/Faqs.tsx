@@ -184,8 +184,8 @@ export default function Faqs() {
             animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
             transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
           >
-            Lo que preguntáis{" "}
-            <span className="gradient-text-static">antes de empezar</span>
+            Las dudas reales,{" "}
+            <span className="gradient-text-static">sin marketing</span>.
           </motion.h2>
 
           <motion.p
@@ -195,7 +195,8 @@ export default function Faqs() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
           >
-            Respuestas directas a las dudas más comunes sobre proceso, inversión y propiedad.
+            Lo que preguntan los directivos antes de firmar. IA, presupuesto,
+            plazos, propiedad del código. Respuestas directas, no folleto.
           </motion.p>
 
           {/* Category pills */}

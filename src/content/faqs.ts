@@ -2,6 +2,20 @@ export type FaqItem = { id: string; q: string; a: string; category: string; icon
 
 export const faqItems: FaqItem[] = [
   {
+    id: "ia-postura",
+    icon: "🧭",
+    category: "IA",
+    q: "¿Sois una agencia de IA? ¿La metéis en todo?",
+    a: "No. Somos una empresa de ingeniería de software. La IA la usamos cuando ahorra horas reales (clasificación documental, extracción de datos, asistencia interna), no como argumento de venta. Si tu problema se resuelve mejor con una regla de negocio, una integración o una pantalla bien hecha, eso te proponemos. Nuestro objetivo es que dependas menos de proveedores externos, no más.",
+  },
+  {
+    id: "ia-cuando",
+    icon: "🤖",
+    category: "IA",
+    q: "¿Cuándo merece la pena meter IA en un proyecto y cuándo no?",
+    a: "Merece la pena cuando hay volumen alto de tareas con criterio repetitivo (clasificar emails, extraer datos de facturas, redactar borradores), cuando los humanos se cansan y fallan más que un modelo. No merece la pena cuando una integración o una automatización clásica es más barata, más predecible y más fácil de mantener. Lo decidimos contigo en el diagnóstico, sin venderte humo.",
+  },
+  {
     id: "coste",
     icon: "💰",
     category: "Inversión",

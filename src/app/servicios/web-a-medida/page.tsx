@@ -1,21 +1,20 @@
 import type { Metadata } from "next";
 import Container from "@/components/common/Container";
 import FaqList from "@/components/marketing/FaqList";
-import FinalCta from "@/components/marketing/FinalCta";
 import JsonLd from "@/components/marketing/JsonLd";
-import ResourceLinks from "@/components/marketing/ResourceLinks";
-import ServicePageHero from "@/components/marketing/ServicePageHero";
-import SectionIntro from "@/components/marketing/SectionIntro";
-import ServiceCards from "@/components/marketing/ServiceCards";
+import EditorialHero from "@/components/marketing/editorial/EditorialHero";
+import EditorialSection from "@/components/marketing/editorial/EditorialSection";
 import {
-  BenefitList,
-  CaseHighlights,
-  DeliverableList,
-  FitPanels,
-  ProblemGrid,
-  ProcessTimeline,
-  ScenarioGrid,
-} from "@/components/marketing/ServiceBlocks";
+  CaseInline,
+  DecisionDuo,
+  DeliverableSheet,
+  EditorialFinalCta,
+  IntegrationStrip,
+  ProblemNarrative,
+  ProcessRail,
+  RelatedNav,
+  ScenarioRows,
+} from "@/components/marketing/editorial/EditorialBlocks";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/Header";
 import { getService } from "@/content/services";
@@ -26,32 +25,6 @@ import { absoluteUrl } from "@/lib/urls";
 export const revalidate = 86400;
 
 const service = getService("web-a-medida");
-
-/* ─── Contenido editorial único ─── */
-const comparison = [
-  {
-    title: "Web low-cost",
-    text: "Sale rápido, pero suele quedarse corta en mensaje, arquitectura, rendimiento y evolución.",
-    tone: "weak" as const,
-  },
-  {
-    title: "Plantilla bien montada",
-    text: "Puede valer en algunos casos, pero arrastra límites si la web debe sostener posicionamiento, integraciones o una narrativa comercial seria.",
-    tone: "neutral" as const,
-  },
-  {
-    title: "Web a medida",
-    text: "Permite definir estructura, bloques, ritmo editorial, SEO técnico y sistema visual con criterio propio y margen de crecimiento.",
-    tone: "strong" as const,
-  },
-];
-
-const technicalFocus = [
-  "Arquitectura de páginas y enlaces internos alineada con servicios reales.",
-  "Metadata, canonical, breadcrumbs y headings limpios desde la base.",
-  "Rendimiento y estructura técnica pensados para Core Web Vitals razonables.",
-  "Tracking, formularios e integraciones montados para negocio, no como añadido al final.",
-];
 
 export const metadata: Metadata = buildMetadata({
   title: service.metaTitle,
@@ -85,192 +58,144 @@ export default function WebServicePage() {
       <JsonLd id="ld-web-faq" data={faqJsonLd(service.faqs)} />
       <Header />
       <main id="contenido">
-        {/* ═══ HERO ═══ */}
-        <ServicePageHero
+        <EditorialHero
+          slug="web-a-medida"
           breadcrumbs={breadcrumbs}
-          eyebrow={service.eyebrow}
-          title={service.heroTitle}
-          subtitle={service.heroSubtitle}
-          panelTitle={service.heroPanelTitle}
-          panelLines={service.heroPanelLines}
-          image="/images/svc-web.png"
-          imageAlt="Diseño y desarrollo web a medida para empresas B2B por Qubelia"
+          eyebrow="Web a medida · Diseño y rendimiento"
+          title="Una web que transmite el nivel real de tu empresa."
+          subtitle="Web corporativa o comercial diseñada con criterio. Estructura, rendimiento, SEO técnico base y un mensaje que explica qué hacéis sin claims vacíos. No otra plantilla maquillada con animaciones."
+          honestyLine="Si solo necesitas una landing temporal o una one-page para salir del paso, una web a medida es matar moscas a cañonazos. Te lo decimos."
+          metaPills={[
+            { label: "Core Web Vitals", value: "95+ / 100" },
+            { label: "Stack", value: "Next.js · React" },
+            { label: "Primera entrega", value: "4–6 semanas" },
+            { label: "Inversión típica", value: "8–25k €" },
+          ]}
         />
 
-        {/* ═══ PROBLEMAS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Problemas"
-              title="Qué corrige una web a medida cuando la presencia digital importa"
-              description="La web corporativa o comercial no es solo una vitrina. Si está mal planteada, debilita posicionamiento, percepción y capacidad de conversión."
-            />
-            <div className="mt-10">
-              <ProblemGrid items={service.problems} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="01"
+          eyebrow="Por qué importa"
+          title="Tu web no es lenta por casualidad. Es lenta por decisiones."
+        >
+          <ProblemNarrative
+            intro="La mayoría de webs B2B españolas fallan por las mismas cuatro razones — y ninguna se arregla cambiando la imagen del hero o pidiendo a un freelance 'que la haga más bonita'."
+            items={service.problems}
+          />
+        </EditorialSection>
 
-        {/* ═══ COMPARATIVA ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Comparativa"
-              title="Web a medida frente a plantilla o solución low-cost"
-              description="No siempre hace falta una base a medida. Pero cuando la web es una pieza comercial seria, las diferencias se vuelven estructurales."
-            />
-            <div className="mt-10 grid gap-4 lg:grid-cols-3">
-              {comparison.map((item) => (
-                <article
-                  key={item.title}
-                  className={`card-glass rounded-2xl p-6 transition-all hover:border-blue-400/25 ${
-                    item.tone === "strong" ? "border-blue-400/20 bg-blue-500/[0.04]" : ""
-                  }`}
-                >
-                  <h3 className="text-lg font-bold tracking-tight" style={{ color: "var(--text-primary)" }}>
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                    {item.text}
-                  </p>
-                </article>
-              ))}
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="02"
+          eyebrow="Decisión"
+          title="Web a medida sí. Web a medida no. Sin medias tintas."
+          lead="No siempre hace falta. Esta es la conversación honesta antes del diagnóstico."
+        >
+          <DecisionDuo
+            yes={[
+              "La web es pieza comercial real, no un folleto. Forma parte del proceso de venta.",
+              "Necesitáis posicionar en Google para términos B2B con intención de compra.",
+              "Hay integraciones, tracking o requisitos técnicos que una plantilla resuelve mal.",
+              "Queréis una base que pueda crecer: nuevos servicios, blog, landing pages, recursos.",
+            ]}
+            no={[
+              "Solo buscáis publicar algo rápido sin estrategia, presupuesto pequeño y plazo corto.",
+              "La empresa todavía no tiene claro qué vende, a quién y con qué prioridad.",
+              "No vais a cuidar el contenido ni revisar la captación después del lanzamiento.",
+              "Una one-page o un Webflow temporal cubre lo que necesitáis ahora mismo.",
+            ]}
+          />
+        </EditorialSection>
 
-        {/* ═══ ENTREGABLES ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Qué entregamos"
-              title="Qué entrega exactamente Qubelia en este servicio"
-            />
-            <div className="mt-10">
-              <DeliverableList items={service.deliverables} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="03"
+          eyebrow="Foco técnico"
+          title="Lo que sí montamos desde el día uno — no como añadido al final."
+          lead="Estos son los elementos que diferencian una web que posiciona y convierte de una que solo se ve. Todos forman parte del alcance estándar."
+        >
+          <IntegrationStrip
+            items={[
+              "Next.js 15 · App Router",
+              "Schema.org · structured data",
+              "Sitemap.xml · robots.txt",
+              "Open Graph · Twitter cards",
+              "Core Web Vitals 95+",
+              "Tracking · GA4 / GTM",
+              "CMS opcional",
+              "Imágenes responsive · AVIF",
+              "Lazy-loading · prefetch",
+              "Internacionalización · i18n",
+              "Accesibilidad · WCAG AA",
+              "Lighthouse CI",
+            ]}
+          />
+        </EditorialSection>
 
-        {/* ═══ FOCO TÉCNICO ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Foco técnico"
-              title="Rendimiento, SEO técnico base y conversión desde el principio"
-              description="La base técnica importa porque condiciona cómo se posiciona la web, cómo se mantiene y cómo se mide lo que está funcionando."
-            />
-            <div className="mt-10">
-              <DeliverableList items={technicalFocus} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="04"
+          eyebrow="Casos típicos"
+          title="Tres formas en que esto suele aterrizar."
+        >
+          <ScenarioRows items={service.scenarios} />
+        </EditorialSection>
 
-        {/* ═══ ESCENARIOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Escenarios"
-              title="Dónde suele encajar mejor una web a medida"
-            />
-            <div className="mt-10">
-              <ScenarioGrid items={service.scenarios} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="05"
+          eyebrow="Cómo trabajamos"
+          title="Estructura primero. Diseño después. Código al final."
+          variant="narrow"
+          lead="Cuatro fases con entregables concretos. Antes de escribir una línea de código, validamos arquitectura, mensaje y bloques contigo."
+        >
+          <ProcessRail items={service.process} />
+        </EditorialSection>
 
-        {/* ═══ PROCESO ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Proceso"
-              title="Cómo trabajamos este tipo de proyecto"
-            />
-            <div className="mt-10">
-              <ProcessTimeline items={service.process} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          marker="06"
+          eyebrow="Qué incluye"
+          title="Lo que sale de aquí cuando terminamos."
+        >
+          <DeliverableSheet
+            items={service.deliverables}
+            footer="Y un repositorio en GitHub, despliegue continuo configurado, documentación de cómo añadir páginas y recursos, y la garantía de que cualquier desarrollador puede continuar el trabajo mañana."
+          />
+        </EditorialSection>
 
-        {/* ═══ ENCAJE Y BENEFICIOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Encaje y beneficios"
-              title="Cuándo sí compensa y qué deberías notar después"
-            />
-            <div className="mt-10">
-              <FitPanels yes={service.fitYes} no={service.fitNo} />
-            </div>
-            <div className="mt-8">
-              <BenefitList items={service.benefits} />
-            </div>
-          </Container>
-        </section>
+        {service.caseStudyIds.length > 0 && (
+          <EditorialSection
+            marker="07"
+            eyebrow="Resultados reales"
+            title="Lo que han conseguido empresas en situaciones parecidas."
+          >
+            <CaseInline ids={service.caseStudyIds} />
+          </EditorialSection>
+        )}
 
-        {/* ═══ CASOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Casos"
-              title="Resultado relacionado con este servicio"
-            />
-            <div className="mt-10">
-              <CaseHighlights ids={service.caseStudyIds} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          id="faq"
+          marker="08"
+          eyebrow="Preguntas frecuentes"
+          title="Lo que se pregunta antes de firmar."
+          variant="narrow"
+        >
+          <FaqList items={service.faqs} />
+        </EditorialSection>
 
-        {/* ═══ RECURSOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Recursos"
-              title="Guías y herramientas relacionadas"
-            />
-            <div className="mt-10">
-              <ResourceLinks posts={service.relatedPosts} labSlugs={service.relatedLabs} />
-            </div>
-          </Container>
-        </section>
+        <EditorialSection
+          eyebrow="Sigue por aquí"
+          title="Otros servicios que suelen ir de la mano."
+          variant="narrow"
+        >
+          <RelatedNav slugs={service.relatedServices} />
+        </EditorialSection>
 
-        {/* ═══ FAQ ═══ */}
-        <section id="faq" className="scroll-mt-28 py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="FAQ"
-              title="Preguntas frecuentes sobre web a medida"
-            />
-            <div className="mt-10 max-w-3xl">
-              <FaqList items={service.faqs} />
-            </div>
-          </Container>
-        </section>
-
-        {/* ═══ SERVICIOS RELACIONADOS ═══ */}
-        <section className="py-16 sm:py-20">
-          <Container>
-            <SectionIntro
-              eyebrow="Servicios relacionados"
-              title="Otras líneas que pueden complementar este servicio"
-            />
-            <div className="mt-10">
-              <ServiceCards variant="related" slugs={service.relatedServices} />
-            </div>
-          </Container>
-        </section>
-
-        {/* ═══ CTA FINAL ═══ */}
-        <section className="pb-20 pt-4">
-          <Container>
-            <FinalCta
-              title="Si la web forma parte del negocio, conviene tratarla como una pieza de negocio"
-              text="Podemos revisar estructura, mensaje, SEO técnico base e integraciones para definir una web a medida que sirva a posicionamiento y captación."
-              secondaryHref="/servicios/software-a-medida"
-              secondaryLabel="Ver software a medida"
-            />
-          </Container>
-        </section>
+        <Container>
+          <EditorialFinalCta
+            kicker="Antes de pedir presupuesto"
+            title="Empieza por revisar tu web actual."
+            body="30 minutos para auditar estructura, mensaje, SEO técnico y conversión. Te decimos qué se puede arreglar sin rehacer y cuándo merece la pena empezar de cero. Honesto, sin presión."
+            secondaryHref="/servicios/software-a-medida"
+            secondaryLabel="Ver software a medida"
+          />
+        </Container>
       </main>
       <Footer />
     </>
