@@ -1,17 +1,8 @@
-"use client";
-
-import { motion } from "framer-motion";
 import type { ServiceSlug } from "@/content/services";
 
-const EASE = [0.16, 1, 0.3, 1] as const;
-
 /**
- * HeroSignature: visual signature CSS-puro propio de cada servicio.
- * Sustituye las ilustraciones blob genéricas por un detalle editorial
- * que demuestra sustancia técnica sin parecer plantilla.
- *
- * Cada slug renderiza una composición distinta — no es la misma
- * imagen rotada con otro título.
+ * HeroSignature: Server Component. Visual signature por servicio.
+ * Cada slug renderiza una composición distinta. Anim. via CSS.
  */
 export default function HeroSignature({ slug }: { slug: ServiceSlug }) {
   switch (slug) {
@@ -29,7 +20,7 @@ export default function HeroSignature({ slug }: { slug: ServiceSlug }) {
 }
 
 /* ────────────────────────────────────────────────────────────────
-   SOFTWARE — fragmento de typedef como prueba de criterio técnico
+   SOFTWARE — fragmento de typedef
    ──────────────────────────────────────────────────────────────── */
 function SoftwareSignature() {
   const lines: Array<{ k: string; v: string; comment?: string }> = [
@@ -51,12 +42,10 @@ function SoftwareSignature() {
           <span className="text-blue-400/60">{"{"}</span>
         </div>
         {lines.map((l, i) => (
-          <motion.div
+          <div
             key={l.k}
-            className="pl-4"
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.5 + i * 0.08, ease: EASE }}
+            className="pl-4 animate-fade-right"
+            style={{ animationDelay: `${500 + i * 80}ms` }}
           >
             <span style={{ color: "var(--text-secondary)" }}>{l.k}</span>
             <span className="text-blue-400/60">: </span>
@@ -65,7 +54,7 @@ function SoftwareSignature() {
             {l.comment && (
               <span className="text-blue-300/30 ml-3">{l.comment}</span>
             )}
-          </motion.div>
+          </div>
         ))}
         <div className="text-blue-400/60">{"}"}</div>
       </div>
@@ -74,41 +63,39 @@ function SoftwareSignature() {
 }
 
 /* ────────────────────────────────────────────────────────────────
-   WEB — panel de Core Web Vitals reales
+   WEB — panel Core Web Vitals
    ──────────────────────────────────────────────────────────────── */
 function WebSignature() {
   const metrics = [
-    { name: "LCP",  value: "1.2s",  bar: 95, target: "< 2.5s" },
-    { name: "INP",  value: "98ms",  bar: 92, target: "< 200ms" },
-    { name: "CLS",  value: "0.02",  bar: 98, target: "< 0.1" },
-    { name: "TTFB", value: "180ms", bar: 90, target: "< 800ms" },
+    { name: "LCP",  value: "1.2s",  bar: 95 },
+    { name: "INP",  value: "98ms",  bar: 92 },
+    { name: "CLS",  value: "0.02",  bar: 98 },
+    { name: "TTFB", value: "180ms", bar: 90 },
   ];
 
   return (
     <SignatureFrame label="lighthouse.report">
       <div className="space-y-3.5">
         {metrics.map((m, i) => (
-          <motion.div
+          <div
             key={m.name}
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.4 + i * 0.1, ease: EASE }}
-            className="grid grid-cols-[60px_1fr_auto] items-center gap-3 text-[12px] sm:text-[13px]"
+            className="grid grid-cols-[60px_1fr_auto] items-center gap-3 text-[12px] sm:text-[13px] animate-fade-right"
+            style={{ animationDelay: `${400 + i * 100}ms` }}
           >
             <span className="font-mono font-bold text-blue-300">{m.name}</span>
             <div className="h-1.5 bg-blue-500/10 rounded-full overflow-hidden">
-              <motion.div
-                className="h-full rounded-full"
+              <div
+                className="h-full rounded-full bar-grow"
                 style={{
-                  background: `linear-gradient(90deg, rgba(91,141,239,0.7), rgba(91,141,239,0.4))`,
+                  background:
+                    "linear-gradient(90deg, rgba(91,141,239,0.7), rgba(91,141,239,0.4))",
+                  ["--bar-w" as never]: `${m.bar}%`,
+                  animationDelay: `${500 + i * 100}ms`,
                 }}
-                initial={{ width: 0 }}
-                animate={{ width: `${m.bar}%` }}
-                transition={{ duration: 1.2, delay: 0.5 + i * 0.1, ease: EASE }}
               />
             </div>
             <span className="font-mono text-blue-200/80 tabular-nums">{m.value}</span>
-          </motion.div>
+          </div>
         ))}
         <div className="pt-2 mt-3 border-t border-blue-500/10 flex justify-between text-[10px] uppercase tracking-[0.18em] font-mono">
           <span style={{ color: "var(--text-muted)" }}>Performance</span>
@@ -120,42 +107,29 @@ function WebSignature() {
 }
 
 /* ────────────────────────────────────────────────────────────────
-   AUTOMATIZACIÓN — diagrama de flujo horizontal
+   AUTOMATIZACIÓN — diagrama
    ──────────────────────────────────────────────────────────────── */
 function AutomationSignature() {
   return (
     <SignatureFrame label="flow.diagram">
       <div className="font-mono text-[11px] sm:text-[12px]">
-        {/* Top row */}
         <div className="grid grid-cols-3 gap-2 items-center">
-          <FlowBox label="CRM" sub="HubSpot" delay={0.4} />
-          <FlowConnector delay={0.55} />
-          <FlowBox label="ERP" sub="SAP" delay={0.7} accent />
+          <FlowBox label="CRM" sub="HubSpot" delay={400} />
+          <FlowConnector delay={550} />
+          <FlowBox label="ERP" sub="SAP" delay={700} accent />
         </div>
 
-        {/* Middle (down arrow from CRM) */}
-        <motion.div
-          className="flex items-center gap-2 mt-3 pl-[8%]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.85 }}
-        >
+        <div className="flex items-center gap-2 mt-3 pl-[8%] animate-fade-up" style={{ animationDelay: "850ms" }}>
           <div
             className="w-px h-5 ml-3"
             style={{ background: "linear-gradient(to bottom, rgba(91,141,239,0.5), rgba(91,141,239,0.2))" }}
           />
-        </motion.div>
+        </div>
 
-        {/* Side branches */}
-        <motion.div
-          className="grid grid-cols-2 gap-3 mt-1 pl-[8%]"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 1.0 }}
-        >
-          <FlowBox label="Email" sub="postmark" small delay={1.1} />
-          <FlowBox label="Logs" sub="alertas" small delay={1.2} />
-        </motion.div>
+        <div className="grid grid-cols-2 gap-3 mt-1 pl-[8%] animate-fade-up" style={{ animationDelay: "1000ms" }}>
+          <FlowBox label="Email" sub="postmark" small delay={1100} />
+          <FlowBox label="Logs" sub="alertas" small delay={1200} />
+        </div>
 
         <div className="pt-4 mt-4 border-t border-blue-500/10 flex justify-between text-[10px] uppercase tracking-[0.18em]">
           <span style={{ color: "var(--text-muted)" }}>Reintentos</span>
@@ -180,18 +154,12 @@ function FlowBox({
   accent?: boolean;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.4, delay, ease: EASE }}
-      className={`relative rounded border ${small ? "px-2 py-1.5" : "px-3 py-2.5"}`}
+    <div
+      className={`relative rounded border animate-scale-in ${small ? "px-2 py-1.5" : "px-3 py-2.5"}`}
       style={{
-        background: accent
-          ? "rgba(91,141,239,0.12)"
-          : "rgba(91,141,239,0.05)",
-        borderColor: accent
-          ? "rgba(91,141,239,0.35)"
-          : "rgba(91,141,239,0.18)",
+        background: accent ? "rgba(91,141,239,0.12)" : "rgba(91,141,239,0.05)",
+        borderColor: accent ? "rgba(91,141,239,0.35)" : "rgba(91,141,239,0.18)",
+        animationDelay: `${delay}ms`,
       }}
     >
       <div
@@ -206,20 +174,19 @@ function FlowBox({
       >
         {sub}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 function FlowConnector({ delay = 0 }: { delay?: number }) {
   return (
-    <motion.div
-      className="relative h-px"
+    <div
+      className="relative h-px line-grow"
       style={{
-        background: "linear-gradient(90deg, rgba(91,141,239,0.3), rgba(91,141,239,0.6), rgba(91,141,239,0.3))",
+        background:
+          "linear-gradient(90deg, rgba(91,141,239,0.3), rgba(91,141,239,0.6), rgba(91,141,239,0.3))",
+        animationDelay: `${delay}ms`,
       }}
-      initial={{ scaleX: 0 }}
-      animate={{ scaleX: 1 }}
-      transition={{ duration: 0.6, delay }}
     >
       <span
         className="absolute right-0 top-1/2 -translate-y-1/2 text-blue-300/80 text-xs"
@@ -227,7 +194,7 @@ function FlowConnector({ delay = 0 }: { delay?: number }) {
       >
         ›
       </span>
-    </motion.div>
+    </div>
   );
 }
 
@@ -246,7 +213,6 @@ function CrmSignature() {
   return (
     <SignatureFrame label="roles.matrix">
       <div className="font-mono text-[11px] sm:text-[12px]">
-        {/* Header */}
         <div className="grid grid-cols-[80px_repeat(5,1fr)] gap-1 mb-2 pb-2 border-b border-blue-500/10">
           <span></span>
           {cols.map((c) => (
@@ -261,37 +227,26 @@ function CrmSignature() {
         </div>
 
         {rows.map((r, ri) => (
-          <motion.div
+          <div
             key={r.rol}
-            className="grid grid-cols-[80px_repeat(5,1fr)] gap-1 items-center py-1.5"
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: 0.4 + ri * 0.1, ease: EASE }}
+            className="grid grid-cols-[80px_repeat(5,1fr)] gap-1 items-center py-1.5 animate-fade-right"
+            style={{ animationDelay: `${400 + ri * 100}ms` }}
           >
-            <span
-              className="font-bold"
-              style={{ color: "var(--text-secondary)" }}
-            >
+            <span className="font-bold" style={{ color: "var(--text-secondary)" }}>
               {r.rol}
             </span>
             {r.perms.map((p, ci) => (
-              <span
-                key={ci}
-                className="flex justify-center"
-                aria-hidden
-              >
+              <span key={ci} className="flex justify-center" aria-hidden>
                 <span
                   className="block w-2 h-2 rounded-full"
                   style={{
-                    background: p
-                      ? "rgb(91,141,239)"
-                      : "rgba(91,141,239,0.12)",
+                    background: p ? "rgb(91,141,239)" : "rgba(91,141,239,0.12)",
                     boxShadow: p ? "0 0 8px rgba(91,141,239,0.5)" : undefined,
                   }}
                 />
               </span>
             ))}
-          </motion.div>
+          </div>
         ))}
 
         <div className="pt-2 mt-2 border-t border-blue-500/10 flex justify-between text-[10px] uppercase tracking-[0.18em]">
@@ -304,7 +259,7 @@ function CrmSignature() {
 }
 
 /* ────────────────────────────────────────────────────────────────
-   FRAME — wrapper común para dar identidad de "ficha técnica"
+   FRAME
    ──────────────────────────────────────────────────────────────── */
 function SignatureFrame({
   label,
@@ -314,18 +269,15 @@ function SignatureFrame({
   children: React.ReactNode;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
-      className="relative w-full max-w-md rounded-xl border overflow-hidden"
+    <div
+      className="relative w-full max-w-md rounded-xl border overflow-hidden animate-fade-up"
       style={{
         background:
           "linear-gradient(160deg, rgba(10,17,40,0.7) 0%, rgba(6,11,26,0.95) 100%)",
         borderColor: "rgba(65,105,225,0.18)",
+        animationDelay: "200ms",
       }}
     >
-      {/* Top accent line */}
       <div
         className="h-px"
         style={{
@@ -334,7 +286,6 @@ function SignatureFrame({
         }}
       />
 
-      {/* Pseudo-titlebar */}
       <div className="flex items-center gap-2 px-4 py-2.5 border-b border-blue-500/10">
         <span className="flex gap-1.5">
           <span className="w-2 h-2 rounded-full bg-blue-400/30" />
@@ -349,10 +300,8 @@ function SignatureFrame({
         </span>
       </div>
 
-      {/* Body */}
       <div className="p-5 sm:p-6">{children}</div>
 
-      {/* Subtle inner glow */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -361,6 +310,6 @@ function SignatureFrame({
         }}
         aria-hidden
       />
-    </motion.div>
+    </div>
   );
 }

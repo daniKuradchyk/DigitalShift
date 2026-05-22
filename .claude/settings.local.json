@@ -9,7 +9,8 @@
       "Bash(npx next:*)",
       "Read(//c/Users/DANIIL KURADCHIK/.claude/projects/c--Users-DANIIL-KURADCHIK-Documents-DigitalShift/memory/**)",
       "Bash(npx tsc *)",
-      "Bash(echo \"exit=$?\")"
+      "Bash(echo \"exit=$?\")",
+      "Bash(npx --no-install tsc --noEmit)"
     ],
     "additionalDirectories": [
       "c:\\Users\\DANIIL KURADCHIK\\.claude\\projects\\c--Users-DANIIL-KURADCHIK-Documents-DigitalShift\\memory"

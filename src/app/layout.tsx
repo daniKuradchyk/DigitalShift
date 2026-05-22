@@ -1,15 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import GoogleTagManagerLoader from "@/components/analytics/GoogleTagManagerLoader";
 import LazyBackground from "@/components/common/LazyBackground";
-import CookieBanner from "@/components/cookies/CookieBanner";
+import LazyCookieBanner from "@/components/cookies/LazyCookieBanner";
 import { CookieConsentProvider } from "@/components/cookies/CookieConsentProvider";
 import { organizationJsonLd, professionalServiceJsonLd, websiteJsonLd } from "@/lib/jsonld";
 import { BASE_URL, SITE_NAME, SITE_TAGLINE, openGraphImage, titleTemplate } from "@/lib/seo";
 import "./globals.css";
 
-const geist = Geist({ subsets: ["latin"], display: "swap", variable: "--font-geist" });
-const geistMono = Geist_Mono({ subsets: ["latin"], display: "swap", variable: "--font-geist-mono" });
+const geist = Geist({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-geist",
+  preload: true,
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -78,7 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const site = websiteJsonLd({ name: `${SITE_NAME} | ${SITE_TAGLINE}`, url: BASE_URL });
 
   return (
-    <html lang="es" className={`dark ${geist.variable} ${geistMono.variable}`}>
+    <html lang="es" className={`dark ${geist.variable}`}>
       <head>
         <meta name="color-scheme" content="dark" />
         <meta name="theme-color" content="#060B1A" />
@@ -95,7 +99,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             Saltar al contenido
           </a>
           {children}
-          <CookieBanner />
+          <LazyCookieBanner />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalService) }} />
           <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(site) }} />

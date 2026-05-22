@@ -15,6 +15,11 @@ import {
   RelatedNav,
   ScenarioRows,
 } from "@/components/marketing/editorial/EditorialBlocks";
+import {
+  AutomationAiHonestStance,
+  AutomationBeforeAfter,
+  AutomationRoiPanel,
+} from "@/components/marketing/services/AutomationBlocks";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/Header";
 import { getService } from "@/content/services";
@@ -73,8 +78,19 @@ export default function AutomationServicePage() {
           ]}
         />
 
+        {/* ── 01 · Before / After (signature único) ── */}
         <EditorialSection
           marker="01"
+          eyebrow="Antes vs después"
+          title="El mismo flujo, doce minutos contra seis segundos."
+          lead="Una secuencia operativa típica de captación. Antes corre con manos. Después corre sola, deja logs, se reintenta si falla, y entrega métrica."
+        >
+          <AutomationBeforeAfter />
+        </EditorialSection>
+
+        {/* ── 02 · Síntomas / problemas ── */}
+        <EditorialSection
+          marker="02"
           eyebrow="Síntomas"
           title="Si te resulta familiar, llevas perdiendo tiempo desde hace meses."
         >
@@ -84,16 +100,28 @@ export default function AutomationServicePage() {
           />
         </EditorialSection>
 
+        {/* ── 03 · ROI panel ── */}
         <EditorialSection
-          marker="02"
+          marker="03"
+          eyebrow="ROI medible"
+          title="Lo que recuperáis al mes — no proyecciones, números reales."
+          lead="Cuatro automatizaciones que solemos montar primero, con su coste manual antes y su coste automatizado después. Sumadas, suelen superar las 70 horas/mes."
+        >
+          <AutomationRoiPanel />
+        </EditorialSection>
+
+        {/* ── 04 · Casos típicos ── */}
+        <EditorialSection
+          marker="04"
           eyebrow="Casos típicos"
           title="Las tres formas más comunes en que esto aterriza."
         >
           <ScenarioRows items={service.scenarios} />
         </EditorialSection>
 
+        {/* ── 05 · Lo que conectamos (tags) ── */}
         <EditorialSection
-          marker="03"
+          marker="05"
           eyebrow="Lo que conectamos"
           title="Sistemas, datos y eventos que viajan entre herramientas — bien."
           lead="No es 'usamos n8n'. La clave es el diseño del flujo, las reglas de sincronización, el manejo de errores y el mantenimiento. Estas son las piezas que solemos tocar."
@@ -116,8 +144,9 @@ export default function AutomationServicePage() {
           />
         </EditorialSection>
 
+        {/* ── 06 · Decisión ── */}
         <EditorialSection
-          marker="04"
+          marker="06"
           eyebrow="Decisión"
           title="Cuándo automatizar — y cuándo es matar moscas a cañonazos."
           lead="No todo problema operativo se arregla con un flujo. A veces es un proceso mal definido, no una herramienta mal conectada."
@@ -138,8 +167,19 @@ export default function AutomationServicePage() {
           />
         </EditorialSection>
 
+        {/* ── 07 · IA honest stance (más rica) ── */}
         <EditorialSection
-          marker="05"
+          marker="07"
+          eyebrow="La IA, sin marketing"
+          title="La metemos cuando ahorra horas. No para tener algo que vender."
+          lead="Aquí dejamos por escrito dónde la IA aporta y dónde es ruido. Esta página es honesta porque queremos clientes que sepan dónde están entrando."
+        >
+          <AutomationAiHonestStance />
+        </EditorialSection>
+
+        {/* ── 08 · Proceso ── */}
+        <EditorialSection
+          marker="08"
           eyebrow="Cómo trabajamos"
           title="Mapa primero. Construcción después. Observabilidad siempre."
           variant="narrow"
@@ -148,8 +188,9 @@ export default function AutomationServicePage() {
           <ProcessRail items={service.process} />
         </EditorialSection>
 
+        {/* ── 09 · Entregables ── */}
         <EditorialSection
-          marker="06"
+          marker="09"
           eyebrow="Qué entregamos"
           title="Lo que se queda en producción cuando terminamos."
         >
@@ -159,67 +200,9 @@ export default function AutomationServicePage() {
           />
         </EditorialSection>
 
-        <EditorialSection
-          marker="07"
-          eyebrow="La IA, sin marketing"
-          title="La metemos cuando ahorra horas. No para tener algo que vender."
-          variant="narrow"
-          lead="Aquí dejamos por escrito dónde la IA aporta y dónde es ruido. Esta página es honesta porque queremos clientes que sepan dónde están entrando."
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-            <div
-              className="rounded-xl border p-6"
-              style={{
-                background: "rgba(91,141,239,0.04)",
-                borderColor: "rgba(91,141,239,0.2)",
-              }}
-            >
-              <p
-                className="font-mono text-[11px] uppercase tracking-[0.2em] mb-4"
-                style={{ color: "var(--accent-light)" }}
-              >
-                ✓ Sí encaja
-              </p>
-              <ul
-                className="space-y-3 text-[15px] leading-relaxed"
-                style={{ color: "var(--text-secondary)" }}
-              >
-                <li>· Clasificación masiva de emails, tickets o documentos.</li>
-                <li>· Extracción de datos de facturas, contratos o PDFs estructurados.</li>
-                <li>· OCR + validación contra reglas de negocio.</li>
-                <li>· Resumen automático de actas o conversaciones largas.</li>
-                <li>· Asistencia interna a equipos sobre conocimiento propio.</li>
-              </ul>
-            </div>
-            <div
-              className="rounded-xl border p-6"
-              style={{
-                background: "rgba(173,193,255,0.02)",
-                borderColor: "rgba(173,193,255,0.12)",
-              }}
-            >
-              <p
-                className="font-mono text-[11px] uppercase tracking-[0.2em] mb-4"
-                style={{ color: "var(--text-muted)" }}
-              >
-                × Mejor no
-              </p>
-              <ul
-                className="space-y-3 text-[15px] leading-relaxed"
-                style={{ color: "var(--text-muted)" }}
-              >
-                <li>· Reglas claras y deterministas: una API o un if/else basta.</li>
-                <li>· Datos críticos sin posibilidad de error: la IA aún se equivoca.</li>
-                <li>· Volumen bajo: el coste por llamada no compensa.</li>
-                <li>· &quot;Para impresionar al consejo&quot;: eso no es un caso de uso.</li>
-              </ul>
-            </div>
-          </div>
-        </EditorialSection>
-
         {service.caseStudyIds.length > 0 && (
           <EditorialSection
-            marker="08"
+            marker="10"
             eyebrow="Resultados reales"
             title="Horas recuperadas, errores eliminados, datos consistentes."
           >
@@ -229,7 +212,7 @@ export default function AutomationServicePage() {
 
         <EditorialSection
           id="faq"
-          marker="09"
+          marker="11"
           eyebrow="Preguntas frecuentes"
           title="Lo que se pregunta antes de empezar."
           variant="narrow"

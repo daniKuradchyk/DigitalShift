@@ -9,12 +9,17 @@ import {
   DecisionDuo,
   DeliverableSheet,
   EditorialFinalCta,
-  IntegrationStrip,
   ProblemNarrative,
   ProcessRail,
   RelatedNav,
   ScenarioRows,
 } from "@/components/marketing/editorial/EditorialBlocks";
+import {
+  WebLighthousePanel,
+  WebSeoChecklist,
+  WebStackSnapshot,
+  WebVsTemplate,
+} from "@/components/marketing/services/WebBlocks";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/Header";
 import { getService } from "@/content/services";
@@ -73,8 +78,19 @@ export default function WebServicePage() {
           ]}
         />
 
+        {/* ── 01 · Performance como diferenciador (signature único de Web) ── */}
         <EditorialSection
           marker="01"
+          eyebrow="Lo que se mide, posiciona"
+          title="Core Web Vitals reales — no promesas de plantilla."
+          lead="Estos son los números que Google evalúa para decidir si tu web aparece. Una web a medida los respeta desde el primer día; una plantilla con plugins suele fallarlos todos."
+        >
+          <WebLighthousePanel />
+        </EditorialSection>
+
+        {/* ── 02 · Problemas ── */}
+        <EditorialSection
+          marker="02"
           eyebrow="Por qué importa"
           title="Tu web no es lenta por casualidad. Es lenta por decisiones."
         >
@@ -84,8 +100,19 @@ export default function WebServicePage() {
           />
         </EditorialSection>
 
+        {/* ── 03 · Comparativa contra plantilla / WP ── */}
         <EditorialSection
-          marker="02"
+          marker="03"
+          eyebrow="A medida vs plantilla"
+          title="La diferencia no es estética. Es lo que pasa al año."
+          lead="Una plantilla aguanta tres meses. Después llegan los plugins, los parches, los plugins que rompen plugins y la migración que cuesta más que haberlo hecho bien desde el principio."
+        >
+          <WebVsTemplate />
+        </EditorialSection>
+
+        {/* ── 04 · Decisión sí/no ── */}
+        <EditorialSection
+          marker="04"
           eyebrow="Decisión"
           title="Web a medida sí. Web a medida no. Sin medias tintas."
           lead="No siempre hace falta. Esta es la conversación honesta antes del diagnóstico."
@@ -106,40 +133,38 @@ export default function WebServicePage() {
           />
         </EditorialSection>
 
+        {/* ── 05 · Stack técnico ── */}
         <EditorialSection
-          marker="03"
+          marker="05"
           eyebrow="Foco técnico"
-          title="Lo que sí montamos desde el día uno — no como añadido al final."
-          lead="Estos son los elementos que diferencian una web que posiciona y convierte de una que solo se ve. Todos forman parte del alcance estándar."
+          title="Lo que montamos desde el día uno — no como añadido al final."
+          lead="Estos no son extras. Son la base que diferencia una web que posiciona y convierte de una que solo se ve."
         >
-          <IntegrationStrip
-            items={[
-              "Next.js 15 · App Router",
-              "Schema.org · structured data",
-              "Sitemap.xml · robots.txt",
-              "Open Graph · Twitter cards",
-              "Core Web Vitals 95+",
-              "Tracking · GA4 / GTM",
-              "CMS opcional",
-              "Imágenes responsive · AVIF",
-              "Lazy-loading · prefetch",
-              "Internacionalización · i18n",
-              "Accesibilidad · WCAG AA",
-              "Lighthouse CI",
-            ]}
-          />
+          <WebStackSnapshot />
         </EditorialSection>
 
+        {/* ── 06 · SEO técnico checklist ── */}
         <EditorialSection
-          marker="04"
+          marker="06"
+          eyebrow="SEO técnico"
+          title="Diez puntos que decide Google — y que nadie audita."
+          lead="Esto no lo hace un plugin. Lo hace la arquitectura del proyecto. Una web a medida los cumple por construcción, no por configuración posterior."
+        >
+          <WebSeoChecklist />
+        </EditorialSection>
+
+        {/* ── 07 · Casos típicos ── */}
+        <EditorialSection
+          marker="07"
           eyebrow="Casos típicos"
           title="Tres formas en que esto suele aterrizar."
         >
           <ScenarioRows items={service.scenarios} />
         </EditorialSection>
 
+        {/* ── 08 · Proceso ── */}
         <EditorialSection
-          marker="05"
+          marker="08"
           eyebrow="Cómo trabajamos"
           title="Estructura primero. Diseño después. Código al final."
           variant="narrow"
@@ -148,8 +173,9 @@ export default function WebServicePage() {
           <ProcessRail items={service.process} />
         </EditorialSection>
 
+        {/* ── 09 · Entregables ── */}
         <EditorialSection
-          marker="06"
+          marker="09"
           eyebrow="Qué incluye"
           title="Lo que sale de aquí cuando terminamos."
         >
@@ -161,7 +187,7 @@ export default function WebServicePage() {
 
         {service.caseStudyIds.length > 0 && (
           <EditorialSection
-            marker="07"
+            marker="10"
             eyebrow="Resultados reales"
             title="Lo que han conseguido empresas en situaciones parecidas."
           >
@@ -171,7 +197,7 @@ export default function WebServicePage() {
 
         <EditorialSection
           id="faq"
-          marker="08"
+          marker="11"
           eyebrow="Preguntas frecuentes"
           title="Lo que se pregunta antes de firmar."
           variant="narrow"

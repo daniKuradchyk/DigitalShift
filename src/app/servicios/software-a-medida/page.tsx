@@ -14,6 +14,12 @@ import {
   RelatedNav,
   ScenarioRows,
 } from "@/components/marketing/editorial/EditorialBlocks";
+import {
+  SoftwareArchitecture,
+  SoftwareCodeExample,
+  SoftwareNumbers,
+  SoftwareSaasVsCustom,
+} from "@/components/marketing/services/SoftwareBlocks";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/Header";
 import { getService } from "@/content/services";
@@ -74,8 +80,18 @@ export default function SoftwareServicePage() {
           ]}
         />
 
+        {/* ── 01 · Números clave por delante ── */}
         <EditorialSection
           marker="01"
+          eyebrow="Inversión y entrega"
+          title="Tres números antes de seguir leyendo."
+        >
+          <SoftwareNumbers />
+        </EditorialSection>
+
+        {/* ── 02 · Problemas reales ── */}
+        <EditorialSection
+          marker="02"
           eyebrow="El problema real"
           title="No sois lentos. Es que el sistema no está hecho para vuestro proceso."
         >
@@ -85,8 +101,38 @@ export default function SoftwareServicePage() {
           />
         </EditorialSection>
 
+        {/* ── 03 · SaaS vs Custom — matriz profunda ── */}
         <EditorialSection
-          marker="02"
+          marker="03"
+          eyebrow="SaaS vs a medida"
+          title="La decisión que cuesta 5 años, no 5 meses."
+          lead="Comparar plantilla con vendor lock-in vs. propiedad real del código. Para algunos casos, SaaS es lo correcto. Para otros, es una losa que ya no podéis quitar."
+        >
+          <SoftwareSaasVsCustom />
+        </EditorialSection>
+
+        {/* ── 04 · Arquitectura en capas (signature único) ── */}
+        <EditorialSection
+          marker="04"
+          eyebrow="Cómo lo construimos"
+          title="Cuatro capas con responsabilidades claras."
+          lead="No es 'una app'. Es una arquitectura tipada con frontera de dominio. Cada capa tiene una responsabilidad — y eso es lo que permite cambiar reglas sin romper el sistema entero."
+        >
+          <SoftwareArchitecture />
+        </EditorialSection>
+
+        {/* ── 05 · Código real ── */}
+        <EditorialSection
+          marker="05"
+          eyebrow="Cómo se ve por dentro"
+          title="La regla de negocio se lee, no se adivina."
+        >
+          <SoftwareCodeExample />
+        </EditorialSection>
+
+        {/* ── 06 · Decisión sí/no ── */}
+        <EditorialSection
+          marker="06"
           eyebrow="Antes de empezar"
           title="Cuándo desarrollar a medida es la respuesta — y cuándo no."
           lead="El mejor proyecto a veces es el que no se hace. Esta es la conversación que tenemos en el diagnóstico inicial, gratuito y honesto."
@@ -107,8 +153,9 @@ export default function SoftwareServicePage() {
           />
         </EditorialSection>
 
+        {/* ── 07 · Escenarios ── */}
         <EditorialSection
-          marker="03"
+          marker="07"
           eyebrow="Casos de uso"
           title="Tres formas en que esto suele aterrizar."
           lead="No empezamos con 'una app'. Empezamos con un escenario operativo concreto. Estos son los más recurrentes."
@@ -116,8 +163,9 @@ export default function SoftwareServicePage() {
           <ScenarioRows items={service.scenarios} />
         </EditorialSection>
 
+        {/* ── 08 · Proceso ── */}
         <EditorialSection
-          marker="04"
+          marker="08"
           eyebrow="Cómo trabajamos"
           title="Primero pensar. Después construir. Sin estimaciones al aire."
           variant="narrow"
@@ -126,8 +174,9 @@ export default function SoftwareServicePage() {
           <ProcessRail items={service.process} />
         </EditorialSection>
 
+        {/* ── 09 · Entregables ── */}
         <EditorialSection
-          marker="05"
+          marker="09"
           eyebrow="Qué incluye"
           title="Lo que entra en el alcance — y lo que sale de aquí cuando terminamos."
         >
@@ -139,7 +188,7 @@ export default function SoftwareServicePage() {
 
         {service.caseStudyIds.length > 0 && (
           <EditorialSection
-            marker="06"
+            marker="10"
             eyebrow="Resultados reales"
             title="Lo que han conseguido empresas con problemas parecidos al tuyo."
           >
@@ -149,7 +198,7 @@ export default function SoftwareServicePage() {
 
         <EditorialSection
           id="faq"
-          marker="07"
+          marker="11"
           eyebrow="Preguntas frecuentes"
           title="Lo que preguntan los directivos antes de firmar."
           variant="narrow"

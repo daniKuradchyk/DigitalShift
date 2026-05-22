@@ -15,6 +15,12 @@ import {
   RelatedNav,
   ScenarioRows,
 } from "@/components/marketing/editorial/EditorialBlocks";
+import {
+  CrmAdoptionGotchas,
+  CrmEntityModel,
+  CrmPanelMockup,
+  CrmRolesMatrix,
+} from "@/components/marketing/services/CrmBlocks";
 import Footer from "@/components/sections/Footer";
 import Header from "@/components/sections/Header";
 import { getService } from "@/content/services";
@@ -73,6 +79,7 @@ export default function CrmServicePage() {
           ]}
         />
 
+        {/* ── 01 · Síntomas / problemas ── */}
         <EditorialSection
           marker="01"
           eyebrow="Cuándo deja de encajar"
@@ -84,8 +91,29 @@ export default function CrmServicePage() {
           />
         </EditorialSection>
 
+        {/* ── 02 · Entity model (signature único) ── */}
         <EditorialSection
           marker="02"
+          eyebrow="Modelo de datos"
+          title="No es un CRM con módulos. Es vuestro modelo, codificado."
+          lead="Cada empresa tiene entidades propias — expedientes, contratos, instalaciones, certificados. Diseñamos el modelo sobre esas entidades reales, no sobre las que ya trae el SaaS de turno."
+        >
+          <CrmEntityModel />
+        </EditorialSection>
+
+        {/* ── 03 · Roles matrix detallada ── */}
+        <EditorialSection
+          marker="03"
+          eyebrow="Permisos finos"
+          title="Cada rol ve lo que tiene que ver. Ni un campo más."
+          lead="Permisos por entidad, por estado, por equipo. Sin '15 perfiles que en realidad son tres'. Sin auditoría parcial. Cada acción queda trazada con actor, timestamp y diff."
+        >
+          <CrmRolesMatrix />
+        </EditorialSection>
+
+        {/* ── 04 · Decisión ── */}
+        <EditorialSection
+          marker="04"
           eyebrow="Decisión"
           title="A medida sí. A medida no. Antes de gastar un euro."
           lead="Nuestra primera respuesta no siempre es construir. A veces es 'reconfigurar lo que tenéis', y otras es 'cambiar de herramienta'. Solo recomendamos a medida cuando aporta de verdad."
@@ -106,16 +134,27 @@ export default function CrmServicePage() {
           />
         </EditorialSection>
 
+        {/* ── 05 · Panel mockup por rol ── */}
         <EditorialSection
-          marker="03"
+          marker="05"
+          eyebrow="Vista por rol"
+          title="Lo que ve un manager. Lo que ve un comercial. Lo que ve un cliente."
+        >
+          <CrmPanelMockup />
+        </EditorialSection>
+
+        {/* ── 06 · Escenarios ── */}
+        <EditorialSection
+          marker="06"
           eyebrow="Qué construimos"
           title="CRM, intranet o extranet. La forma depende de tu operativa."
         >
           <ScenarioRows items={service.scenarios} />
         </EditorialSection>
 
+        {/* ── 07 · Lo que tiene dentro ── */}
         <EditorialSection
-          marker="04"
+          marker="07"
           eyebrow="Lo que tiene dentro"
           title="Las piezas estándar de un sistema interno serio."
           lead="No es un módulo más, ni una plantilla. Estas son las capas que diseñamos a medida — adaptadas a vuestro proceso, no a una arquitectura genérica."
@@ -138,8 +177,19 @@ export default function CrmServicePage() {
           />
         </EditorialSection>
 
+        {/* ── 08 · Adoption gotchas (signature único) ── */}
         <EditorialSection
-          marker="05"
+          marker="08"
+          eyebrow="Lo que decide la adopción"
+          title="Por qué algunos CRM a medida se abandonan en seis meses."
+          lead="Construir el sistema es el 60% del trabajo. El otro 40% es asegurar que la gente lo usa. Estos son los puntos donde se gana o se pierde la adopción."
+        >
+          <CrmAdoptionGotchas />
+        </EditorialSection>
+
+        {/* ── 09 · Proceso ── */}
+        <EditorialSection
+          marker="09"
           eyebrow="Cómo trabajamos"
           title="Modelo operativo primero. Software después."
           variant="narrow"
@@ -148,8 +198,9 @@ export default function CrmServicePage() {
           <ProcessRail items={service.process} />
         </EditorialSection>
 
+        {/* ── 10 · Entregables ── */}
         <EditorialSection
-          marker="06"
+          marker="10"
           eyebrow="Qué incluye"
           title="Lo que entregamos en el alcance acordado."
         >
@@ -161,7 +212,7 @@ export default function CrmServicePage() {
 
         {service.caseStudyIds.length > 0 && (
           <EditorialSection
-            marker="07"
+            marker="11"
             eyebrow="Resultados reales"
             title="Adopción, trazabilidad y operativa que sí refleja el negocio."
           >
@@ -171,7 +222,7 @@ export default function CrmServicePage() {
 
         <EditorialSection
           id="faq"
-          marker="08"
+          marker="12"
           eyebrow="Preguntas frecuentes"
           title="Lo que se pregunta antes de firmar."
           variant="narrow"
