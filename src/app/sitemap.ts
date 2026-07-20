@@ -6,7 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://qubelia.es").replace(/\/$/, "");
 
   // Use a stable date for static pages (update this when content changes)
-  const siteLastUpdated = "2026-04-09";
+  const siteLastUpdated = "2026-07-20";
 
   const latestPostDate =
     postsMeta.reduce((latest, p) => (p.date > latest ? p.date : latest), "2020-01-01") ||
@@ -50,6 +50,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     { url: `${base}/casos`, lastModified: siteLastUpdated, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/area`, lastModified: siteLastUpdated, changeFrequency: "monthly", priority: 0.7 },
     { url: `${base}/blog`, lastModified: latestPostDate, changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/legal/aviso-legal`, lastModified: siteLastUpdated, changeFrequency: "yearly", priority: 0.3 },
     { url: `${base}/legal/privacidad`, lastModified: siteLastUpdated, changeFrequency: "yearly", priority: 0.3 },

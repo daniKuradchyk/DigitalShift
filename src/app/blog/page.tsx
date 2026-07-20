@@ -4,6 +4,7 @@ import Container from "@/components/common/Container";
 import Breadcrumbs from "@/components/marketing/Breadcrumbs";
 import Button from "@/components/common/Button";
 import JsonLd from "@/components/marketing/JsonLd";
+import PostCover from "@/components/marketing/PostCover";
 import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
 import { getPostsWithReadingTime } from "@/lib/posts";
@@ -14,7 +15,7 @@ import { absoluteUrl } from "@/lib/urls";
 export const revalidate = 86400;
 
 export const metadata: Metadata = buildMetadata({
-  title: "Blog de Qubelia | Guías de automatización, software a medida y ERP/CRM",
+  title: "Blog: software a medida y automatización | Qubelia",
   description:
     "Automatización, integraciones ERP/CRM y software a medida para empresas B2B. Guías prácticas, casos reales y estrategias sin humo.",
   path: "/blog",
@@ -103,8 +104,8 @@ export default function BlogIndex() {
                     </div>
                   </div>
 
-                  <div className="hidden lg:flex flex-col items-center justify-center gap-3 border-l border-slate-200/60 dark:border-white/[0.06] bg-slate-50/60 dark:bg-white/[0.01] p-10 relative overflow-hidden">
-                    <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.06),transparent_70%)]" />
+                  <div className="hidden lg:flex flex-col items-center justify-center gap-3 border-l border-slate-200/60 dark:border-white/[0.06] p-10 relative overflow-hidden">
+                    <PostCover slug={featured.slug} className="absolute inset-0" />
                     <span className="relative text-8xl font-black tabular-nums text-slate-900/[0.05] dark:text-white/[0.05] select-none leading-none">
                       {featured.readingTime}
                     </span>
@@ -129,6 +130,7 @@ export default function BlogIndex() {
                 {rest.map((p, i) => (
                   <Link key={p.slug} href={`/blog/${p.slug}`} className="group block h-full">
                     <article className="surface-card relative overflow-hidden h-full flex flex-col rounded-2xl p-6 hover:border-sky-300/60 dark:hover:border-sky-500/20 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_-16px_rgba(14,165,233,0.1)] transition-all duration-200">
+                      <PostCover slug={p.slug} className="-mx-6 -mt-6 mb-5 h-24 transition-transform duration-500 group-hover:scale-[1.03]" />
                       <div className="flex items-start justify-between gap-2 mb-4">
                         <div className="flex flex-wrap gap-2">
                           {p.tags.slice(0, 2).map((tag) => (

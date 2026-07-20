@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView, useReducedMotion, AnimatePresence } from "framer-motion";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 
@@ -17,8 +17,8 @@ const CASES = [
     metricLabel: "auditoría trazada",
     oneLiner: "Software interno para centralizar datos y automatizar validaciones en procesos bancarios críticos.",
     sector: "Banca",
-    accent: "#EC0000",
-    accentRgb: "236,0,0",
+    accent: "#85A2FF",
+    accentRgb: "133,162,255",
   },
   {
     client: "Unicaja Banco",
@@ -27,8 +27,8 @@ const CASES = [
     metricLabel: "tiempo de cierre",
     oneLiner: "Automatización de reporting, validación y consolidación de datos para reducir errores manuales.",
     sector: "Banca",
-    accent: "#62a24c",
-    accentRgb: "98,162,76",
+    accent: "#5B8DEF",
+    accentRgb: "91,141,239",
   },
   {
     client: "Accenture",
@@ -37,8 +37,8 @@ const CASES = [
     metricLabel: "velocidad de entrega",
     oneLiner: "Software interno para coordinar equipos y estandarizar procesos de delivery técnico.",
     sector: "Consultoría",
-    accent: "#A100FF",
-    accentRgb: "161,0,255",
+    accent: "#ADC1FF",
+    accentRgb: "173,193,255",
   },
   {
     client: "LF Studio",
@@ -47,8 +47,8 @@ const CASES = [
     metricLabel: "tráfico orgánico",
     oneLiner: "Estructura digital a medida para mejorar captación y seguimiento comercial.",
     sector: "Agencia",
-    accent: "#5B8DEF",
-    accentRgb: "91,141,239",
+    accent: "#4169E1",
+    accentRgb: "65,105,225",
   },
 ];
 
@@ -60,13 +60,19 @@ const AUTO_INTERVAL = 6000;
 export default function Results() {
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "-80px" });
+  const prefersReducedMotion = useReducedMotion();
   const [active, setActive] = useState(0);
   const [progress, setProgress] = useState(0);
+  // El autoplay se detiene al elegir un caso manualmente o con el botón de pausa,
+  // y no arranca si el sistema pide movimiento reducido.
+  const [autoPlay, setAutoPlay] = useState(true);
+  const autoPlayEnabled = autoPlay && !prefersReducedMotion;
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const goTo = useCallback((idx: number) => {
     setActive(idx);
     setProgress(0);
+    setAutoPlay(false);
   }, []);
 
   const goNext = useCallback(() => {
@@ -76,7 +82,7 @@ export default function Results() {
 
   /* Auto-advance */
   useEffect(() => {
-    if (!inView) return;
+    if (!inView || !autoPlayEnabled) return;
     timerRef.current = setInterval(() => {
       setProgress((p) => {
         if (p >= 100) {
@@ -87,7 +93,7 @@ export default function Results() {
       });
     }, 50);
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [inView, active, goNext]);
+  }, [inView, active, goNext, autoPlayEnabled]);
 
   const c = CASES[active];
 
@@ -184,6 +190,9 @@ export default function Results() {
             </AnimatePresence>
 
             {/* Content — crossfade between cases */}
+            <div className="sr-only" aria-live="polite">
+              Caso {active + 1} de {CASES.length}: {c.client}
+            </div>
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
@@ -265,6 +274,7 @@ export default function Results() {
                 onClick={() => goTo(i)}
                 className="group relative flex flex-col items-center gap-2"
                 aria-label={`Ver caso ${cs.client}`}
+                aria-current={i === active ? "true" : undefined}
               >
                 {/* Logo thumbnail */}
                 <div
@@ -307,6 +317,26 @@ export default function Results() {
                 </div>
               </button>
             ))}
+            {!prefersReducedMotion && (
+              <button
+                type="button"
+                onClick={() => setAutoPlay((v) => !v)}
+                className="ml-2 inline-flex h-7 w-7 items-center justify-center self-start rounded-full border border-blue-400/20 text-blue-300 transition-colors hover:bg-blue-500/10"
+                aria-label={autoPlay ? "Pausar rotación automática de casos" : "Reanudar rotación automática de casos"}
+                aria-pressed={!autoPlay}
+              >
+                {autoPlay ? (
+                  <svg viewBox="0 0 16 16" className="h-3 w-3" fill="currentColor" aria-hidden>
+                    <rect x="3" y="2" width="3.5" height="12" rx="1" />
+                    <rect x="9.5" y="2" width="3.5" height="12" rx="1" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 16 16" className="h-3 w-3" fill="currentColor" aria-hidden>
+                    <path d="M4 2.5v11a.5.5 0 0 0 .77.42l8.5-5.5a.5.5 0 0 0 0-.84l-8.5-5.5A.5.5 0 0 0 4 2.5Z" />
+                  </svg>
+                )}
+              </button>
+            )}
           </div>
         </motion.div>
 

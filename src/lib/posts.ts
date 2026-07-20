@@ -65,7 +65,7 @@ export const posts: Post[] = [
       },
     ],
     highlights: [
-      "Ahorro de hasta un 40% en tiempos operativos en los primeros 6 meses.",
+      "Reducción sensible de horas de trabajo operativo repetitivo desde los primeros meses.",
       "Escalabilidad horizontal: gestiona 10x más volumen de leads o pedidos sin contratar más personal.",
       "Reducción de errores humanos en la entrada y validación de datos críticos.",
       "Disponibilidad 24/7 para procesos que antes dependían de horarios de oficina.",
@@ -106,7 +106,7 @@ export const posts: Post[] = [
         title: "El coste oculto de los silos de datos",
         body: [
           "Un silo de datos ocurre cuando el equipo comercial usa Salesforce o HubSpot, pero el equipo de operaciones usa un ERP propio o SAP, y la comunicación entre ambos depende de correos electrónicos, Excels compartidos o introducciones manuales duplicadas.",
-          "Esto genera errores humanos en el 15% de los registros, retrasos en la facturación de hasta 72 horas y una falta total de visibilidad en tiempo real. En 2026, un cliente B2B espera que si firma un contrato digital, el proyecto se active en el ERP de forma instantánea.",
+          "Esto genera errores humanos recurrentes en los registros, retrasos en la facturación y una falta total de visibilidad en tiempo real. En 2026, un cliente B2B espera que si firma un contrato digital, el proyecto se active en el ERP de forma instantánea.",
           "El coste no es solo operativo; es de oportunidad. Si no tienes los datos conectados, no puedes aplicar analítica avanzada ni agentes de IA para predecir la demanda o personalizar la oferta. Estás ciego ante la realidad de tu propio negocio.",
         ],
       },
@@ -267,7 +267,7 @@ export const posts: Post[] = [
         body: [
           "El tiempo es dinero, literalmente. Si automatizas el flujo desde que se firma un contrato hasta que se emite la factura y se envía el recordatorio de cobro, reduces el DSO (Days Sales Outstanding).",
           "En 2026, cobrar 5 días antes de media mejora tu liquidez y reduce la necesidad de financiación externa. Este impacto en el flujo de caja es una métrica de ROI de alto nivel que los directores financieros (CFOs) valoran por encima de todo.",
-          "La agilidad en la respuesta comercial también aumenta la tasa de conversión. Un presupuesto enviado en 2 horas tiene un 40% más de probabilidades de ser aceptado que uno enviado en 2 días. Automatizar la generación de propuestas es, por tanto, una inversión en ventas directas.",
+          "La agilidad en la respuesta comercial también aumenta la tasa de conversión: un presupuesto enviado en horas compite en otra liga que uno enviado en días, cuando el cliente ya está comparando alternativas. Automatizar la generación de propuestas es, por tanto, una inversión en ventas directas.",
         ],
       },
       {
@@ -430,7 +430,7 @@ export const posts: Post[] = [
           "Google mide tu web con tres métricas clave: LCP (Largest Contentful Paint), INP (Interaction to Next Paint) y CLS (Cumulative Layout Shift). Estas métricas afectan directamente a tu posicionamiento y, por tanto, a tu facturación.",
           "Un WordPress típico con tema premium, WooCommerce, 5 plugins de funcionalidad y un builder visual arroja un LCP de 3.5-5 segundos en móvil. Cada plugin añade peticiones HTTP, CSS y JavaScript que el navegador debe procesar antes de mostrar contenido útil. El resultado: una web que pierde entre un 7% y un 15% de visitantes por cada segundo adicional de carga.",
           "Una web a medida construida con Next.js o Astro en 2026 consigue un LCP inferior a 1.2 segundos, un INP de menos de 100ms y un CLS prácticamente nulo. No carga código que no necesita, genera las páginas de forma estática y sirve imágenes optimizadas automáticamente. En un mercado B2B donde cada lead vale cientos o miles de euros, la diferencia de rendimiento se traduce directamente en ingresos.",
-          "Caso real: Un distribuidor industrial en Sevilla migró de WordPress a una web a medida y redujo su tasa de rebote del 68% al 31%, aumentando las solicitudes de presupuesto un 47% en el primer trimestre sin cambiar ni un euro en publicidad.",
+          "El patrón que se repite: cuando un distribuidor industrial migra de una plantilla WordPress lenta a una web a medida bien planteada, la tasa de rebote cae de forma drástica y las solicitudes de presupuesto suben en el primer trimestre — sin tocar la inversión en publicidad. El motivo no es magia: velocidad de carga, mensaje claro y formularios que no fallan.",
         ],
       },
       {

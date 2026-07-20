@@ -6,7 +6,7 @@ import Logo from "@/components/common/Logo";
 import AuditWizard from "./AuditWizard";
 import { canonical, openGraphImage, titleTemplate } from "@/lib/seo";
 
-const pageTitle = "Analisis gratuito de tu negocio";
+const pageTitle = "Análisis gratuito de tu negocio";
 const pageDescription =
   "Autodiagnostico en 5-8 min para pymes y autonomos. Detecta puntos flojos, quick wins y un roadmap 30-90 dias sin registro.";
 
@@ -72,7 +72,7 @@ export default function AuditPage() {
               Herramienta gratuita
             </div>
             <div className="max-w-xl space-y-3">
-              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Analisis gratuito de tu negocio</h1>
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Análisis gratuito de tu negocio</h1>
               <p className="text-slate-700 dark:text-slate-300">
                 Autodiagnostico rapido para pymes y autonomos. Detecta puntos flojos, quick wins y un plan de 30-90 dias en minutos.
               </p>

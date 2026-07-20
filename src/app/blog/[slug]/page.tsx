@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/marketing/Breadcrumbs";
+import PostCover from "@/components/marketing/PostCover";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import Header from "@/components/sections/Header";
@@ -26,7 +27,8 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const url = canonical(`/blog/${post.slug}`);
 
   return {
-    title: titleTemplate(post.title),
+    // Con títulos largos omitimos el sufijo "| Qubelia" para no pasar de ~60 caracteres en SERP.
+    title: post.title.length > 52 ? post.title : titleTemplate(post.title),
     description: post.description,
     alternates: { canonical: url },
     robots: { index: true, follow: true },
@@ -61,9 +63,9 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
   const imageUrl = `${BASE_URL}/opengraph-image`;
 
   const landingLinkSlugs = new Set([
-    "seo-onpage-negocios-locales",
-    "presupuesto-diseno-web-sevilla",
-    "presupuesto-software-medida-2026",
+    "software-medida-vs-saas-guia-pymes",
+    "como-elegir-empresa-desarrollo-software-espana",
+    "digitalizacion-pymes-espana-guia-2026",
   ]);
   const shouldLinkLanding = landingLinkSlugs.has(post.slug);
 
@@ -74,7 +76,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
     description: post.description,
     mainEntityOfPage: canonicalUrl,
     url: canonicalUrl,
-    author: { "@type": "Person", name: "Daniil Kuradchik Pekarskaya" },
+    author: { "@type": "Organization", name: post.author.name, url: post.author.url },
     datePublished: published.toISOString(),
     dateModified: published.toISOString(),
     publisher: { "@type": "Organization", name: "Qubelia", url: BASE_URL },
@@ -94,26 +96,30 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
   };
 
   const serviceCta: Record<string, { href: string; label: string }> = {
-    "presupuesto-diseno-web-sevilla": { href: "/servicios/web-a-medida", label: "Web a medida" },
-    "checklist-landing-conversion": { href: "/servicios/web-a-medida", label: "Web a medida" },
-    "seo-onpage-negocios-locales": { href: "/servicios/web-a-medida", label: "Web a medida" },
-    "go-to-market-saas-90-dias": { href: "/servicios/software-a-medida", label: "Software a medida" },
-    "brief-tecnico-proyecto-digital": { href: "/servicios/software-a-medida", label: "Software a medida" },
-    "kpis-producto-b2b": { href: "/servicios/crm-intranet-a-medida", label: "CRM / intranet a medida" },
-    "migrar-wordpress-a-nextjs": { href: "/servicios/web-a-medida", label: "Web a medida" },
-    "automatizacion-comercial-b2b": {
+    "agentes-ia-pymes-guia-automatizacion-2026": {
       href: "/servicios/automatizacion-integraciones",
       label: "Automatización e integraciones",
     },
-    "ia-agentes-pymes-2026": {
+    "ecosistemas-software-conectados-erp-crm-pymes": {
       href: "/servicios/automatizacion-integraciones",
       label: "Automatización e integraciones",
     },
-    "arquitectura-nextjs-seo-2026": { href: "/servicios/web-a-medida", label: "Web a medida" },
-    "presupuesto-software-medida-2026": { href: "/servicios/software-a-medida", label: "Software a medida" },
+    "roi-automatizacion-procesos-b2b-guia-completa": {
+      href: "/servicios/automatizacion-integraciones",
+      label: "Automatización e integraciones",
+    },
     "integraciones-erp-crm-pymes": {
       href: "/servicios/automatizacion-integraciones",
       label: "Automatización e integraciones",
+    },
+    "seguridad-zero-trust-desarrollo-software-medida": { href: "/servicios/software-a-medida", label: "Software a medida" },
+    "software-medida-vs-saas-guia-pymes": { href: "/servicios/software-a-medida", label: "Software a medida" },
+    "digitalizacion-pymes-espana-guia-2026": { href: "/servicios/software-a-medida", label: "Software a medida" },
+    "como-elegir-empresa-desarrollo-software-espana": { href: "/servicios/software-a-medida", label: "Software a medida" },
+    "desarrollo-web-a-medida-vs-wordpress-cuando-dar-el-salto": { href: "/servicios/web-a-medida", label: "Web a medida" },
+    "crm-a-medida-vs-hubspot-salesforce-pymes": {
+      href: "/servicios/crm-intranet-a-medida",
+      label: "CRM / intranet a medida",
     },
   };
   const mainService = serviceCta[post.slug] ?? { href: "/servicios", label: "Servicios de Qubelia" };
@@ -133,6 +139,11 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                 { label: "Blog", href: "/blog" },
                 { label: post.h1 },
               ]}
+            />
+            <PostCover
+              slug={post.slug}
+              tag={post.tags[0]}
+              className="mt-6 mb-10 h-40 sm:h-52 rounded-2xl border border-white/[0.06]"
             />
             <div className="max-w-3xl">
               <div className="mb-6 flex flex-wrap gap-2.5">

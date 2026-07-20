@@ -108,45 +108,6 @@ export function websiteJsonLd({ url, name }: { url: string; name: string }) {
     name,
     url,
     inLanguage: "es",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${url}/buscar?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
-  } as const;
-}
-export function localBusinessJsonLd({
-  name,
-  url,
-  logoUrl,
-  telephone,
-  address,
-  sameAs = [] as string[],
-}: {
-  name: string;
-  url: string;
-  logoUrl: string;
-  telephone: string;
-  address: {
-    streetAddress: string;
-    addressLocality: string;
-    postalCode: string;
-    addressRegion: string;
-    addressCountry: string;
-  };
-  sameAs?: string[];
-}) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name,
-    url,
-    logo: logoUrl,
-    telephone,
-    address: { "@type": "PostalAddress", ...address },
-    areaServed: "ES",
-    image: [logoUrl],
-    sameAs, // ✅ ahora sí se usa
   } as const;
 }
 
@@ -171,43 +132,18 @@ export function breadcrumbJsonLd(items: { name: string; url: string }[]) {
   } as const;
 }
 
-export function serviceJsonLd({ name, description, areaUrl }: { name: string; description: string; areaUrl?: string }) {
+export function serviceJsonLd({ name, description, areaName }: { name: string; description: string; areaName?: string }) {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
     name,
     description,
     inLanguage: "es",
-    areaServed: areaUrl ?? { "@type": "Country", name: "España" },
+    areaServed: areaName
+      ? { "@type": "City", name: areaName }
+      : { "@type": "Country", name: "España" },
     provider: { "@type": "Organization", name: SITE_NAME, url: BASE_URL },
   } as const;
-}
-
-export function reviewsJsonLd(reviews: { name: string; role: string; company: string; quote: string }[]) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: SITE_NAME,
-    url: BASE_URL,
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      bestRating: "5",
-      worstRating: "1",
-      ratingCount: String(reviews.length + 97),
-      reviewCount: String(reviews.length),
-    },
-    review: reviews.map((r) => ({
-      "@type": "Review",
-      author: { "@type": "Person", name: r.name },
-      reviewBody: r.quote,
-      reviewRating: {
-        "@type": "Rating",
-        ratingValue: "5",
-        bestRating: "5",
-      },
-    })),
-  };
 }
 
 export function softwareAppJsonLd(tools: { title: string; desc: string; href: string }[]) {

@@ -6,7 +6,7 @@ import { buildMetadata } from "@/lib/seo";
 export const revalidate = 86400;
 
 export const metadata: Metadata = buildMetadata({
-  title: "Politica de privacidad de Qubelia",
+  title: "Política de privacidad de Qubelia",
   description: "Tratamiento de datos personales, bases juridicas, plazos de conservacion y ejercicio de derechos ARCO en Qubelia conforme al RGPD y la LOPDGDD.",
   path: "/legal/privacidad",
 });
@@ -22,7 +22,7 @@ export default function Privacidad() {
         { label: "Privacidad" },
       ]}
       eyebrow="Privacidad"
-      title="Politica de privacidad"
+      title="Política de privacidad"
       description="Esta politica explica que datos personales tratamos, con que fines, cual es la base juridica de cada tratamiento y como puedes ejercer tus derechos."
       aside={
         <>

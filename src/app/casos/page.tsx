@@ -14,9 +14,9 @@ import cases from "@/content/cases.json";
 export const revalidate = 86400;
 
 export const metadata: Metadata = buildMetadata({
-  title: "Casos de exito | Proyectos reales de software, web y automatizacion",
+  title: "Casos de éxito en software a medida | Qubelia",
   description:
-    "Casos reales de empresas que han mejorado su operativa con software a medida, integraciones y automatizacion. Resultados medibles y verificables.",
+    "Casos reales de empresas que han mejorado su operativa con software a medida, integraciones y automatización de procesos. Resultados medibles y verificables.",
   path: "/casos",
 });
 
@@ -32,7 +32,7 @@ function slugify(name: string) {
 export default function CasosPage() {
   const breadcrumbData = breadcrumbJsonLd([
     { name: "Inicio", url: absoluteUrl("/") },
-    { name: "Casos de exito", url: absoluteUrl("/casos") },
+    { name: "Casos de éxito", url: absoluteUrl("/casos") },
   ]);
 
   return (
@@ -42,7 +42,7 @@ export default function CasosPage() {
       <main id="contenido">
         <section className="py-16 sm:py-20">
           <Container>
-            <Breadcrumbs items={[{ label: "Inicio", href: "/" }, { label: "Casos de exito" }]} />
+            <Breadcrumbs items={[{ label: "Inicio", href: "/" }, { label: "Casos de éxito" }]} />
 
             <div className="max-w-3xl mb-14">
               <div className="section-tag mb-5">
@@ -53,11 +53,11 @@ export default function CasosPage() {
                 className="text-4xl sm:text-5xl font-black tracking-tight leading-[1.08] mb-5"
                 style={{ color: "var(--text-primary)" }}
               >
-                Casos de exito
+                Casos de éxito
               </h1>
               <p className="text-lg leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                 Proyectos reales con resultados medibles. Cada caso refleja un problema concreto, la
-                solucion aplicada y el impacto en el negocio.
+                solución aplicada y el impacto en el negocio.
               </p>
             </div>
 
@@ -111,14 +111,14 @@ export default function CasosPage() {
 
             <div className="mt-14 surface-card relative overflow-hidden rounded-2xl p-8 text-center">
               <h2 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>
-                Quieres resultados similares?
+                ¿Quieres resultados similares?
               </h2>
               <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>
                 Analizamos tu caso en 45 minutos. Sin compromiso, con propuesta clara.
               </p>
               <div className="flex flex-wrap gap-3 justify-center">
                 <Button as="a" href="/#contacto" variant="shine">
-                  Agendar diagnostico
+                  Agendar diagnóstico
                 </Button>
                 <Button as="a" href="/servicios" variant="ghost">
                   Ver servicios

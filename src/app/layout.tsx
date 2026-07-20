@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Geist, Space_Grotesk } from "next/font/google";
 import GoogleTagManagerLoader from "@/components/analytics/GoogleTagManagerLoader";
 import LazyBackground from "@/components/common/LazyBackground";
 import LazyCookieBanner from "@/components/cookies/LazyCookieBanner";
@@ -12,6 +12,14 @@ const geist = Geist({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-geist",
+  preload: true,
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-space",
+  weight: ["400", "500", "600", "700"],
   preload: true,
 });
 
@@ -62,13 +70,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const org = organizationJsonLd({
     name: SITE_NAME,
     url: BASE_URL,
-    logoUrl: `${BASE_URL}/favicon.ico`,
+    logoUrl: `${BASE_URL}/brand/logo-qubelia-512.png`,
     sameAs: socialLinks,
   });
   const professionalService = professionalServiceJsonLd({
     name: SITE_NAME,
     url: BASE_URL,
-    logoUrl: `${BASE_URL}/favicon.ico`,
+    logoUrl: `${BASE_URL}/brand/logo-qubelia-512.png`,
     telephone: "+34 674 569 372",
     address: {
       streetAddress: "Calle Torrelodones 84B",
@@ -82,7 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const site = websiteJsonLd({ name: `${SITE_NAME} | ${SITE_TAGLINE}`, url: BASE_URL });
 
   return (
-    <html lang="es" className={`dark ${geist.variable}`}>
+    <html lang="es" className={`dark ${geist.variable} ${spaceGrotesk.variable}`}>
       <head>
         <meta name="color-scheme" content="dark" />
         <meta name="theme-color" content="#060B1A" />
