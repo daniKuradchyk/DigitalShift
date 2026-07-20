@@ -11,6 +11,8 @@ export type LeadNotificationPayload = {
   company?: string | null;
   budget?: string | null;
   objective?: string | null;
+  /** true si el lead NO pudo guardarse en el CRM y este email es la única copia. */
+  storageFailed?: boolean;
 };
 
 type CustomerEmailOptions = {
@@ -211,9 +213,20 @@ function renderInternalLeadEmail(payload: LeadNotificationPayload) {
     )
     .join("");
 
+  const storageWarningHtml = payload.storageFailed
+    ? `
+      <div style="margin:0 0 18px;padding:14px 16px;border:1px solid #fecaca;background:#fef2f2;border-radius:12px;color:#b91c1c;font-size:14px;font-weight:700;">
+        ⚠ Este lead NO se pudo guardar en el CRM (error de base de datos). Este correo es la única copia: registrarlo a mano.
+      </div>
+    `
+    : "";
+
   return {
-    subject: `Nuevo lead - ${payload.name}`,
+    subject: `${payload.storageFailed ? "⚠ " : ""}Nuevo lead - ${payload.name}`,
     text: [
+      payload.storageFailed
+        ? "AVISO: el lead NO se guardo en el CRM (error de base de datos). Este correo es la unica copia."
+        : "",
       "Nuevo lead recibido en Qubelia.",
       `Fuente: ${sourceLabel(payload.source)}`,
       `Nombre: ${payload.name}`,
@@ -231,6 +244,7 @@ function renderInternalLeadEmail(payload: LeadNotificationPayload) {
       title: "Ha entrado un nuevo lead",
       intro: "Se ha registrado una nueva solicitud comercial y ya esta disponible para seguimiento.",
       bodyHtml: `
+        ${storageWarningHtml}
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
           ${rows}
         </table>
@@ -301,7 +315,12 @@ function renderCustomerLeadEmail(
 export async function sendInternalLeadNotification(payload: LeadNotificationPayload) {
   const resend = getResendClient();
   const recipients = getInternalRecipients();
-  if (!resend || recipients.length === 0) return false;
+  if (!resend || recipients.length === 0) {
+    console.warn(
+      `[email] Notificación interna omitida: ${!resend ? "falta RESEND_API_KEY" : "sin destinatarios (LEAD_NOTIFICATION_TO/CONTACT_TO)"}`
+    );
+    return false;
+  }
 
   const content = renderInternalLeadEmail(payload);
 
@@ -323,7 +342,12 @@ export async function sendCustomerLeadAcknowledgement(
 ) {
   const resend = getResendClient();
   const recipient = normalizeEmail(payload.email);
-  if (!resend || !recipient) return false;
+  if (!resend || !recipient) {
+    console.warn(
+      `[email] Acuse al cliente omitido: ${!resend ? "falta RESEND_API_KEY" : "email de cliente vacío"}`
+    );
+    return false;
+  }
 
   const content = renderCustomerLeadEmail(payload, options);
 

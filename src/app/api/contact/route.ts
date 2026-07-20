@@ -65,6 +65,7 @@ export async function POST(request: Request) {
     );
   }
 
+  let stored = true;
   try {
     const supabase = getSupabase();
     const { error } = await supabase.from("leads").insert([
@@ -83,12 +84,12 @@ export async function POST(request: Request) {
 
     if (error) throw error;
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error);
+    // Los errores de Supabase (PostgrestError) no son instancias de Error:
+    // serializamos para no perder code/message/details en el log.
+    const message =
+      error instanceof Error ? error.message : JSON.stringify(error, Object.getOwnPropertyNames(Object(error)));
     console.error("[contact] Supabase error:", message);
-    return NextResponse.json(
-      { ok: false, message: "Error al guardar el formulario" },
-      { status: 500 }
-    );
+    stored = false;
   }
 
   const emailPayload = {
@@ -99,8 +100,11 @@ export async function POST(request: Request) {
     company,
     budget,
     objective,
+    storageFailed: !stored,
   };
 
+  // Aunque el CRM falle (p. ej. base de datos pausada), intentamos el aviso
+  // interno igualmente: el email pasa a ser la única copia del lead.
   const emailResults = await Promise.allSettled([
     sendInternalLeadNotification(emailPayload),
     sendCustomerLeadAcknowledgement(emailPayload),
@@ -111,6 +115,16 @@ export async function POST(request: Request) {
       const message = result.reason instanceof Error ? result.reason.message : String(result.reason);
       console.error("[contact] Lead email error:", message);
     }
+  }
+
+  const internalEmailSent = emailResults[0].status === "fulfilled" && emailResults[0].value === true;
+
+  // Solo devolvemos error si el lead se ha perdido de verdad: ni CRM ni email.
+  if (!stored && !internalEmailSent) {
+    return NextResponse.json(
+      { ok: false, message: "Error al guardar el formulario" },
+      { status: 500 }
+    );
   }
 
   return NextResponse.json({ ok: true });
