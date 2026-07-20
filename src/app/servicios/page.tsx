@@ -20,9 +20,9 @@ import { absoluteUrl } from "@/lib/urls";
 export const revalidate = 86400;
 
 export const metadata: Metadata = buildMetadata({
-  title: "Servicios de Qubelia | Software, web, automatización y CRM a medida",
+  title: "Servicios: software a medida, web y automatización | Qubelia",
   description:
-    "Software a medida, web, automatización e integraciones y CRM a medida para empresas B2B. Criterio técnico, propiedad del código y entrega real.",
+    "Software a medida, desarrollo web, automatización de procesos y CRM a medida para empresas B2B en España. Criterio técnico, propiedad del código y entrega real.",
   path: "/servicios",
 });
 
@@ -79,8 +79,9 @@ export default function ServicesPage() {
             <Breadcrumbs items={breadcrumbs} />
             <div className="mt-6 max-w-4xl animate-fade-up">
               <SectionIntro
+                as="h1"
                 eyebrow="Catálogo de servicios"
-                title="Cuatro líneas para empresas que ya superaron la fase de los parches"
+                title="Software a medida, web y automatización para empresas que ya superaron la fase de los parches"
                 description="Qubelia trabaja cuatro líneas concretas: software a medida, web a medida, automatización e integraciones, y CRM o intranet a medida. Cada una responde a una decisión distinta — no son la misma propuesta con cuatro nombres."
               />
             </div>

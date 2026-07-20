@@ -6,6 +6,7 @@ import Container from "@/components/common/Container";
 import { useCookieConsent } from "@/components/cookies/CookieConsentProvider";
 import { CONTACT } from "@/config/contact";
 import { getServices } from "@/content/services";
+import { AREAS } from "@/lib/locations";
 import { trackContactChannelClick } from "@/lib/gtm";
 
 const legal = [
@@ -25,7 +26,7 @@ export default function Footer() {
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent 10%, rgba(65,105,225,0.30) 50%, transparent 90%)" }} />
 
       <Container className="py-8 sm:py-10 lg:py-14">
-        <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
+        <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr_1fr]">
           <div className="space-y-3 sm:space-y-4 sm:col-span-2 lg:col-span-1">
             <div>
               <p className="text-base font-extrabold tracking-tight" style={{ color: "var(--text-primary)" }}>Qubelia</p>
@@ -54,13 +55,27 @@ export default function Footer() {
 
           <nav aria-label="Navegación en footer" className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
             <p className="mb-2 sm:mb-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "rgba(91,141,239,0.5)" }}>Recursos</p>
-            <Link href="/casos" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Casos de exito</Link>
+            <Link href="/casos" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Casos de éxito</Link>
             <Link href="/blog" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Blog</Link>
             <Link href="/labs" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Herramientas gratuitas</Link>
+            <Link href="/labs/analisis-gratis" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Análisis gratuito</Link>
             <Link href="/labs/roi-automatizacion" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Calculadora ROI</Link>
             <Link href="/labs/calculadora-coste-software" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Calculadora coste software</Link>
             <Link href="/herramientas/calculadora-irpf" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Calculadora IRPF</Link>
+            <Link href="/buscar" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Buscar</Link>
             <Link href={isHome ? "#faq" : "/#faq"} className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>FAQ</Link>
+          </nav>
+
+          <nav aria-label="Dónde trabajamos" className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
+            <p className="mb-2 sm:mb-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "rgba(91,141,239,0.5)" }}>Dónde trabajamos</p>
+            {AREAS.slice(0, 6).map((area) => (
+              <Link key={area.slug} href={`/area/${area.slug}`} className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>
+                {area.name}
+              </Link>
+            ))}
+            <Link href="/area" className="block pt-1 sm:pt-2 transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>
+              Todas las zonas
+            </Link>
           </nav>
 
           <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">

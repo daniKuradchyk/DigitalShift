@@ -6,7 +6,7 @@ import { buildMetadata } from "@/lib/seo";
 export const revalidate = 86400;
 
 export const metadata: Metadata = buildMetadata({
-  title: "Politica de cookies de Qubelia",
+  title: "Política de cookies de Qubelia",
   description: "Informacion sobre cookies tecnicas, analiticas y de marketing, consentimiento, configuracion y gestion de preferencias en el sitio web de Qubelia.",
   path: "/legal/cookies",
 });
@@ -22,7 +22,7 @@ export default function Cookies() {
         { label: "Cookies" },
       ]}
       eyebrow="Cookies"
-      title="Politica de cookies"
+      title="Política de cookies"
       description="Aqui explicamos que cookies se utilizan en el sitio, para que sirven, como se recaba el consentimiento y como puedes revisar o cambiar tus preferencias."
       aside={
         <>

@@ -27,7 +27,7 @@ const SIGNATURES: Signature[] = [
     cuando: "Un SaaS no encaja en tu proceso crítico",
     noCuando: "Un SaaS cubre el 90% del proceso",
     primeraEntrega: "4–8 semanas",
-    inversion: "20–80k €",
+    inversion: "desde 8k €",
   },
   {
     slug: "web-a-medida",

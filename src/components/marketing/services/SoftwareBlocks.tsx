@@ -257,10 +257,10 @@ export function SoftwareNumbers() {
       sub: "MVP usable en operativa, no demo cerrada",
     },
     {
-      value: "20–80",
+      value: "8–20",
       unit: "k €",
-      title: "Inversión típica fase inicial",
-      sub: "Alcance acotado, hito ejecutable",
+      title: "Primer módulo funcional",
+      sub: "Proyectos completos con integraciones: desde 20k €",
     },
     {
       value: "100%",

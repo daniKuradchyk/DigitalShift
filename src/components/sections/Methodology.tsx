@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView, useReducedMotion, AnimatePresence } from "framer-motion";
 import Container from "@/components/common/Container";
 
 /* ─── Shared easing (same across ALL sections) ─────────────────── */
@@ -59,12 +59,17 @@ function StepItem({
   step,
   isActive,
   onClick,
+  onAutoAdvance,
+  autoPlay,
   inView,
   index,
 }: {
   step: (typeof STEPS)[number];
   isActive: boolean;
   onClick: () => void;
+  /** Avance automático; null desactiva la barra de progreso. */
+  onAutoAdvance: (() => void) | null;
+  autoPlay: boolean;
   inView: boolean;
   index: number;
 }) {
@@ -74,6 +79,7 @@ function StepItem({
     <motion.button
       type="button"
       onClick={onClick}
+      aria-current={isActive ? "step" : undefined}
       className={`group relative w-full text-left transition-all duration-500 rounded-xl p-4 sm:p-5 ${
         isActive
           ? "bg-blue-500/[0.06] border-blue-400/20"
@@ -133,8 +139,8 @@ function StepItem({
         </div>
       </div>
 
-      {/* Progress bar at bottom — auto-advances */}
-      {isActive && (
+      {/* Progress bar at bottom — auto-advances (solo con autoplay activo) */}
+      {isActive && autoPlay && onAutoAdvance && (
         <motion.div
           className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full overflow-hidden"
           initial={{ opacity: 0 }}
@@ -147,7 +153,7 @@ function StepItem({
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 5, ease: "linear" }}
-            onAnimationComplete={onClick}
+            onAnimationComplete={onAutoAdvance}
           />
         </motion.div>
       )}
@@ -161,10 +167,20 @@ function StepItem({
 export default function Methodology() {
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { once: true, margin: "-80px" });
+  const prefersReducedMotion = useReducedMotion();
   const [activeStep, setActiveStep] = useState(0);
+  // El autoplay se detiene si el usuario elige una fase o pulsa pausa, y nunca
+  // arranca si el sistema pide movimiento reducido.
+  const [autoPlay, setAutoPlay] = useState(true);
+  const autoPlayEnabled = autoPlay && !prefersReducedMotion;
 
   const handleAdvance = () => {
     setActiveStep((prev) => (prev + 1) % STEPS.length);
+  };
+
+  const selectStep = (i: number) => {
+    setActiveStep(i);
+    setAutoPlay(false);
   };
 
   const currentStep = STEPS[activeStep];
@@ -238,7 +254,9 @@ export default function Methodology() {
                 key={step.id}
                 step={step}
                 isActive={activeStep === i}
-                onClick={() => setActiveStep(i)}
+                onClick={() => selectStep(i)}
+                onAutoAdvance={autoPlayEnabled ? handleAdvance : null}
+                autoPlay={autoPlayEnabled}
                 inView={inView}
                 index={i}
               />
@@ -311,13 +329,13 @@ export default function Methodology() {
               />
             </div>
 
-            {/* Step indicators below image */}
-            <div className="flex justify-center gap-2 mt-4">
+            {/* Step indicators below image + control de autoplay */}
+            <div className="flex items-center justify-center gap-2 mt-4">
               {STEPS.map((s, i) => (
                 <button
                   key={s.id}
                   type="button"
-                  onClick={() => setActiveStep(i)}
+                  onClick={() => selectStep(i)}
                   className="relative h-1.5 rounded-full overflow-hidden transition-all duration-400"
                   style={{
                     width: activeStep === i ? "2rem" : "0.75rem",
@@ -326,8 +344,29 @@ export default function Methodology() {
                       : "rgba(65,105,225,0.15)",
                   }}
                   aria-label={`Fase ${s.step}`}
+                  aria-current={activeStep === i ? "step" : undefined}
                 />
               ))}
+              {!prefersReducedMotion && (
+                <button
+                  type="button"
+                  onClick={() => setAutoPlay((v) => !v)}
+                  className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full border border-blue-400/20 text-blue-300 transition-colors hover:bg-blue-500/10"
+                  aria-label={autoPlay ? "Pausar avance automático" : "Reanudar avance automático"}
+                  aria-pressed={!autoPlay}
+                >
+                  {autoPlay ? (
+                    <svg viewBox="0 0 16 16" className="h-2.5 w-2.5" fill="currentColor" aria-hidden>
+                      <rect x="3" y="2" width="3.5" height="12" rx="1" />
+                      <rect x="9.5" y="2" width="3.5" height="12" rx="1" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 16 16" className="h-2.5 w-2.5" fill="currentColor" aria-hidden>
+                      <path d="M4 2.5v11a.5.5 0 0 0 .77.42l8.5-5.5a.5.5 0 0 0 0-.84l-8.5-5.5A.5.5 0 0 0 4 2.5Z" />
+                    </svg>
+                  )}
+                </button>
+              )}
             </div>
           </motion.div>
         </div>

@@ -5,40 +5,63 @@
     "desc": "Calcula en 2 minutos el ahorro potencial de automatizar un proceso: coste actual, horas recuperables y payback estimado.",
     "status": "disponible",
     "cta": "Calcular ROI",
-    "tags": ["automatizacion", "roi", "operaciones", "costes"]
+    "tags": [
+      "automatizacion",
+      "roi",
+      "operaciones",
+      "costes"
+    ]
   },
   {
     "slug": "calculadora-coste-software",
     "title": "Calculadora de coste de software",
-    "desc": "Estima rango de presupuesto, horas, plazo y equipo segun alcance, modulos, integraciones y nivel tecnico.",
+    "desc": "Estima rango de presupuesto, horas, plazo y equipo según alcance, modulos, integraciones y nivel tecnico.",
     "status": "disponible",
     "cta": "Estimar coste",
-    "tags": ["software", "estimacion", "presupuesto", "producto"]
+    "tags": [
+      "software",
+      "estimacion",
+      "presupuesto",
+      "producto"
+    ]
   },
   {
     "slug": "analisis-gratis",
-    "title": "Analisis gratuito de tu negocio",
-    "desc": "Detecta puntos flojos y recibe un plan de 30-90 dias en minutos.",
+    "title": "Análisis gratuito de tu negocio",
+    "desc": "Detecta puntos flojos y recibe un plan de 30-90 días en minutos.",
     "status": "disponible",
     "cta": "Analizar ahora",
-    "tags": ["digitalizacion", "pymes", "operaciones", "ventas", "web"]
+    "tags": [
+      "digitalizacion",
+      "pymes",
+      "operaciones",
+      "ventas",
+      "web"
+    ]
   },
   {
     "slug": "calculadora-irpf-autonomos",
     "title": "Estimador de cuota IRPF",
-    "desc": "Simula la cuota diferencial anual segun ingresos, gastos deducibles, cuotas y retenciones.",
+    "desc": "Simula la cuota diferencial anual según ingresos, gastos deducibles, cuotas y retenciones.",
     "href": "/herramientas/calculadora-irpf",
     "status": "disponible",
     "cta": "Calcular ahora",
-    "tags": ["finanzas", "autonomos", "fiscalidad"]
+    "tags": [
+      "finanzas",
+      "autonomos",
+      "fiscalidad"
+    ]
   },
   {
     "slug": "generador-brief-proyecto",
     "title": "Generador de brief de proyecto",
-    "desc": "Define objetivos, alcance, riesgos y metricas en minutos. Exporta a PDF o Notion.",
+    "desc": "Define objetivos, alcance, riesgos y métricas en minutos. Exporta a PDF o Notion.",
     "status": "en camino",
     "cta": "Generar brief",
-    "tags": ["producto", "planificacion"]
+    "tags": [
+      "producto",
+      "planificacion"
+    ]
   },
   {
     "slug": "checklist-rgpd-basico",
@@ -46,6 +69,9 @@
     "desc": "Lista practica de cumplimiento basico para empezar sin sustos. Incluye cookies y formularios.",
     "status": "en camino",
     "cta": "Revisar checklist",
-    "tags": ["legal", "rgpd"]
+    "tags": [
+      "legal",
+      "rgpd"
+    ]
   }
 ]

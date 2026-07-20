@@ -56,13 +56,8 @@ export default function EditorialSection({
               </span>
 
               <h2
-                className="font-bold animate-fade-up delay-100"
-                style={{
-                  color: "var(--text-primary)",
-                  fontSize: "clamp(1.6rem, 3.5vw, 2.5rem)",
-                  letterSpacing: "-0.025em",
-                  lineHeight: 1.15,
-                }}
+                className="text-h2 animate-fade-up delay-100"
+                style={{ color: "var(--text-primary)" }}
               >
                 {title}
               </h2>

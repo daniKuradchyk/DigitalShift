@@ -67,6 +67,20 @@
   --color-foreground: var(--text-primary);
   --font-sans: var(--font-geist, ui-sans-serif, system-ui, -apple-system, sans-serif);
   --font-mono: var(--font-geist-mono, ui-monospace, "Cascadia Code", monospace);
+
+  /* Alias de marca — mantiene funcionando las utilidades brand-* (Button, etc.)
+     tras la migración a Tailwind v4 (el tailwind.config.js v3 ya no se carga). */
+  --color-brand-50: var(--blue-50);
+  --color-brand-100: var(--blue-100);
+  --color-brand-200: var(--blue-200);
+  --color-brand-300: var(--blue-300);
+  --color-brand-400: var(--blue-400);
+  --color-brand-500: var(--blue-500);
+  --color-brand-600: var(--blue-600);
+  --color-brand-700: var(--blue-700);
+  --color-brand-800: var(--blue-800);
+  --color-brand-900: var(--blue-900);
+  --color-brand-950: var(--blue-950);
 }
 
 /* ════════════════════════════════════════════════════════════════

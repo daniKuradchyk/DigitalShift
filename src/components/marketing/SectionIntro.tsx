@@ -10,9 +10,11 @@ type Props = {
   title: string;
   description?: string;
   align?: "left" | "center";
+  /** Nivel semántico del titular. Usa "h1" en el hero de la página. */
+  as?: "h1" | "h2";
 };
 
-export default function SectionIntro({ eyebrow, title, description, align = "left" }: Props) {
+export default function SectionIntro({ eyebrow, title, description, align = "left", as: Heading = "h2" }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const centered = align === "center";
@@ -33,7 +35,7 @@ export default function SectionIntro({ eyebrow, title, description, align = "lef
       </motion.div>
 
       {/* Headline — word-by-word blur reveal */}
-      <h2 className="max-w-4xl text-3xl font-bold tracking-tight sm:text-[2.65rem] leading-[1.1]" style={{ color: "var(--text-primary)" }}>
+      <Heading className="max-w-4xl text-3xl font-bold tracking-tight sm:text-[2.65rem] leading-[1.1]" style={{ color: "var(--text-primary)" }}>
         {words.map((word, i) => (
           <motion.span
             key={`${word}-${i}`}
@@ -45,7 +47,7 @@ export default function SectionIntro({ eyebrow, title, description, align = "lef
             {word}
           </motion.span>
         ))}
-      </h2>
+      </Heading>
 
       {/* Description */}
       {description && (

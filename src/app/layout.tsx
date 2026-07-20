@@ -62,13 +62,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const org = organizationJsonLd({
     name: SITE_NAME,
     url: BASE_URL,
-    logoUrl: `${BASE_URL}/favicon.ico`,
+    logoUrl: `${BASE_URL}/brand/logo-qubelia-512.png`,
     sameAs: socialLinks,
   });
   const professionalService = professionalServiceJsonLd({
     name: SITE_NAME,
     url: BASE_URL,
-    logoUrl: `${BASE_URL}/favicon.ico`,
+    logoUrl: `${BASE_URL}/brand/logo-qubelia-512.png`,
     telephone: "+34 674 569 372",
     address: {
       streetAddress: "Calle Torrelodones 84B",

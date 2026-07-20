@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Container from "@/components/common/Container";
 import FaqList from "@/components/marketing/FaqList";
 import JsonLd from "@/components/marketing/JsonLd";
+import ResourceLinks from "@/components/marketing/ResourceLinks";
 import EditorialHero from "@/components/marketing/editorial/EditorialHero";
 import EditorialSection from "@/components/marketing/editorial/EditorialSection";
 import {
@@ -52,8 +53,7 @@ export default function SoftwareServicePage() {
 
   const serviceData = serviceJsonLd({
     name: service.shortTitle,
-    description: service.metaDescription,
-    areaUrl: canonical(service.href),
+    description: service.metaDescription,
   });
 
   const faqData = faqJsonLd(service.faqs);
@@ -74,7 +74,7 @@ export default function SoftwareServicePage() {
           honestyLine="Si un SaaS estándar cubre el 90% de tu proceso sin fricción seria, te lo decimos antes de cobrar la primera hora. No vendemos proyectos que no deberían existir."
           metaPills={[
             { label: "Primera entrega", value: "4–8 semanas" },
-            { label: "Inversión típica", value: "20–80k €" },
+            { label: "Primer módulo", value: "8–20k €" },
             { label: "Código y datos", value: "Vuestros, siempre" },
             { label: "Vendor lock-in", value: "Cero" },
           ]}
@@ -212,6 +212,14 @@ export default function SoftwareServicePage() {
           variant="narrow"
         >
           <RelatedNav slugs={service.relatedServices} />
+        </EditorialSection>
+
+        <EditorialSection
+          eyebrow="Recursos relacionados"
+          title="Guías y herramientas para preparar la decisión."
+          variant="narrow"
+        >
+          <ResourceLinks posts={service.relatedPosts} labSlugs={service.relatedLabs} />
         </EditorialSection>
 
         <Container>

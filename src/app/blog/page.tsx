@@ -14,7 +14,7 @@ import { absoluteUrl } from "@/lib/urls";
 export const revalidate = 86400;
 
 export const metadata: Metadata = buildMetadata({
-  title: "Blog de Qubelia | Guías de automatización, software a medida y ERP/CRM",
+  title: "Blog: software a medida y automatización | Qubelia",
   description:
     "Automatización, integraciones ERP/CRM y software a medida para empresas B2B. Guías prácticas, casos reales y estrategias sin humo.",
   path: "/blog",

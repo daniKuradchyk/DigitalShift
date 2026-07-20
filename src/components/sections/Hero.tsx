@@ -115,8 +115,7 @@ export default function Hero() {
           >
             La IA promete mucho.
             <br className="hidden sm:block" />
-            {" "}Construimos lo que de verdad{" "}
-            <span className="gradient-text-static">mueve tu empresa</span>.
+            {" "}Construimos el <span className="gradient-text-static">software a medida</span> que de verdad mueve tu empresa.
           </motion.h1>
 
           {/* Subtitle */}
@@ -178,7 +177,7 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 0.8 }}
           >
             <p className="mb-3 text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.18em]" style={{ color: "var(--text-muted)", opacity: 0.6 }}>
-              Empresas que confían en nosotros
+              Experiencia del equipo en proyectos para
             </p>
             <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 sm:gap-x-10 md:gap-x-14">
               {partnerLogos.map((p, i) => (
@@ -193,7 +192,7 @@ export default function Hero() {
                     alt={`Logo de ${p.name} — cliente de Qubelia`}
                     width={p.width}
                     height={p.height}
-                    className="h-5 sm:h-6 w-auto object-contain brightness-0 invert opacity-30 hover:opacity-60 transition-opacity duration-500"
+                    className="h-5 sm:h-6 w-auto object-contain brightness-0 invert opacity-50 hover:opacity-90 transition-opacity duration-500"
                   />
                 </motion.div>
               ))}

@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import StaticPageFrame from "@/components/marketing/StaticPageFrame";
 import { CONTACT } from "@/config/contact";
-import { AREAS } from "@/lib/locations";
+import { AREAS, getArea } from "@/lib/locations";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/jsonld";
 import { buildMetadata, BASE_URL } from "@/lib/seo";
+import { getServices } from "@/content/services";
 
 type Params = { city: string };
 
@@ -19,70 +21,119 @@ export const revalidate = 86400;
 
 export async function generateMetadata({ params }: { params: any }): Promise<Metadata> {
   const { city } = (await params) as Params;
-  const cityName = city.charAt(0).toUpperCase() + city.slice(1);
+  const area = getArea(city);
+  if (!area) return {};
 
   return buildMetadata({
-    title: `Software a medida en ${cityName} | Desarrollo web y automatizacion para empresas`,
-    description: `Qubelia desarrolla software a medida, web y automatizacion de procesos para empresas B2B en ${cityName}. Diagnostico gratuito y propuesta en 48h.`,
+    title: `Software a medida en ${area.name} | Qubelia`,
+    description: `Desarrollo de software a medida, web y automatización de procesos para empresas de ${area.name} y provincia. Trabajo ${area.mode}. Diagnóstico gratuito.`,
     path: `/area/${city}`,
   });
 }
 
 export default async function CityPage({ params }: { params: any }) {
   const { city } = (await params) as Params;
-  if (!AREAS.some((area) => area.slug === city)) {
+  const area = getArea(city);
+  if (!area) {
     notFound();
   }
 
-  const cityName = city.charAt(0).toUpperCase() + city.slice(1);
+  const services = getServices();
 
   return (
     <>
     <StaticPageFrame
       breadcrumbs={[
         { label: "Inicio", href: "/" },
-        { label: "Areas", href: "/area" },
-        { label: cityName },
+        { label: "Dónde trabajamos", href: "/area" },
+        { label: area.name },
       ]}
-      eyebrow="Area local"
-      title={`Software, web e integraciones en ${cityName}`}
-      description={`Qubelia trabaja con empresas de ${cityName} que necesitan ordenar operativa, construir sistemas utiles o mejorar su base digital sin separar negocio y criterio tecnico.`}
+      eyebrow={`Empresas de ${area.name}`}
+      title={`Software a medida y automatización en ${area.name}`}
+      description={area.intro}
       aside={
         <>
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-sky-400">Contacto local</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-sky-400">Contacto</p>
           <div className="mt-4 space-y-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
             <p>{CONTACT.phone}</p>
             <p>{CONTACT.email}</p>
-            <p>Sevilla, Espana</p>
+            <p>Base en Sevilla · Trabajo {area.mode}</p>
           </div>
         </>
       }
     >
       <div className="grid gap-6">
         <section className={cardClass}>
-          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Donde solemos aportar mas valor</h2>
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+            Situaciones que nos encontramos en {area.name}
+          </h2>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-            <li>Herramientas internas y software a medida para procesos propios.</li>
-            <li>Automatizacion e integraciones entre CRM, ERP, formularios y reporting.</li>
-            <li>Web corporativa o comercial cuando la captacion y el posicionamiento importan de verdad.</li>
-            <li>CRM, intranet o extranet cuando el sistema estandar ya no refleja la operativa.</li>
+            {area.scenarios.map((scenario) => (
+              <li key={scenario}>{scenario}</li>
+            ))}
           </ul>
         </section>
 
         <section className="grid gap-5 lg:grid-cols-2">
           <article className={cardClass}>
-            <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Trabajo local, base comun</h2>
-            <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-              El enfoque local no crea una capa comercial distinta. Sirve para aterrizar la conversacion a la realidad geografica del proyecto mientras la arquitectura, el proceso y el desarrollo siguen una base comun y mantenible.
+            <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+              Sectores con peso en la zona
+            </h2>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {area.sectors.map((sector) => (
+                <li
+                  key={sector}
+                  className="rounded-full border border-sky-500/20 bg-sky-500/[0.06] px-3 py-1 text-xs font-medium text-sky-300"
+                >
+                  {sector}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+              No hace falta que tu sector esté en la lista: lo que determina el encaje es que haya un
+              proceso operativo concreto que hoy genera fricción, no la etiqueta sectorial.
             </p>
           </article>
 
           <article className={cardClass}>
-            <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Siguiente paso razonable</h2>
-            <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
-              Si el proyecto tiene sentido, la siguiente conversacion deberia cerrar encaje, alcance inicial y prioridad. No una propuesta generica.
-            </p>
+            <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Qué podemos construir</h2>
+            <ul className="mt-4 space-y-2 text-sm leading-relaxed">
+              {services.map((service) => (
+                <li key={service.slug}>
+                  <Link
+                    href={service.href}
+                    className="text-sky-400 transition-colors hover:text-sky-300"
+                  >
+                    {service.shortTitle}
+                  </Link>
+                  <span className="text-slate-600 dark:text-slate-300"> — {service.intent}</span>
+                </li>
+              ))}
+            </ul>
           </article>
+        </section>
+
+        <section className={cardClass}>
+          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Siguiente paso razonable</h2>
+          <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            Un diagnóstico gratuito de 30 minutos para aterrizar el problema, el alcance y si merece la
+            pena construir algo a medida — o si un SaaS bien configurado os resuelve. Si es lo segundo,
+            también lo diremos.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link
+              href="/#contacto"
+              className="inline-flex items-center justify-center rounded-full bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-sky-700"
+            >
+              Agendar diagnóstico
+            </Link>
+            <Link
+              href="/casos"
+              className="inline-flex items-center justify-center rounded-full border border-sky-500/25 px-5 py-2.5 text-sm font-semibold text-sky-300 transition-colors hover:bg-sky-500/10"
+            >
+              Ver casos de éxito
+            </Link>
+          </div>
         </section>
       </div>
     </StaticPageFrame>
@@ -92,8 +143,8 @@ export default async function CityPage({ params }: { params: any }) {
         __html: JSON.stringify(
           breadcrumbJsonLd([
             { name: "Inicio", url: BASE_URL },
-            { name: "Áreas", url: `${BASE_URL}/area` },
-            { name: cityName, url: `${BASE_URL}/area/${city}` },
+            { name: "Dónde trabajamos", url: `${BASE_URL}/area` },
+            { name: area.name, url: `${BASE_URL}/area/${city}` },
           ])
         ),
       }}
@@ -103,9 +154,9 @@ export default async function CityPage({ params }: { params: any }) {
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(
           serviceJsonLd({
-            name: `Software a medida en ${cityName}`,
-            description: `Desarrollo de software a medida, web profesional y automatización de procesos para empresas B2B en ${cityName}. Diagnóstico gratuito y propuesta en 48h.`,
-            areaUrl: `${BASE_URL}/area/${city}`,
+            name: `Software a medida en ${area.name}`,
+            description: `Desarrollo de software a medida, web profesional y automatización de procesos para empresas de ${area.name} y provincia.`,
+            areaName: area.name,
           })
         ),
       }}

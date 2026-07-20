@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Container from "@/components/common/Container";
 import FaqList from "@/components/marketing/FaqList";
 import JsonLd from "@/components/marketing/JsonLd";
+import ResourceLinks from "@/components/marketing/ResourceLinks";
 import EditorialHero from "@/components/marketing/editorial/EditorialHero";
 import EditorialSection from "@/components/marketing/editorial/EditorialSection";
 import {
@@ -52,8 +53,7 @@ export default function WebServicePage() {
 
   const serviceData = serviceJsonLd({
     name: service.shortTitle,
-    description: service.metaDescription,
-    areaUrl: canonical(service.href),
+    description: service.metaDescription,
   });
 
   return (
@@ -211,6 +211,14 @@ export default function WebServicePage() {
           variant="narrow"
         >
           <RelatedNav slugs={service.relatedServices} />
+        </EditorialSection>
+
+        <EditorialSection
+          eyebrow="Recursos relacionados"
+          title="Guías y herramientas para preparar la decisión."
+          variant="narrow"
+        >
+          <ResourceLinks posts={service.relatedPosts} labSlugs={service.relatedLabs} />
         </EditorialSection>
 
         <Container>
