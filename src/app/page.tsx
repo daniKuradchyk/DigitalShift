@@ -7,6 +7,7 @@ import Hero from "@/components/sections/Hero";
 import Methodology from "@/components/sections/Methodology";
 import Results from "@/components/sections/Results";
 import Services from "@/components/sections/Services";
+import StatsBand from "@/components/sections/StatsBand";
 import TrustStrip from "@/components/sections/TrustStrip";
 import JsonLd from "@/components/marketing/JsonLd";
 import { faqItems } from "@/content/faqs";
@@ -41,6 +42,7 @@ export default function Page() {
       <Header />
       <main id="contenido">
         <Hero />
+        <StatsBand />
         <Services />
         <Methodology />
         <TrustStrip />
