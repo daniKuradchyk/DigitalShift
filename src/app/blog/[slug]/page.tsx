@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Breadcrumbs from "@/components/marketing/Breadcrumbs";
+import PostCover from "@/components/marketing/PostCover";
 import Button from "@/components/common/Button";
 import Container from "@/components/common/Container";
 import Header from "@/components/sections/Header";
@@ -138,6 +139,11 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
                 { label: "Blog", href: "/blog" },
                 { label: post.h1 },
               ]}
+            />
+            <PostCover
+              slug={post.slug}
+              tag={post.tags[0]}
+              className="mt-6 mb-10 h-40 sm:h-52 rounded-2xl border border-white/[0.06]"
             />
             <div className="max-w-3xl">
               <div className="mb-6 flex flex-wrap gap-2.5">

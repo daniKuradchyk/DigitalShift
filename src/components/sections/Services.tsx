@@ -4,7 +4,8 @@ import { useRef } from "react";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import Container from "@/components/common/Container";
-import { serviceOrder, services } from "@/content/services";
+import ServiceVisual from "@/components/marketing/ServiceVisual";
+import { serviceOrder, services, type ServiceSlug } from "@/content/services";
 
 /* ─── Shared easing (same across ALL sections) ─────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -127,8 +128,15 @@ function ServiceRow({ slug, index, total }: { slug: string; index: number; total
             </span>
           </div>
 
-          {/* ── Panel sí/no — mini fit a la derecha ── */}
+          {/* ── Panel visual + sí/no a la derecha ── */}
           <div className="col-span-12 lg:col-span-4 order-3 lg:pl-6 lg:border-l border-blue-500/10">
+            {/* Ilustración del servicio */}
+            <ServiceVisual
+              slug={slug as ServiceSlug}
+              accentRgb={accent.rgb}
+              className="mb-6 aspect-[8/5] transition-transform duration-500 group-hover:scale-[1.02]"
+            />
+
             {/* Cuándo sí */}
             <div className="mb-5">
               <div

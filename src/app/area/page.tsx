@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import StaticPageFrame from "@/components/marketing/StaticPageFrame";
+import SpainMap from "@/components/marketing/SpainMap";
 import { AREAS } from "@/lib/locations";
 import { buildMetadata } from "@/lib/seo";
 
@@ -29,6 +30,7 @@ export default function AreasIndex() {
             <p>Arquitectura y desarrollo centralizados en la misma base técnica.</p>
             <p>Una sola forma de trabajar, con contexto local donde aporta.</p>
           </div>
+          <SpainMap className="mt-6 w-full" />
         </>
       }
     >

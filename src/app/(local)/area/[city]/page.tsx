@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import StaticPageFrame from "@/components/marketing/StaticPageFrame";
+import SpainMap from "@/components/marketing/SpainMap";
 import { CONTACT } from "@/config/contact";
 import { AREAS, getArea } from "@/lib/locations";
 import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/jsonld";
@@ -59,6 +60,7 @@ export default async function CityPage({ params }: { params: any }) {
             <p>{CONTACT.email}</p>
             <p>Base en Sevilla · Trabajo {area.mode}</p>
           </div>
+          <SpainMap activeSlug={city} className="mt-6 w-full" />
         </>
       }
     >
