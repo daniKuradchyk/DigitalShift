@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Container from "@/components/common/Container";
 import Breadcrumbs from "@/components/marketing/Breadcrumbs";
 import JsonLd from "@/components/marketing/JsonLd";
@@ -20,15 +19,6 @@ export const metadata: Metadata = buildMetadata({
   path: "/casos",
 });
 
-function slugify(name: string) {
-  return name
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
 export default function CasosPage() {
   const breadcrumbData = breadcrumbJsonLd([
     { name: "Inicio", url: absoluteUrl("/") },
@@ -40,84 +30,87 @@ export default function CasosPage() {
       <JsonLd id="ld-casos-breadcrumbs" data={breadcrumbData} />
       <Header />
       <main id="contenido">
-        <section className="py-16 sm:py-20">
-          <Container>
+        {/* ── Cabecera ───────────────────────────────────────────── */}
+        <section className="bg-white">
+          <Container className="pt-14 pb-16 sm:pt-16 sm:pb-20">
             <Breadcrumbs items={[{ label: "Inicio", href: "/" }, { label: "Casos de éxito" }]} />
 
-            <div className="max-w-3xl mb-14">
-              <div className="section-tag mb-5">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden />
-                Resultados reales
+            <div className="grid grid-cols-12 gap-8 lg:gap-12">
+              <div className="col-span-12 lg:col-span-7">
+                <p className="section-tag">Resultados reales</p>
+                <h1 className="mt-7 text-h1">Casos de éxito</h1>
               </div>
-              <h1
-                className="text-4xl sm:text-5xl font-black tracking-tight leading-[1.08] mb-5"
-                style={{ color: "var(--text-primary)" }}
-              >
-                Casos de éxito
-              </h1>
-              <p className="text-lg leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                Proyectos reales con resultados medibles. Cada caso refleja un problema concreto, la
-                solución aplicada y el impacto en el negocio.
-              </p>
+              <div className="col-span-12 lg:col-span-5 lg:pt-3">
+                <p className="text-lg leading-relaxed text-[#3D4046]">
+                  Proyectos reales con resultados medibles. Cada caso refleja un problema concreto, la
+                  solución aplicada y el impacto en el negocio.
+                </p>
+              </div>
             </div>
+          </Container>
+        </section>
 
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {cases.map((c) => (
-                <article
-                  key={c.client}
-                  className="surface-card relative overflow-hidden rounded-2xl p-6 flex flex-col"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-sm font-bold text-blue-400">
-                      {c.client.charAt(0)}
-                    </span>
-                    <div>
-                      <h2 className="text-base font-bold" style={{ color: "var(--text-primary)" }}>
-                        {c.client}
-                      </h2>
-                      <p className="text-xs" style={{ color: "var(--text-muted)" }}>
-                        {c.sector} · {c.period}
-                      </p>
-                    </div>
-                  </div>
+        {/* ── Tarjetas de caso ───────────────────────────────────── */}
+        <section className="border-t border-[#E4E6EA] bg-[#F5F6F8]">
+          <Container className="py-16 sm:py-20">
+            <div className="grid gap-px border border-[#E4E6EA] bg-[#E4E6EA] sm:grid-cols-2 lg:grid-cols-3">
+              {cases.map((c) => {
+                const [headline, ...secondary] = c.highlights;
 
-                  <p className="text-sm leading-relaxed mb-5 flex-1" style={{ color: "var(--text-secondary)" }}>
-                    {c.challenge}
-                  </p>
-
-                  <div className="space-y-2 pt-4 border-t" style={{ borderColor: "var(--border)" }}>
-                    <p
-                      className="text-[10px] font-bold uppercase tracking-[0.2em]"
-                      style={{ color: "var(--text-muted)" }}
-                    >
-                      Resultados clave
+                return (
+                  <article key={c.client} className="flex flex-col bg-white p-8">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
+                      {c.sector} · {c.period}
                     </p>
-                    <ul className="space-y-1.5">
-                      {c.highlights.map((h) => (
-                        <li
-                          key={h}
-                          className="flex items-start gap-2 text-sm"
-                          style={{ color: "var(--text-secondary)" }}
-                        >
-                          <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-emerald-400" aria-hidden />
-                          {h}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </article>
-              ))}
-            </div>
 
-            <div className="mt-14 surface-card relative overflow-hidden rounded-2xl p-8 text-center">
-              <h2 className="text-xl font-bold mb-2" style={{ color: "var(--text-primary)" }}>
-                ¿Quieres resultados similares?
-              </h2>
-              <p className="text-sm mb-6" style={{ color: "var(--text-secondary)" }}>
-                Analizamos tu caso en 45 minutos. Sin compromiso, con propuesta clara.
-              </p>
-              <div className="flex flex-wrap gap-3 justify-center">
-                <Button as="a" href="/#contacto" variant="shine">
+                    <h2 className="mt-3 text-xl font-semibold tracking-tight text-[#101014]">
+                      {c.client}
+                    </h2>
+
+                    <p className="mt-4 flex-1 text-[15px] leading-relaxed text-[#3D4046]">
+                      {c.challenge}
+                    </p>
+
+                    <div className="mt-8 border-t border-[#E4E6EA] pt-6">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
+                        Resultados clave
+                      </p>
+
+                      {headline ? (
+                        <p className="mt-4 text-2xl font-semibold leading-snug tracking-tight text-[#101014]">
+                          {headline}
+                        </p>
+                      ) : null}
+
+                      {secondary.length > 0 ? (
+                        <ul className="mt-5 divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
+                          {secondary.map((h) => (
+                            <li key={h} className="py-3 text-sm leading-snug text-[#3D4046]">
+                              {h}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </Container>
+        </section>
+
+        {/* ── CTA final ──────────────────────────────────────────── */}
+        <section className="border-t border-[#E4E6EA] bg-white">
+          <Container className="py-16 sm:py-20">
+            <div className="grid grid-cols-12 gap-8 lg:items-end">
+              <div className="col-span-12 lg:col-span-7">
+                <h2 className="text-h3">¿Quieres resultados similares?</h2>
+                <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#3D4046]">
+                  Analizamos tu caso en 45 minutos. Sin compromiso, con propuesta clara.
+                </p>
+              </div>
+              <div className="col-span-12 flex flex-wrap gap-3 lg:col-span-5 lg:justify-end">
+                <Button as="a" href="/#contacto" variant="primary">
                   Agendar diagnóstico
                 </Button>
                 <Button as="a" href="/servicios" variant="ghost">

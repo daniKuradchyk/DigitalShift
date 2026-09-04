@@ -53,7 +53,8 @@ export default function SoftwareServicePage() {
 
   const serviceData = serviceJsonLd({
     name: service.shortTitle,
-    description: service.metaDescription,
+    description: service.metaDescription,
+    url: canonical(service.href),
   });
 
   const faqData = faqJsonLd(service.faqs);
@@ -64,7 +65,7 @@ export default function SoftwareServicePage() {
       <JsonLd id="ld-software-service" data={serviceData} />
       <JsonLd id="ld-software-faq" data={faqData} />
       <Header />
-      <main id="contenido">
+      <main id="contenido" className="bg-white divide-y divide-[#E4E6EA]">
         <EditorialHero
           slug="software-a-medida"
           breadcrumbs={breadcrumbs}
@@ -120,6 +121,7 @@ export default function SoftwareServicePage() {
         >
           <SoftwareArchitecture />
         </EditorialSection>
+
 
         {/* ── 05 · Código real ── */}
         <EditorialSection
@@ -222,15 +224,17 @@ export default function SoftwareServicePage() {
           <ResourceLinks posts={service.relatedPosts} labSlugs={service.relatedLabs} />
         </EditorialSection>
 
-        <Container>
-          <EditorialFinalCta
-            kicker="Antes de pedir presupuesto"
-            title="Empieza por entender si esto merece construirse."
-            body="Una conversación de 30 minutos. Te decimos si tu caso entra limpio aquí, si encaja mejor con otro servicio, o si la respuesta correcta es no hacer nada todavía. Sin presión comercial."
-            secondaryHref="/servicios/automatizacion-integraciones"
-            secondaryLabel="Ver automatización"
-          />
-        </Container>
+        <section className="bg-white pb-8 sm:pb-12">
+          <Container>
+            <EditorialFinalCta
+              kicker="Antes de pedir presupuesto"
+              title="Empieza por entender si esto merece construirse."
+              body="Una conversación de 30 minutos. Te decimos si tu caso entra limpio aquí, si encaja mejor con otro servicio, o si la respuesta correcta es no hacer nada todavía. Sin presión comercial."
+              secondaryHref="/servicios/automatizacion-integraciones"
+              secondaryLabel="Ver automatización"
+            />
+          </Container>
+        </section>
       </main>
       <Footer />
     </>

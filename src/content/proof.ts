@@ -79,8 +79,8 @@ export const resultKpis: ResultKpi[] = [
     suffix: " sem",
     label: "Máximo hasta la primera entrega útil",
     sub: "con alcance definido",
-    accent: "#85A2FF",
-    accentRgb: "133,162,255",
+    accent: "#2C4BC4",
+    accentRgb: "44,75,196",
     bar: 70,
   },
   {
@@ -88,8 +88,8 @@ export const resultKpis: ResultKpi[] = [
     suffix: "%",
     label: "Propiedad del código y los datos",
     sub: "repositorios y accesos entregados",
-    accent: "#5B8DEF",
-    accentRgb: "91,141,239",
+    accent: "#2C4BC4",
+    accentRgb: "44,75,196",
     bar: 100,
   },
   {
@@ -97,8 +97,8 @@ export const resultKpis: ResultKpi[] = [
     suffix: "h",
     label: "Respuesta a incidencias críticas",
     sub: "en mantenimiento con SLA",
-    accent: "#ADC1FF",
-    accentRgb: "173,193,255",
+    accent: "#2C4BC4",
+    accentRgb: "44,75,196",
     bar: 55,
   },
   {
@@ -106,8 +106,8 @@ export const resultKpis: ResultKpi[] = [
     suffix: "h",
     label: "Respuesta comercial máxima",
     sub: "con siguiente paso concreto",
-    accent: "#4169E1",
-    accentRgb: "65,105,225",
+    accent: "#2C4BC4",
+    accentRgb: "44,75,196",
     bar: 45,
   },
 ];

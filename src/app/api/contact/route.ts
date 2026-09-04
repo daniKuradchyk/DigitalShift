@@ -34,7 +34,7 @@ function getSupabase() {
 export async function POST(request: Request) {
   const data = (await request.json().catch(() => null)) as Payload | null;
   if (!data) {
-    return NextResponse.json({ ok: false, message: "Formato invalido" }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "Formato inválido" }, { status: 400 });
   }
 
   if (data.website && data.website.trim().length > 0) {
@@ -53,14 +53,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Faltan campos obligatorios" }, { status: 400 });
   }
   if (!isEmail(email)) {
-    return NextResponse.json({ ok: false, message: "Email invalido" }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "Email inválido" }, { status: 400 });
   }
   if (!isPhone(phone)) {
-    return NextResponse.json({ ok: false, message: "Telefono invalido" }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "Teléfono inválido" }, { status: 400 });
   }
   if (!privacyAccepted) {
     return NextResponse.json(
-      { ok: false, message: "Debes aceptar la politica de privacidad" },
+      { ok: false, message: "Debes aceptar la política de privacidad" },
       { status: 400 }
     );
   }

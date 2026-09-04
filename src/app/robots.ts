@@ -7,7 +7,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/_next/", "/buscar"],
+        // /buscar NO se bloquea aquí a propósito: emite `noindex, follow` en el HTML
+        // y Google necesita poder rastrearla para leer esa etiqueta. Bloquearla por
+        // robots.txt impedía leer el noindex y permitía que la URL acabara indexada.
+        disallow: ["/api/", "/_next/"],
       },
     ],
     sitemap: `${base}/sitemap.xml`,

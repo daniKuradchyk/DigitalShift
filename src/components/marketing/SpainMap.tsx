@@ -3,6 +3,7 @@ import { AREAS } from "@/lib/locations";
 /**
  * Mapa esquemático de España con las zonas donde trabaja Qubelia.
  * Silueta simplificada (estilizada, no cartográfica) + ciudades.
+ * Trazo fino sobre fondo claro, acento azul en la zona activa.
  * Server Component.
  */
 
@@ -11,6 +12,15 @@ type Props = {
   activeSlug?: string;
   className?: string;
 };
+
+const ACCENT = "#2C4BC4";
+const ACCENT_SOFT = "#B9C9FA";
+const INK = "#101014";
+const INK_SOFT = "#3D4046";
+const INK_MUTED = "#63666D";
+const INK_FAINT = "#9DA0A6";
+const LINE = "#E4E6EA";
+const LINE_STRONG = "#C9CCD3";
 
 /* Coordenadas aproximadas dentro del viewBox 400x340 */
 const CITY_POS: Record<string, { x: number; y: number; anchor?: "start" | "end" }> = {
@@ -43,18 +53,13 @@ export default function SpainMap({ activeSlug, className }: Props) {
       className={className}
     >
       {/* Silueta */}
-      <path
-        d={OUTLINE}
-        fill="rgba(65,105,225,0.06)"
-        stroke="rgba(91,141,239,0.30)"
-        strokeWidth="1.2"
-        strokeLinejoin="round"
-      />
+      <path d={OUTLINE} fill="#F5F6F8" stroke={LINE_STRONG} strokeWidth="1" strokeLinejoin="round" />
+
       {/* Rejilla sutil recortada a la silueta */}
       <clipPath id="es-clip">
         <path d={OUTLINE} />
       </clipPath>
-      <g clipPath="url(#es-clip)" stroke="rgba(91,141,239,0.10)" strokeWidth="0.7">
+      <g clipPath="url(#es-clip)" stroke={LINE} strokeWidth="0.6">
         {Array.from({ length: 9 }, (_, i) => (
           <line key={`v${i}`} x1={40 + i * 40} y1={0} x2={40 + i * 40} y2={340} />
         ))}
@@ -70,7 +75,7 @@ export default function SpainMap({ activeSlug, className }: Props) {
           y1={CITY_POS.sevilla.y}
           x2={CITY_POS[activeSlug].x}
           y2={CITY_POS[activeSlug].y}
-          stroke="rgba(133,162,255,0.35)"
+          stroke={LINE_STRONG}
           strokeWidth="1"
           strokeDasharray="4 4"
         />
@@ -85,25 +90,21 @@ export default function SpainMap({ activeSlug, className }: Props) {
         return (
           <g key={area.slug}>
             {isActive ? (
-              <circle cx={pos.x} cy={pos.y} r="10" fill="none" stroke="rgba(133,162,255,0.5)" strokeWidth="1">
-                <animate attributeName="r" values="6;13;6" dur="2.4s" repeatCount="indefinite" />
-                <animate attributeName="stroke-opacity" values="0.6;0;0.6" dur="2.4s" repeatCount="indefinite" />
-              </circle>
+              <circle cx={pos.x} cy={pos.y} r="9" fill="none" stroke={ACCENT_SOFT} strokeWidth="1" />
             ) : null}
             <circle
               cx={pos.x}
               cy={pos.y}
               r={isActive ? 4.5 : isBase ? 4 : 2.8}
-              fill={isActive ? "#85A2FF" : isBase ? "rgba(91,141,239,0.9)" : "rgba(91,141,239,0.45)"}
+              fill={isActive ? ACCENT : isBase ? INK : INK_FAINT}
             />
             <text
               x={pos.anchor === "end" ? pos.x - 8 : pos.x + 8}
               y={pos.y + 3.5}
               textAnchor={pos.anchor === "end" ? "end" : "start"}
-              fontFamily="ui-monospace, monospace"
               fontSize="9.5"
-              fill={isActive ? "rgba(240,244,255,0.95)" : "rgba(173,193,255,0.55)"}
-              fontWeight={isActive || isBase ? 700 : 400}
+              fill={isActive ? ACCENT : isBase ? INK : INK_MUTED}
+              fontWeight={isActive || isBase ? 600 : 400}
             >
               {area.name}
             </text>
@@ -113,8 +114,8 @@ export default function SpainMap({ activeSlug, className }: Props) {
 
       {/* Leyenda base */}
       <g>
-        <circle cx={30} cy={322} r="3.5" fill="rgba(91,141,239,0.9)" />
-        <text x={40} y={326} fontFamily="ui-monospace, monospace" fontSize="9" fill="rgba(173,193,255,0.55)">
+        <circle cx={30} cy={322} r="3.5" fill={INK} />
+        <text x={40} y={326} fontSize="9" fill={INK_SOFT}>
           Base: Sevilla · resto: presencial o remoto
         </text>
       </g>

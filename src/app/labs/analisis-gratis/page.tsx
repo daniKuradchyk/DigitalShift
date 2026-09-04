@@ -3,12 +3,14 @@ import Link from "next/link";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 import Logo from "@/components/common/Logo";
+import Footer from "@/components/sections/Footer";
 import AuditWizard from "./AuditWizard";
+import { breadcrumbJsonLd } from "@/lib/jsonld";
 import { canonical, openGraphImage, titleTemplate } from "@/lib/seo";
 
 const pageTitle = "Análisis gratuito de tu negocio";
 const pageDescription =
-  "Autodiagnostico en 5-8 min para pymes y autonomos. Detecta puntos flojos, quick wins y un roadmap 30-90 dias sin registro.";
+  "Autodiagnóstico en 5-8 min para pymes y autónomos. Detecta puntos flojos, quick wins y un roadmap 30-90 días sin registro.";
 
 export const metadata: Metadata = {
   title: titleTemplate(pageTitle),
@@ -42,94 +44,99 @@ const stats = [
 
 const benefits = [
   "Resumen ejecutivo con prioridades reales.",
-  "Puntos flojos + quick wins en 7 dias.",
-  "Roadmap 30-90 dias y matriz impacto/esfuerzo.",
+  "Puntos flojos + quick wins en 7 días.",
+  "Roadmap 30-90 días y matriz impacto/esfuerzo.",
   "PDF descargable sin email obligatorio.",
 ];
 
+const breadcrumbLd = breadcrumbJsonLd([
+  { name: "Inicio", url: canonical("/") },
+  { name: "Labs", url: canonical("/labs") },
+  { name: pageTitle, url: canonical("/labs/analisis-gratis") },
+]);
+
 export default function AuditPage() {
   return (
-    <main className="relative overflow-hidden py-12 sm:py-16 bg-gradient-to-br from-sky-50/40 via-white/20 to-sky-50/40 dark:from-slate-950/40 dark:via-slate-900/20 dark:to-slate-950/40">
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-24 top-12 h-72 w-72 rounded-full bg-sky-300/10 blur-3xl dark:bg-sky-500/10" />
-        <div className="absolute right-0 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-sky-500/10 blur-3xl dark:bg-sky-700/10" />
-      </div>
-
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <main className="bg-white">
       <Container>
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E4E6EA] py-5">
           <Link href="/" aria-label="Ir a inicio" className="inline-flex items-center">
             <Logo className="scale-90 origin-left" />
           </Link>
           <div className="flex flex-wrap items-center gap-3">
-            <Button as="a" href="/labs" variant="ghost">Volver a Labs</Button>
-            <Button as="a" href="/#contacto" variant="shine">Hablar con Qubelia</Button>
+            <Button as="a" href="/labs" variant="ghost" size="sm">Volver a Labs</Button>
+            <Button as="a" href="/#contacto" variant="primary" size="sm">Hablar con Qubelia</Button>
           </div>
         </div>
 
-        <section className="grid gap-8 sm:gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start">
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-sky-100 dark:border-sky-500/30 bg-sky-50/80 dark:bg-sky-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700 dark:text-sky-300">
-              Herramienta gratuita
+        <section className="grid items-start gap-10 py-16 sm:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+          <div>
+            <p className="section-tag">Herramienta gratuita</p>
+
+            <h1 className="mt-8 max-w-xl text-h1">Análisis gratuito de tu negocio</h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#3D4046]">
+              Autodiagnóstico rápido para pymes y autónomos. Detecta puntos flojos, quick wins y un plan de 30-90 días en minutos.
+            </p>
+
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <Button as="a" href="#analisis" variant="primary" size="lg" className="w-full sm:w-auto">Analizar ahora</Button>
+              <Button as="a" href="/#contacto" variant="ghost" size="lg" className="w-full sm:w-auto">Adaptar a mi empresa</Button>
             </div>
-            <div className="max-w-xl space-y-3">
-              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Análisis gratuito de tu negocio</h1>
-              <p className="text-slate-700 dark:text-slate-300">
-                Autodiagnostico rapido para pymes y autonomos. Detecta puntos flojos, quick wins y un plan de 30-90 dias en minutos.
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Button as="a" href="#analisis" variant="shine" className="w-full sm:w-auto">Analizar ahora</Button>
-              <Button as="a" href="/#contacto" variant="ghost" className="w-full sm:w-auto">Adaptar a mi empresa</Button>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-3">
+
+            <dl className="mt-12 grid grid-cols-1 divide-y divide-[#E4E6EA] border-t border-[#E4E6EA] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
               {stats.map((s, index) => (
-                <div
-                  key={s.label}
-                  className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white/85 dark:bg-white/[0.03] p-4 shadow-sm"
-                >
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-slate-500 dark:text-slate-400">0{index + 1}</p>
-                  <p className="mt-1 text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{s.label}</p>
-                  <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">{s.value}</p>
+                <div key={s.label} className="py-6 sm:px-6 sm:py-8 sm:first:pl-0">
+                  <p className="text-xs font-medium tabular-nums text-[#9DA0A6]">
+                    {String(index + 1).padStart(2, "0")}
+                  </p>
+                  <dt className="mt-2 text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]">
+                    {s.label}
+                  </dt>
+                  <dd className="mt-2 text-xl font-semibold tracking-tight text-[#101014]">{s.value}</dd>
                 </div>
               ))}
-            </div>
-            <div className="rounded-2xl border border-sky-100 dark:border-sky-500/40 bg-sky-50/80 dark:bg-sky-500/10 px-4 py-3 text-xs text-sky-700 dark:text-sky-300">
-              Te llevara 5-8 min. Resultado inmediato. Sin registro. Email opcional.
-            </div>
+            </dl>
+
+            <p className="mt-8 border-l-2 border-brand-600 bg-[#F5F6F8] px-4 py-3 text-sm text-[#3D4046]">
+              Te llevará 5-8 min. Resultado inmediato. Sin registro. Email opcional.
+            </p>
           </div>
 
-          <aside className="space-y-4">
-            <div className="rounded-3xl border border-slate-200 bg-white/90 dark:bg-white/[0.03] p-4 sm:p-6 shadow-sm backdrop-blur-sm dark:border-white/[0.07]">
-              <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Incluye</p>
-              <ul className="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-300">
+          <aside className="space-y-6">
+            <div className="border border-[#E4E6EA] bg-white p-6 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]">Incluye</p>
+              <ul className="mt-5 divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
                 {benefits.map((b, index) => (
-                  <li key={b} className="flex items-start gap-3 rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white/80 dark:bg-white/[0.02] p-3 shadow-sm">
-                    <span className="mt-0.5 inline-flex h-7 w-7 flex-none items-center justify-center rounded-full border border-sky-100 dark:border-sky-500/30 bg-sky-50 dark:bg-sky-500/10 text-[10px] font-semibold uppercase tracking-[0.2em] text-sky-700 dark:text-sky-300">
+                  <li key={b} className="flex items-start gap-4 py-4">
+                    <span className="mt-0.5 flex-none text-sm font-medium tabular-nums text-[#9DA0A6]">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span>{b}</span>
+                    <span className="text-sm leading-relaxed text-[#3D4046]">{b}</span>
                   </li>
                 ))}
               </ul>
-              <div className="mt-6 rounded-2xl border border-sky-100 dark:border-sky-500/40 bg-sky-50/80 dark:bg-sky-500/10 p-4 text-sm text-sky-700 dark:text-sky-300">
+              <p className="mt-6 border-l-2 border-brand-600 bg-[#F5F6F8] px-4 py-3 text-sm leading-relaxed text-[#3D4046]">
                 Sin registro obligatorio. Solo pedimos email si quieres el PDF o una llamada.
-              </div>
+              </p>
             </div>
 
-            <div className="rounded-3xl border border-slate-200 dark:border-white/[0.07] bg-white/90 dark:bg-white/[0.03] p-4 sm:p-6 shadow-sm backdrop-blur-sm">
-              <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Privacidad</p>
-              <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">
+            <div className="border border-[#E4E6EA] bg-white p-6 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]">Privacidad</p>
+              <p className="mt-4 text-sm leading-relaxed text-[#3D4046]">
                 Cumplimos RGPD. Tus datos se usan solo para generar el informe y, si lo pides, enviarte el PDF.
               </p>
             </div>
           </aside>
         </section>
 
-        <section id="analisis" className="mt-12">
+        <section id="analisis" className="scroll-mt-24 border-t border-[#E4E6EA] py-16 sm:py-20">
           <AuditWizard />
         </section>
       </Container>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }
-

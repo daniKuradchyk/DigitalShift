@@ -83,7 +83,6 @@ interface Industry {
   key: string;
   label: string;
   tagline: string;
-  gradient: string;
   svg: ReactNode;
   project: { costeDesarrollo: string; integracion: IntegrationKey; licencias: string };
   procs: StarterProc[];
@@ -94,7 +93,6 @@ const INDUSTRIES: Industry[] = [
     key: "ecommerce",
     label: "E-commerce",
     tagline: "Pedidos, devoluciones, stock",
-    gradient: "from-sky-400 to-blue-500",
     svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3h2l2.4 12.4a2 2 0 002 1.6h8.7a2 2 0 002-1.6L22 7H6" /><circle cx="9" cy="20" r="1.5" /><circle cx="18" cy="20" r="1.5" /></svg>,
     project: { costeDesarrollo: "22000", integracion: "media", licencias: "1200" },
     procs: [
@@ -106,7 +104,6 @@ const INDUSTRIES: Industry[] = [
     key: "industria",
     label: "Industria",
     tagline: "Producción, compras, calidad",
-    gradient: "from-orange-400 to-rose-500",
     svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21V10l6 4V10l6 4V10l6 4v7H3z" /><path d="M7 17h2M13 17h2M17 17h1" /></svg>,
     project: { costeDesarrollo: "32000", integracion: "alta", licencias: "2400" },
     procs: [
@@ -119,7 +116,6 @@ const INDUSTRIES: Industry[] = [
     key: "servicios",
     label: "Servicios",
     tagline: "Facturación, reporting, onboarding",
-    gradient: "from-indigo-400 to-violet-500",
     svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 7h16M4 12h16M4 17h10" /><circle cx="18" cy="17" r="2" /></svg>,
     project: { costeDesarrollo: "18000", integracion: "media", licencias: "600" },
     procs: [
@@ -131,7 +127,6 @@ const INDUSTRIES: Industry[] = [
     key: "saas",
     label: "SaaS",
     tagline: "Onboarding, billing, soporte",
-    gradient: "from-emerald-400 to-teal-500",
     svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M7 9h10M7 13h6M7 17h4" /></svg>,
     project: { costeDesarrollo: "24000", integracion: "baja", licencias: "1800" },
     procs: [
@@ -143,7 +138,6 @@ const INDUSTRIES: Industry[] = [
     key: "logistica",
     label: "Logística",
     tagline: "Albaranes, transporte, trazabilidad",
-    gradient: "from-amber-400 to-orange-500",
     svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 7h11v10H3zM14 10h5l2 3v4h-7" /><circle cx="7" cy="19" r="1.5" /><circle cx="18" cy="19" r="1.5" /></svg>,
     project: { costeDesarrollo: "26000", integracion: "alta", licencias: "1500" },
     procs: [
@@ -155,7 +149,6 @@ const INDUSTRIES: Industry[] = [
     key: "custom",
     label: "Personalizado",
     tagline: "Empezar desde cero",
-    gradient: "from-slate-400 to-slate-600",
     svg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12h14" /></svg>,
     project: { costeDesarrollo: "18000", integracion: "media", licencias: "0" },
     procs: [
@@ -291,20 +284,20 @@ function calcAll(procs: Process[], proj: Project, scenario: ScenarioKey) {
   };
 }
 
-// ── Design primitives (dark theme) ───────────────────────────────────────────
+// ── Design primitives (sistema corporativo claro) ────────────────────────────
 
-/** Glass card — dark navy with subtle blue border glow. */
-const SURFACE = "rounded-3xl bg-[rgba(10,17,40,0.85)] backdrop-blur-md ring-1 ring-[rgba(65,105,225,0.12)] shadow-[0_8px_32px_rgba(0,0,0,0.40),0_0_40px_rgba(65,105,225,0.08)]";
+/** Tarjeta plana: fondo blanco, borde fino, sin sombra. */
+const SURFACE = "border border-[#E4E6EA] bg-white";
 
 const INPUT_CLS =
-  "w-full rounded-xl bg-[rgba(15,27,76,0.40)] px-3.5 py-2.5 text-sm font-medium text-[#F0F4FF] ring-1 ring-[rgba(65,105,225,0.25)] placeholder:text-blue-300/40 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:ring-offset-0 hover:ring-[rgba(65,105,225,0.40)] transition-all";
+  "w-full border border-[#C9CCD3] bg-white px-3 py-2.5 text-sm text-[#101014]";
 
 function Label({ children, info, suffix }: { children: ReactNode; info?: string; suffix?: ReactNode }) {
   return (
-    <label className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] text-blue-200/70 mb-1.5">
+    <label className="mb-2 flex items-center gap-1.5 text-sm font-medium text-[#101014]">
       {children}
       {info && <InfoDot text={info} />}
-      {suffix && <span className="ml-auto font-mono text-[11px] tracking-normal font-bold text-blue-400">{suffix}</span>}
+      {suffix && <span className="ml-auto text-xs font-semibold tabular-nums text-brand-600">{suffix}</span>}
     </label>
   );
 }
@@ -314,14 +307,14 @@ function NumInput({
 }: { value: string; onChange: (v: string) => void; placeholder?: string; prefix?: string; suffix?: string; min?: number; step?: number }) {
   return (
     <div className="relative">
-      {prefix && <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-semibold text-blue-300/50">{prefix}</span>}
+      {prefix && <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#63666D]">{prefix}</span>}
       <input
         type="number" min={min} step={step} value={value}
         onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
         className={`${INPUT_CLS} tabular-nums ${prefix ? "pl-7" : ""} ${suffix ? "pr-12" : ""}`}
       />
-      {suffix && <span className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-[11px] font-semibold text-blue-300/50">{suffix}</span>}
+      {suffix && <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#63666D]">{suffix}</span>}
     </div>
   );
 }
@@ -329,8 +322,8 @@ function NumInput({
 function InfoDot({ text }: { text: string }) {
   return (
     <span className="group/info relative inline-flex">
-      <span className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-full bg-blue-500/15 text-[9px] font-bold text-blue-300/70 cursor-help select-none hover:bg-blue-500/25 transition-colors">?</span>
-      <span className="pointer-events-none absolute left-1/2 bottom-full mb-2 -translate-x-1/2 z-30 w-56 rounded-xl bg-[#0D1530] ring-1 ring-[rgba(65,105,225,0.25)] text-[10.5px] leading-snug text-blue-100 px-3 py-2.5 opacity-0 group-hover/info:opacity-100 transition-opacity shadow-2xl">
+      <span className="inline-flex h-4 w-4 cursor-help select-none items-center justify-center border border-[#C9CCD3] text-[10px] font-semibold text-[#63666D] transition-colors hover:border-[#101014] hover:text-[#101014]">?</span>
+      <span className="pointer-events-none absolute bottom-full left-1/2 z-30 mb-2 w-56 -translate-x-1/2 border border-[#E4E6EA] bg-white px-3 py-2.5 text-xs font-normal normal-case leading-snug tracking-normal text-[#3D4046] opacity-0 transition-opacity group-hover/info:opacity-100">
         {text}
       </span>
     </span>
@@ -352,33 +345,30 @@ function ProcessCard({ proc, idx, canRemove, onChange, onRemove }: ProcessCardPr
   const subtotal = useMemo(() => calcProcess(proc), [proc]);
 
   return (
-    <div className={`${SURFACE} overflow-hidden`}>
+    <div className={SURFACE}>
       {/* Header */}
-      <div className="flex items-center gap-3 px-5 py-4 bg-gradient-to-r from-blue-500/5 via-transparent to-transparent">
-        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-indigo-500 text-white text-[11px] font-bold tabular-nums shadow-[0_4px_12px_-2px_rgba(65,105,225,0.35)]">
-          {idx + 1}
+      <div className="flex items-center gap-3 px-5 py-4">
+        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center border border-[#E4E6EA] text-[11px] font-medium tabular-nums text-[#101014]">
+          {String(idx + 1).padStart(2, "0")}
         </span>
         <input
           type="text"
           value={proc.nombre}
           onChange={e => onChange(proc.id, "nombre", e.target.value)}
           placeholder={`Proceso ${idx + 1} — pon un nombre descriptivo`}
-          className="flex-1 min-w-0 rounded-lg bg-[rgba(15,27,76,0.30)] px-2.5 py-1.5 ring-1 ring-[rgba(65,105,225,0.20)] text-[15px] font-semibold text-[#F0F4FF] placeholder:text-blue-300/40 placeholder:font-medium outline-none focus:ring-2 focus:ring-blue-400/40"
+          className="min-w-0 flex-1 border border-[#E4E6EA] bg-white px-3 py-1.5 text-[15px] font-medium text-[#101014]"
         />
         {subtotal && (
-          <div className="hidden sm:flex items-center gap-2 rounded-full bg-emerald-500/10 px-2.5 py-1 ring-1 ring-emerald-500/20">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            <span className="text-[11px] font-semibold tabular-nums text-emerald-400">
-              {eur(subtotal.ahorroLab + subtotal.ahorroErr)}/mes
-            </span>
-          </div>
+          <span className="hidden items-center border border-[#E4E6EA] px-2.5 py-1 text-[11px] font-medium tabular-nums text-[#101014] sm:inline-flex">
+            {eur(subtotal.ahorroLab + subtotal.ahorroErr)}/mes
+          </span>
         )}
         {canRemove && (
           <button
             type="button"
             onClick={() => onRemove(proc.id)}
             aria-label="Eliminar proceso"
-            className="no-print shrink-0 h-7 w-7 inline-flex items-center justify-center rounded-lg text-blue-300/50 hover:text-red-400 hover:bg-red-500/10 transition-all"
+            className="no-print inline-flex h-7 w-7 shrink-0 items-center justify-center text-[#63666D] transition-colors hover:text-[#101014]"
           >
             <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
               <path d="M3 3l10 10M13 3L3 13" />
@@ -387,7 +377,7 @@ function ProcessCard({ proc, idx, canRemove, onChange, onRemove }: ProcessCardPr
         )}
       </div>
 
-      <div className="px-5 py-5 space-y-5 border-t border-[rgba(65,105,225,0.10)]">
+      <div className="space-y-5 border-t border-[#E4E6EA] px-5 py-5">
         {/* Type */}
         <div>
           <Label info="Cada tipo activa un benchmark de potencial de automatización y coste medio de error (UiPath, APQC).">
@@ -402,7 +392,7 @@ function ProcessCard({ proc, idx, canRemove, onChange, onRemove }: ProcessCardPr
               <option key={k} value={k}>{PRESETS[k].label}</option>
             ))}
           </select>
-          {preset.desc && <p className="mt-1.5 text-[11.5px] text-blue-300/50">{preset.desc}</p>}
+          {preset.desc && <p className="mt-2 text-[13px] text-[#63666D]">{preset.desc}</p>}
         </div>
 
         {/* Fields */}
@@ -433,12 +423,12 @@ function ProcessCard({ proc, idx, canRemove, onChange, onRemove }: ProcessCardPr
             <Label suffix={`${proc.automPot}%`} info={`Porcentaje del proceso automatizable. Ref. sector «${preset.label}»: ${preset.automPot} %. Fuente UiPath.`}>
               Potencial auto.
             </Label>
-            <div className="relative rounded-xl bg-[rgba(15,27,76,0.30)] ring-1 ring-[rgba(65,105,225,0.20)] px-3.5 py-3">
+            <div className="relative border border-[#E4E6EA] bg-[#F5F6F8] px-3.5 py-3">
               <input
                 type="range" min="20" max="95" step="5"
                 value={proc.automPot}
                 onChange={e => onChange(proc.id, "automPot", e.target.value)}
-                className="w-full h-1.5 accent-blue-500 cursor-pointer"
+                className="h-1.5 w-full cursor-pointer accent-brand-600"
               />
             </div>
           </div>
@@ -485,40 +475,29 @@ function CashflowChart({ years, invest, paybackMonths }: { years: YearRow[]; inv
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img" aria-label="Proyección de caja acumulada">
-      <defs>
-        <linearGradient id="cashArea" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0%" stopColor="#4169E1" stopOpacity="0.18" />
-          <stop offset="100%" stopColor="#4169E1" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient id="cashLine" x1="0" x2="1">
-          <stop offset="0%" stopColor="#4169E1" />
-          <stop offset="100%" stopColor="#10B981" />
-        </linearGradient>
-      </defs>
-
-      <line x1={PADL} x2={W - PADR} y1={zeroY} y2={zeroY} stroke="rgb(15,23,42)" strokeOpacity="0.15" strokeWidth="1" strokeDasharray="4 4" />
+      <line x1={PADL} x2={W - PADR} y1={zeroY} y2={zeroY} stroke="#C9CCD3" strokeWidth="1" strokeDasharray="4 4" />
 
       {[12, 24, 36].map((m) => (
         <g key={m}>
-          <line x1={xAt(m)} x2={xAt(m)} y1={PADT} y2={PADT + IH} stroke="rgb(15,23,42)" strokeOpacity="0.05" />
-          <text x={xAt(m)} y={H - 8} textAnchor="middle" fontSize="10" fontWeight="500" fill="rgb(100,116,139)">
+          <line x1={xAt(m)} x2={xAt(m)} y1={PADT} y2={PADT + IH} stroke="#E4E6EA" />
+          <text x={xAt(m)} y={H - 8} textAnchor="middle" fontSize="10" fontWeight="500" fill="#63666D">
             Mes {m}
           </text>
         </g>
       ))}
 
-      <text x={PADL - 8} y={yAt(cumMax) + 3} textAnchor="end" fontSize="10" fontWeight="500" fill="rgb(71,85,105)">{eur(cumMax)}</text>
-      <text x={PADL - 8} y={zeroY + 3} textAnchor="end" fontSize="10" fill="rgb(100,116,139)">0</text>
-      <text x={PADL - 8} y={yAt(cumMin) + 3} textAnchor="end" fontSize="10" fontWeight="500" fill="rgb(71,85,105)">{eur(cumMin)}</text>
+      <text x={PADL - 8} y={yAt(cumMax) + 3} textAnchor="end" fontSize="10" fontWeight="500" fill="#3D4046">{eur(cumMax)}</text>
+      <text x={PADL - 8} y={zeroY + 3} textAnchor="end" fontSize="10" fill="#63666D">0</text>
+      <text x={PADL - 8} y={yAt(cumMin) + 3} textAnchor="end" fontSize="10" fontWeight="500" fill="#3D4046">{eur(cumMin)}</text>
 
-      <path d={area} fill="url(#cashArea)" />
-      <path d={path} fill="none" stroke="url(#cashLine)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d={area} fill="rgba(44,75,196,0.08)" />
+      <path d={path} fill="none" stroke="#2C4BC4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
 
       {pbX !== null && (
         <g>
-          <line x1={pbX} x2={pbX} y1={PADT} y2={PADT + IH} stroke="rgb(16,185,129)" strokeWidth="1.5" strokeDasharray="4 3" />
-          <circle cx={pbX} cy={zeroY} r="5" fill="#0D1530" stroke="rgb(16,185,129)" strokeWidth="2.5" />
-          <text x={pbX + 8} y={PADT + 13} fontSize="11" fontWeight="700" fill="rgb(52,211,153)">
+          <line x1={pbX} x2={pbX} y1={PADT} y2={PADT + IH} stroke="#101014" strokeWidth="1" strokeDasharray="4 3" />
+          <circle cx={pbX} cy={zeroY} r="4" fill="#FFFFFF" stroke="#101014" strokeWidth="2" />
+          <text x={pbX + 8} y={PADT + 13} fontSize="11" fontWeight="600" fill="#101014">
             Payback · {num(paybackMonths, 1)}m
           </text>
         </g>
@@ -530,9 +509,9 @@ function CashflowChart({ years, invest, paybackMonths }: { years: YearRow[]; inv
 // ── Opportunity ───────────────────────────────────────────────────────────────
 
 const OPP = {
-  alta:  { bg: "bg-emerald-500/10", text: "text-emerald-400", ring: "ring-emerald-500/20", dot: "bg-emerald-500", label: "Oportunidad alta",  desc: "Payback ≤ 12 meses" },
-  media: { bg: "bg-amber-500/10",   text: "text-amber-300",   ring: "ring-amber-500/20",   dot: "bg-amber-500",   label: "Oportunidad media", desc: "Payback 12–24 meses" },
-  baja:  { bg: "bg-blue-500/10",  text: "text-blue-300",   ring: "ring-blue-500/15",   dot: "bg-blue-400",   label: "Oportunidad baja",  desc: "Payback > 24 meses" },
+  alta:  { cls: "border-[#101014] text-[#101014]", label: "Oportunidad alta",  desc: "Payback ≤ 12 meses" },
+  media: { cls: "border-[#C9CCD3] text-[#3D4046]", label: "Oportunidad media", desc: "Payback 12–24 meses" },
+  baja:  { cls: "border-[#E4E6EA] text-[#63666D]", label: "Oportunidad baja",  desc: "Payback > 24 meses" },
 } as const;
 
 // ── URL state ────────────────────────────────────────────────────────────────
@@ -563,13 +542,13 @@ const STARTER_DEFAULT = INDUSTRIES.find(i => i.key === "servicios")!;
 
 function SectionHead({ step, title, caption }: { step: string; title: string; caption?: string }) {
   return (
-    <div className="mb-6 flex items-start gap-4">
-      <span className="mt-1 inline-flex h-7 min-w-[1.75rem] items-center justify-center rounded-lg bg-blue-500/15 ring-1 ring-blue-500/25 text-[11px] font-bold text-blue-400 tabular-nums px-2">
+    <div className="mb-6 flex items-start gap-5">
+      <span className="text-2xl font-light leading-none tabular-nums tracking-tight text-[#9DA0A6] sm:text-3xl">
         {step}
       </span>
       <div>
-        <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-[#F0F4FF]">{title}</h2>
-        {caption && <p className="mt-1 text-sm text-blue-200/60 leading-relaxed max-w-xl">{caption}</p>}
+        <h2 className="text-h3">{title}</h2>
+        {caption && <p className="mt-2 max-w-xl text-[15px] leading-relaxed text-[#3D4046]">{caption}</p>}
       </div>
     </div>
   );
@@ -661,7 +640,7 @@ export default function RoiCalculator() {
           caption="Procesos y cifras realistas precargadas por sector. Puedes ajustar todo después."
         />
 
-        <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-px bg-[#E4E6EA] md:grid-cols-3 lg:grid-cols-6">
           {INDUSTRIES.map((ind) => {
             const active = activeIndustry === ind.key;
             return (
@@ -669,22 +648,19 @@ export default function RoiCalculator() {
                 key={ind.key}
                 type="button"
                 onClick={() => loadIndustry(ind)}
-                className={`group relative rounded-2xl p-4 text-left transition-all ${
-                  active
-                    ? "bg-[rgba(65,105,225,0.12)] ring-1 ring-blue-400/30 shadow-[0_4px_12px_-2px_rgba(65,105,225,0.20),0_12px_32px_-16px_rgba(65,105,225,0.25)]"
-                    : "bg-[rgba(10,17,40,0.60)] ring-1 ring-[rgba(65,105,225,0.12)] hover:bg-[rgba(65,105,225,0.08)] hover:ring-blue-400/25 hover:shadow-[0_4px_16px_-4px_rgba(65,105,225,0.15)] hover:-translate-y-0.5"
+                aria-pressed={active}
+                className={`relative p-4 text-left transition-colors ${
+                  active ? "bg-[#F5F6F8]" : "bg-white hover:bg-[#F5F6F8]"
                 }`}
               >
-                <div className={`mb-3 inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br ${ind.gradient} text-white shadow-[0_4px_12px_-2px_rgba(15,23,42,0.12)]`}>
-                  <span className="h-4 w-4">{ind.svg}</span>
-                </div>
-                <p className="text-[13px] font-bold text-[#F0F4FF] leading-tight">{ind.label}</p>
-                <p className="mt-1 text-[11px] text-blue-200/50 leading-snug">{ind.tagline}</p>
-                {active && (
-                  <span className="absolute top-3 right-3 inline-flex h-4 w-4 items-center justify-center rounded-full bg-blue-500 text-white shadow-sm">
-                    <svg viewBox="0 0 10 10" className="h-2 w-2" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M2 5l2 2 4-4" /></svg>
-                  </span>
-                )}
+                <span className={`mb-3 inline-flex h-10 w-10 items-center justify-center border ${
+                  active ? "border-[#101014] text-[#101014]" : "border-[#E4E6EA] text-[#3D4046]"
+                }`}>
+                  <span className="h-5 w-5">{ind.svg}</span>
+                </span>
+                <p className="text-[13px] font-semibold leading-tight tracking-tight text-[#101014]">{ind.label}</p>
+                <p className="mt-1 text-[11px] leading-snug text-[#63666D]">{ind.tagline}</p>
+                {active && <span aria-hidden className="absolute inset-x-0 top-0 h-0.5 bg-brand-600" />}
               </button>
             );
           })}
@@ -709,7 +685,7 @@ export default function RoiCalculator() {
                 <button
                   type="button"
                   onClick={addProc}
-                  className="no-print shrink-0 mt-1 inline-flex items-center gap-1.5 rounded-full bg-blue-500/10 px-3.5 py-2 text-[11px] font-bold text-blue-300 ring-1 ring-blue-500/25 hover:bg-blue-500/20 hover:ring-blue-400/35 transition-all"
+                  className="no-print mt-1 inline-flex shrink-0 items-center gap-2 border border-[#C9CCD3] px-3.5 py-2 text-xs font-medium text-[#101014] transition-colors hover:border-[#101014]"
                 >
                   <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden>
                     <path d="M8 2v12M2 8h12" />
@@ -748,7 +724,7 @@ export default function RoiCalculator() {
                     Coste de desarrollo base
                   </Label>
                   <NumInput value={project.costeDesarrollo} onChange={v => updateProj("costeDesarrollo", v)} placeholder="18000" prefix="€" />
-                  <p className="mt-1.5 text-[11px] text-blue-300/50">Proceso simple 8–15 k · ERP/CRM 20–50 k · Complejo 50 k+</p>
+                  <p className="mt-2 text-[13px] text-[#63666D]">Proceso simple 8–15 k · ERP/CRM 20–50 k · Complejo 50 k+</p>
                 </div>
 
                 <div>
@@ -764,7 +740,7 @@ export default function RoiCalculator() {
                       <option key={k} value={k}>{v.label}</option>
                     ))}
                   </select>
-                  <p className="mt-1.5 text-[11px] text-blue-300/50">Multiplica desarrollo × {INTEGRATION[project.integracion].mult}</p>
+                  <p className="mt-2 text-[13px] text-[#63666D]">Multiplica desarrollo × {INTEGRATION[project.integracion].mult}</p>
                 </div>
 
                 <div>
@@ -778,12 +754,12 @@ export default function RoiCalculator() {
                   <Label suffix={`${project.mantenimientoPct}%`} info="Correcciones y evolutivos tras el launch. Referencia sector: 15–20 %.">
                     Mantenimiento anual
                   </Label>
-                  <div className="relative rounded-xl bg-[rgba(15,27,76,0.30)] ring-1 ring-[rgba(65,105,225,0.20)] px-3.5 py-3">
+                  <div className="relative border border-[#E4E6EA] bg-[#F5F6F8] px-3.5 py-3">
                     <input
                       type="range" min="0" max="30" step="1"
                       value={project.mantenimientoPct}
                       onChange={e => updateProj("mantenimientoPct", e.target.value)}
-                      className="w-full h-1.5 accent-blue-500 cursor-pointer"
+                      className="h-1.5 w-full cursor-pointer accent-brand-600"
                     />
                   </div>
                 </div>
@@ -791,15 +767,15 @@ export default function RoiCalculator() {
 
               {/* Investment summary */}
               {n(project.costeDesarrollo) > 0 && (
-                <div className="rounded-2xl bg-[rgba(15,27,76,0.30)] ring-1 ring-[rgba(65,105,225,0.15)] p-4 grid gap-x-6 gap-y-3 sm:grid-cols-3">
+                <div className="grid gap-x-6 gap-y-4 border-t border-[#E4E6EA] pt-6 sm:grid-cols-3">
                   {[
                     { k: "Desarrollo año 1", v: eur(n(project.costeDesarrollo) * INTEGRATION[project.integracion].mult) },
                     { k: "Licencias año 1",  v: eur(n(project.licencias)) },
                     { k: "Mantenim. / año",  v: eur(n(project.costeDesarrollo) * INTEGRATION[project.integracion].mult * (n(project.mantenimientoPct) / 100) + n(project.licencias)) },
                   ].map((s) => (
                     <div key={s.k}>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-blue-300/60 mb-1">{s.k}</p>
-                      <p className="text-base font-bold tabular-nums text-[#F0F4FF]">{s.v}</p>
+                      <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">{s.k}</p>
+                      <p className="text-lg font-semibold tabular-nums tracking-tight text-[#101014]">{s.v}</p>
                     </div>
                   ))}
                 </div>
@@ -812,60 +788,57 @@ export default function RoiCalculator() {
         <aside className="lg:sticky lg:top-6 space-y-4">
 
           {/* Scenario */}
-          <div className={`${SURFACE} p-1.5`}>
-            <p className="px-3 pt-1.5 pb-1 text-[10px] font-bold uppercase tracking-[0.14em] text-blue-300/50">
+          <div className={`${SURFACE} p-4`}>
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
               Escenario
             </p>
-            <div className="flex gap-1">
+            <div className="grid grid-cols-3 gap-px bg-[#E4E6EA]">
               {(Object.keys(SCENARIOS) as ScenarioKey[]).map(k => (
                 <button
                   key={k}
                   type="button"
                   onClick={() => setScenario(k)}
-                  className={`flex-1 rounded-xl py-2 text-xs font-bold transition-all ${
+                  aria-pressed={scenario === k}
+                  className={`py-2 text-xs font-medium transition-colors ${
                     scenario === k
-                      ? "bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-[0_4px_12px_-2px_rgba(65,105,225,0.35)]"
-                      : "bg-[rgba(15,27,76,0.30)] text-blue-300 ring-1 ring-[rgba(65,105,225,0.15)] hover:bg-[rgba(65,105,225,0.10)] hover:text-blue-200"
+                      ? "bg-[#101014] text-white"
+                      : "bg-white text-[#3D4046] hover:bg-[#F5F6F8]"
                   }`}
                 >
                   {SCENARIOS[k].label}
                 </button>
               ))}
             </div>
-            <p className="px-3 pt-1.5 pb-1.5 text-[10.5px] text-blue-300/50">
+            <p className="mt-3 text-[13px] text-[#63666D]">
               {SCENARIOS[scenario].note}
             </p>
           </div>
 
           {!R ? (
             <div className={`${SURFACE} p-10 text-center`}>
-              <p className="text-sm text-blue-200/50">Rellena los campos para ver el resultado.</p>
+              <p className="text-sm text-[#63666D]">Rellena los campos para ver el resultado.</p>
             </div>
           ) : (
             <>
               {/* Hero metric panel */}
-              <div className={`${SURFACE} p-6 relative overflow-hidden`}>
-                {/* Decorative gradient */}
-                <div aria-hidden className="absolute -top-20 -right-20 h-48 w-48 rounded-full bg-gradient-to-br from-blue-500/10 to-emerald-500/10 blur-3xl" />
-
+              <div className={`${SURFACE} p-6`}>
                 {oppStyle && (
-                  <div className={`inline-flex items-center gap-1.5 rounded-full ${oppStyle.bg} ${oppStyle.text} ${oppStyle.ring} ring-1 px-2.5 py-1 mb-4`}>
-                    <span className={`h-1.5 w-1.5 rounded-full ${oppStyle.dot}`} />
-                    <span className="text-[10.5px] font-bold uppercase tracking-wider">{oppStyle.label}</span>
-                  </div>
+                  <p className={`mb-5 inline-flex items-center border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${oppStyle.cls}`}>
+                    {oppStyle.label}
+                  </p>
                 )}
 
-                <div className="relative">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-blue-300/50 mb-1.5">
+                <div>
+                  <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
                     Ahorro anual potencial
                   </p>
-                  <p className="text-[2.6rem] font-black tabular-nums leading-[0.95] bg-gradient-to-br from-[#F0F4FF] to-blue-200 bg-clip-text text-transparent">
+                  <p className="text-[2.6rem] font-semibold leading-[0.95] tabular-nums tracking-tight text-[#101014]">
                     {eur(R.ahorroAnual)}
                   </p>
 
                   {/* Confidence band */}
-                  <div className="mt-4">
-                    <div className="relative h-1.5 rounded-full bg-blue-900/40 overflow-hidden ring-1 ring-[rgba(65,105,225,0.12)]">
+                  <div className="mt-5">
+                    <div className="relative h-1.5 w-full overflow-hidden bg-[#E4E6EA]">
                       {(() => {
                         const total = Math.max(1, R.benefHigh);
                         const lowPct  = (R.benefLow / total) * 100;
@@ -873,91 +846,89 @@ export default function RoiCalculator() {
                         return (
                           <>
                             <div
-                              className="absolute inset-y-0 bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-full"
+                              className="absolute inset-y-0 bg-brand-600"
                               style={{ left: `${lowPct}%`, width: `${100 - lowPct}%` }}
                             />
                             <div
-                              className="absolute -top-1 h-[14px] w-[3px] bg-[#F0F4FF] rounded-full shadow-md"
-                              style={{ left: `calc(${midPct}% - 1.5px)` }}
+                              className="absolute -top-1 h-[14px] w-[2px] bg-[#101014]"
+                              style={{ left: `calc(${midPct}% - 1px)` }}
                             />
                           </>
                         );
                       })()}
                     </div>
-                    <div className="mt-2 flex justify-between text-[10px] font-semibold text-blue-300/50 tabular-nums">
+                    <div className="mt-2 flex justify-between text-xs tabular-nums text-[#63666D]">
                       <span>Cons. {eur(R.benefLow)}</span>
                       <span>Opt. {eur(R.benefHigh)}</span>
                     </div>
                   </div>
 
                   {story && (
-                    <div className="mt-5 pt-4 border-t border-[rgba(65,105,225,0.10)] text-[13px] leading-relaxed text-blue-100/70">
-                      Liberarías <strong className="text-[#F0F4FF]">~{story.ftes} FTE</strong> y
+                    <div className="mt-6 border-t border-[#E4E6EA] pt-5 text-[13px] leading-relaxed text-[#3D4046]">
+                      Liberarías <strong className="font-semibold text-[#101014]">~{story.ftes} FTE</strong> y
                       recuperarías la inversión en{" "}
-                      <strong className="text-[#F0F4FF]">{story.pb}</strong>.
+                      <strong className="font-semibold text-[#101014]">{story.pb}</strong>.
                     </div>
                   )}
 
-                  <div className="mt-5 grid grid-cols-3 gap-3">
+                  <dl className="mt-6 grid grid-cols-3 divide-x divide-[#E4E6EA] border-t border-[#E4E6EA] pt-5">
                     {[
                       { k: "Payback", v: paybackLabel },
-                      { k: "VAN 3a", v: R.totalInv > 0 ? eur(R.npv) : "—", tone: R.npv >= 0 ? "pos" as const : "neg" as const },
-                      { k: "ROI 3a", v: R.totalInv > 0 ? `${num(R.roi3, 0)}%` : "—", tone: R.roi3 >= 0 ? "pos" as const : "neg" as const },
-                    ].map((s) => (
-                      <div key={s.k} className="rounded-xl bg-[rgba(15,27,76,0.30)] ring-1 ring-[rgba(65,105,225,0.12)] p-2.5">
-                        <p className="text-[9.5px] font-bold uppercase tracking-[0.12em] text-blue-300/50 mb-0.5">{s.k}</p>
-                        <p className={`text-[13px] font-bold tabular-nums leading-tight ${
-                          s.tone === "pos" ? "text-emerald-400" : s.tone === "neg" ? "text-red-400" : "text-[#F0F4FF]"
-                        }`}>
+                      { k: "VAN 3a", v: R.totalInv > 0 ? eur(R.npv) : "—" },
+                      { k: "ROI 3a", v: R.totalInv > 0 ? `${num(R.roi3, 0)}%` : "—" },
+                    ].map((s, i) => (
+                      <div key={s.k} className={i === 0 ? "pr-3" : "px-3 last:pr-0"}>
+                        <dt className="mb-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#63666D]">{s.k}</dt>
+                        <dd className="text-sm font-semibold leading-tight tabular-nums text-[#101014]">
                           {s.v}
-                        </p>
+                        </dd>
                       </div>
                     ))}
-                  </div>
+                  </dl>
                 </div>
               </div>
 
               {/* Chart */}
               <div className={`${SURFACE} p-5`}>
-                <div className="flex items-baseline justify-between mb-3">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-blue-300/50">
+                <div className="mb-4 flex items-baseline justify-between">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
                     Caja acumulada · 36 meses
                   </p>
-                  <span className="text-[10px] text-blue-300/40">{R.nProcs} proceso{R.nProcs > 1 ? "s" : ""}</span>
+                  <span className="text-xs text-[#9DA0A6]">{R.nProcs} proceso{R.nProcs > 1 ? "s" : ""}</span>
                 </div>
                 <CashflowChart years={R.years} invest={R.totalInv} paybackMonths={R.payback} />
               </div>
 
               {/* Details */}
-              <div className={`${SURFACE} p-5 space-y-3`}>
-                <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-blue-300/50">
+              <div className={`${SURFACE} p-5`}>
+                <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
                   Detalle mensual
                 </p>
-                <dl className="space-y-2 text-[13px]">
+                <dl className="divide-y divide-[#E4E6EA] border-t border-[#E4E6EA] text-[13px]">
                   {[
                     { k: "Coste actual / mes", v: eur(R.costeMes) },
-                    { k: "Ahorro / mes",        v: eur(R.ahorroMes), tone: "pos" as const },
+                    { k: "Ahorro / mes",        v: eur(R.ahorroMes) },
                     { k: "Horas liberadas",     v: `${num(R.horasRec)} h · ≈ ${num(R.ftes, 2)} FTE` },
                     { k: "Mantenim. / año",     v: eur(R.maintAnu) },
                   ].map((s) => (
-                    <div key={s.k} className="flex items-baseline justify-between gap-3 border-b border-[rgba(65,105,225,0.08)] last:border-0 pb-2 last:pb-0">
-                      <dt className="text-blue-200/60">{s.k}</dt>
-                      <dd className={`font-semibold tabular-nums ${s.tone === "pos" ? "text-emerald-400" : "text-[#F0F4FF]"}`}>{s.v}</dd>
+                    <div key={s.k} className="flex items-baseline justify-between gap-3 py-2.5">
+                      <dt className="text-[#63666D]">{s.k}</dt>
+                      <dd className="font-semibold tabular-nums text-[#101014]">{s.v}</dd>
                     </div>
                   ))}
                 </dl>
               </div>
 
               {/* Actions */}
-              <div className="no-print grid grid-cols-2 gap-2">
+              <div className="no-print grid grid-cols-2 gap-3">
                 <button
                   type="button"
                   onClick={handleShare}
-                  className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-blue-500/10 ring-1 ring-blue-500/20 px-3 py-2.5 text-[12px] font-bold text-blue-300 hover:bg-blue-500/20 hover:ring-blue-400/30 transition-all"
+                  className="inline-flex items-center justify-center gap-2 border border-[#C9CCD3] px-3 py-2.5 text-xs font-medium text-[#101014] transition-colors hover:border-[#101014]"
                 >
                   {shareStatus === "copied" ? (
                     <>
-                      <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M3 8l3 3 7-7" /></svg>
+                      <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M3 8l3 3 7-7" /></svg>
                       Copiado
                     </>
                   ) : (
@@ -972,7 +943,7 @@ export default function RoiCalculator() {
                 <button
                   type="button"
                   onClick={handlePrint}
-                  className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-blue-500/10 ring-1 ring-blue-500/20 px-3 py-2.5 text-[12px] font-bold text-blue-300 hover:bg-blue-500/20 hover:ring-blue-400/30 transition-all"
+                  className="inline-flex items-center justify-center gap-2 border border-[#C9CCD3] px-3 py-2.5 text-xs font-medium text-[#101014] transition-colors hover:border-[#101014]"
                 >
                   <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                     <path d="M4 6V2h8v4M4 12H2V7h12v5h-2M4 10h8v4H4z" />
@@ -981,30 +952,23 @@ export default function RoiCalculator() {
                 </button>
               </div>
 
-              {/* CTA — premium */}
-              <div className="no-print relative rounded-3xl bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-500 p-5 text-white overflow-hidden shadow-[0_8px_32px_-8px_rgba(65,105,225,0.5)]">
-                <div aria-hidden className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
-                <div aria-hidden className="absolute bottom-0 left-0 h-24 w-24 rounded-full bg-indigo-300/20 blur-2xl" />
-                <div className="relative">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/70 mb-2">
-                    Siguiente paso
-                  </p>
-                  <p className="text-[15px] font-bold leading-snug mb-2">
-                    Valida estas cifras con un consultor.
-                  </p>
-                  <p className="text-[12px] text-white/80 leading-relaxed mb-4">
-                    En 45 min ajustamos el modelo con tu operativa real y definimos el alcance mínimo viable.
-                  </p>
-                  <a
-                    href="/#contacto"
-                    className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-white px-4 py-2.5 text-[13px] font-bold text-blue-600 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.2)] hover:bg-blue-50 transition-colors"
-                  >
-                    Reservar diagnóstico gratuito
-                    <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                      <path d="M6 4l4 4-4 4" />
-                    </svg>
-                  </a>
-                </div>
+              {/* CTA */}
+              <div className="no-print band-dark p-6">
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/50">
+                  Siguiente paso
+                </p>
+                <p className="mb-3 text-base font-semibold leading-snug tracking-tight text-white">
+                  Valida estas cifras con un consultor.
+                </p>
+                <p className="mb-6 text-[13px] leading-relaxed text-white/70">
+                  En 45 min ajustamos el modelo con tu operativa real y definimos el alcance mínimo viable.
+                </p>
+                <a
+                  href="/#contacto"
+                  className="inline-flex w-full items-center justify-center rounded-[2px] bg-white px-4 py-2.5 text-[13px] font-medium tracking-tight text-[#101014] transition-colors hover:bg-white/90"
+                >
+                  Reservar diagnóstico gratuito
+                </a>
               </div>
             </>
           )}
@@ -1013,34 +977,34 @@ export default function RoiCalculator() {
 
       {/* ── 04 METHODOLOGY ────────────────────────────────────────────── */}
       {R && (
-        <section className={`${SURFACE} overflow-hidden print-break-inside-avoid`}>
+        <section className={`${SURFACE} print-break-inside-avoid`}>
           <button
             type="button"
             onClick={() => setShowMethodology(v => !v)}
-            className="no-print w-full flex items-center justify-between gap-4 px-5 sm:px-6 py-4 text-left hover:bg-blue-500/5 transition-colors"
+            className="no-print flex w-full items-center justify-between gap-4 px-5 py-5 text-left transition-colors hover:bg-[#F5F6F8] sm:px-6"
             aria-expanded={showMethodology}
           >
-            <div className="flex items-center gap-4">
-              <span className="inline-flex h-7 min-w-[1.75rem] items-center justify-center rounded-lg bg-blue-500/15 ring-1 ring-blue-500/25 text-[11px] font-bold text-blue-400 tabular-nums px-2">
+            <div className="flex items-center gap-5">
+              <span className="text-2xl font-light leading-none tabular-nums tracking-tight text-[#9DA0A6]">
                 04
               </span>
               <div>
-                <p className="text-base font-bold text-[#F0F4FF]">Metodología y fuentes</p>
-                <p className="text-[12px] text-blue-200/50 mt-0.5">Fórmulas auditables · benchmarks citados</p>
+                <p className="text-base font-semibold tracking-tight text-[#101014]">Metodología y fuentes</p>
+                <p className="mt-0.5 text-[13px] text-[#63666D]">Fórmulas auditables · benchmarks citados</p>
               </div>
             </div>
-            <svg viewBox="0 0 16 16" className={`h-4 w-4 text-blue-300/50 transition-transform ${showMethodology ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+            <svg viewBox="0 0 16 16" className={`h-4 w-4 text-[#63666D] transition-transform ${showMethodology ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
               <path d="M4 6l4 4 4-4" />
             </svg>
           </button>
 
-          <div className={`${showMethodology ? "block" : "hidden"} print:block border-t border-[rgba(65,105,225,0.10)]`}>
-            <div className="grid gap-8 lg:grid-cols-2 p-5 sm:p-6">
+          <div className={`${showMethodology ? "block" : "hidden"} print:block border-t border-[#E4E6EA]`}>
+            <div className="grid gap-10 p-5 sm:p-6 lg:grid-cols-2">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-blue-300/50 mb-4">
+                <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
                   Fórmulas
                 </p>
-                <div className="space-y-3">
+                <dl className="divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
                   {[
                     ["Coste mensual", "horas × personas × €/h + errores × €/error"],
                     ["Ahorro mensual", "Coste × %automatización × escenario"],
@@ -1048,36 +1012,36 @@ export default function RoiCalculator() {
                     ["Payback",        "Inversión / Ahorro mensual"],
                     ["VAN 3 años",     "−I₀ + Σ [(Benefₜ − Costeₜ) / (1+r)ᵗ], r = 10 %"],
                   ].map(([k, v]) => (
-                    <div key={k} className="rounded-xl bg-[rgba(15,27,76,0.30)] ring-1 ring-[rgba(65,105,225,0.15)] p-3">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-blue-300/60 mb-1">{k}</p>
-                      <p className="font-mono text-[11.5px] text-blue-100">{v}</p>
+                    <div key={k} className="py-3">
+                      <dt className="mb-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">{k}</dt>
+                      <dd className="text-[13px] text-[#101014]">{v}</dd>
                     </div>
                   ))}
-                </div>
+                </dl>
               </div>
 
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-blue-300/50 mb-4">
+                <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
                   Supuestos y fuentes
                 </p>
-                <ul className="space-y-3 text-[13px] text-blue-100/70 leading-relaxed">
+                <ul className="divide-y divide-[#E4E6EA] border-t border-[#E4E6EA] text-[13px] leading-relaxed text-[#3D4046]">
                   {[
                     "Curva de aprendizaje año 1: 0.9× sobre beneficio proyectado.",
                     "Tasa de descuento 10 % anual (referencia pyme/mediana).",
                     "1 FTE = 160 horas/mes. Potencial limitado al 95 % máx.",
                     "Fuentes: UiPath Automation Benchmark · McKinsey Global Institute · APQC PCF · Nucleus Research.",
                   ].map((t, i) => (
-                    <li key={i} className="flex gap-3">
-                      <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-blue-500/10 text-[10px] font-bold text-blue-400 tabular-nums">
-                        {i + 1}
+                    <li key={i} className="flex gap-4 py-3">
+                      <span className="flex-none font-medium tabular-nums text-[#9DA0A6]">
+                        {String(i + 1).padStart(2, "0")}
                       </span>
                       <span>{t}</span>
                     </li>
                   ))}
                 </ul>
 
-                <p className="mt-5 rounded-xl bg-amber-500/10 ring-1 ring-amber-500/15 p-3 text-[11.5px] text-amber-200 leading-relaxed">
-                  <strong>Estimación orientativa.</strong> El ROI real depende de la madurez
+                <p className="mt-6 border-l-2 border-brand-600 bg-[#F5F6F8] px-4 py-3 text-[13px] leading-relaxed text-[#3D4046]">
+                  <strong className="font-semibold text-[#101014]">Estimación orientativa.</strong> El ROI real depende de la madurez
                   del proceso, integraciones y adopción. Agenda un diagnóstico para un análisis preciso.
                 </p>
               </div>

@@ -15,6 +15,11 @@ const legal = [
   { label: "Cookies", href: "/legal/cookies" },
 ];
 
+const columnTitle =
+  "mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-white/45";
+const columnLink =
+  "block text-sm text-white/70 transition-colors duration-150 hover:text-white";
+
 export default function Footer() {
   const pathname = usePathname();
   const isHome = pathname === "/";
@@ -22,65 +27,62 @@ export default function Footer() {
   const services = getServices();
 
   return (
-    <footer className="relative overflow-hidden border-t border-blue-500/8 bg-[#060B1A]/95 backdrop-blur-sm">
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent 10%, rgba(65,105,225,0.30) 50%, transparent 90%)" }} />
-
-      <Container className="py-8 sm:py-10 lg:py-14">
-        <div className="grid gap-8 sm:gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr_1fr]">
-          <div className="space-y-3 sm:space-y-4 sm:col-span-2 lg:col-span-1">
-            <div>
-              <p className="text-base font-extrabold tracking-tight" style={{ color: "var(--text-primary)" }}>Qubelia</p>
-              <p className="mt-1.5 sm:mt-2 max-w-sm text-xs sm:text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                Arquitectura, desarrollo y criterio técnico para empresas B2B que necesitan sistemas útiles,
-                mantenibles y bien planteados.
-              </p>
-            </div>
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-400/15 bg-blue-500/[0.06] px-2.5 sm:px-3 py-0.5 sm:py-1">
-              <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" aria-hidden />
-              <span className="text-[10px] sm:text-[11px] font-semibold text-blue-400">Sevilla · España</span>
-            </div>
+    <footer className="band-dark">
+      <Container className="py-14 sm:py-16 lg:py-20">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr_1fr]">
+          <div className="space-y-4 sm:col-span-2 lg:col-span-1">
+            <p className="text-lg font-semibold tracking-tight text-white">Qubelia</p>
+            <p className="max-w-sm text-sm leading-relaxed text-white/60">
+              Arquitectura, desarrollo y criterio técnico para empresas B2B que
+              necesitan sistemas útiles, mantenibles y bien planteados.
+            </p>
+            <p className="text-sm text-white/60">Sevilla · España</p>
           </div>
 
-          <nav aria-label="Servicios en footer" className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
-            <p className="mb-2 sm:mb-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "rgba(91,141,239,0.5)" }}>Servicios</p>
+          <nav aria-label="Servicios en footer" className="space-y-2.5">
+            <p className={columnTitle}>Servicios</p>
             {services.map((service) => (
-              <Link key={service.slug} href={service.href} className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>
+              <Link key={service.slug} href={service.href} className={columnLink}>
                 {service.shortTitle}
               </Link>
             ))}
-            <Link href="/servicios" className="block pt-1 sm:pt-2 transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>
-              Ver hub de servicios
+            <Link href="/servicios" className={`${columnLink} pt-1`}>
+              Ver todos los servicios
             </Link>
           </nav>
 
-          <nav aria-label="Navegación en footer" className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
-            <p className="mb-2 sm:mb-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "rgba(91,141,239,0.5)" }}>Recursos</p>
-            <Link href="/casos" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Casos de éxito</Link>
-            <Link href="/blog" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Blog</Link>
-            <Link href="/labs" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Herramientas gratuitas</Link>
-            <Link href="/labs/analisis-gratis" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Análisis gratuito</Link>
-            <Link href="/labs/roi-automatizacion" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Calculadora ROI</Link>
-            <Link href="/labs/calculadora-coste-software" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Calculadora coste software</Link>
-            <Link href="/herramientas/calculadora-irpf" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Calculadora IRPF</Link>
-            <Link href="/buscar" className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Buscar</Link>
-            <Link href={isHome ? "#faq" : "/#faq"} className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>FAQ</Link>
+          <nav aria-label="Navegación en footer" className="space-y-2.5">
+            <p className={columnTitle}>Recursos</p>
+            <Link href="/casos" className={columnLink}>Casos de éxito</Link>
+            <Link href="/blog" className={columnLink}>Blog</Link>
+            <Link href="/labs" className={columnLink}>Herramientas gratuitas</Link>
+            <Link href="/labs/analisis-gratis" className={columnLink}>Análisis gratuito</Link>
+            <Link href="/labs/roi-automatizacion" className={columnLink}>Calculadora ROI</Link>
+            <Link href="/labs/calculadora-coste-software" className={columnLink}>Calculadora coste software</Link>
+            <Link href="/herramientas/calculadora-irpf" className={columnLink}>Calculadora IRPF</Link>
+            <Link href="/buscar" className={columnLink}>Buscar</Link>
+            <Link href={isHome ? "#faq" : "/#faq"} className={columnLink}>FAQ</Link>
           </nav>
 
-          <nav aria-label="Dónde trabajamos" className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
-            <p className="mb-2 sm:mb-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "rgba(91,141,239,0.5)" }}>Dónde trabajamos</p>
+          <nav aria-label="Dónde trabajamos" className="space-y-2.5">
+            <p className={columnTitle}>Dónde trabajamos</p>
             {AREAS.slice(0, 6).map((area) => (
-              <Link key={area.slug} href={`/area/${area.slug}`} className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>
+              <Link key={area.slug} href={`/area/${area.slug}`} className={columnLink}>
                 {area.name}
               </Link>
             ))}
-            <Link href="/area" className="block pt-1 sm:pt-2 transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>
+            <Link href="/area" className={`${columnLink} pt-1`}>
               Todas las zonas
             </Link>
           </nav>
 
-          <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
-            <p className="mb-2 sm:mb-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: "rgba(91,141,239,0.5)" }}>Contacto</p>
-            <p className="leading-relaxed" style={{ color: "var(--text-muted)" }}>Calle Torrelodones 84B<br />41016 Sevilla, España</p>
+          <div className="space-y-2.5">
+            <p className={columnTitle}>Contacto</p>
+            <p className="text-sm leading-relaxed text-white/70">
+              Calle Torrelodones 84B
+              <br />
+              41016 Sevilla, España
+            </p>
             <a
               href={`mailto:${CONTACT.email}`}
               onClick={() =>
@@ -91,8 +93,7 @@ export default function Footer() {
                   pagePath: pathname,
                 })
               }
-              className="block break-all transition-colors hover:text-blue-300"
-              style={{ color: "var(--text-muted)" }}
+              className={`${columnLink} break-all`}
             >
               {CONTACT.email}
             </a>
@@ -106,21 +107,28 @@ export default function Footer() {
                   pagePath: pathname,
                 })
               }
-              className="block transition-colors hover:text-blue-300"
-              style={{ color: "var(--text-muted)" }}
+              className={columnLink}
             >
               {CONTACT.phone}
             </a>
-            <div className="pt-2 sm:pt-3 text-xs sm:text-sm">
+            <div className="space-y-2.5 pt-3">
               {legal.map((item) => (
-                <Link key={item.href} href={item.href} className="block transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>{item.label}</Link>
+                <Link key={item.href} href={item.href} className={columnLink}>
+                  {item.label}
+                </Link>
               ))}
-              <button type="button" onClick={openPreferences} className="block text-left transition-colors hover:text-blue-300" style={{ color: "var(--text-muted)" }}>Configurar cookies</button>
+              <button
+                type="button"
+                onClick={openPreferences}
+                className={`${columnLink} text-left`}
+              >
+                Configurar cookies
+              </button>
             </div>
           </div>
         </div>
 
-        <div className="mt-8 sm:mt-12 flex flex-wrap items-center justify-between gap-3 sm:gap-4 border-t border-blue-500/8 pt-4 sm:pt-6 text-[10px] sm:text-xs" style={{ color: "var(--text-muted)" }}>
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/45">
           <p>© {new Date().getFullYear()} Qubelia. Todos los derechos reservados.</p>
           <p>NIF: 30865688X</p>
         </div>

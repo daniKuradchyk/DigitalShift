@@ -18,37 +18,29 @@ export default function StaticPageFrame({ breadcrumbs, eyebrow, title, descripti
     <>
       <Header />
       <main id="contenido">
-        <section className="pb-12 pt-16 sm:pb-16 sm:pt-20">
+        <section className="border-b border-[#E4E6EA] bg-white pb-14 pt-14 sm:pb-16 sm:pt-20">
           <Container>
             <Breadcrumbs items={breadcrumbs} />
 
-            <div className="surface-shell relative overflow-hidden rounded-[2rem] p-6 sm:p-8 lg:p-10">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(167,139,250,0.08),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(192,132,252,0.06),transparent_34%)]"
-              />
+            <div className={`grid gap-10 ${aside ? "lg:grid-cols-[1fr_340px] lg:items-start" : ""}`}>
+              <div className="max-w-3xl">
+                <p className="section-tag">{eyebrow}</p>
 
-              <div className={`relative grid gap-8 ${aside ? "lg:grid-cols-[1fr_320px] lg:items-end" : ""}`}>
-                <div className="max-w-4xl">
-                  <div className="section-tag mb-5">
-                    <span className="h-1.5 w-1.5 rounded-full bg-violet-400" aria-hidden />
-                    {eyebrow}
-                  </div>
-                  <h1 className="text-4xl font-black tracking-[-0.03em] sm:text-5xl" style={{ color: "var(--text-primary)" }}>
-                    {title}
-                  </h1>
-                  <p className="mt-5 max-w-3xl text-lg leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                    {description}
-                  </p>
-                </div>
+                <h1 className="mt-8 text-h1 text-[#101014]">{title}</h1>
 
-                {aside ? <div className="surface-panel rounded-3xl p-6">{aside}</div> : null}
+                <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#3D4046]">
+                  {description}
+                </p>
               </div>
+
+              {aside ? (
+                <div className="rounded-[4px] border border-[#E4E6EA] bg-white p-6">{aside}</div>
+              ) : null}
             </div>
           </Container>
         </section>
 
-        <section className="pb-20">
+        <section className="bg-white py-16 sm:py-20">
           <Container>{children}</Container>
         </section>
       </main>

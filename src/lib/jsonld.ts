@@ -1,4 +1,18 @@
-import { BASE_URL, SITE_NAME } from "./seo";
+import { CONTACT } from "@/config/contact";
+import { AREAS } from "./locations";
+import { BASE_URL } from "./seo";
+
+/**
+ * Identificadores estables de las entidades del grafo. Sin `@id`, Google ve
+ * Organization, ProfessionalService y WebSite como tres negocios distintos que
+ * casualmente comparten nombre y URL, y no consolida el NAP en una sola entidad.
+ */
+export const ORGANIZATION_ID = `${BASE_URL}/#organization`;
+export const LOCAL_BUSINESS_ID = `${BASE_URL}/#localbusiness`;
+export const WEBSITE_ID = `${BASE_URL}/#website`;
+
+/** Formato E.164 sin espacios ni guiones: el que recomienda Google y el que casa con GBP. */
+export const TELEPHONE_E164 = CONTACT.phone.replace(/[^\d+]/g, "");
 
 export function organizationJsonLd({
   name,
@@ -14,13 +28,15 @@ export function organizationJsonLd({
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": ORGANIZATION_ID,
     name,
     url,
-    logo: logoUrl,
+    logo: { "@type": "ImageObject", url: logoUrl },
     sameAs,
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: "+34-674-569-372",
+      telephone: TELEPHONE_E164,
+      email: CONTACT.email,
       contactType: "sales",
       areaServed: "ES",
       availableLanguage: "Spanish",
@@ -52,22 +68,28 @@ export function professionalServiceJsonLd({
   return {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
+    "@id": LOCAL_BUSINESS_ID,
     name,
     url,
+    parentOrganization: { "@id": ORGANIZATION_ID },
     logo: logoUrl,
     image: logoUrl,
-    telephone,
-    email: "hola@qubelia.es",
+    telephone: telephone.replace(/[^\d+]/g, ""),
+    email: CONTACT.email,
     address: { "@type": "PostalAddress", ...address },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: "37.3891",
-      longitude: "-5.9845",
+      // TODO(SEO local): estas coordenadas son el centroide del municipio de Sevilla,
+      // no la geocodificación de Calle Torrelodones 84B. Sustituir por las exactas y
+      // alinearlas con el pin de la ficha de Google Business Profile.
+      latitude: 37.3891,
+      longitude: -5.9845,
     },
-    areaServed: {
-      "@type": "Country",
-      name: "España",
-    },
+    areaServed: [
+      { "@type": "Country", name: "España" },
+      { "@type": "AdministrativeArea", name: "Andalucía" },
+      ...AREAS.map((area) => ({ "@type": "City" as const, name: area.name })),
+    ],
     priceRange: "€€€",
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
@@ -101,14 +123,26 @@ export function professionalServiceJsonLd({
   };
 }
 
-export function websiteJsonLd({ url, name }: { url: string; name: string }) {
+export function websiteJsonLd({
+  url,
+  name,
+  description,
+}: {
+  url: string;
+  name: string;
+  description?: string;
+}) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": WEBSITE_ID,
+    // Sólo la marca: es el valor que Google usa como sitename en la SERP.
     name,
+    ...(description ? { description } : {}),
     url,
+    publisher: { "@id": ORGANIZATION_ID },
     inLanguage: "es",
-  } as const;
+  };
 }
 
 export function faqJsonLd(items: { q: string; a: string }[]) {
@@ -132,24 +166,43 @@ export function breadcrumbJsonLd(items: { name: string; url: string }[]) {
   } as const;
 }
 
-export function serviceJsonLd({ name, description, areaName }: { name: string; description: string; areaName?: string }) {
+export function serviceJsonLd({
+  name,
+  description,
+  areaName,
+  url,
+  serviceType,
+}: {
+  name: string;
+  description: string;
+  areaName?: string;
+  url?: string;
+  serviceType?: string;
+}) {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
     name,
     description,
     inLanguage: "es",
+    ...(url ? { url } : {}),
+    ...(serviceType ? { serviceType } : {}),
     areaServed: areaName
       ? { "@type": "City", name: areaName }
       : { "@type": "Country", name: "España" },
-    provider: { "@type": "Organization", name: SITE_NAME, url: BASE_URL },
-  } as const;
+    // Referencia a la entidad ya declarada en el layout, en vez de un tercer
+    // Organization suelto que Google no puede vincular con el NAP.
+    provider: { "@id": LOCAL_BUSINESS_ID },
+  };
 }
 
 export function softwareAppJsonLd(tools: { title: string; desc: string; href: string }[]) {
   return tools.map((tool) => ({
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
+    // @id estable: la misma herramienta declarada desde /labs y desde su propia
+    // página es una sola entidad, no dos.
+    "@id": `${BASE_URL}${tool.href}#app`,
     name: tool.title,
     description: tool.desc,
     url: `${BASE_URL}${tool.href}`,
@@ -160,6 +213,6 @@ export function softwareAppJsonLd(tools: { title: string; desc: string; href: st
       price: "0",
       priceCurrency: "EUR",
     },
-    provider: { "@type": "Organization", name: SITE_NAME, url: BASE_URL },
+    provider: { "@id": ORGANIZATION_ID },
   }));
 }

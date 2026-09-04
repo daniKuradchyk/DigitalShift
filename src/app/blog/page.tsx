@@ -4,7 +4,6 @@ import Container from "@/components/common/Container";
 import Breadcrumbs from "@/components/marketing/Breadcrumbs";
 import Button from "@/components/common/Button";
 import JsonLd from "@/components/marketing/JsonLd";
-import PostCover from "@/components/marketing/PostCover";
 import Header from "@/components/sections/Header";
 import Footer from "@/components/sections/Footer";
 import { getPostsWithReadingTime } from "@/lib/posts";
@@ -39,148 +38,163 @@ export default function BlogIndex() {
     <>
       <JsonLd id="ld-blog-breadcrumbs" data={blogBreadcrumb} />
       <Header />
-      <main>
-        {/* Editorial hero */}
-        <div className="relative border-b border-slate-200/60 dark:border-white/[0.06]">
-          <Container className="py-16 sm:py-24">
+      <main id="contenido">
+        {/* ── Cabecera editorial ─────────────────────────────────── */}
+        <section className="bg-white">
+          <Container className="pt-14 pb-16 sm:pt-16 sm:pb-20">
             <Breadcrumbs items={[{ label: "Inicio", href: "/" }, { label: "Blog" }]} />
-            <div className="max-w-3xl">
-              <div className="flex items-center gap-2.5 mb-6">
-                <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
-                <span className="text-xs font-bold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">
+
+            <div className="grid grid-cols-12 gap-8 lg:gap-12">
+              <div className="col-span-12 lg:col-span-7">
+                <p className="section-tag">
                   {posts.length} artículos · {fmtDate(posts[0]?.date ?? "")}
-                </span>
+                </p>
+                <h1 className="mt-7 text-h1">
+                  Blog de software
+                  <br className="hidden sm:block" /> y automatización B2B
+                </h1>
               </div>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.04] mb-6">
-                <span className="text-slate-900 dark:text-white">Blog de software</span>
-                <br />
-                <span className="text-slate-300 dark:text-white/20">y automatización B2B</span>
-              </h1>
-              <p className="text-lg sm:text-xl text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed mb-10">
-                Guías sobre desarrollo a medida, digitalización, CRM, integraciones ERP y automatización de procesos para empresas en España.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {allTags.map((tag) => (
-                  <span key={tag} className="rounded-full border border-slate-200 dark:border-white/[0.08] bg-transparent px-3 py-1 text-xs font-medium text-slate-500 dark:text-slate-400">
-                    {tag}
-                  </span>
-                ))}
+
+              <div className="col-span-12 lg:col-span-5 lg:pt-3">
+                <p className="text-lg leading-relaxed text-[#3D4046]">
+                  Guías sobre desarrollo a medida, digitalización, CRM, integraciones ERP y automatización de procesos para empresas en España.
+                </p>
               </div>
             </div>
+
+            <ul className="mt-10 flex flex-wrap gap-x-2.5 gap-y-2">
+              {allTags.map((tag) => (
+                <li
+                  key={tag}
+                  className="border border-[#E4E6EA] bg-white px-2.5 py-1 text-xs text-[#3D4046]"
+                >
+                  {tag}
+                </li>
+              ))}
+            </ul>
           </Container>
-        </div>
+        </section>
 
-        <Container className="py-14 sm:py-20 space-y-14">
-
-          {/* Featured */}
-          {featured && (
-            <section className="relative">
-              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-400 dark:text-slate-500 mb-5 pl-1">
-                — Destacado
+        {/* ── Destacado ──────────────────────────────────────────── */}
+        {featured && (
+          <section aria-labelledby="blog-destacado" className="border-t border-[#E4E6EA] bg-[#F5F6F8]">
+            <Container className="py-16 sm:py-20">
+              <p id="blog-destacado" className="section-tag">
+                Destacado
               </p>
-              <Link href={`/blog/${featured.slug}`} className="group block">
-                <article className="surface-card relative grid lg:grid-cols-[1fr_260px] overflow-hidden rounded-3xl transition-all duration-300 hover:border-sky-300/60 dark:hover:border-sky-500/25 hover:shadow-[0_24px_64px_-24px_rgba(14,165,233,0.13)]">
-                  <div aria-hidden className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(90deg, transparent 5%, rgba(56,189,248,0.6) 50%, transparent 95%)" }} />
 
-                  <div className="p-8 sm:p-12 flex flex-col">
-                    <div className="flex flex-wrap gap-2.5 mb-6">
+              <Link href={`/blog/${featured.slug}`} className="group mt-8 block">
+                <article className="grid grid-cols-12 gap-6 sm:gap-8 lg:gap-12">
+                  <div className="col-span-12 lg:col-span-3">
+                    <p className="text-sm text-[#63666D]">{fmtDate(featured.date)}</p>
+                    <p className="mt-1 text-sm text-[#63666D]">{featured.readingTime} de lectura</p>
+                    <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-1">
                       {featured.tags.map((tag) => (
-                        <span key={tag} className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400">
+                        <li
+                          key={tag}
+                          className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-600"
+                        >
                           {tag}
-                        </span>
+                        </li>
                       ))}
-                    </div>
-                    <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white leading-snug mb-4 group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors duration-200">
-                      {featured.title}
-                    </h2>
-                    <p className="text-base text-slate-500 dark:text-slate-400 leading-relaxed mb-8 flex-1">
-                      {featured.description}
-                    </p>
-                    <div className="flex flex-wrap items-center gap-6">
-                      <span className="text-sm text-slate-400 dark:text-slate-500">{fmtDate(featured.date)}</span>
-                      <span className="flex items-center gap-1.5 text-sm font-semibold text-sky-600 dark:text-sky-400 group-hover:gap-3 transition-all duration-200">
-                        Leer artículo completo <span aria-hidden>→</span>
-                      </span>
-                    </div>
+                    </ul>
                   </div>
 
-                  <div className="hidden lg:flex flex-col items-center justify-center gap-3 border-l border-slate-200/60 dark:border-white/[0.06] p-10 relative overflow-hidden">
-                    <PostCover slug={featured.slug} className="absolute inset-0" />
-                    <span className="relative text-8xl font-black tabular-nums text-slate-900/[0.05] dark:text-white/[0.05] select-none leading-none">
-                      {featured.readingTime}
+                  <div className="col-span-12 lg:col-span-9 lg:border-l lg:border-[#E4E6EA] lg:pl-12">
+                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight tracking-tight text-[#101014] transition-colors duration-200 group-hover:text-brand-600">
+                      {featured.title}
+                    </h2>
+                    <p className="mt-5 max-w-3xl text-base leading-relaxed text-[#3D4046]">
+                      {featured.description}
+                    </p>
+                    <span className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-[#101014]">
+                      <span className="border-b border-[#C9CCD3] transition-colors duration-200 group-hover:border-brand-600 group-hover:text-brand-600">
+                        Leer artículo completo
+                      </span>
+                      <svg
+                        className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+                        aria-hidden
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
                     </span>
-                    <div className="relative text-center">
-                      <p className="text-xs font-bold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">min lectura</p>
-                    </div>
-                    <div className="relative w-10 h-px bg-slate-200 dark:bg-white/10" />
-                    <p className="relative text-xs text-slate-400 dark:text-slate-500">{featured.author.name}</p>
                   </div>
                 </article>
               </Link>
-            </section>
-          )}
+            </Container>
+          </section>
+        )}
 
-          {/* Posts grid */}
-          {rest.length > 0 && (
-            <section className="relative">
-              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-slate-400 dark:text-slate-500 mb-5 pl-1">
-                — Todos los artículos
+        {/* ── Listado completo ───────────────────────────────────── */}
+        {rest.length > 0 && (
+          <section aria-labelledby="blog-todos" className="border-t border-[#E4E6EA] bg-white">
+            <Container className="py-16 sm:py-20">
+              <p id="blog-todos" className="section-tag">
+                Todos los artículos
               </p>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {rest.map((p, i) => (
-                  <Link key={p.slug} href={`/blog/${p.slug}`} className="group block h-full">
-                    <article className="surface-card relative overflow-hidden h-full flex flex-col rounded-2xl p-6 hover:border-sky-300/60 dark:hover:border-sky-500/20 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_-16px_rgba(14,165,233,0.1)] transition-all duration-200">
-                      <PostCover slug={p.slug} className="-mx-6 -mt-6 mb-5 h-24 transition-transform duration-500 group-hover:scale-[1.03]" />
-                      <div className="flex items-start justify-between gap-2 mb-4">
-                        <div className="flex flex-wrap gap-2">
-                          {p.tags.slice(0, 2).map((tag) => (
-                            <span key={tag} className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-sky-600 dark:text-sky-400">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                        <span className="text-xs font-black tabular-nums text-slate-300 dark:text-white/[0.06] select-none flex-none">
-                          {String(i + 2).padStart(2, "0")}
-                        </span>
-                      </div>
-                      <h3 className="text-[15px] font-semibold text-slate-900 dark:text-white leading-snug mb-3 group-hover:text-sky-600 dark:group-hover:text-sky-300 transition-colors flex-1">
-                        {p.title}
-                      </h3>
-                      <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2 mb-5">
-                        {p.description}
-                      </p>
-                      <div className="flex items-center justify-between text-xs text-slate-400 dark:text-slate-500 pt-4 border-t border-slate-200/60 dark:border-white/[0.06]">
-                        <span>{new Date(p.date).toLocaleDateString("es-ES")}</span>
-                        <span className="font-medium">{p.readingTime} min</span>
-                      </div>
-                    </article>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          )}
 
-          {/* Bottom CTA */}
-          <div className="surface-card relative overflow-hidden rounded-2xl p-8 sm:p-10">
-            <div aria-hidden className="absolute -right-20 -top-20 h-64 w-64 rounded-full blur-3xl opacity-[0.06] dark:opacity-[0.08]" style={{ background: "rgba(56,189,248,1)" }} />
-            <div className="relative grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-emerald-600 dark:text-emerald-400 mb-3">Próximo paso</p>
-                <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                  Lo aplicamos a tu caso en 45 min
-                </h2>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
+              <ul className="mt-8 divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
+                {rest.map((p, i) => (
+                  <li key={p.slug}>
+                    <Link href={`/blog/${p.slug}`} className="group block py-8 sm:py-10">
+                      <div className="grid grid-cols-12 gap-4 sm:gap-8 lg:gap-12">
+                        <div className="col-span-12 sm:col-span-2 lg:col-span-1">
+                          <span className="text-xl font-light tabular-nums leading-none tracking-tight text-[#9DA0A6]">
+                            {String(i + 2).padStart(2, "0")}
+                          </span>
+                        </div>
+
+                        <div className="col-span-12 sm:col-span-10 lg:col-span-3">
+                          <p className="text-sm text-[#63666D]">{fmtDate(p.date)}</p>
+                          <p className="mt-1 text-sm text-[#63666D]">{p.readingTime} de lectura</p>
+                          <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-1">
+                            {p.tags.slice(0, 2).map((tag) => (
+                              <li
+                                key={tag}
+                                className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]"
+                              >
+                                {tag}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div className="col-span-12 lg:col-span-8">
+                          <h2 className="text-xl sm:text-2xl font-semibold leading-snug tracking-tight text-[#101014] transition-colors duration-200 group-hover:text-brand-600">
+                            {p.title}
+                          </h2>
+                          <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-[#3D4046]">
+                            {p.description}
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Container>
+          </section>
+        )}
+
+        {/* ── CTA final ──────────────────────────────────────────── */}
+        <section className="border-t border-[#E4E6EA] bg-[#F5F6F8]">
+          <Container className="py-16 sm:py-20">
+            <div className="grid grid-cols-12 gap-8 lg:items-end">
+              <div className="col-span-12 lg:col-span-7">
+                <p className="section-tag">Próximo paso</p>
+                <h2 className="mt-6 text-h3">Lo aplicamos a tu caso en 45 min</h2>
+                <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#3D4046]">
                   Revisamos, priorizamos y dejamos un checklist medible. Sin compromiso inicial.
                 </p>
               </div>
-              <div className="flex flex-wrap gap-3">
-                <Button as="a" href="/#contacto" variant="shine">Agendar diagnóstico</Button>
+              <div className="col-span-12 flex flex-wrap gap-3 lg:col-span-5 lg:justify-end">
+                <Button as="a" href="/#contacto" variant="primary">Agendar diagnóstico</Button>
                 <Button as="a" href="/servicios" variant="ghost">Ver servicios</Button>
               </div>
             </div>
-          </div>
-
-        </Container>
+          </Container>
+        </section>
       </main>
       <Footer />
     </>

@@ -14,7 +14,8 @@ export function canonical(path: string) {
   return absoluteUrl(path);
 }
 
-export function openGraphImage(path = "/opengraph-image") {
+/** Imagen de marca para redes sociales (1200x630). */
+export function openGraphImage(path = "/media/og-qubelia.jpg") {
   return [{ url: absoluteUrl(path), width: 1200, height: 630, alt: SITE_NAME }];
 }
 

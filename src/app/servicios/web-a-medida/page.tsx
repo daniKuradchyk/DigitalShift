@@ -53,7 +53,8 @@ export default function WebServicePage() {
 
   const serviceData = serviceJsonLd({
     name: service.shortTitle,
-    description: service.metaDescription,
+    description: service.metaDescription,
+    url: canonical(service.href),
   });
 
   return (
@@ -62,7 +63,7 @@ export default function WebServicePage() {
       <JsonLd id="ld-web-service" data={serviceData} />
       <JsonLd id="ld-web-faq" data={faqJsonLd(service.faqs)} />
       <Header />
-      <main id="contenido">
+      <main id="contenido" className="bg-white divide-y divide-[#E4E6EA]">
         <EditorialHero
           slug="web-a-medida"
           breadcrumbs={breadcrumbs}
@@ -143,6 +144,7 @@ export default function WebServicePage() {
           <WebStackSnapshot />
         </EditorialSection>
 
+
         {/* ── 06 · SEO técnico checklist ── */}
         <EditorialSection
           marker="06"
@@ -221,15 +223,17 @@ export default function WebServicePage() {
           <ResourceLinks posts={service.relatedPosts} labSlugs={service.relatedLabs} />
         </EditorialSection>
 
-        <Container>
-          <EditorialFinalCta
-            kicker="Antes de pedir presupuesto"
-            title="Empieza por revisar tu web actual."
-            body="30 minutos para auditar estructura, mensaje, SEO técnico y conversión. Te decimos qué se puede arreglar sin rehacer y cuándo merece la pena empezar de cero. Honesto, sin presión."
-            secondaryHref="/servicios/software-a-medida"
-            secondaryLabel="Ver software a medida"
-          />
-        </Container>
+        <section className="bg-white pb-8 sm:pb-12">
+          <Container>
+            <EditorialFinalCta
+              kicker="Antes de pedir presupuesto"
+              title="Empieza por revisar tu web actual."
+              body="30 minutos para auditar estructura, mensaje, SEO técnico y conversión. Te decimos qué se puede arreglar sin rehacer y cuándo merece la pena empezar de cero. Honesto, sin presión."
+              secondaryHref="/servicios/software-a-medida"
+              secondaryLabel="Ver software a medida"
+            />
+          </Container>
+        </section>
       </main>
       <Footer />
     </>

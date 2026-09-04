@@ -5,8 +5,9 @@ import { postsMeta } from "@/lib/posts";
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://qubelia.es").replace(/\/$/, "");
 
-  // Use a stable date for static pages (update this when content changes)
-  const siteLastUpdated = "2026-07-20";
+  // Fecha estable para las páginas estáticas. ACTUALIZAR en cada despliegue que
+  // cambie contenido: si se queda atrás, Google retrasa el recrawl.
+  const siteLastUpdated = "2026-09-05";
 
   const latestPostDate =
     postsMeta.reduce((latest, p) => (p.date > latest ? p.date : latest), "2020-01-01") ||

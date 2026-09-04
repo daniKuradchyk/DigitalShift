@@ -54,7 +54,8 @@ export default function CrmServicePage() {
 
   const serviceData = serviceJsonLd({
     name: service.shortTitle,
-    description: service.metaDescription,
+    description: service.metaDescription,
+    url: canonical(service.href),
   });
 
   return (
@@ -63,7 +64,7 @@ export default function CrmServicePage() {
       <JsonLd id="ld-crm-service" data={serviceData} />
       <JsonLd id="ld-crm-faq" data={faqJsonLd(service.faqs)} />
       <Header />
-      <main id="contenido">
+      <main id="contenido" className="bg-white divide-y divide-[#E4E6EA]">
         <EditorialHero
           slug="crm-intranet-a-medida"
           breadcrumbs={breadcrumbs}
@@ -100,6 +101,7 @@ export default function CrmServicePage() {
         >
           <CrmEntityModel />
         </EditorialSection>
+
 
         {/* ── 03 · Roles matrix detallada ── */}
         <EditorialSection
@@ -246,15 +248,17 @@ export default function CrmServicePage() {
           <ResourceLinks posts={service.relatedPosts} labSlugs={service.relatedLabs} />
         </EditorialSection>
 
-        <Container>
-          <EditorialFinalCta
-            kicker="Antes de pedir presupuesto"
-            title="Validamos contigo si tu caso necesita un sistema propio."
-            body="30 minutos para mapear vuestro proceso, evaluar si un CRM estándar puede cubrirlo y, si la respuesta es no, definir una primera fase realista. Honesto, sin presión comercial."
-            secondaryHref="/servicios/automatizacion-integraciones"
-            secondaryLabel="Ver automatización"
-          />
-        </Container>
+        <section className="bg-white pb-8 sm:pb-12">
+          <Container>
+            <EditorialFinalCta
+              kicker="Antes de pedir presupuesto"
+              title="Validamos contigo si tu caso necesita un sistema propio."
+              body="30 minutos para mapear vuestro proceso, evaluar si un CRM estándar puede cubrirlo y, si la respuesta es no, definir una primera fase realista. Honesto, sin presión comercial."
+              secondaryHref="/servicios/automatizacion-integraciones"
+              secondaryLabel="Ver automatización"
+            />
+          </Container>
+        </section>
       </main>
       <Footer />
     </>

@@ -1,125 +1,62 @@
-"use client";
-
-import { useRef } from "react";
 import Link from "next/link";
-import { motion, useInView } from "framer-motion";
 import Container from "@/components/common/Container";
 import ServiceVisual from "@/components/marketing/ServiceVisual";
 import { serviceOrder, services, type ServiceSlug } from "@/content/services";
 
-/* ─── Shared easing (same across ALL sections) ─────────────────── */
-const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
-/* ─── Visual accent per service (sutil, sólo color) ────────────── */
-const SVC_ACCENT: Record<string, { rgb: string; hex: string }> = {
-  "software-a-medida":            { rgb: "91,141,239",  hex: "#5B8DEF" },
-  "web-a-medida":                 { rgb: "133,162,255", hex: "#85A2FF" },
-  "automatizacion-integraciones": { rgb: "65,105,225",  hex: "#4169E1" },
-  "crm-intranet-a-medida":        { rgb: "173,193,255", hex: "#ADC1FF" },
-};
-
 /* ═══════════════════════════════════════════════════════════════════
-   SERVICE ROW — fila editorial asimétrica, sin card-blob
+   SERVICE ROW — fila editorial, un solo acento corporativo
    ═══════════════════════════════════════════════════════════════════ */
 function ServiceRow({ slug, index, total }: { slug: string; index: number; total: number }) {
   const s = services[slug as keyof typeof services];
-  const accent = SVC_ACCENT[slug];
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-  const delay = 0.1 + index * 0.08;
   const indexNum = String(index + 1).padStart(2, "0");
 
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay, ease: EASE }}
-      className="group relative"
+    <div
+      className="group relative animate-fade-up"
+      style={{ animationDelay: `${index * 80}ms` }}
     >
-      <Link
-        href={s.href}
-        className="block relative py-10 sm:py-14 lg:py-16 transition-colors duration-500"
-        style={{ ["--svc-rgb" as string]: accent.rgb }}
-      >
-        {/* ── Hover wash (full row, sutil) ── */}
-        <div
-          className="pointer-events-none absolute inset-x-[-1.5rem] sm:inset-x-[-2rem] inset-y-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{
-            background:
-              `radial-gradient(ellipse at 30% 50%, rgba(${accent.rgb}, 0.05) 0%, transparent 65%)`,
-          }}
-        />
-
+      <Link href={s.href} className="block relative py-10 sm:py-14 lg:py-16">
         <div className="relative grid grid-cols-12 gap-6 sm:gap-8 lg:gap-12">
-          {/* ── Numeración tipográfica ── */}
+          {/* Numeración */}
           <div className="col-span-12 sm:col-span-2 lg:col-span-1 order-1">
-            <span
-              className="font-mono text-2xl sm:text-3xl lg:text-4xl font-light tabular-nums leading-none transition-colors duration-500"
-              style={{
-                color: `rgba(${accent.rgb}, 0.55)`,
-                letterSpacing: "-0.02em",
-              }}
-            >
+            <span className="text-2xl sm:text-3xl font-light tabular-nums leading-none tracking-tight text-[#9DA0A6]">
               {indexNum}
             </span>
           </div>
 
-          {/* ── Bloque principal (texto editorial) ── */}
+          {/* Bloque principal */}
           <div className="col-span-12 sm:col-span-10 lg:col-span-7 order-2">
-            <span
-              className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.18em] mb-2 sm:mb-3 inline-block"
-              style={{ color: accent.hex, opacity: 0.85 }}
-            >
+            <span className="mb-2 sm:mb-3 inline-block text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]">
               {s.eyebrow}
             </span>
 
-            <h3
-              className="font-bold mb-3 sm:mb-4 transition-colors duration-300"
-              style={{
-                color: "var(--text-primary)",
-                fontSize: "clamp(1.5rem, 3.2vw, 2.25rem)",
-                letterSpacing: "-0.025em",
-                lineHeight: 1.15,
-              }}
-            >
+            <h3 className="mb-3 sm:mb-4 text-[#101014] transition-colors duration-200 group-hover:text-brand-600 text-2xl sm:text-3xl font-semibold tracking-tight leading-tight">
               {s.shortTitle}
             </h3>
 
-            <p
-              className="text-[15px] sm:text-base leading-relaxed mb-5 sm:mb-6 max-w-2xl"
-              style={{ color: "var(--text-secondary)" }}
-            >
+            <p className="mb-5 sm:mb-6 max-w-2xl text-[15px] sm:text-base leading-relaxed text-[#3D4046]">
               {s.cardSummary}
             </p>
 
-            {/* Stack tags — mono, mostrando sustancia técnica */}
-            <ul className="flex flex-wrap gap-x-3 gap-y-2 mb-6 sm:mb-7">
+            {/* Stack tags */}
+            <ul className="mb-6 sm:mb-7 flex flex-wrap gap-x-2.5 gap-y-2">
               {s.homeStack.map((tag) => (
                 <li
                   key={tag}
-                  className="font-mono text-[11px] sm:text-xs px-2.5 py-1 rounded border"
-                  style={{
-                    color: "var(--text-secondary)",
-                    background: `rgba(${accent.rgb}, 0.04)`,
-                    borderColor: `rgba(${accent.rgb}, 0.12)`,
-                  }}
+                  className="border border-[#E4E6EA] bg-white px-2.5 py-1 text-xs text-[#3D4046]"
                 >
                   {tag}
                 </li>
               ))}
             </ul>
 
-            {/* CTA tipográfico — sin bordes ni botón */}
-            <span
-              className="inline-flex items-center gap-2 text-sm font-semibold transition-all duration-400"
-              style={{ color: accent.hex }}
-            >
-              <span className="border-b border-transparent group-hover:border-current transition-colors duration-300">
+            {/* CTA tipográfico */}
+            <span className="inline-flex items-center gap-2 text-sm font-medium text-[#101014]">
+              <span className="border-b border-[#C9CCD3] transition-colors duration-200 group-hover:border-brand-600 group-hover:text-brand-600">
                 Explorar este servicio
               </span>
               <svg
-                className="w-4 h-4 transition-transform duration-400 group-hover:translate-x-1.5"
+                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
                 fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
                 aria-hidden
               >
@@ -128,60 +65,37 @@ function ServiceRow({ slug, index, total }: { slug: string; index: number; total
             </span>
           </div>
 
-          {/* ── Panel visual + sí/no a la derecha ── */}
-          <div className="col-span-12 lg:col-span-4 order-3 lg:pl-6 lg:border-l border-blue-500/10">
-            {/* Ilustración del servicio */}
+          {/* Panel visual + encaje a la derecha */}
+          <div className="order-3 col-span-12 lg:col-span-4 lg:border-l lg:border-[#E4E6EA] lg:pl-8">
             <ServiceVisual
               slug={slug as ServiceSlug}
-              accentRgb={accent.rgb}
-              className="mb-6 aspect-[8/5] transition-transform duration-500 group-hover:scale-[1.02]"
+              accentRgb="44,75,196"
+              className="mb-6 aspect-[8/5]"
             />
 
-            {/* Cuándo sí */}
             <div className="mb-5">
-              <div
-                className="flex items-center gap-2 mb-2.5 text-[10px] font-bold uppercase tracking-[0.16em]"
-                style={{ color: accent.hex }}
-              >
-                <span
-                  className="inline-block w-3 h-px"
-                  style={{ background: accent.hex }}
-                />
+              <div className="mb-2.5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-600">
+                <span className="inline-block h-px w-3 bg-brand-600" />
                 Cuándo sí encaja
               </div>
               <ul className="space-y-1.5">
                 {s.homeFitYes.map((item) => (
-                  <li
-                    key={item}
-                    className="text-[13px] sm:text-sm leading-snug flex gap-2"
-                    style={{ color: "var(--text-secondary)" }}
-                  >
-                    <span aria-hidden style={{ color: accent.hex, opacity: 0.6 }}>·</span>
+                  <li key={item} className="flex gap-2 text-[13px] sm:text-sm leading-snug text-[#3D4046]">
+                    <span aria-hidden className="text-brand-600">·</span>
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Cuándo no */}
             <div>
-              <div
-                className="flex items-center gap-2 mb-2.5 text-[10px] font-bold uppercase tracking-[0.16em]"
-                style={{ color: "var(--text-muted)" }}
-              >
-                <span
-                  className="inline-block w-3 h-px"
-                  style={{ background: "var(--text-muted)" }}
-                />
+              <div className="mb-2.5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
+                <span className="inline-block h-px w-3 bg-[#C9CCD3]" />
                 Cuándo no
               </div>
               <ul className="space-y-1.5">
                 {s.homeFitNo.map((item) => (
-                  <li
-                    key={item}
-                    className="text-[13px] sm:text-sm leading-snug flex gap-2"
-                    style={{ color: "var(--text-muted)" }}
-                  >
+                  <li key={item} className="flex gap-2 text-[13px] sm:text-sm leading-snug text-[#63666D]">
                     <span aria-hidden>·</span>
                     <span>{item}</span>
                   </li>
@@ -192,73 +106,34 @@ function ServiceRow({ slug, index, total }: { slug: string; index: number; total
         </div>
       </Link>
 
-      {/* ── Separador inferior — fino, no card border ── */}
-      {index < total - 1 && (
-        <div
-          className="h-px"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent, rgba(65,105,225,0.12) 30%, rgba(65,105,225,0.12) 70%, transparent)",
-          }}
-        />
-      )}
-    </motion.div>
+      {index < total - 1 && <div className="h-px bg-[#E4E6EA]" />}
+    </div>
   );
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   SECTION HEADER — asimétrico (no centro)
+   SECTION HEADER
    ═══════════════════════════════════════════════════════════════════ */
-function SectionHeader({ inView }: { inView: boolean }) {
+function SectionHeader() {
   return (
-    <div className="grid grid-cols-12 gap-6 sm:gap-8 lg:gap-12 mb-12 sm:mb-16 lg:mb-20">
-      {/* Eyebrow + H2 a la izquierda */}
+    <div className="mb-12 grid grid-cols-12 gap-6 sm:mb-16 sm:gap-8 lg:mb-20 lg:gap-12">
       <div className="col-span-12 lg:col-span-7">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: EASE }}
-        >
-          <span className="section-tag mb-5 sm:mb-6">
-            <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-            Servicios
-          </span>
-        </motion.div>
+        <div className="animate-fade-up">
+          <p className="section-tag mb-5 sm:mb-6">Servicios</p>
+        </div>
 
-        <motion.h2
-          id="services-title"
-          className="text-h2"
-          style={{ color: "var(--text-primary)" }}
-          initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
-          animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
-          transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
-        >
-          Cuatro formas de resolver lo que el SaaS{" "}
-          <span className="gradient-text-static">no resuelve</span>.
-        </motion.h2>
+        <h2 id="services-title" className="text-h2 animate-fade-up delay-100">
+          Cuatro formas de resolver lo que el SaaS no resuelve.
+        </h2>
       </div>
 
-      {/* Subtítulo a la derecha */}
-      <motion.div
-        className="col-span-12 lg:col-span-5 lg:pt-2"
-        initial={{ opacity: 0, y: 14 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.7, delay: 0.25, ease: EASE }}
-      >
-        <p
-          className="text-[15px] sm:text-base lg:text-lg leading-relaxed"
-          style={{ color: "var(--text-secondary)" }}
-        >
+      <div className="col-span-12 lg:col-span-5 lg:pt-2 animate-fade-up delay-200">
+        <p className="text-[15px] sm:text-base lg:text-lg leading-relaxed text-[#3D4046]">
           Software, web, automatización y sistemas internos a medida.
           Cada uno con su propio encaje — y honestidad para decirte cuándo
-          <em
-            className="not-italic font-semibold"
-            style={{ color: "var(--text-primary)" }}
-          >
-            {" "}no es lo que necesitas
-          </em>.
+          <em className="not-italic font-semibold text-[#101014]"> no es lo que necesitas</em>.
         </p>
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -266,53 +141,35 @@ function SectionHeader({ inView }: { inView: boolean }) {
 /* ═══════════════════════════════════════════════════════════════════
    "NONE OF THESE FIT" — cierre honesto
    ═══════════════════════════════════════════════════════════════════ */
-function HonestClose({ inView }: { inView: boolean }) {
+function HonestClose() {
   return (
-    <motion.div
-      className="mt-12 sm:mt-16 lg:mt-20 grid grid-cols-12 gap-6 sm:gap-8"
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: 0.4, ease: EASE }}
-    >
+    <div className="mt-12 grid grid-cols-12 gap-6 border-t border-[#E4E6EA] pt-12 sm:mt-16 sm:gap-8 lg:mt-20 animate-fade-up delay-300">
       <div className="col-span-12 sm:col-span-2 lg:col-span-1">
-        <span
-          className="font-mono text-2xl sm:text-3xl lg:text-4xl font-light tabular-nums leading-none"
-          style={{ color: "var(--text-muted)", letterSpacing: "-0.02em" }}
-        >
-          —
-        </span>
+        <span className="text-2xl sm:text-3xl font-light leading-none text-[#9DA0A6]">—</span>
       </div>
       <div className="col-span-12 sm:col-span-10 lg:col-span-11">
-        <span
-          className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.18em] mb-3 inline-block"
-          style={{ color: "var(--text-muted)" }}
-        >
+        <span className="mb-3 inline-block text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]">
           Si no encajas
         </span>
-        <p
-          className="text-base sm:text-lg lg:text-xl leading-relaxed max-w-3xl"
-          style={{ color: "var(--text-secondary)" }}
-        >
+        <p className="max-w-3xl text-base sm:text-lg lg:text-xl leading-relaxed text-[#3D4046]">
           Si tu caso no entra limpio en ninguno de los cuatro,
-          <span style={{ color: "var(--text-primary)" }}>
-            {" "}también te lo decimos
-          </span>. A veces lo correcto es un SaaS, un freelance, o no hacer
-          nada todavía. La conversación inicial es gratuita y honesta — sin
-          presión comercial.
+          <span className="text-[#101014]"> también te lo decimos</span>. A veces lo
+          correcto es un SaaS, un freelance, o no hacer nada todavía. La conversación
+          inicial es gratuita y honesta — sin presión comercial.
         </p>
         <Link
           href="/#contacto"
-          className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-blue-300 hover:text-blue-200 transition-colors"
+          className="group mt-5 inline-flex items-center gap-2 text-sm font-medium text-[#101014] transition-colors hover:text-brand-600"
         >
-          <span className="border-b border-blue-300/40 hover:border-blue-200">
+          <span className="border-b border-[#C9CCD3] transition-colors group-hover:border-brand-600">
             Cuéntanos qué problema tienes
           </span>
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
+          <svg className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
             <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </Link>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -320,46 +177,22 @@ function HonestClose({ inView }: { inView: boolean }) {
    MAIN SERVICES SECTION
    ═══════════════════════════════════════════════════════════════════ */
 export default function Services() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const inView = useInView(sectionRef, { once: true, margin: "-60px" });
-
   return (
     <section
-      ref={sectionRef}
       id="servicios"
       aria-labelledby="services-title"
-      className="relative scroll-mt-24 py-16 sm:py-20 md:py-28 lg:py-36 overflow-hidden"
+      className="scroll-mt-24 bg-white py-16 sm:py-20 md:py-28"
     >
-      {/* ── Background — minimal, sin blob ── */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden>
-        <motion.div
-          className="absolute top-0 left-0 right-0 h-px"
-          initial={{ scaleX: 0 }}
-          animate={inView ? { scaleX: 1 } : {}}
-          transition={{ duration: 1.4, ease: EASE }}
-          style={{
-            transformOrigin: "center",
-            background: "linear-gradient(90deg, transparent, rgba(65,105,225,0.2), transparent)",
-          }}
-        />
-      </div>
+      <Container>
+        <SectionHeader />
 
-      <Container className="relative">
-        <SectionHeader inView={inView} />
-
-        {/* ── Filas de servicios — vertical, asimétrico ── */}
         <div className="relative">
           {serviceOrder.map((slug, i) => (
-            <ServiceRow
-              key={slug}
-              slug={slug}
-              index={i}
-              total={serviceOrder.length}
-            />
+            <ServiceRow key={slug} slug={slug} index={i} total={serviceOrder.length} />
           ))}
         </div>
 
-        <HonestClose inView={inView} />
+        <HonestClose />
       </Container>
     </section>
   );

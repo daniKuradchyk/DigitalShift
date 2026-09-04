@@ -124,9 +124,9 @@ export const SECURITY_OPTIONS: SecurityOption[] = [
 ];
 
 export const SCENARIOS = {
-  low:  { label: "Optimista",    mult: 0.75, color: "text-emerald-600 dark:text-emerald-400" },
-  mid:  { label: "Realista",     mult: 1.00, color: "text-sky-600 dark:text-sky-400"     },
-  high: { label: "Conservador",  mult: 1.30, color: "text-violet-600 dark:text-violet-400" },
+  low:  { label: "Optimista",    mult: 0.75, color: "text-[#63666D]" },
+  mid:  { label: "Realista",     mult: 1.00, color: "text-brand-600"  },
+  high: { label: "Conservador",  mult: 1.30, color: "text-[#63666D]" },
 } as const;
 
 export type ScenarioKey = keyof typeof SCENARIOS;

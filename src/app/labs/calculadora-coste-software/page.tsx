@@ -3,12 +3,14 @@ import Link from "next/link";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 import Logo from "@/components/common/Logo";
+import Footer from "@/components/sections/Footer";
 import CostCalculator from "./CostCalculator";
+import { breadcrumbJsonLd } from "@/lib/jsonld";
 import { canonical, openGraphImage, titleTemplate } from "@/lib/seo";
 
 const pageTitle = "Calculadora de coste de software";
 const pageDescription =
-  "Estima en minutos el rango de inversion, horas, plazo y equipo recomendado para un software a medida segun alcance, modulos, integraciones y nivel tecnico.";
+  "Estima en minutos el rango de inversión, horas, plazo y equipo recomendado para un software a medida según alcance, módulos, integraciones y nivel técnico.";
 
 export const metadata: Metadata = {
   title: titleTemplate(pageTitle),
@@ -36,115 +38,98 @@ export const revalidate = 86400;
 
 const WHAT_IT_ESTIMATES = [
   "Rango de presupuesto por escenarios: optimista, realista y conservador",
-  "Horas totales segun tipo de producto, complejidad e integraciones",
-  "Plazo estimado y composicion de equipo recomendada",
-  "Desglose por fases: diseno, frontend, backend, QA e infraestructura",
-  "Impacto de modulos avanzados, seguridad y compliance",
+  "Horas totales según tipo de producto, complejidad e integraciones",
+  "Plazo estimado y composición de equipo recomendada",
+  "Desglose por fases: diseño, frontend, backend, QA e infraestructura",
+  "Impacto de módulos avanzados, seguridad y compliance",
 ];
+
+const HERO_STATS = [
+  { label: "Modos", value: "2" },
+  { label: "Escenarios", value: "3" },
+  { label: "Registro", value: "No requerido" },
+];
+
+const breadcrumbLd = breadcrumbJsonLd([
+  { name: "Inicio", url: canonical("/") },
+  { name: "Labs", url: canonical("/labs") },
+  { name: pageTitle, url: canonical("/labs/calculadora-coste-software") },
+]);
 
 export default function CostCalculatorPage() {
   return (
-    <main className="relative overflow-hidden py-12 sm:py-16 bg-gradient-to-br from-rose-50/40 via-white/20 to-amber-50/40 dark:from-slate-950/40 dark:via-slate-900/20 dark:to-slate-950/40">
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-24 top-12 h-72 w-72 rounded-full bg-rose-300/10 blur-3xl dark:bg-rose-500/10" />
-        <div className="absolute right-0 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-amber-400/10 blur-3xl dark:bg-amber-500/10" />
-      </div>
-
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <main className="bg-white">
       <Container>
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E4E6EA] py-5">
           <Link href="/" aria-label="Ir a inicio" className="inline-flex items-center">
             <Logo className="scale-90 origin-left" />
           </Link>
           <div className="flex flex-wrap items-center gap-3">
-            <Button as="a" href="/labs" variant="ghost">Volver a Labs</Button>
-            <Button as="a" href="/#contacto" variant="shine">Pedir propuesta</Button>
+            <Button as="a" href="/labs" variant="ghost" size="sm">Volver a Labs</Button>
+            <Button as="a" href="/#contacto" variant="primary" size="sm">Pedir propuesta</Button>
           </div>
         </div>
 
         <section
           aria-labelledby="cost-hero-title"
-          className="grid gap-8 sm:gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start mb-12"
+          className="grid items-start gap-10 py-16 sm:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16"
         >
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-rose-100 dark:border-rose-500/30 bg-rose-50/80 dark:bg-rose-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-rose-700 dark:text-rose-300">
-              Herramienta gratuita
-            </div>
+          <div>
+            <p className="section-tag">Herramienta gratuita</p>
 
-            <div className="max-w-xl space-y-3">
-              <h1
-                id="cost-hero-title"
-                className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-white"
-              >
-                Calculadora de coste
-                <br className="hidden sm:block" /> de software a medida
-              </h1>
-              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                Configura el tipo de proyecto, el alcance funcional y el nivel tecnico para
-                obtener una estimacion util de presupuesto, plazo y equipo antes de pedir una propuesta.
-              </p>
-            </div>
+            <h1 id="cost-hero-title" className="mt-8 max-w-xl text-h1">
+              Calculadora de coste
+              <br className="hidden sm:block" /> de software a medida
+            </h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-[#3D4046]">
+              Configura el tipo de proyecto, el alcance funcional y el nivel técnico para
+              obtener una estimación útil de presupuesto, plazo y equipo antes de pedir una propuesta.
+            </p>
 
-            <div className="grid gap-3 sm:grid-cols-3">
-              {[
-                { label: "Modos", value: "2" },
-                { label: "Escenarios", value: "3" },
-                { label: "Registro", value: "No requerido" },
-              ].map((s) => (
-                <div
-                  key={s.label}
-                  className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white/80 dark:bg-white/[0.03] p-4 shadow-sm"
-                >
-                  <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+            <dl className="mt-12 grid grid-cols-1 divide-y divide-[#E4E6EA] border-y border-[#E4E6EA] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+              {HERO_STATS.map((s) => (
+                <div key={s.label} className="py-6 sm:px-6 sm:py-8 sm:first:pl-0">
+                  <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]">
                     {s.label}
-                  </p>
-                  <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
+                  </dt>
+                  <dd className="mt-2 text-2xl font-semibold tracking-tight text-[#101014]">
                     {s.value}
-                  </p>
+                  </dd>
                 </div>
               ))}
-            </div>
+            </dl>
           </div>
 
-          <aside className="space-y-4">
-            <div className="rounded-3xl border border-slate-200 dark:border-white/[0.07] bg-white/90 dark:bg-white/[0.03] p-5 sm:p-6 shadow-sm backdrop-blur-sm">
-              <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400 mb-4">
+          <aside className="space-y-6">
+            <div className="border border-[#E4E6EA] bg-white p-6 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]">
                 Esta calculadora estima
               </p>
-              <ul className="space-y-3">
-                {WHAT_IT_ESTIMATES.map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-start gap-2.5 text-sm text-slate-700 dark:text-slate-300"
-                  >
-                    <span className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                      <svg
-                        viewBox="0 0 12 12"
-                        className="h-3 w-3"
-                        fill="none"
-                        aria-hidden
-                      >
-                        <path
-                          d="M2 6l3 3 5-5"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+              <ul className="mt-5 divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
+                {WHAT_IT_ESTIMATES.map((item, index) => (
+                  <li key={item} className="flex items-start gap-4 py-4">
+                    <span className="mt-0.5 flex-none text-sm font-medium tabular-nums text-[#9DA0A6]">
+                      {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span>{item}</span>
+                    <span className="text-sm leading-relaxed text-[#3D4046]">{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="rounded-2xl border border-rose-100 dark:border-rose-500/40 bg-rose-50/80 dark:bg-rose-500/10 px-4 py-3 text-xs text-rose-700 dark:text-rose-300 leading-relaxed">
-              La estimacion es orientativa. Sirve para acotar alcance, rango de inversion y riesgos antes del discovery tecnico.
-            </div>
+            <p className="border-l-2 border-brand-600 bg-[#F5F6F8] px-4 py-3 text-sm leading-relaxed text-[#3D4046]">
+              La estimación es orientativa. Sirve para acotar alcance, rango de inversión y riesgos antes del discovery técnico.
+            </p>
           </aside>
         </section>
 
-        <CostCalculator />
+        <div className="border-t border-[#E4E6EA] py-16 sm:py-20">
+          <CostCalculator />
+        </div>
       </Container>
-    </main>
+      </main>
+      <Footer />
+    </>
   );
 }

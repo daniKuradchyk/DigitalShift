@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Button from "@/components/common/Button";
 import { useCookieConsent } from "./CookieConsentProvider";
 
 export default function CookieBanner() {
@@ -25,9 +26,9 @@ export default function CookieBanner() {
 
   return (
     <div className="fixed inset-x-0 bottom-4 z-50 px-4">
-      <div className="mx-auto flex max-w-4xl flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl sm:flex-row sm:items-center sm:gap-4 sm:p-5">
-        <div className="flex-1 space-y-2 text-sm text-slate-800">
-          <p className="font-semibold text-slate-900">Cookies en qubelia.es</p>
+      <div className="mx-auto flex max-w-4xl flex-col gap-3 rounded-[4px] border border-[#C9CCD3] bg-white p-4 shadow-[0_2px_12px_rgba(16,16,20,0.10)] sm:flex-row sm:items-center sm:gap-4 sm:p-5">
+        <div className="flex-1 space-y-2 text-sm text-[#3D4046]">
+          <p className="font-semibold text-[#101014]">Cookies en qubelia.es</p>
           {hasNonEssentialCookies ? (
             <p>
               Usamos cookies técnicas necesarias y, si lo consientes, cookies no esenciales para analítica. Puedes aceptarlas o rechazarlas ahora o
@@ -41,7 +42,10 @@ export default function CookieBanner() {
           )}
           <p>
             Más información en la{" "}
-            <Link className="underline" href="/legal/cookies">
+            <Link
+              className="font-medium text-[#101014] underline decoration-[#C9CCD3] underline-offset-4 hover:decoration-brand-600"
+              href="/legal/cookies"
+            >
               Política de cookies
             </Link>
             .
@@ -50,37 +54,21 @@ export default function CookieBanner() {
 
         {hasNonEssentialCookies ? (
           <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap sm:gap-3">
-            <button
-              type="button"
-              onClick={rejectAll}
-              className="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50"
-            >
+            <Button type="button" variant="ghost" size="sm" onClick={rejectAll}>
               Rechazar todas
-            </button>
-            <button
-              type="button"
-              onClick={acceptAll}
-              className="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
-            >
+            </Button>
+            <Button type="button" variant="primary" size="sm" onClick={acceptAll}>
               Aceptar todas
-            </button>
-            <button
-              type="button"
-              onClick={openPreferences}
-              className="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50"
-            >
+            </Button>
+            <Button type="button" variant="ghost" size="sm" onClick={openPreferences}>
               Configurar
-            </button>
+            </Button>
           </div>
         ) : (
           <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap sm:gap-3">
-            <button
-              type="button"
-              onClick={closePreferences}
-              className="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
-            >
+            <Button type="button" variant="primary" size="sm" onClick={closePreferences}>
               Cerrar
-            </button>
+            </Button>
           </div>
         )}
       </div>

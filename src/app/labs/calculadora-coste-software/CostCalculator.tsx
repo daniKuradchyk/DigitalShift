@@ -36,14 +36,10 @@ const LEVEL_LABELS: Record<ModuleLevel, string> = {
   advanced: "Avanzado",
 };
 
-const LEVEL_COLORS: Record<ModuleLevel, string> = {
-  none:     "bg-slate-100 dark:bg-white/[0.04] text-slate-500 dark:text-slate-500",
-  basic:    "bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-500/30",
-  medium:   "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-500/30",
-  advanced: "bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-300 border-violet-200 dark:border-violet-500/30",
-};
-
 // ─── Sub-components ───────────────────────────────────────────────────────────
+
+const FIELD_LABEL = "block text-sm font-medium text-[#101014] mb-1.5";
+const FIELD_HINT  = "text-[13px] text-[#63666D] mb-2";
 
 function SelectField({
   label,
@@ -60,21 +56,21 @@ function SelectField({
 }) {
   return (
     <div>
-      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+      <label className={FIELD_LABEL}>
         {label}
       </label>
-      {hint && <p className="text-xs text-slate-500 dark:text-slate-500 mb-2">{hint}</p>}
+      {hint && <p className={FIELD_HINT}>{hint}</p>}
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-xl border border-slate-200 dark:border-white/[0.10] bg-white dark:bg-white/[0.03] text-slate-800 dark:text-slate-200 text-sm px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-400 transition-colors"
+        className="w-full border border-[#C9CCD3] bg-white px-3 py-2.5 text-sm text-[#101014]"
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>{o.label}</option>
         ))}
       </select>
       {options.find((o) => o.value === value)?.description && (
-        <p className="mt-1.5 text-xs text-slate-500 dark:text-slate-500">
+        <p className="mt-2 text-[13px] text-[#63666D]">
           {options.find((o) => o.value === value)?.description}
         </p>
       )}
@@ -99,23 +95,25 @@ function NumberStepper({
 }) {
   return (
     <div>
-      <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+      <label className={FIELD_LABEL}>
         {label}
       </label>
-      {hint && <p className="text-xs text-slate-500 dark:text-slate-500 mb-2">{hint}</p>}
+      {hint && <p className={FIELD_HINT}>{hint}</p>}
       <div className="flex items-center gap-3">
         <button
           type="button"
+          aria-label="Restar una integración"
           onClick={() => onChange(Math.max(min, value - 1))}
-          className="h-9 w-9 rounded-lg border border-slate-200 dark:border-white/[0.10] bg-white dark:bg-white/[0.03] text-slate-600 dark:text-slate-400 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-white/[0.06] transition-colors text-lg font-bold"
+          className="flex h-9 w-9 items-center justify-center border border-[#C9CCD3] bg-white text-lg text-[#101014] transition-colors hover:border-[#101014]"
         >
           −
         </button>
-        <span className="min-w-[2rem] text-center text-lg font-bold text-slate-900 dark:text-white">{value}</span>
+        <span className="min-w-[2rem] text-center text-lg font-semibold tabular-nums text-[#101014]">{value}</span>
         <button
           type="button"
+          aria-label="Sumar una integración"
           onClick={() => onChange(Math.min(max, value + 1))}
-          className="h-9 w-9 rounded-lg border border-slate-200 dark:border-white/[0.10] bg-white dark:bg-white/[0.03] text-slate-600 dark:text-slate-400 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-white/[0.06] transition-colors text-lg font-bold"
+          className="flex h-9 w-9 items-center justify-center border border-[#C9CCD3] bg-white text-lg text-[#101014] transition-colors hover:border-[#101014]"
         >
           +
         </button>
@@ -133,16 +131,17 @@ function LevelPicker({
 }) {
   const levels: ModuleLevel[] = ["none", "basic", "medium", "advanced"];
   return (
-    <div className="flex gap-1">
+    <div className="grid grid-cols-4 gap-px bg-[#E4E6EA]">
       {levels.map((l) => (
         <button
           key={l}
           type="button"
           onClick={() => onChange(l)}
-          className={`flex-1 rounded-lg border px-1.5 py-1 text-[10px] font-semibold transition-all ${
+          aria-pressed={value === l}
+          className={`px-1.5 py-1.5 text-[11px] font-medium transition-colors ${
             value === l
-              ? LEVEL_COLORS[l] + " border-current shadow-sm"
-              : "border-slate-200 dark:border-white/[0.08] text-slate-400 dark:text-slate-600 hover:border-slate-300 dark:hover:border-white/[0.12]"
+              ? "bg-[#101014] text-white"
+              : "bg-white text-[#63666D] hover:bg-[#F5F6F8]"
           }`}
         >
           {l === "none" ? "—" : LEVEL_LABELS[l]}
@@ -154,14 +153,14 @@ function LevelPicker({
 
 function PhaseBar({ label, pct, hours }: { label: string; pct: number; hours: number }) {
   return (
-    <div className="space-y-1">
+    <div className="space-y-1.5">
       <div className="flex items-center justify-between text-xs">
-        <span className="text-slate-600 dark:text-slate-400">{label}</span>
-        <span className="font-semibold text-slate-700 dark:text-slate-300">{hours} h · {pct}%</span>
+        <span className="text-[#3D4046]">{label}</span>
+        <span className="font-medium tabular-nums text-[#101014]">{hours} h · {pct}%</span>
       </div>
-      <div className="h-1.5 rounded-full bg-slate-100 dark:bg-white/[0.05] overflow-hidden">
+      <div className="h-1.5 overflow-hidden bg-[#E4E6EA]">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-sky-400 to-indigo-400 dark:from-sky-500 dark:to-indigo-500 transition-all duration-500"
+          className="h-full bg-brand-600 transition-all duration-500"
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -185,15 +184,16 @@ function ScenarioCard({
     <button
       type="button"
       onClick={onSelect}
-      className={`flex-1 rounded-2xl border p-4 text-left transition-all duration-200 ${
+      aria-pressed={selected}
+      className={`flex-1 border p-4 text-left transition-colors ${
         selected
-          ? "border-sky-400 dark:border-sky-500 bg-sky-50/80 dark:bg-sky-500/10 shadow-md"
-          : "border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] hover:border-slate-300 dark:hover:border-white/[0.14]"
+          ? "border-[#101014] bg-[#F5F6F8]"
+          : "border-[#E4E6EA] bg-white hover:border-[#C9CCD3]"
       }`}
     >
-      <p className={`text-xs font-bold uppercase tracking-[0.14em] mb-2 ${s.color}`}>{s.label}</p>
-      <p className="text-xl font-extrabold text-slate-900 dark:text-white">{fmt(data.price)}</p>
-      <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">{fmtH(data.hours)}</p>
+      <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">{s.label}</p>
+      <p className="text-xl font-semibold tracking-tight tabular-nums text-[#101014]">{fmt(data.price)}</p>
+      <p className="mt-1 text-xs tabular-nums text-[#63666D]">{fmtH(data.hours)}</p>
     </button>
   );
 }
@@ -203,7 +203,7 @@ function ResultPanel({ result, copied, onCopy }: { result: CalcResult; copied: b
 
   if (!result.valid) {
     return (
-      <div className="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] p-6 text-center text-slate-500 dark:text-slate-500 text-sm">
+      <div className="border border-[#E4E6EA] bg-white p-6 text-center text-sm text-[#63666D]">
         Completa los campos para ver la estimación.
       </div>
     );
@@ -213,11 +213,11 @@ function ResultPanel({ result, copied, onCopy }: { result: CalcResult; copied: b
   const maxH = Math.max(...result.drivers.map((d) => d.hours), 1);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       {/* Scenarios */}
       <div>
-        <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-600 mb-3">Escenarios</p>
-        <div className="flex gap-2">
+        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Escenarios</p>
+        <div className="flex gap-3">
           {(Object.keys(SCENARIOS) as ScenarioKey[]).map((k) => (
             <ScenarioCard
               key={k}
@@ -228,37 +228,37 @@ function ResultPanel({ result, copied, onCopy }: { result: CalcResult; copied: b
             />
           ))}
         </div>
-        <p className="mt-2 text-[10px] text-slate-400 dark:text-slate-600">
+        <p className="mt-3 text-xs leading-relaxed text-[#63666D]">
           Optimista (0.75×) · Realista (1.0×) · Conservador (1.30×) sobre estimación base de {fmtH(mid.hours)}
         </p>
       </div>
 
       {/* Timeline + team */}
-      <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] p-4">
-          <p className="text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-slate-500 mb-1.5">Plazo estimado</p>
-          <p className="text-lg font-bold text-slate-900 dark:text-white">
+      <dl className="grid grid-cols-2 divide-x divide-[#E4E6EA] border border-[#E4E6EA] bg-white">
+        <div className="p-4">
+          <dt className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Plazo estimado</dt>
+          <dd className="text-lg font-semibold tabular-nums tracking-tight text-[#101014]">
             {result.timeline.minWeeks}–{result.timeline.maxWeeks} sem.
-          </p>
+          </dd>
         </div>
-        <div className="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] p-4">
-          <p className="text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-slate-500 mb-1.5">Horas totales</p>
-          <p className="text-lg font-bold text-slate-900 dark:text-white">{fmtH(mid.hours)}</p>
+        <div className="p-4">
+          <dt className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Horas totales</dt>
+          <dd className="text-lg font-semibold tabular-nums tracking-tight text-[#101014]">{fmtH(mid.hours)}</dd>
         </div>
-      </div>
+      </dl>
 
       {/* Team */}
-      <div className="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] p-4">
-        <p className="text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-slate-500 mb-3">Equipo recomendado</p>
-        <div className="flex flex-wrap gap-2">
+      <div className="border border-[#E4E6EA] bg-white p-4">
+        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Equipo recomendado</p>
+        <ul className="flex flex-wrap gap-2">
           {result.team.map((t) => (
-            <span key={t} className="inline-flex items-center rounded-full border border-slate-200 dark:border-white/[0.10] bg-slate-50 dark:bg-white/[0.03] px-2.5 py-1 text-xs font-medium text-slate-700 dark:text-slate-300">
+            <li key={t} className="border border-[#E4E6EA] px-2.5 py-1 text-xs text-[#3D4046]">
               {t}
-            </span>
+            </li>
           ))}
-        </div>
+        </ul>
         {result.approach && (
-          <p className="mt-3 text-xs text-slate-500 dark:text-slate-400 leading-relaxed border-t border-slate-100 dark:border-white/[0.06] pt-3">
+          <p className="mt-4 border-t border-[#E4E6EA] pt-4 text-[13px] leading-relaxed text-[#3D4046]">
             {result.approach}
           </p>
         )}
@@ -266,9 +266,9 @@ function ResultPanel({ result, copied, onCopy }: { result: CalcResult; copied: b
 
       {/* Phase breakdown */}
       {result.phases.length > 0 && (
-        <div className="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] p-4">
-          <p className="text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-slate-500 mb-4">Desglose por fases</p>
-          <div className="space-y-3">
+        <div className="border border-[#E4E6EA] bg-white p-4">
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Desglose por fases</p>
+          <div className="space-y-4">
             {result.phases.map((ph) => (
               <PhaseBar key={ph.label} label={ph.label} pct={ph.pct} hours={ph.hours} />
             ))}
@@ -278,18 +278,18 @@ function ResultPanel({ result, copied, onCopy }: { result: CalcResult; copied: b
 
       {/* Cost drivers */}
       {result.drivers.length > 0 && (
-        <div className="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] p-4">
-          <p className="text-xs uppercase tracking-[0.14em] text-slate-500 dark:text-slate-500 mb-4">Principales factores de coste</p>
-          <div className="space-y-3">
+        <div className="border border-[#E4E6EA] bg-white p-4">
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Principales factores de coste</p>
+          <div className="space-y-4">
             {result.drivers.map((d) => (
-              <div key={d.label} className="space-y-1">
+              <div key={d.label} className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-600 dark:text-slate-400 truncate mr-2">{d.label}</span>
-                  <span className="font-semibold text-slate-700 dark:text-slate-300 flex-shrink-0">{d.hours} h</span>
+                  <span className="mr-2 truncate text-[#3D4046]">{d.label}</span>
+                  <span className="flex-shrink-0 font-medium tabular-nums text-[#101014]">{d.hours} h</span>
                 </div>
-                <div className="h-1.5 rounded-full bg-slate-100 dark:bg-white/[0.05] overflow-hidden">
+                <div className="h-1.5 overflow-hidden bg-[#E4E6EA]">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-violet-400 to-indigo-400 dark:from-violet-500 dark:to-indigo-500 transition-all duration-500"
+                    className="h-full bg-brand-600 transition-all duration-500"
                     style={{ width: `${Math.round((d.hours / maxH) * 100)}%` }}
                   />
                 </div>
@@ -300,32 +300,29 @@ function ResultPanel({ result, copied, onCopy }: { result: CalcResult; copied: b
       )}
 
       {/* CTA */}
-      <div className="rounded-2xl border border-sky-200 dark:border-sky-500/30 bg-sky-50/80 dark:bg-sky-500/10 p-5">
-        <p className="text-sm font-bold text-slate-900 dark:text-white mb-1">
+      <div className="band-dark p-5 sm:p-6">
+        <p className="mb-2 text-base font-semibold leading-snug tracking-tight text-white">
           ¿Quieres convertir esta estimación en una propuesta real?
         </p>
-        <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
+        <p className="mb-5 text-[13px] leading-relaxed text-white/70">
           Revisamos juntos los requisitos y te entregamos una propuesta detallada sin compromiso.
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-3">
           <a
             href="/#contacto"
             onClick={() => trackEvent("calculadora_coste_cta", { from: "result_panel" })}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600 text-white text-sm font-semibold px-4 py-2.5 transition-colors"
+            className="inline-flex items-center rounded-[2px] bg-white px-4 py-2.5 text-sm font-medium tracking-tight text-[#101014] transition-colors hover:bg-white/90"
           >
             Solicitar propuesta
-            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <path d="M3 8h10M9 4l4 4-4 4" />
-            </svg>
           </a>
           <button
             type="button"
             onClick={onCopy}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-white/[0.10] bg-white dark:bg-white/[0.03] text-slate-700 dark:text-slate-300 text-sm font-medium px-4 py-2.5 hover:bg-slate-50 dark:hover:bg-white/[0.06] transition-colors"
+            className="inline-flex items-center gap-2 rounded-[2px] border border-white/30 px-4 py-2.5 text-sm font-medium tracking-tight text-white transition-colors hover:border-white"
           >
             {copied ? (
               <>
-                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 text-emerald-500" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                   <path d="M2 8l4 4 8-8" />
                 </svg>
                 Copiado
@@ -343,7 +340,7 @@ function ResultPanel({ result, copied, onCopy }: { result: CalcResult; copied: b
         </div>
       </div>
 
-      <p className="text-[10px] text-slate-400 dark:text-slate-600 leading-relaxed text-center">
+      <p className="text-xs leading-relaxed text-[#63666D]">
         Estimación orientativa basada en proyectos similares. La propuesta final depende de los requisitos concretos, la arquitectura elegida y el equipo asignado. Tarifa de referencia: {new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" }).format(80)}/h.
       </p>
     </div>
@@ -429,25 +426,25 @@ function QuickMode({ onResult }: { onResult: (r: CalcResult) => void }) {
       </div>
 
       {form.integrations > 0 && (
-        <label className="flex items-center gap-3 cursor-pointer select-none">
+        <label className="flex cursor-pointer select-none items-center gap-3">
           <div
             role="checkbox"
             aria-checked={form.hasDocumentation}
             tabIndex={0}
             onClick={() => set("hasDocumentation", !form.hasDocumentation)}
             onKeyDown={(e) => e.key === " " && set("hasDocumentation", !form.hasDocumentation)}
-            className={`relative h-5 w-9 rounded-full transition-colors ${form.hasDocumentation ? "bg-sky-500" : "bg-slate-300 dark:bg-slate-600"}`}
+            className={`relative h-5 w-9 rounded-full transition-colors ${form.hasDocumentation ? "bg-brand-600" : "bg-[#C9CCD3]"}`}
           >
-            <span className={`absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-transform ${form.hasDocumentation ? "translate-x-4" : ""}`} />
+            <span className={`absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white transition-transform ${form.hasDocumentation ? "translate-x-4" : ""}`} />
           </div>
-          <span className="text-sm text-slate-700 dark:text-slate-300">Las APIs están bien documentadas</span>
+          <span className="text-sm text-[#3D4046]">Las APIs están bien documentadas</span>
         </label>
       )}
 
       <button
         type="button"
         onClick={handleCalc}
-        className="w-full rounded-xl bg-sky-600 hover:bg-sky-700 dark:bg-sky-500 dark:hover:bg-sky-600 text-white font-semibold py-3 text-sm transition-colors shadow-md shadow-sky-500/20"
+        className="w-full rounded-[2px] bg-[#101014] py-3 text-sm font-medium tracking-tight text-white transition-colors hover:bg-brand-600"
       >
         {calculated ? "Recalcular" : "Calcular estimación"}
       </button>
@@ -508,7 +505,7 @@ function AdvancedMode({ onResult }: { onResult: (r: CalcResult) => void }) {
   return (
     <div className="space-y-4">
       {/* Project type */}
-      <div className="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] p-5">
+      <div className="border border-[#E4E6EA] bg-white p-5">
         <SelectField
           label="Tipo de proyecto"
           value={form.projectType}
@@ -523,22 +520,23 @@ function AdvancedMode({ onResult }: { onResult: (r: CalcResult) => void }) {
         const activeMods = sectionModules.filter((m) => (form.modules[m.id] ?? "none") !== "none").length;
         const isOpen = openSection === section;
         return (
-          <div key={section} className="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] overflow-hidden">
+          <div key={section} className="border border-[#E4E6EA] bg-white">
             <button
               type="button"
               onClick={() => setOpenSection(isOpen ? null : section)}
-              className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-slate-50 dark:hover:bg-white/[0.02] transition-colors"
+              aria-expanded={isOpen}
+              className="flex w-full items-center justify-between px-5 py-4 text-left transition-colors hover:bg-[#F5F6F8]"
             >
-              <span className="font-semibold text-sm text-slate-800 dark:text-slate-200">{section}</span>
-              <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold tracking-tight text-[#101014]">{section}</span>
+              <div className="flex items-center gap-3">
                 {activeMods > 0 && (
-                  <span className="inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 text-[10px] font-bold px-1.5">
+                  <span className="inline-flex h-5 min-w-[1.25rem] items-center justify-center border border-[#E4E6EA] px-1.5 text-[10px] font-medium tabular-nums text-[#101014]">
                     {activeMods}
                   </span>
                 )}
                 <svg
                   viewBox="0 0 16 16"
-                  className={`h-4 w-4 text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                  className={`h-4 w-4 text-[#63666D] transition-transform ${isOpen ? "rotate-180" : ""}`}
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
@@ -550,18 +548,18 @@ function AdvancedMode({ onResult }: { onResult: (r: CalcResult) => void }) {
               </div>
             </button>
             {isOpen && (
-              <div className="border-t border-slate-100 dark:border-white/[0.06] px-5 py-4 space-y-4">
+              <div className="space-y-5 border-t border-[#E4E6EA] px-5 py-5">
                 {sectionModules.map((mod) => (
                   <div key={mod.id}>
-                    <div className="flex items-start justify-between gap-2 mb-1.5">
+                    <div className="mb-2 flex items-start justify-between gap-2">
                       <div>
-                        <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{mod.label}</p>
+                        <p className="text-sm font-medium text-[#101014]">{mod.label}</p>
                         {mod.description && (
-                          <p className="text-xs text-slate-500 dark:text-slate-500">{mod.description}</p>
+                          <p className="mt-0.5 text-[13px] text-[#63666D]">{mod.description}</p>
                         )}
                       </div>
                       {(form.modules[mod.id] ?? "none") !== "none" && (
-                        <span className="flex-shrink-0 text-xs text-slate-500 dark:text-slate-500">
+                        <span className="flex-shrink-0 text-xs tabular-nums text-[#63666D]">
                           {mod.hours[form.modules[mod.id] ?? "none"]} h
                         </span>
                       )}
@@ -579,8 +577,8 @@ function AdvancedMode({ onResult }: { onResult: (r: CalcResult) => void }) {
       })}
 
       {/* Config options */}
-      <div className="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] p-5 space-y-5">
-        <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-600">Configuración técnica</p>
+      <div className="space-y-6 border border-[#E4E6EA] bg-white p-5">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Configuración técnica</p>
         <div className="grid gap-5 sm:grid-cols-2">
           <SelectField
             label="Complejidad de negocio"
@@ -622,25 +620,25 @@ function AdvancedMode({ onResult }: { onResult: (r: CalcResult) => void }) {
           />
         </div>
         {form.integrations > 0 && (
-          <label className="flex items-center gap-3 cursor-pointer select-none">
+          <label className="flex cursor-pointer select-none items-center gap-3">
             <div
               role="checkbox"
               aria-checked={form.hasDocumentation}
               tabIndex={0}
               onClick={() => set("hasDocumentation", !form.hasDocumentation)}
               onKeyDown={(e) => e.key === " " && set("hasDocumentation", !form.hasDocumentation)}
-              className={`relative h-5 w-9 rounded-full transition-colors ${form.hasDocumentation ? "bg-sky-500" : "bg-slate-300 dark:bg-slate-600"}`}
+              className={`relative h-5 w-9 rounded-full transition-colors ${form.hasDocumentation ? "bg-brand-600" : "bg-[#C9CCD3]"}`}
             >
-              <span className={`absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-transform ${form.hasDocumentation ? "translate-x-4" : ""}`} />
+              <span className={`absolute top-0.5 left-0.5 h-4 w-4 rounded-full bg-white transition-transform ${form.hasDocumentation ? "translate-x-4" : ""}`} />
             </div>
-            <span className="text-sm text-slate-700 dark:text-slate-300">Las APIs están bien documentadas</span>
+            <span className="text-sm text-[#3D4046]">Las APIs están bien documentadas</span>
           </label>
         )}
       </div>
 
       {/* Security options */}
-      <div className="rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-white dark:bg-white/[0.02] p-5">
-        <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-400 dark:text-slate-600 mb-4">Seguridad y compliance</p>
+      <div className="border border-[#E4E6EA] bg-white p-5">
+        <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Seguridad y compliance</p>
         <div className="grid gap-2 sm:grid-cols-2">
           {SECURITY_OPTIONS.map((opt) => {
             const active = form.securityOptions.includes(opt.id);
@@ -649,14 +647,15 @@ function AdvancedMode({ onResult }: { onResult: (r: CalcResult) => void }) {
                 key={opt.id}
                 type="button"
                 onClick={() => toggleSecurity(opt.id)}
-                className={`flex items-center justify-between gap-2 rounded-xl border px-3 py-2.5 text-left text-xs transition-all ${
+                aria-pressed={active}
+                className={`flex items-center justify-between gap-2 border px-3 py-2.5 text-left text-xs transition-colors ${
                   active
-                    ? "border-violet-300 dark:border-violet-500/40 bg-violet-50 dark:bg-violet-500/10 text-violet-700 dark:text-violet-300"
-                    : "border-slate-200 dark:border-white/[0.08] text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-white/[0.14]"
+                    ? "border-[#101014] bg-[#F5F6F8] text-[#101014]"
+                    : "border-[#E4E6EA] text-[#3D4046] hover:border-[#C9CCD3]"
                 }`}
               >
                 <span className="font-medium">{opt.label}</span>
-                <span className="flex-shrink-0 text-slate-500 dark:text-slate-500">{opt.hours} h</span>
+                <span className="flex-shrink-0 tabular-nums text-[#63666D]">{opt.hours} h</span>
               </button>
             );
           })}
@@ -664,8 +663,8 @@ function AdvancedMode({ onResult }: { onResult: (r: CalcResult) => void }) {
       </div>
 
       {/* Summary badge */}
-      <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-500">
-        <span className="inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 text-[10px] font-bold px-1.5">
+      <div className="flex items-center gap-3 text-xs text-[#63666D]">
+        <span className="inline-flex h-5 min-w-[1.25rem] items-center justify-center border border-[#E4E6EA] px-1.5 text-[10px] font-medium tabular-nums text-[#101014]">
           {selectedModuleCount}
         </span>
         módulos seleccionados · Resultados actualizados en tiempo real
@@ -723,16 +722,17 @@ export default function CostCalculator() {
       <h2 id="cost-calc-title" className="sr-only">Calculadora de coste</h2>
 
       {/* Mode switcher */}
-      <div className="flex gap-2 p-1 rounded-2xl border border-slate-200 dark:border-white/[0.08] bg-slate-50 dark:bg-white/[0.02] w-fit mb-8">
+      <div className="mb-10 flex w-fit gap-px border border-[#E4E6EA] bg-[#E4E6EA]">
         {(["quick", "advanced"] as const).map((m) => (
           <button
             key={m}
             type="button"
             onClick={() => handleModeChange(m)}
-            className={`rounded-xl px-5 py-2 text-sm font-semibold transition-all ${
+            aria-pressed={mode === m}
+            className={`px-5 py-2.5 text-sm font-medium transition-colors ${
               mode === m
-                ? "bg-white dark:bg-white/[0.08] text-slate-900 dark:text-white shadow-sm"
-                : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
+                ? "bg-[#101014] text-white"
+                : "bg-white text-[#3D4046] hover:bg-[#F5F6F8]"
             }`}
           >
             {m === "quick" ? "Estimación rápida" : "Configuración avanzada"}
@@ -740,7 +740,7 @@ export default function CostCalculator() {
         ))}
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_380px] items-start">
+      <div className="grid gap-10 lg:grid-cols-[1fr_380px] items-start">
         {/* Left: form */}
         <div>
           {mode === "quick" ? (
@@ -752,7 +752,7 @@ export default function CostCalculator() {
 
         {/* Right: results (sticky on desktop) */}
         <div className="lg:sticky lg:top-8">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-600 mb-4">
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
             {mode === "advanced" ? "Resultado en tiempo real" : "Resultado"}
           </p>
           <ResultPanel result={result ?? { valid: false, scenarios: { low: { hours: 0, price: 0 }, mid: { hours: 0, price: 0 }, high: { hours: 0, price: 0 } }, phases: [], totalMidHours: 0, timeline: { minWeeks: 0, maxWeeks: 0 }, team: [], approach: "", drivers: [] }} copied={copied} onCopy={handleCopy} />

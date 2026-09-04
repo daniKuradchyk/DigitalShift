@@ -22,7 +22,7 @@ export const revalidate = 86400;
 export const metadata: Metadata = buildMetadata({
   title: "Servicios: software a medida, web y automatización | Qubelia",
   description:
-    "Software a medida, desarrollo web, automatización de procesos y CRM a medida para empresas B2B en España. Criterio técnico, propiedad del código y entrega real.",
+    "Software a medida, desarrollo web, automatización de procesos y CRM a medida para empresas B2B en España. Criterio técnico y propiedad del código.",
   path: "/servicios",
 });
 
@@ -66,16 +66,8 @@ export default function ServicesPage() {
       <Header />
       <main id="contenido">
         {/* ═══ HERO ═══ */}
-        <section className="relative overflow-hidden pb-16 pt-28 sm:pb-20 sm:pt-32">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(ellipse 70% 50% at 30% 20%, rgba(65,105,225,0.12), transparent 60%), radial-gradient(ellipse 50% 40% at 80% 80%, rgba(91,141,239,0.08), transparent 50%)",
-            }}
-          />
-          <Container className="relative">
+        <section className="bg-white pb-16 pt-28 sm:pb-20 sm:pt-32">
+          <Container>
             <Breadcrumbs items={breadcrumbs} />
             <div className="mt-6 max-w-4xl animate-fade-up">
               <SectionIntro
@@ -87,41 +79,31 @@ export default function ServicesPage() {
             </div>
 
             {/* Quick stats */}
-            <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-px overflow-hidden rounded-xl border max-w-3xl animate-fade-up delay-200"
-              style={{
-                background: "rgba(91,141,239,0.12)",
-                borderColor: "rgba(91,141,239,0.18)",
-              }}
-            >
-              {[
-                { label: "Líneas activas", value: "4" },
-                { label: "Servicios estándar", value: "0" },
-                { label: "Vendor lock-in", value: "Cero" },
-                { label: "Decir 'no'", value: "Parte del trabajo" },
-              ].map((s) => (
-                <div
-                  key={s.label}
-                  className="px-4 py-4"
-                  style={{ background: "var(--bg-page)" }}
-                >
-                  <div className="font-mono text-[10px] uppercase tracking-[0.18em]"
-                    style={{ color: "var(--text-muted)" }}
+            <div className="mt-12 border-t border-[#E4E6EA] animate-fade-up delay-200">
+              <dl className="grid grid-cols-2 gap-x-6 md:grid-cols-4 md:gap-x-0 md:divide-x md:divide-[#E4E6EA]">
+                {[
+                  { label: "Líneas activas", value: "4" },
+                  { label: "Servicios estándar", value: "0" },
+                  { label: "Vendor lock-in", value: "Cero" },
+                  { label: "Decir 'no'", value: "Parte del trabajo" },
+                ].map((s) => (
+                  <div
+                    key={s.label}
+                    className="py-6 md:py-8 md:px-8 first:md:pl-0 last:md:pr-0"
                   >
-                    {s.label}
+                    <dt className="text-sm text-[#63666D]">{s.label}</dt>
+                    <dd className="mt-1.5 text-xl sm:text-2xl font-semibold tracking-tight text-[#101014]">
+                      {s.value}
+                    </dd>
                   </div>
-                  <div className="text-lg font-bold mt-1"
-                    style={{ color: "var(--text-primary)" }}
-                  >
-                    {s.value}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </dl>
             </div>
           </Container>
         </section>
 
         {/* ═══ COMPARATIVA DE 4 SERVICIOS ═══ */}
-        <section className="py-16 sm:py-20">
+        <section className="border-t border-[#E4E6EA] bg-white py-20 sm:py-24">
           <Container>
             <SectionIntro
               eyebrow="Catálogo · vista comparada"
@@ -129,14 +111,14 @@ export default function ServicesPage() {
               description="No es 'elige uno y nos ponemos'. Cada línea tiene su signature, su umbral de entrada y su perfil de empresa. Esta es la vista comparada para decidir antes de pedir presupuesto."
             />
 
-            <div className="mt-10">
+            <div className="mt-14">
               <ServicesComparison />
             </div>
           </Container>
         </section>
 
         {/* ═══ TRIAGE — síntoma → servicio ═══ */}
-        <section className="py-16 sm:py-20">
+        <section className="border-t border-[#E4E6EA] bg-[#F5F6F8] py-20 sm:py-24">
           <Container>
             <SectionIntro
               eyebrow="Diagnóstico rápido"
@@ -151,7 +133,7 @@ export default function ServicesPage() {
         </section>
 
         {/* ═══ PROBLEMAS NARRATIVOS ═══ */}
-        <section className="py-16 sm:py-20">
+        <section className="border-t border-[#E4E6EA] bg-white py-20 sm:py-24">
           <Container>
             <SectionIntro
               eyebrow="Por qué llegan aquí"
@@ -159,36 +141,23 @@ export default function ServicesPage() {
               description="No siempre es obvio qué línea atacar primero. A veces el problema visible es síntoma de otro mayor. Por eso el diagnóstico precede a la propuesta."
             />
 
-            <div className="mt-12 grid gap-10 sm:gap-12">
+            <div className="mt-12 divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
               {problems.map((problem, i) => (
                 <article
                   key={problem.title}
-                  className="grid grid-cols-12 gap-4 sm:gap-6 animate-fade-up"
+                  className="grid grid-cols-12 gap-4 py-10 sm:gap-6 animate-fade-up"
                   style={{ animationDelay: `${i * 80}ms` }}
                 >
                   <div className="col-span-2 sm:col-span-1">
-                    <span
-                      className="font-mono text-sm sm:text-base font-bold tabular-nums"
-                      style={{ color: "var(--text-muted)" }}
-                    >
+                    <span className="text-2xl sm:text-3xl font-semibold tracking-tight tabular-nums text-[#9DA0A6]">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   </div>
                   <div className="col-span-10 sm:col-span-11 lg:col-span-8 lg:col-start-2">
-                    <h3
-                      className="text-xl sm:text-2xl font-bold mb-3"
-                      style={{
-                        color: "var(--text-primary)",
-                        letterSpacing: "-0.02em",
-                        lineHeight: 1.25,
-                      }}
-                    >
+                    <h3 className="mb-3 text-xl sm:text-2xl font-semibold tracking-tight leading-snug text-[#101014]">
                       {problem.title}
                     </h3>
-                    <p
-                      className="text-base leading-relaxed max-w-2xl"
-                      style={{ color: "var(--text-secondary)" }}
-                    >
+                    <p className="max-w-2xl text-base leading-relaxed text-[#3D4046]">
                       {problem.description}
                     </p>
                   </div>
@@ -199,7 +168,7 @@ export default function ServicesPage() {
         </section>
 
         {/* ═══ ENCAJE ═══ */}
-        <section className="py-16 sm:py-20">
+        <section className="border-t border-[#E4E6EA] bg-[#F5F6F8] py-20 sm:py-24">
           <Container>
             <SectionIntro
               eyebrow="Encaje"
@@ -214,7 +183,7 @@ export default function ServicesPage() {
         </section>
 
         {/* ═══ PROCESO ═══ */}
-        <section className="py-16 sm:py-20">
+        <section className="border-t border-[#E4E6EA] bg-white py-20 sm:py-24">
           <Container>
             <SectionIntro
               eyebrow="Cómo suele empezar"
@@ -229,7 +198,7 @@ export default function ServicesPage() {
         </section>
 
         {/* ═══ CTA FINAL ═══ */}
-        <section className="pb-20 pt-4">
+        <section className="border-t border-[#E4E6EA] bg-white py-20 sm:py-24">
           <Container>
             <FinalCta
               title="Si el problema ya está claro, la siguiente conversación debería ser concreta"

@@ -53,7 +53,8 @@ export default function AutomationServicePage() {
 
   const serviceData = serviceJsonLd({
     name: service.shortTitle,
-    description: service.metaDescription,
+    description: service.metaDescription,
+    url: canonical(service.href),
   });
 
   return (
@@ -62,7 +63,7 @@ export default function AutomationServicePage() {
       <JsonLd id="ld-automation-service" data={serviceData} />
       <JsonLd id="ld-automation-faq" data={faqJsonLd(service.faqs)} />
       <Header />
-      <main id="contenido">
+      <main id="contenido" className="bg-white divide-y divide-[#E4E6EA]">
         <EditorialHero
           slug="automatizacion-integraciones"
           breadcrumbs={breadcrumbs}
@@ -87,6 +88,7 @@ export default function AutomationServicePage() {
         >
           <AutomationBeforeAfter />
         </EditorialSection>
+
 
         {/* ── 02 · Síntomas / problemas ── */}
         <EditorialSection
@@ -236,15 +238,17 @@ export default function AutomationServicePage() {
           <ResourceLinks posts={service.relatedPosts} labSlugs={service.relatedLabs} />
         </EditorialSection>
 
-        <Container>
-          <EditorialFinalCta
-            kicker="Antes de invertir"
-            title="Mapeamos contigo dónde se pierde tiempo de verdad."
-            body="30 minutos para identificar los flujos que realmente generan dolor y estimar el ROI de automatizarlos. Si no compensa, te lo decimos. Sin presión, sin marketing."
-            secondaryHref="/servicios/software-a-medida"
-            secondaryLabel="Ver software a medida"
-          />
-        </Container>
+        <section className="bg-white pb-8 sm:pb-12">
+          <Container>
+            <EditorialFinalCta
+              kicker="Antes de invertir"
+              title="Mapeamos contigo dónde se pierde tiempo de verdad."
+              body="30 minutos para identificar los flujos que realmente generan dolor y estimar el ROI de automatizarlos. Si no compensa, te lo decimos. Sin presión, sin marketing."
+              secondaryHref="/servicios/software-a-medida"
+              secondaryLabel="Ver software a medida"
+            />
+          </Container>
+        </section>
       </main>
       <Footer />
     </>
