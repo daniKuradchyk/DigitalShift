@@ -18,16 +18,16 @@ const verticalLabel: Record<string, string> = {
   local: "Pyme local",
   ecommerce: "E-commerce",
   despacho: "Despacho profesional",
-  clinica: "Clinica / Salud",
-  restaurante: "Restauracion",
+  clinica: "Clínica / Salud",
+  restaurante: "Restauración",
   saas: "SaaS / Tech",
   inmobiliaria: "Inmobiliaria",
-  educacion: "Educacion",
+  educacion: "Educación",
 };
 
 const goalLabel: Record<string, string> = {
   "captar-leads": "Captar leads",
-  "vender-mas": "Vender mas",
+  "vender-mas": "Vender más",
   "ahorrar-tiempo": "Ahorrar tiempo",
   "reducir-errores": "Reducir errores",
   "mejorar-control": "Mejorar control",
@@ -235,7 +235,7 @@ async function maybeSendEmail(submission: AuditSubmission, report: ReturnType<ty
         phone: submission.contact.phone?.trim() || null,
         company: submission.contact.companyName?.trim() || null,
         budget: null,
-        objective: `Analisis gratuito para ${goalLabel[submission.goal] ?? submission.goal}`,
+        objective: `Análisis gratuito para ${goalLabel[submission.goal] ?? submission.goal}`,
       },
       { attachment }
     );
@@ -272,17 +272,17 @@ async function maybeSendInternalLeadAlert(leadSyncResult: Awaited<ReturnType<typ
 
 export async function POST(request: Request) {
   if (!checkRateLimit(getIp(request))) {
-    return NextResponse.json({ ok: false, message: "Demasiadas solicitudes. Intentalo mas tarde." }, { status: 429 });
+    return NextResponse.json({ ok: false, message: "Demasiadas solicitudes. Inténtalo más tarde." }, { status: 429 });
   }
 
   const payload = (await request.json().catch(() => null)) as AuditSubmission | null;
   if (!payload) {
-    return NextResponse.json({ ok: false, message: "Formato invalido" }, { status: 400 });
+    return NextResponse.json({ ok: false, message: "Formato inválido" }, { status: 400 });
   }
 
   const parsed = auditSubmissionSchema.safeParse(payload);
   if (!parsed.success) {
-    return NextResponse.json({ ok: false, message: parsed.error.issues[0]?.message ?? "Datos invalidos" }, { status: 400 });
+    return NextResponse.json({ ok: false, message: parsed.error.issues[0]?.message ?? "Datos inválidos" }, { status: 400 });
   }
 
   const submission = parsed.data;

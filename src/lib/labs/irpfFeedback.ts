@@ -5,7 +5,7 @@ const stepOptions = ["A", "B", "C", "D", "E", "unknown"] as const;
 
 export const irpfFeedbackSchema = z
   .object({
-    category: z.enum(categoryOptions, { message: "Selecciona una categoria" }),
+    category: z.enum(categoryOptions, { message: "Selecciona una categoría" }),
     step: z.enum(stepOptions).optional(),
     details: z
       .string()
@@ -22,10 +22,10 @@ export const irpfFeedbackSchema = z
     const email = value.email?.trim();
     if (email) {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "El email no es valido", path: ["email"] });
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "El email no es válido", path: ["email"] });
       }
       if (!value.consent) {
-        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Debes aceptar la politica de privacidad", path: ["consent"] });
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Debes aceptar la política de privacidad", path: ["consent"] });
       }
     }
   });

@@ -10,7 +10,8 @@ import {
 import { caseStudies } from "@/content/proof";
 
 /**
- * Editorial blocks — Server Components.
+ * Bloques editoriales — Server Components.
+ * Sistema corporativo claro: blanco, tinta, líneas finas y un único acento azul.
  * Reveal via CSS (`animate-fade-up` + `delay-*`). Sin framer-motion.
  */
 
@@ -27,45 +28,29 @@ export function ProblemNarrative({
   return (
     <div>
       {intro && (
-        <p
-          className="text-lg sm:text-xl leading-relaxed max-w-3xl mb-12 animate-fade-up"
-          style={{ color: "var(--text-secondary)" }}
-        >
+        <p className="mb-12 max-w-3xl text-lg leading-relaxed text-[#3D4046] animate-fade-up">
           {intro}
         </p>
       )}
 
-      <div className="space-y-10 sm:space-y-12">
+      <div className="divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
         {items.map((item, i) => (
           <article
             key={item.title}
-            className="grid grid-cols-12 gap-4 sm:gap-6 group animate-fade-up"
+            className="grid grid-cols-12 gap-4 py-8 sm:gap-6 sm:py-10 animate-fade-up"
             style={{ animationDelay: `${i * 80}ms` }}
           >
             <div className="col-span-2 sm:col-span-1">
-              <span
-                className="font-mono text-sm sm:text-base font-bold tabular-nums"
-                style={{ color: "var(--text-muted)" }}
-              >
+              <span className="text-xl sm:text-2xl font-light tabular-nums leading-none tracking-tight text-[#9DA0A6]">
                 {String(i + 1).padStart(2, "0")}
               </span>
             </div>
 
             <div className="col-span-10 sm:col-span-11 lg:col-span-7 lg:col-start-2">
-              <h3
-                className="text-xl sm:text-2xl font-bold mb-3 transition-colors duration-300 group-hover:text-blue-200"
-                style={{
-                  color: "var(--text-primary)",
-                  letterSpacing: "-0.02em",
-                  lineHeight: 1.25,
-                }}
-              >
+              <h3 className="mb-3 text-xl sm:text-2xl font-semibold leading-tight tracking-tight text-[#101014]">
                 {item.title}
               </h3>
-              <p
-                className="text-base leading-relaxed max-w-2xl"
-                style={{ color: "var(--text-secondary)" }}
-              >
+              <p className="max-w-2xl text-base leading-relaxed text-[#3D4046]">
                 {item.description}
               </p>
             </div>
@@ -91,67 +76,36 @@ export function DecisionDuo({
   no: string[];
 }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-      <div className="relative pl-6 animate-fade-up">
-        <span
-          className="absolute left-0 top-0 bottom-0 w-px"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(91,141,239,0.5) 0%, rgba(91,141,239,0.1) 100%)",
-          }}
-        />
-        <div className="flex items-baseline gap-3 mb-5">
-          <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-blue-300">
-            ✓ {yesTitle}
-          </span>
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
+      <div className="border border-[#E4E6EA] bg-white p-7 sm:p-8 animate-fade-up">
+        <div className="mb-5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-600">
+          <span aria-hidden className="inline-block h-px w-3 bg-brand-600" />
+          {yesTitle}
         </div>
-        <ul className="space-y-3.5">
+        <ul className="divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
           {yes.map((item) => (
             <li
               key={item}
-              className="text-[15px] sm:text-base leading-relaxed flex gap-3"
-              style={{ color: "var(--text-secondary)" }}
+              className="py-3.5 text-[15px] leading-relaxed text-[#3D4046]"
             >
-              <span
-                className="mt-2.5 h-1 w-3 shrink-0"
-                style={{ background: "rgba(91,141,239,0.5)" }}
-                aria-hidden
-              />
-              <span>{item}</span>
+              {item}
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="relative pl-6 animate-fade-up delay-100">
-        <span
-          className="absolute left-0 top-0 bottom-0 w-px"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(173,193,255,0.2) 0%, rgba(173,193,255,0.05) 100%)",
-          }}
-        />
-        <div className="flex items-baseline gap-3 mb-5">
-          <span
-            className="font-mono text-[11px] uppercase tracking-[0.2em]"
-            style={{ color: "var(--text-muted)" }}
-          >
-            × {noTitle}
-          </span>
+      <div className="border border-[#E4E6EA] bg-[#F5F6F8] p-7 sm:p-8 animate-fade-up delay-100">
+        <div className="mb-5 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
+          <span aria-hidden className="inline-block h-px w-3 bg-[#C9CCD3]" />
+          {noTitle}
         </div>
-        <ul className="space-y-3.5">
+        <ul className="divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
           {no.map((item) => (
             <li
               key={item}
-              className="text-[15px] sm:text-base leading-relaxed flex gap-3"
-              style={{ color: "var(--text-muted)" }}
+              className="py-3.5 text-[15px] leading-relaxed text-[#63666D]"
             >
-              <span
-                className="mt-2.5 h-1 w-3 shrink-0"
-                style={{ background: "rgba(173,193,255,0.25)" }}
-                aria-hidden
-              />
-              <span>{item}</span>
+              {item}
             </li>
           ))}
         </ul>
@@ -165,47 +119,28 @@ export function DecisionDuo({
    ──────────────────────────────────────────────────────────────── */
 export function ScenarioRows({ items }: { items: ServiceScenario[] }) {
   return (
-    <div className="space-y-12 sm:space-y-14">
+    <div className="divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
       {items.map((item, i) => (
         <article
           key={item.title}
-          className="grid grid-cols-12 gap-4 sm:gap-6 lg:gap-10 animate-fade-up"
+          className="grid grid-cols-12 gap-4 py-10 sm:gap-6 lg:gap-10 animate-fade-up"
           style={{ animationDelay: `${i * 100}ms` }}
         >
           <div className="col-span-12 lg:col-span-5">
-            <span
-              className="font-mono text-[10px] uppercase tracking-[0.18em] block mb-2"
-              style={{ color: "var(--text-muted)" }}
-            >
+            <span className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
               Escenario {String(i + 1).padStart(2, "0")}
             </span>
-            <h3
-              className="text-xl sm:text-2xl font-bold"
-              style={{
-                color: "var(--text-primary)",
-                letterSpacing: "-0.02em",
-                lineHeight: 1.2,
-              }}
-            >
+            <h3 className="text-xl sm:text-2xl font-semibold leading-tight tracking-tight text-[#101014]">
               {item.title}
             </h3>
           </div>
 
           <div className="col-span-12 lg:col-span-7">
-            <p
-              className="text-base leading-relaxed mb-4"
-              style={{ color: "var(--text-secondary)" }}
-            >
+            <p className="mb-4 text-base leading-relaxed text-[#3D4046]">
               {item.description}
             </p>
             {item.note && (
-              <p
-                className="text-sm italic leading-relaxed pl-4 border-l"
-                style={{
-                  color: "var(--text-muted)",
-                  borderColor: "rgba(91,141,239,0.25)",
-                }}
-              >
+              <p className="border-l border-[#C9CCD3] pl-4 text-sm leading-relaxed text-[#63666D]">
                 {item.note}
               </p>
             )}
@@ -221,65 +156,26 @@ export function ScenarioRows({ items }: { items: ServiceScenario[] }) {
    ──────────────────────────────────────────────────────────────── */
 export function ProcessRail({ items }: { items: ServiceStep[] }) {
   return (
-    <div className="relative">
-      <div
-        aria-hidden
-        className="absolute hidden lg:block top-7 left-0 right-0 h-px"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent 0%, rgba(91,141,239,0.3) 5%, rgba(91,141,239,0.3) 95%, transparent 100%)",
-        }}
-      />
-      <div className="absolute lg:hidden top-0 bottom-0 left-3 w-px"
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(91,141,239,0.4), rgba(91,141,239,0.1))",
-        }}
-        aria-hidden
-      />
+    <ol className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+      {items.map((step, i) => (
+        <li
+          key={step.step}
+          className="border-t border-[#E4E6EA] pt-6 animate-fade-up"
+          style={{ animationDelay: `${i * 100}ms` }}
+        >
+          <span className="flex h-10 w-10 items-center justify-center border border-[#E4E6EA] text-sm font-semibold tabular-nums text-[#101014]">
+            {step.step}
+          </span>
 
-      <ol className="grid grid-cols-1 lg:grid-cols-4 gap-x-6 gap-y-10">
-        {items.map((step, i) => (
-          <li
-            key={step.step}
-            className="relative pl-10 lg:pl-0 animate-fade-up"
-            style={{ animationDelay: `${i * 120}ms` }}
-          >
-            <div className="absolute lg:relative top-0 left-0 lg:left-auto flex items-center gap-3 lg:mb-4">
-              <span
-                className="relative flex h-7 w-7 items-center justify-center rounded-full"
-                style={{
-                  background: "var(--bg-page)",
-                  border: "2px solid rgba(91,141,239,0.5)",
-                }}
-              >
-                <span className="font-mono text-[10px] font-bold text-blue-300">
-                  {step.step}
-                </span>
-              </span>
-            </div>
-
-            <div className="lg:mt-2">
-              <h3
-                className="text-lg sm:text-xl font-bold mb-2"
-                style={{
-                  color: "var(--text-primary)",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                {step.title}
-              </h3>
-              <p
-                className="text-sm leading-relaxed"
-                style={{ color: "var(--text-secondary)" }}
-              >
-                {step.description}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </div>
+          <h3 className="mt-5 text-lg font-semibold leading-tight tracking-tight text-[#101014]">
+            {step.title}
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-[#3D4046]">
+            {step.description}
+          </p>
+        </li>
+      ))}
+    </ol>
   );
 }
 
@@ -294,19 +190,13 @@ export function DeliverableSheet({
   footer?: string;
 }) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
       <div className="lg:col-span-4">
         <div className="animate-fade-up">
-          <p
-            className="font-mono text-[11px] uppercase tracking-[0.18em] mb-2"
-            style={{ color: "var(--accent-light)" }}
-          >
+          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
             Lo que llevas a casa
           </p>
-          <p
-            className="text-base leading-relaxed max-w-sm"
-            style={{ color: "var(--text-secondary)" }}
-          >
+          <p className="max-w-sm text-base leading-relaxed text-[#3D4046]">
             Sin asteriscos, sin sorpresas. Lo que aparece aquí es lo que
             entregamos en el alcance acordado.
           </p>
@@ -314,26 +204,17 @@ export function DeliverableSheet({
       </div>
 
       <div className="lg:col-span-8">
-        <ul className="space-y-0">
+        <ul className="divide-y divide-[#E4E6EA] border-t border-b border-[#E4E6EA]">
           {items.map((item, i) => (
             <li
               key={item}
-              className="flex items-baseline gap-4 py-4 border-b animate-fade-up"
-              style={{
-                borderColor: "rgba(91,141,239,0.1)",
-                animationDelay: `${i * 60}ms`,
-              }}
+              className="flex items-baseline gap-4 py-4 animate-fade-up"
+              style={{ animationDelay: `${i * 60}ms` }}
             >
-              <span
-                className="font-mono text-xs tabular-nums shrink-0"
-                style={{ color: "var(--accent-light)" }}
-              >
+              <span className="shrink-0 text-xs tabular-nums text-[#9DA0A6]">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span
-                className="text-[15px] sm:text-base leading-relaxed"
-                style={{ color: "var(--text-secondary)" }}
-              >
+              <span className="text-[15px] leading-relaxed text-[#3D4046]">
                 {item}
               </span>
             </li>
@@ -341,11 +222,8 @@ export function DeliverableSheet({
         </ul>
         {footer && (
           <p
-            className="mt-5 text-sm italic animate-fade-up"
-            style={{
-              color: "var(--text-muted)",
-              animationDelay: `${items.length * 60}ms`,
-            }}
+            className="mt-5 text-sm leading-relaxed text-[#63666D] animate-fade-up"
+            style={{ animationDelay: `${items.length * 60}ms` }}
           >
             {footer}
           </p>
@@ -360,17 +238,12 @@ export function DeliverableSheet({
    ──────────────────────────────────────────────────────────────── */
 export function IntegrationStrip({ items }: { items: string[] }) {
   return (
-    <ul className="flex flex-wrap gap-2 sm:gap-2.5">
+    <ul className="flex flex-wrap gap-x-2.5 gap-y-2">
       {items.map((item, i) => (
         <li
           key={item}
-          className="font-mono text-xs sm:text-sm px-3 py-1.5 rounded border animate-fade-up"
-          style={{
-            color: "var(--text-secondary)",
-            background: "rgba(91,141,239,0.04)",
-            borderColor: "rgba(91,141,239,0.15)",
-            animationDelay: `${i * 40}ms`,
-          }}
+          className="border border-[#E4E6EA] bg-white px-2.5 py-1 text-xs sm:text-sm text-[#3D4046] animate-fade-up"
+          style={{ animationDelay: `${i * 40}ms` }}
         >
           {item}
         </li>
@@ -384,25 +257,17 @@ export function IntegrationStrip({ items }: { items: string[] }) {
    ──────────────────────────────────────────────────────────────── */
 export function BenefitProse({ items }: { items: string[] }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+    <div className="grid grid-cols-1 gap-x-10 gap-y-8 md:grid-cols-2">
       {items.map((item, i) => (
         <div
           key={item}
-          className="flex gap-4 animate-fade-up"
+          className="flex gap-4 border-t border-[#E4E6EA] pt-5 animate-fade-up"
           style={{ animationDelay: `${i * 80}ms` }}
         >
-          <span
-            className="mt-1.5 shrink-0 font-mono text-xs font-bold tabular-nums"
-            style={{ color: "var(--accent-light)" }}
-          >
+          <span className="shrink-0 text-sm font-semibold tabular-nums text-[#9DA0A6]">
             {String(i + 1).padStart(2, "0")}
           </span>
-          <p
-            className="text-base sm:text-[17px] leading-relaxed"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            {item}
-          </p>
+          <p className="text-base leading-relaxed text-[#3D4046]">{item}</p>
         </div>
       ))}
     </div>
@@ -417,63 +282,30 @@ export function CaseInline({ ids }: { ids: string[] }) {
   if (!selected.length) return null;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
       {selected.map((item, i) => (
         <article
           key={item.id}
-          className="relative rounded-xl border p-6 sm:p-7 transition-all duration-500 hover:border-blue-400/30 animate-fade-up"
-          style={{
-            background:
-              "linear-gradient(160deg, rgba(91,141,239,0.04) 0%, rgba(6,11,26,0.6) 100%)",
-            borderColor: "rgba(91,141,239,0.15)",
-            animationDelay: `${i * 100}ms`,
-          }}
+          className="border border-[#E4E6EA] bg-white p-7 sm:p-8 animate-fade-up"
+          style={{ animationDelay: `${i * 100}ms` }}
         >
-          <div className="flex items-center gap-2.5 mb-5">
-            <span
-              className="h-2 w-2 rounded-full"
-              style={{ backgroundColor: item.accent }}
-            />
-            <span
-              className="font-mono text-[11px] uppercase tracking-[0.18em]"
-              style={{ color: "var(--accent-light)" }}
-            >
-              {item.client}
-            </span>
-          </div>
+          <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
+            {item.client}
+          </p>
 
-          <h3
-            className="text-lg sm:text-xl font-bold mb-3"
-            style={{
-              color: "var(--text-primary)",
-              letterSpacing: "-0.02em",
-              lineHeight: 1.3,
-            }}
-          >
+          <h3 className="mb-3 text-lg sm:text-xl font-semibold leading-snug tracking-tight text-[#101014]">
             {item.headline}
           </h3>
 
-          <p
-            className="text-sm leading-relaxed mb-5"
-            style={{ color: "var(--text-secondary)" }}
-          >
+          <p className="mb-6 text-sm leading-relaxed text-[#3D4046]">
             {item.challenge}
           </p>
 
-          <div
-            className="flex items-baseline gap-3 pt-5 border-t"
-            style={{ borderColor: "rgba(91,141,239,0.12)" }}
-          >
-            <span
-              className="text-3xl font-black tracking-tight tabular-nums"
-              style={{ color: item.accent }}
-            >
+          <div className="flex items-baseline gap-3 border-t border-[#E4E6EA] pt-5">
+            <span className="text-3xl sm:text-4xl font-semibold tabular-nums tracking-tight text-[#101014]">
               {item.metric}
             </span>
-            <span
-              className="text-xs leading-tight"
-              style={{ color: "var(--text-muted)" }}
-            >
+            <span className="text-xs leading-tight text-[#63666D]">
               {item.metricLabel}
             </span>
           </div>
@@ -490,46 +322,31 @@ export function RelatedNav({ slugs }: { slugs: ServiceSlug[] }) {
   const items = getServices().filter((s) => slugs.includes(s.slug));
 
   return (
-    <div
-      className="grid grid-cols-1 md:grid-cols-3 gap-px overflow-hidden rounded-xl border"
-      style={{
-        background: "rgba(91,141,239,0.08)",
-        borderColor: "rgba(91,141,239,0.15)",
-      }}
-    >
+    <div className="grid grid-cols-1 gap-px border border-[#E4E6EA] bg-[#E4E6EA] md:grid-cols-3">
       {items.map((s, i) => (
         <Link
           key={s.slug}
           href={s.href}
-          className="group relative flex flex-col h-full p-6 sm:p-7 transition-colors duration-400 animate-fade-up"
-          style={{ background: "var(--bg-page)", animationDelay: `${i * 100}ms` }}
+          className="group flex h-full flex-col bg-white p-6 transition-colors duration-200 hover:bg-[#F5F6F8] sm:p-7 animate-fade-up"
+          style={{ animationDelay: `${i * 100}ms` }}
         >
-          <span
-            className="font-mono text-[10px] uppercase tracking-[0.18em] mb-2"
-            style={{ color: "var(--accent-light)" }}
-          >
+          <span className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
             Sigue por
           </span>
-          <h4
-            className="text-base sm:text-lg font-bold mb-3 transition-colors duration-300 group-hover:text-blue-200"
-            style={{
-              color: "var(--text-primary)",
-              letterSpacing: "-0.015em",
-              lineHeight: 1.3,
-            }}
-          >
+          {/* h3, no h4: el bloque va precedido de un h2 y saltar a h4 rompe la jerarquía.
+              Mismas clases, así que el aspecto no cambia. */}
+          <h3 className="mb-3 text-base sm:text-lg font-semibold leading-snug tracking-tight text-[#101014] transition-colors duration-200 group-hover:text-brand-600">
             {s.shortTitle}
-          </h4>
-          <p
-            className="text-sm leading-relaxed flex-1"
-            style={{ color: "var(--text-secondary)" }}
-          >
+          </h3>
+          <p className="flex-1 text-sm leading-relaxed text-[#3D4046]">
             {s.cardSummary}
           </p>
-          <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-blue-300 group-hover:text-blue-200">
-            <span>Ver servicio</span>
+          <span className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-[#101014]">
+            <span className="border-b border-[#C9CCD3] transition-colors duration-200 group-hover:border-brand-600 group-hover:text-brand-600">
+              Ver servicio
+            </span>
             <svg
-              className="w-3.5 h-3.5 transition-transform duration-400 group-hover:translate-x-1"
+              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
               fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
               aria-hidden
             >
@@ -563,38 +380,20 @@ export function EditorialFinalCta({
   secondaryLabel?: string;
 }) {
   return (
-    <div
-      className="relative grid grid-cols-12 gap-6 lg:gap-10 py-12 sm:py-16 border-t animate-fade-up"
-      style={{ borderColor: "rgba(91,141,239,0.15)" }}
-    >
+    <div className="grid grid-cols-12 gap-6 border-t border-[#E4E6EA] py-16 sm:py-20 lg:gap-10 animate-fade-up">
       <div className="col-span-12 lg:col-span-7">
-        <span
-          className="font-mono text-[11px] uppercase tracking-[0.2em] mb-3 inline-block"
-          style={{ color: "var(--accent-light)" }}
-        >
-          {kicker || "Siguiente paso"}
-        </span>
-        <h2
-          className="font-bold mb-4"
-          style={{
-            color: "var(--text-primary)",
-            fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
-            letterSpacing: "-0.02em",
-            lineHeight: 1.2,
-          }}
-        >
-          {title}
-        </h2>
-        <p
-          className="text-base sm:text-lg leading-relaxed max-w-2xl"
-          style={{ color: "var(--text-secondary)" }}
-        >
+        <p className="section-tag">{kicker || "Siguiente paso"}</p>
+
+        <h2 className="text-h2 mt-5">{title}</h2>
+
+        <p className="mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-[#3D4046]">
           {body}
         </p>
       </div>
+
       <div className="col-span-12 lg:col-span-5 lg:flex lg:items-end lg:justify-end">
         <div className="flex flex-wrap gap-3">
-          <Button as="a" href={primaryHref} variant="shine">
+          <Button as="a" href={primaryHref} variant="primary">
             {primaryLabel}
           </Button>
           {secondaryHref && secondaryLabel && (

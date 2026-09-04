@@ -7,20 +7,27 @@ import { irpfFeedbackSchema, type IrpfFeedbackPayload } from "@/lib/labs/irpfFee
 type Errors = Partial<Record<keyof IrpfFeedbackPayload, string>>;
 
 const categories = [
-  { value: "calculo", label: "Calculo / resultado" },
+  { value: "calculo", label: "Cálculo / resultado" },
   { value: "datos", label: "Datos o normativa" },
   { value: "ui", label: "Interfaz / uso" },
   { value: "otro", label: "Otro" },
 ] as const;
 
 const steps = [
-  { value: "unknown", label: "No se / no aplica" },
-  { value: "A", label: "Paso A - Situacion" },
+  { value: "unknown", label: "No sé / no aplica" },
+  { value: "A", label: "Paso A - Situación" },
   { value: "B", label: "Paso B - Ingresos" },
   { value: "C", label: "Paso C - Personal" },
   { value: "D", label: "Paso D - Helpers" },
   { value: "E", label: "Paso E - Resultado" },
 ] as const;
+
+/* ── Clases compartidas del sistema corporativo ───────────────── */
+const fieldLabel = "block text-sm font-medium text-[#101014]";
+const fieldControl = "mt-2 h-10 w-full px-3 text-sm text-[#101014]";
+const textareaControl = "mt-2 w-full px-3 py-2.5 text-sm leading-relaxed text-[#101014]";
+const errorText = "mt-1.5 text-xs text-[#B42318]";
+const errorBorder = { borderColor: "#B42318" } as const;
 
 export default function FeedbackForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
@@ -90,46 +97,47 @@ export default function FeedbackForm() {
       });
     } else {
       setStatus("error");
-      setMessage("No se pudo enviar. Intentalo de nuevo.");
+      setMessage("No se pudo enviar. Inténtalo de nuevo.");
     }
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-3xl border border-slate-200 bg-white/90 p-4 sm:p-6 shadow-[0_20px_60px_-40px_rgba(14,29,74,0.45)] backdrop-blur-sm dark:border-white/[0.07] dark:bg-white/[0.03]">
+    <form onSubmit={onSubmit} className="rounded-[4px] border border-[#E4E6EA] bg-white p-6 sm:p-8">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Feedback</p>
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Detectaste un error en el estimador?</h3>
-          <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Tu feedback nos ayuda a mejorar el resultado.</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]">Feedback</p>
+          <h3 className="mt-2 text-lg font-semibold tracking-tight text-[#101014]">¿Detectaste un error en el estimador?</h3>
+          <p className="mt-1.5 text-sm leading-relaxed text-[#3D4046]">Tu feedback nos ayuda a mejorar el resultado.</p>
         </div>
-        <span className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white/80 px-2.5 py-1 text-xs font-semibold text-slate-600 dark:border-white/[0.07] dark:bg-slate-800/60 dark:text-slate-300">
+        <span className="inline-flex items-center border border-[#E4E6EA] px-2.5 py-1 text-xs font-medium text-[#63666D]">
           Sin registro
         </span>
       </div>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+      <div className="mt-8 grid gap-5 lg:grid-cols-2">
         <div>
-          <label htmlFor="category" className="block text-sm font-medium text-slate-900 dark:text-slate-200">Categoria*</label>
+          <label htmlFor="category" className={fieldLabel}>Categoría*</label>
           <select
             id="category"
             value={form.category}
             onChange={(event) => setField("category", event.target.value as IrpfFeedbackPayload["category"])}
-            className={`mt-1 w-full rounded-xl border px-3 py-2 bg-white/80 dark:bg-white/[0.02] ${errors.category ? "border-red-500" : "border-sky-200"}`}
+            className={fieldControl}
+            style={errors.category ? errorBorder : undefined}
           >
             {categories.map((item) => (
               <option key={item.value} value={item.value}>{item.label}</option>
             ))}
           </select>
-          {errors.category && <p className="mt-1 text-xs text-red-700">{errors.category}</p>}
+          {errors.category && <p className={errorText}>{errors.category}</p>}
         </div>
 
         <div>
-          <label htmlFor="step" className="block text-sm font-medium text-slate-900 dark:text-slate-200">Paso (opcional)</label>
+          <label htmlFor="step" className={fieldLabel}>Paso (opcional)</label>
           <select
             id="step"
             value={form.step ?? "unknown"}
             onChange={(event) => setField("step", event.target.value as IrpfFeedbackPayload["step"])}
-            className="mt-1 w-full rounded-xl border border-sky-200 bg-white/80 px-3 py-2 dark:bg-white/[0.02]"
+            className={fieldControl}
           >
             {steps.map((item) => (
               <option key={item.value} value={item.value}>{item.label}</option>
@@ -138,43 +146,45 @@ export default function FeedbackForm() {
         </div>
 
         <div className="lg:col-span-2">
-          <label htmlFor="details" className="block text-sm font-medium text-slate-900 dark:text-slate-200">Describe el error*</label>
+          <label htmlFor="details" className={fieldLabel}>Describe el error*</label>
           <textarea
             id="details"
             rows={4}
             value={form.details}
             onChange={(event) => setField("details", event.target.value)}
-            className={`mt-1 w-full rounded-xl border px-3 py-2 bg-white/80 dark:bg-white/[0.02] ${errors.details ? "border-red-500" : "border-sky-200"}`}
-            placeholder="Ejemplo: el calculo de retenciones no coincide con el tramo X."
+            className={textareaControl}
+            style={errors.details ? errorBorder : undefined}
+            placeholder="Ejemplo: el cálculo de retenciones no coincide con el tramo X."
           />
-          {errors.details && <p className="mt-1 text-xs text-red-700">{errors.details}</p>}
+          {errors.details && <p className={errorText}>{errors.details}</p>}
         </div>
 
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-slate-900 dark:text-slate-200">Nombre (opcional)</label>
+          <label htmlFor="name" className={fieldLabel}>Nombre (opcional)</label>
           <input
             id="name"
             type="text"
             value={form.name ?? ""}
             onChange={(event) => setField("name", event.target.value)}
-            className="mt-1 w-full rounded-xl border border-sky-200 bg-white/80 px-3 py-2 dark:bg-white/[0.02]"
+            className={fieldControl}
           />
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-slate-900 dark:text-slate-200">Email (opcional)</label>
+          <label htmlFor="email" className={fieldLabel}>Email (opcional)</label>
           <input
             id="email"
             type="email"
             value={form.email ?? ""}
             onChange={(event) => setField("email", event.target.value)}
-            className={`mt-1 w-full rounded-xl border px-3 py-2 bg-white/80 dark:bg-white/[0.02] ${errors.email ? "border-red-500" : "border-sky-200"}`}
+            className={fieldControl}
+            style={errors.email ? errorBorder : undefined}
             placeholder="tu@email.com"
           />
-          {errors.email && <p className="mt-1 text-xs text-red-700">{errors.email}</p>}
+          {errors.email && <p className={errorText}>{errors.email}</p>}
         </div>
 
-        <div className="lg:col-span-2 flex items-start gap-2">
+        <div className="flex items-start gap-2.5 lg:col-span-2">
           <input
             id="consent"
             type="checkbox"
@@ -182,15 +192,18 @@ export default function FeedbackForm() {
             onChange={(event) => setField("consent", event.target.checked)}
             className="mt-1 h-4 w-4"
           />
-          <label htmlFor="consent" className="text-sm text-slate-700 dark:text-slate-300">
-            He leido y acepto la{" "}
-            <a className="underline" href="/legal/privacidad">
-              Politica de privacidad
+          <label htmlFor="consent" className="text-sm leading-relaxed text-[#3D4046]">
+            He leído y acepto la{" "}
+            <a
+              className="font-medium text-[#101014] underline decoration-[#C9CCD3] underline-offset-4 transition-colors hover:decoration-brand-600"
+              href="/legal/privacidad"
+            >
+              Política de privacidad
             </a>
             .
           </label>
         </div>
-        {errors.consent && <p className="lg:col-span-2 text-xs text-red-700">{errors.consent}</p>}
+        {errors.consent && <p className={`lg:col-span-2 ${errorText}`}>{errors.consent}</p>}
 
         <input
           type="text"
@@ -204,15 +217,19 @@ export default function FeedbackForm() {
         />
       </div>
 
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
         <Button type="submit" disabled={status === "loading"} className="w-full sm:w-auto">
           {status === "loading" ? "Enviando..." : "Enviar feedback"}
         </Button>
-        <p aria-live="polite" className={`${status === "error" ? "text-red-700" : status === "ok" ? "text-sky-700" : "text-slate-600"} text-sm`}>
+        <p
+          aria-live="polite"
+          className="text-sm"
+          style={{ color: status === "error" ? "#B42318" : status === "ok" ? "#2C4BC4" : "#63666D" }}
+        >
           {message}
         </p>
       </div>
-      <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">Email opcional solo si quieres respuesta. No compartimos datos con terceros.</p>
+      <p className="mt-4 text-xs leading-relaxed text-[#63666D]">Email opcional solo si quieres respuesta. No compartimos datos con terceros.</p>
     </form>
   );
 }

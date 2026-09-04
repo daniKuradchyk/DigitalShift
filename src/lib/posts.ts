@@ -22,7 +22,7 @@ export const posts: Post[] = [
     slug: "agentes-ia-pymes-guia-automatizacion-2026",
     title: "Agentes de IA para Pymes: La guía definitiva de automatización en 2026",
     description:
-      "Descubre cómo los agentes de IA están transformando las pymes en 2026. Guía completa sobre automatización autónoma, razonamiento B2B y ahorro de costes operativos.",
+      "Cómo los agentes de IA están transformando las pymes en 2026: automatización autónoma, razonamiento B2B y ahorro de costes operativos.",
     h1: "Agentes de IA para Pymes: Cómo automatizar el razonamiento en 2026",
     date: "2026-04-03",
     author: baseAuthor,
@@ -94,7 +94,7 @@ export const posts: Post[] = [
     slug: "ecosistemas-software-conectados-erp-crm-pymes",
     title: "Ecosistemas de software conectados: El fin de los silos de datos en 2026",
     description:
-      "Por qué tu ERP y CRM aislados están frenando tu crecimiento. Guía sobre integración profunda de software a medida, sincronización de datos y eficiencia operativa B2B.",
+      "Por qué tu ERP y CRM aislados frenan el crecimiento. Integración profunda de software a medida, sincronización de datos y eficiencia operativa B2B.",
     h1: "Silos de datos en 2026: Por qué necesitas un ecosistema de software conectado",
     date: "2026-04-03",
     author: baseAuthor,
@@ -166,7 +166,7 @@ export const posts: Post[] = [
     slug: "seguridad-zero-trust-desarrollo-software-medida",
     title: "Seguridad Zero Trust: Protegiendo tu software a medida en 2026",
     description:
-      "Por qué el perímetro tradicional ha muerto. Guía sobre arquitectura Zero Trust, seguridad desde el diseño y protección de datos empresariales en software B2B.",
+      "Por qué el perímetro tradicional ha muerto: arquitectura Zero Trust, seguridad desde el diseño y protección de datos empresariales en software B2B.",
     h1: "Seguridad Zero Trust en el desarrollo de software: Más allá del firewall",
     date: "2026-04-03",
     author: baseAuthor,
@@ -238,7 +238,7 @@ export const posts: Post[] = [
     slug: "roi-automatizacion-procesos-b2b-guia-completa",
     title: "Cómo calcular el ROI real de la automatización: Guía B2B 2026",
     description:
-      "Más allá del ahorro de tiempo. Descubre cómo medir el retorno de inversión de la automatización de procesos en 2026 mediante métricas de negocio, reducción de errores y escalabilidad.",
+      "Más allá del ahorro de tiempo: cómo medir el retorno de la automatización de procesos con métricas de negocio, reducción de errores y escalabilidad.",
     h1: "El ROI de la automatización en 2026: Cómo medir el éxito de tu inversión",
     date: "2026-04-03",
     author: baseAuthor,

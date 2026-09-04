@@ -6,7 +6,7 @@
     "status": "disponible",
     "cta": "Calcular ROI",
     "tags": [
-      "automatizacion",
+      "automatización",
       "roi",
       "operaciones",
       "costes"
@@ -15,12 +15,12 @@
   {
     "slug": "calculadora-coste-software",
     "title": "Calculadora de coste de software",
-    "desc": "Estima rango de presupuesto, horas, plazo y equipo según alcance, modulos, integraciones y nivel tecnico.",
+    "desc": "Estima rango de presupuesto, horas, plazo y equipo según alcance, módulos, integraciones y nivel técnico.",
     "status": "disponible",
     "cta": "Estimar coste",
     "tags": [
       "software",
-      "estimacion",
+      "estimación",
       "presupuesto",
       "producto"
     ]
@@ -32,7 +32,7 @@
     "status": "disponible",
     "cta": "Analizar ahora",
     "tags": [
-      "digitalizacion",
+      "digitalización",
       "pymes",
       "operaciones",
       "ventas",
@@ -48,7 +48,7 @@
     "cta": "Calcular ahora",
     "tags": [
       "finanzas",
-      "autonomos",
+      "autónomos",
       "fiscalidad"
     ]
   },
@@ -60,13 +60,13 @@
     "cta": "Generar brief",
     "tags": [
       "producto",
-      "planificacion"
+      "planificación"
     ]
   },
   {
     "slug": "checklist-rgpd-basico",
     "title": "Checklist RGPD para webs y apps",
-    "desc": "Lista practica de cumplimiento basico para empezar sin sustos. Incluye cookies y formularios.",
+    "desc": "Lista práctica de cumplimiento básico para empezar sin sustos. Incluye cookies y formularios.",
     "status": "en camino",
     "cta": "Revisar checklist",
     "tags": [

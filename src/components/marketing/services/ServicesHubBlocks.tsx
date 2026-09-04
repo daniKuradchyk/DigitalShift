@@ -7,6 +7,8 @@ import { getServices, type ServiceSlug } from "@/content/services";
  * Server Components.
  */
 
+const LABEL = "text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]";
+
 /* ────────────────────────────────────────────────────────────────
    SERVICE COMPARISON MATRIX — 4 servicios lado a lado
    ──────────────────────────────────────────────────────────────── */
@@ -60,88 +62,59 @@ export function ServicesComparison() {
   const byId = (slug: ServiceSlug) => services.find((s) => s.slug === slug)!;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px overflow-hidden rounded-2xl border"
-      style={{
-        background: "rgba(91,141,239,0.12)",
-        borderColor: "rgba(91,141,239,0.18)",
-      }}
-    >
+    <div className="grid grid-cols-1 gap-px border border-[#E4E6EA] bg-[#E4E6EA] md:grid-cols-2 lg:grid-cols-4">
       {SIGNATURES.map((sig, i) => {
         const s = byId(sig.slug);
         return (
           <Link
             key={sig.slug}
             href={s.href}
-            className="group relative flex flex-col p-6 sm:p-7 transition-colors animate-fade-up"
-            style={{
-              background: "var(--bg-page)",
-              animationDelay: `${i * 100}ms`,
-            }}
+            className="group flex animate-fade-up flex-col bg-white p-6 transition-colors duration-200 hover:bg-[#F5F6F8] sm:p-7"
+            style={{ animationDelay: `${i * 80}ms` }}
           >
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-blue-300 mb-2">
-              {String(i + 1).padStart(2, "0")} · {s.eyebrow}
-            </p>
-            <h3
-              className="text-lg sm:text-xl font-bold mb-2 group-hover:text-blue-200 transition-colors"
-              style={{
-                color: "var(--text-primary)",
-                letterSpacing: "-0.02em",
-                lineHeight: 1.2,
-              }}
-            >
+            <div className="flex items-baseline gap-3">
+              <span className="text-2xl font-light leading-none tabular-nums tracking-tight text-[#9DA0A6]">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className={LABEL}>{s.eyebrow}</span>
+            </div>
+
+            <h3 className="mt-4 text-lg font-semibold leading-tight tracking-tight text-[#101014] transition-colors duration-200 group-hover:text-brand-600 sm:text-xl">
               {s.shortTitle}
             </h3>
-            <p className="text-sm font-mono mb-5 text-blue-300/80">
-              {sig.signature}
-            </p>
+            <p className="mt-2 text-sm text-[#63666D]">{sig.signature}</p>
 
-            <dl className="space-y-3 text-[13px] mb-5 flex-1">
+            <dl className="mt-6 flex-1 space-y-4 text-[13px]">
               <div>
-                <dt className="font-mono text-[10px] uppercase tracking-wider mb-0.5"
-                  style={{ color: "var(--text-muted)" }}
-                >
-                  Cuando
-                </dt>
-                <dd style={{ color: "var(--text-secondary)" }}>{sig.cuando}</dd>
+                <dt className={LABEL}>Cuando</dt>
+                <dd className="mt-1 leading-relaxed text-[#3D4046]">{sig.cuando}</dd>
               </div>
               <div>
-                <dt className="font-mono text-[10px] uppercase tracking-wider mb-0.5"
-                  style={{ color: "var(--text-muted)" }}
-                >
-                  No cuando
-                </dt>
-                <dd style={{ color: "var(--text-muted)" }}>{sig.noCuando}</dd>
+                <dt className={LABEL}>No cuando</dt>
+                <dd className="mt-1 leading-relaxed text-[#63666D]">{sig.noCuando}</dd>
               </div>
-              <div className="grid grid-cols-2 gap-3 pt-3 border-t"
-                style={{ borderColor: "rgba(91,141,239,0.1)" }}
-              >
+              <div className="grid grid-cols-2 gap-4 border-t border-[#E4E6EA] pt-4">
                 <div>
-                  <dt className="font-mono text-[9px] uppercase tracking-wider"
-                    style={{ color: "var(--text-muted)" }}
-                  >
-                    1ª entrega
-                  </dt>
-                  <dd className="font-bold mt-0.5 text-sm" style={{ color: "var(--text-primary)" }}>
+                  <dt className={LABEL}>1ª entrega</dt>
+                  <dd className="mt-1 text-sm font-semibold text-[#101014]">
                     {sig.primeraEntrega}
                   </dd>
                 </div>
                 <div>
-                  <dt className="font-mono text-[9px] uppercase tracking-wider"
-                    style={{ color: "var(--text-muted)" }}
-                  >
-                    Inversión
-                  </dt>
-                  <dd className="font-bold mt-0.5 text-sm" style={{ color: "var(--text-primary)" }}>
+                  <dt className={LABEL}>Inversión</dt>
+                  <dd className="mt-1 text-sm font-semibold text-[#101014]">
                     {sig.inversion}
                   </dd>
                 </div>
               </div>
             </dl>
 
-            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-300 group-hover:text-blue-200">
-              <span>Ver servicio</span>
+            <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[#101014]">
+              <span className="border-b border-[#C9CCD3] transition-colors duration-200 group-hover:border-brand-600 group-hover:text-brand-600">
+                Ver servicio
+              </span>
               <svg
-                className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1"
+                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
                 fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
                 aria-hidden
               >
@@ -198,68 +171,54 @@ export function ServicesTriage() {
   ];
 
   return (
-    <div className="rounded-xl border overflow-hidden"
-      style={{ borderColor: "rgba(91,141,239,0.15)" }}
-    >
-      <div className="grid grid-cols-12 gap-px"
-        style={{ background: "rgba(91,141,239,0.12)" }}
-      >
-        <div className="col-span-12 md:col-span-5 px-4 py-3" style={{ background: "var(--bg-page)" }}>
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em]"
-            style={{ color: "var(--text-muted)" }}
-          >
-            Si te suena esto…
-          </span>
+    <div className="border border-[#E4E6EA]">
+      <div className="hidden border-b border-[#E4E6EA] bg-[#F5F6F8] md:grid md:grid-cols-12">
+        <div className="col-span-5 px-5 py-3">
+          <span className={LABEL}>Si te suena esto…</span>
         </div>
-        <div className="col-span-12 md:col-span-4 px-4 py-3" style={{ background: "var(--bg-page)" }}>
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em]"
-            style={{ color: "var(--text-muted)" }}
-          >
-            Suele indicar
-          </span>
+        <div className="col-span-4 px-5 py-3">
+          <span className={LABEL}>Suele indicar</span>
         </div>
-        <div className="col-span-12 md:col-span-3 px-4 py-3" style={{ background: "rgba(91,141,239,0.08)" }}>
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-blue-300">
+        <div className="col-span-3 px-5 py-3">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-600">
             Servicio recomendado
           </span>
         </div>
+      </div>
 
+      <ul className="divide-y divide-[#E4E6EA]">
         {rows.map((r, i) => (
-          <div key={r.symptom} className="contents">
-            <div className="col-span-12 md:col-span-5 px-4 py-4 animate-fade-up"
-              style={{ background: "var(--bg-page)", animationDelay: `${i * 60}ms` }}
-            >
-              <span className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
-                {r.symptom}
-              </span>
+          <li
+            key={r.symptom}
+            className="grid animate-fade-up grid-cols-1 gap-2 px-5 py-5 md:grid-cols-12 md:gap-0 md:px-0 md:py-0"
+            style={{ animationDelay: `${i * 60}ms` }}
+          >
+            <div className="md:col-span-5 md:px-5 md:py-5">
+              <span className="text-sm font-medium text-[#101014]">{r.symptom}</span>
             </div>
-            <div className="col-span-12 md:col-span-4 px-4 py-4 animate-fade-up"
-              style={{ background: "var(--bg-page)", animationDelay: `${i * 60 + 30}ms` }}
-            >
-              <span className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                {r.leads}
-              </span>
+            <div className="md:col-span-4 md:px-5 md:py-5">
+              <span className="text-sm leading-relaxed text-[#63666D]">{r.leads}</span>
             </div>
-            <div className="col-span-12 md:col-span-3 px-4 py-4 animate-fade-up"
-              style={{ background: "rgba(91,141,239,0.04)", animationDelay: `${i * 60 + 60}ms` }}
-            >
+            <div className="md:col-span-3 md:bg-[#F5F6F8] md:px-5 md:py-5">
               <Link
                 href={`/servicios/${r.service.slug}`}
-                className="text-sm font-bold text-blue-300 hover:text-blue-200 inline-flex items-center gap-1.5"
+                className="group inline-flex items-center gap-2 text-sm font-medium text-[#101014] transition-colors hover:text-brand-600"
               >
-                {r.service.label}
+                <span className="border-b border-[#C9CCD3] transition-colors group-hover:border-brand-600">
+                  {r.service.label}
+                </span>
                 <svg
-                  className="w-3 h-3"
-                  fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+                  className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1"
+                  fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
                   aria-hidden
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </Link>
             </div>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }
@@ -269,60 +228,36 @@ export function ServicesTriage() {
    ──────────────────────────────────────────────────────────────── */
 export function HubFitPanels({ yes, no }: { yes: string[]; no: string[] }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-      <div
-        className="rounded-xl border p-6 sm:p-7 animate-fade-up"
-        style={{
-          background: "rgba(91,141,239,0.04)",
-          borderColor: "rgba(91,141,239,0.25)",
-        }}
-      >
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-blue-300 mb-5">
-          ✓ Cuando encajamos
-        </p>
-        <ul className="space-y-3.5">
-          {yes.map((it, i) => (
+    <div className="grid grid-cols-1 gap-px border border-[#E4E6EA] bg-[#E4E6EA] md:grid-cols-2">
+      <div className="animate-fade-up bg-white p-6 sm:p-8">
+        <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-600">
+          <span aria-hidden className="inline-block h-px w-3 bg-brand-600" />
+          Cuando encajamos
+        </div>
+        <ul className="mt-5 divide-y divide-[#E4E6EA]">
+          {yes.map((it) => (
             <li
               key={it}
-              className="text-[15px] sm:text-base leading-relaxed flex gap-3 animate-fade-up"
-              style={{ color: "var(--text-secondary)", animationDelay: `${i * 60}ms` }}
+              className="py-3 text-[15px] leading-relaxed text-[#3D4046] first:pt-0 last:pb-0 sm:text-base"
             >
-              <span
-                className="mt-2.5 h-1 w-3 shrink-0"
-                style={{ background: "rgba(91,141,239,0.5)" }}
-                aria-hidden
-              />
-              <span>{it}</span>
+              {it}
             </li>
           ))}
         </ul>
       </div>
 
-      <div
-        className="rounded-xl border p-6 sm:p-7 animate-fade-up delay-100"
-        style={{
-          background: "rgba(173,193,255,0.02)",
-          borderColor: "rgba(173,193,255,0.12)",
-        }}
-      >
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] mb-5"
-          style={{ color: "var(--text-muted)" }}
-        >
-          × Cuando no
-        </p>
-        <ul className="space-y-3.5">
-          {no.map((it, i) => (
+      <div className="animate-fade-up bg-[#F5F6F8] p-6 delay-100 sm:p-8">
+        <div className={`flex items-center gap-2 ${LABEL}`}>
+          <span aria-hidden className="inline-block h-px w-3 bg-[#C9CCD3]" />
+          Cuando no
+        </div>
+        <ul className="mt-5 divide-y divide-[#E4E6EA]">
+          {no.map((it) => (
             <li
               key={it}
-              className="text-[15px] sm:text-base leading-relaxed flex gap-3 animate-fade-up"
-              style={{ color: "var(--text-muted)", animationDelay: `${i * 60}ms` }}
+              className="py-3 text-[15px] leading-relaxed text-[#63666D] first:pt-0 last:pb-0 sm:text-base"
             >
-              <span
-                className="mt-2.5 h-1 w-3 shrink-0"
-                style={{ background: "rgba(173,193,255,0.25)" }}
-                aria-hidden
-              />
-              <span>{it}</span>
+              {it}
             </li>
           ))}
         </ul>
@@ -340,60 +275,24 @@ export function HubProcessTimeline({
   items: Array<{ step: string; title: string; description: string }>;
 }) {
   return (
-    <div className="relative">
-      <div
-        aria-hidden
-        className="absolute hidden lg:block top-7 left-0 right-0 h-px"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent 0%, rgba(91,141,239,0.3) 5%, rgba(91,141,239,0.3) 95%, transparent 100%)",
-        }}
-      />
-      <div className="absolute lg:hidden top-0 bottom-0 left-3 w-px"
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(91,141,239,0.4), rgba(91,141,239,0.1))",
-        }}
-        aria-hidden
-      />
-
-      <ol className="grid grid-cols-1 lg:grid-cols-4 gap-x-6 gap-y-10">
-        {items.map((step, i) => (
-          <li
-            key={step.step}
-            className="relative pl-10 lg:pl-0 animate-fade-up"
-            style={{ animationDelay: `${i * 120}ms` }}
-          >
-            <div className="absolute lg:relative top-0 left-0 lg:left-auto flex items-center gap-3 lg:mb-4">
-              <span
-                className="relative flex h-7 w-7 items-center justify-center rounded-full"
-                style={{
-                  background: "var(--bg-page)",
-                  border: "2px solid rgba(91,141,239,0.5)",
-                }}
-              >
-                <span className="font-mono text-[10px] font-bold text-blue-300">
-                  {step.step}
-                </span>
-              </span>
-            </div>
-            <div className="lg:mt-2">
-              <h3
-                className="text-lg sm:text-xl font-bold mb-2"
-                style={{
-                  color: "var(--text-primary)",
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                {step.title}
-              </h3>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                {step.description}
-              </p>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </div>
+    <ol className="grid grid-cols-1 divide-y divide-[#E4E6EA] border-y border-[#E4E6EA] lg:grid-cols-4 lg:divide-x lg:divide-y-0">
+      {items.map((step, i) => (
+        <li
+          key={step.step}
+          className="animate-fade-up py-8 lg:px-8 lg:first:pl-0 lg:last:pr-0"
+          style={{ animationDelay: `${i * 80}ms` }}
+        >
+          <span className="text-2xl font-light leading-none tabular-nums tracking-tight text-[#9DA0A6] lg:text-3xl">
+            {step.step}
+          </span>
+          <h3 className="mt-5 text-lg font-semibold tracking-tight text-[#101014] sm:text-xl">
+            {step.title}
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-[#3D4046]">
+            {step.description}
+          </p>
+        </li>
+      ))}
+    </ol>
   );
 }

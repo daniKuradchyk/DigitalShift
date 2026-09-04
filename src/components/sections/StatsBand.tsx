@@ -6,43 +6,20 @@ import { homeStats } from "@/content/proof";
  */
 export default function StatsBand() {
   return (
-    <section aria-label="Datos operativos de Qubelia" className="relative py-2">
+    <section aria-label="Datos operativos de Qubelia" className="border-y border-[#E4E6EA] bg-[#F5F6F8]">
       <Container>
-        <div
-          className="grid grid-cols-2 lg:grid-cols-4 gap-px overflow-hidden rounded-2xl border animate-fade-up"
-          style={{
-            background: "rgba(91,141,239,0.12)",
-            borderColor: "rgba(91,141,239,0.16)",
-          }}
-        >
+        <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-[#E4E6EA]">
           {homeStats.map((stat, i) => (
             <div
               key={stat.label}
-              className="relative px-5 sm:px-7 py-6 sm:py-8 animate-fade-up"
-              style={{
-                background: "linear-gradient(180deg, rgba(10,17,40,0.92), rgba(6,11,26,0.96))",
-                animationDelay: `${i * 90}ms`,
-              }}
+              className="px-5 sm:px-8 py-8 sm:py-10 animate-fade-up first:pl-0"
+              style={{ animationDelay: `${i * 80}ms` }}
             >
-              <span
-                aria-hidden
-                className="absolute left-0 top-0 h-px w-full"
-                style={{
-                  background: "linear-gradient(90deg, transparent, rgba(91,141,239,0.35), transparent)",
-                }}
-              />
-              <div
-                className="text-3xl sm:text-4xl font-bold tracking-tight gradient-text-static"
-                style={{ fontFamily: "var(--font-display)" }}
-              >
+              <div className="text-3xl sm:text-4xl font-semibold tracking-tight text-[#101014]">
                 {stat.value}
               </div>
-              <div className="mt-2 text-xs sm:text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
-                {stat.label}
-              </div>
-              <div className="mt-1 text-[11px] sm:text-xs leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                {stat.detail}
-              </div>
+              <div className="mt-2 text-sm font-medium text-[#101014]">{stat.label}</div>
+              <div className="mt-1 text-xs leading-relaxed text-[#63666D]">{stat.detail}</div>
             </div>
           ))}
         </div>

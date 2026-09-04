@@ -18,7 +18,7 @@ export const revalidate = 86400;
 export const metadata: Metadata = buildMetadata({
   title: "Software a medida y automatización para empresas | Qubelia",
   description:
-    "Empresa española de software a medida: desarrollo web, automatización de procesos y CRM a medida. Con IA cuando aporta, sin IA cuando no. Sin humo ni vendor lock-in.",
+    "Empresa española de software a medida: desarrollo web, automatización de procesos y CRM a medida. Con IA cuando aporta, sin IA cuando no. Sin vendor lock-in.",
   path: "/",
 });
 

@@ -102,24 +102,24 @@ function getLogoUrl() {
 }
 
 function sourceLabel(source: LeadNotificationSource) {
-  return source === "free_audit" ? "Analisis gratuito" : "Formulario de contacto";
+  return source === "free_audit" ? "Análisis gratuito" : "Formulario de contacto";
 }
 
 function customerSubject(source: LeadNotificationSource) {
   return source === "free_audit"
-    ? "Hemos recibido tu analisis gratuito - Qubelia"
+    ? "Hemos recibido tu análisis gratuito - Qubelia"
     : "Hemos recibido tu solicitud - Qubelia";
 }
 
 function customerTitle(source: LeadNotificationSource) {
   return source === "free_audit"
-    ? "Hemos recibido tu analisis"
+    ? "Hemos recibido tu análisis"
     : "Hemos recibido tu solicitud";
 }
 
 function customerIntro(source: LeadNotificationSource, name: string) {
   if (source === "free_audit") {
-    return `Hola ${name}, hemos recibido correctamente tu analisis gratuito.`;
+    return `Hola ${name}, hemos recibido correctamente tu análisis gratuito.`;
   }
 
   return `Hola ${name}, hemos recibido correctamente tu solicitud.`;
@@ -140,7 +140,7 @@ function renderEmailShell(input: {
       ? `
         <tr>
           <td style="padding: 0 32px 8px;">
-            <a href="${escapeHtml(input.ctaHref)}" style="display:inline-block;background:#1d4ed8;color:#ffffff;text-decoration:none;font-weight:700;font-size:14px;padding:12px 18px;border-radius:999px;">
+            <a href="${escapeHtml(input.ctaHref)}" style="display:inline-block;background:#101014;color:#ffffff;text-decoration:none;font-weight:600;font-size:14px;padding:13px 22px;border-radius:2px;">
               ${escapeHtml(input.ctaLabel)}
             </a>
           </td>
@@ -149,33 +149,33 @@ function renderEmailShell(input: {
       : "";
 
   const footerHtml = input.footerHtml
-    ? `<tr><td style="padding: 8px 32px 32px; color:#64748b; font-size:13px; line-height:1.6;">${input.footerHtml}</td></tr>`
+    ? `<tr><td style="padding: 8px 32px 32px; color:#63666D; font-size:13px; line-height:1.6;">${input.footerHtml}</td></tr>`
     : "";
 
   return `
     <!doctype html>
     <html lang="es">
-      <body style="margin:0;padding:0;background:#f8fafc;color:#0f172a;font-family:Arial,Helvetica,sans-serif;">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f8fafc;padding:24px 12px;">
+      <body style="margin:0;padding:0;background:#F5F6F8;color:#101014;font-family:Arial,Helvetica,sans-serif;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F5F6F8;padding:24px 12px;">
           <tr>
             <td align="center">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:680px;background:#ffffff;border:1px solid #e2e8f0;border-radius:24px;overflow:hidden;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:680px;background:#ffffff;border:1px solid #E4E6EA;border-radius:4px;overflow:hidden;">
                 <tr>
-                  <td style="padding:28px 32px;background:#0f172a;">
-                    <img src="${escapeHtml(logoUrl)}" alt="Qubelia" style="display:block;height:40px;width:auto;max-width:220px;" />
-                    <div style="margin-top:12px;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#93c5fd;font-weight:700;">
+                  <td style="padding:28px 32px;background:#101014;">
+                    <img src="${escapeHtml(logoUrl)}" alt="Qubelia" style="display:block;height:36px;width:auto;max-width:200px;" />
+                    <div style="margin-top:16px;font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.55);font-weight:600;">
                       ${escapeHtml(input.eyebrow)}
                     </div>
-                    <div style="margin-top:10px;font-size:28px;line-height:1.2;font-weight:800;color:#ffffff;">
+                    <div style="margin-top:10px;font-size:28px;line-height:1.2;font-weight:600;color:#ffffff;">
                       ${escapeHtml(input.title)}
                     </div>
-                    <div style="margin-top:10px;font-size:15px;line-height:1.7;color:#cbd5e1;">
+                    <div style="margin-top:10px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.72);">
                       ${escapeHtml(input.intro)}
                     </div>
                   </td>
                 </tr>
                 <tr>
-                  <td style="padding:28px 32px 20px;color:#334155;font-size:15px;line-height:1.7;">
+                  <td style="padding:28px 32px 20px;color:#3D4046;font-size:15px;line-height:1.7;">
                     ${input.bodyHtml}
                   </td>
                 </tr>
@@ -196,7 +196,7 @@ function renderInternalLeadEmail(payload: LeadNotificationPayload) {
     ["Fuente", sourceLabel(payload.source)],
     ["Nombre", payload.name],
     ["Email", payload.email],
-    ["Telefono", payload.phone || "No facilitado"],
+    ["Teléfono", payload.phone || "No facilitado"],
     ["Empresa", payload.company || "No facilitada"],
     ["Presupuesto", payload.budget || "Sin rango"],
     ["Objetivo", payload.objective || "Sin detalle adicional"],
@@ -206,8 +206,8 @@ function renderInternalLeadEmail(payload: LeadNotificationPayload) {
     .map(
       ([label, value]) => `
         <tr>
-          <td style="padding:10px 0;border-bottom:1px solid #e2e8f0;font-size:13px;font-weight:700;color:#475569;width:160px;">${escapeHtml(label)}</td>
-          <td style="padding:10px 0;border-bottom:1px solid #e2e8f0;font-size:14px;color:#0f172a;">${escapeHtml(value)}</td>
+          <td style="padding:10px 0;border-bottom:1px solid #E4E6EA;font-size:13px;font-weight:600;color:#63666D;width:160px;">${escapeHtml(label)}</td>
+          <td style="padding:10px 0;border-bottom:1px solid #E4E6EA;font-size:14px;color:#101014;">${escapeHtml(value)}</td>
         </tr>
       `
     )
@@ -215,7 +215,7 @@ function renderInternalLeadEmail(payload: LeadNotificationPayload) {
 
   const storageWarningHtml = payload.storageFailed
     ? `
-      <div style="margin:0 0 18px;padding:14px 16px;border:1px solid #fecaca;background:#fef2f2;border-radius:12px;color:#b91c1c;font-size:14px;font-weight:700;">
+      <div style="margin:0 0 18px;padding:14px 16px;border:1px solid #E8C9CB;background:#F7E4E5;border-radius:2px;color:#B4232B;font-size:14px;font-weight:600;">
         ⚠ Este lead NO se pudo guardar en el CRM (error de base de datos). Este correo es la única copia: registrarlo a mano.
       </div>
     `
@@ -225,13 +225,13 @@ function renderInternalLeadEmail(payload: LeadNotificationPayload) {
     subject: `${payload.storageFailed ? "⚠ " : ""}Nuevo lead - ${payload.name}`,
     text: [
       payload.storageFailed
-        ? "AVISO: el lead NO se guardo en el CRM (error de base de datos). Este correo es la unica copia."
+        ? "AVISO: el lead NO se guardó en el CRM (error de base de datos). Este correo es la única copia."
         : "",
       "Nuevo lead recibido en Qubelia.",
       `Fuente: ${sourceLabel(payload.source)}`,
       `Nombre: ${payload.name}`,
       `Email: ${payload.email}`,
-      `Telefono: ${payload.phone || "No facilitado"}`,
+      `Teléfono: ${payload.phone || "No facilitado"}`,
       `Empresa: ${payload.company || "No facilitada"}`,
       `Presupuesto: ${payload.budget || "Sin rango"}`,
       `Objetivo: ${payload.objective || "Sin detalle adicional"}`,
@@ -242,7 +242,7 @@ function renderInternalLeadEmail(payload: LeadNotificationPayload) {
     html: renderEmailShell({
       eyebrow: "Nuevo lead",
       title: "Ha entrado un nuevo lead",
-      intro: "Se ha registrado una nueva solicitud comercial y ya esta disponible para seguimiento.",
+      intro: "Se ha registrado una nueva solicitud comercial y ya está disponible para seguimiento.",
       bodyHtml: `
         ${storageWarningHtml}
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
@@ -252,7 +252,7 @@ function renderInternalLeadEmail(payload: LeadNotificationPayload) {
       ctaLabel: crmUrl ? "Abrir CRM" : null,
       ctaHref: crmUrl ? `${crmUrl}/admin/leads` : null,
       footerHtml:
-        "Recomendacion operativa: revisar el lead, asignar owner y programar el primer contacto cuanto antes.",
+        "Recomendación operativa: revisar el lead, asignar owner y programar el primer contacto cuanto antes.",
     }),
   };
 }
@@ -271,18 +271,18 @@ function renderCustomerLeadEmail(
 
   const bodyHtml = `
     <p style="margin:0 0 16px;">${escapeHtml(customerIntro(payload.source, payload.name))}</p>
-    <p style="margin:0 0 16px;">Nuestro equipo va a revisar la informacion y nos pondremos en contacto contigo lo antes posible.</p>
+    <p style="margin:0 0 16px;">Nuestro equipo va a revisar la información y nos pondremos en contacto contigo lo antes posible.</p>
     ${attachmentLine}
-    <div style="margin:24px 0;padding:18px 20px;border:1px solid #dbeafe;background:#eff6ff;border-radius:18px;">
-      <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1d4ed8;">Que puedes esperar ahora</div>
-      <ul style="margin:12px 0 0 18px;padding:0;color:#1e293b;">
-        <li style="margin:0 0 8px;">Revision inicial de tu solicitud por parte del equipo de Qubelia.</li>
+    <div style="margin:24px 0;padding:18px 20px;border:1px solid #E4E6EA;background:#F5F6F8;border-radius:2px;">
+      <div style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#2C4BC4;">Qué puedes esperar ahora</div>
+      <ul style="margin:12px 0 0 18px;padding:0;color:#3D4046;">
+        <li style="margin:0 0 8px;">Revisión inicial de tu solicitud por parte del equipo de Qubelia.</li>
         <li style="margin:0 0 8px;">Contacto para aclarar alcance, prioridad y siguiente paso.</li>
-        <li style="margin:0;">Si encaja, propuesta de trabajo o siguiente conversacion comercial.</li>
+        <li style="margin:0;">Si encaja, propuesta de trabajo o siguiente conversación comercial.</li>
       </ul>
     </div>
     <p style="margin:0 0 8px;">Si necesitas ampliar contexto, puedes responder directamente a este correo.</p>
-    <p style="margin:0;"><strong>Email:</strong> ${escapeHtml(supportEmail)}<br /><strong>Telefono:</strong> ${escapeHtml(supportPhone)}</p>
+    <p style="margin:0;"><strong>Email:</strong> ${escapeHtml(supportEmail)}<br /><strong>Teléfono:</strong> ${escapeHtml(supportPhone)}</p>
   `;
 
   return {
@@ -290,7 +290,7 @@ function renderCustomerLeadEmail(
     text: [
       customerIntro(payload.source, payload.name),
       "Hemos recibido tu solicitud correctamente.",
-      "Nuestro equipo revisara la informacion y te contactaremos lo antes posible.",
+      "Nuestro equipo revisará la información y te contactaremos lo antes posible.",
       options?.attachment && payload.source === "free_audit"
         ? "Adjuntamos tu informe en PDF."
         : "",

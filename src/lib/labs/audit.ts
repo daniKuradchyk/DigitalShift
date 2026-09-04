@@ -159,7 +159,7 @@ const contactSchema = z.object({
   if (!email) {
     ctx.addIssue({ code: z.ZodIssueCode.custom, message: "El email es obligatorio si quieres recibir el informe", path: ["email"] });
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "El email no es valido", path: ["email"] });
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "El email no es válido", path: ["email"] });
   }
   const website = value.website?.trim();
   if (website) {
@@ -167,15 +167,15 @@ const contactSchema = z.object({
       const parsed = new URL(website.startsWith("http") ? website : `https://${website}`);
       if (!parsed.hostname.includes(".")) throw new Error("invalid");
     } catch {
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "La web no es valida", path: ["website"] });
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "La web no es válida", path: ["website"] });
     }
   }
   const phone = value.phone?.trim();
   if (phone && phone.replace(/\D/g, "").length < 7) {
-    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "El telefono no es valido", path: ["phone"] });
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "El teléfono no es válido", path: ["phone"] });
   }
   if (!value.consent) {
-    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Debes aceptar la politica de privacidad", path: ["consent"] });
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: "Debes aceptar la política de privacidad", path: ["consent"] });
   }
 });
 
@@ -414,7 +414,7 @@ export function scoreBucket(total: number): "0-44" | "45-64" | "65-100" {
 
 const AREA_LABELS: Record<keyof Omit<AuditScores, "total">, string> = {
   digital:     "presencia digital",
-  acquisition: "captacion",
+  acquisition: "captación",
   sales:       "ventas",
   operations:  "operaciones",
   customers:   "experiencia de cliente",
@@ -510,58 +510,58 @@ function buildWeakPoints(
   };
 
   // --- Digital
-  if (answers.digital.websiteStatus === "none") add("Sin web funcional — canal de captacion totalmente cerrado", "critical", 1);
-  else if (answers.digital.websiteStatus === "basic") add("Web basica sin conversion — no esta atrayendo ni convirtiendo visitas", "high", 2);
-  if (!answers.digital.ctaClarity || !answers.digital.valuePropClarity) add("Propuesta de valor y CTA poco claros — el visitante no sabe por que elegirte ni que hacer a continuacion", "high", 2);
-  if (answers.digital.seoStrategy === "none") add("Sin estrategia SEO — dependencia total de trafico de pago o boca-oreja", "high", 3);
-  if (answers.digital.brandConsistency === "none") add("Marca inconsistente entre canales — genera desconfianza y reduce conversion", "medium", 5);
-  if (!answers.digital.mobileOptimized) add("Web no optimizada para movil — mas del 60% del trafico potencial se pierde", "high", 2);
+  if (answers.digital.websiteStatus === "none") add("Sin web funcional — canal de captación totalmente cerrado", "critical", 1);
+  else if (answers.digital.websiteStatus === "basic") add("Web básica sin conversión — no está atrayendo ni convirtiendo visitas", "high", 2);
+  if (!answers.digital.ctaClarity || !answers.digital.valuePropClarity) add("Propuesta de valor y CTA poco claros — el visitante no sabe por qué elegirte ni qué hacer a continuación", "high", 2);
+  if (answers.digital.seoStrategy === "none") add("Sin estrategia SEO — dependencia total de tráfico de pago o boca-oreja", "high", 3);
+  if (answers.digital.brandConsistency === "none") add("Marca inconsistente entre canales — genera desconfianza y reduce conversión", "medium", 5);
+  if (!answers.digital.mobileOptimized) add("Web no optimizada para móvil — más del 60% del tráfico potencial se pierde", "high", 2);
 
   // --- Marketing
-  if (answers.marketing.tracking === "none") add("Sin analitica ni seguimiento del embudo — imposible optimizar lo que no se mide", "critical", 1);
+  if (answers.marketing.tracking === "none") add("Sin analítica ni seguimiento del embudo — imposible optimizar lo que no se mide", "critical", 1);
   if (answers.marketing.segmentClarity === "none") add("Sin ICP definido — el mensaje llega a todos y convence a nadie", "critical", 1);
   if (answers.marketing.monthlyLeads === "0-5") add("Volumen de leads muy bajo — el pipeline comercial es insuficiente para crecer", "critical", 1);
-  if (answers.marketing.contentStrategy === "none") add("Sin estrategia de contenido — se pierde visibilidad organica y autoridad en el sector", "medium", 4);
+  if (answers.marketing.contentStrategy === "none") add("Sin estrategia de contenido — se pierde visibilidad orgánica y autoridad en el sector", "medium", 4);
   if (answers.marketing.emailMarketing === "none") add("Sin email marketing — canal de bajo coste y alto ROI completamente desaprovechado", "medium", 5);
 
   // --- Sales
   if (answers.sales.leadTool === "manual" || answers.sales.leadTool === "spreadsheet") add("Seguimiento de leads manual — oportunidades perdidas por falta de sistema", "high", 2);
   if (answers.sales.responseTime === "24-48h" || answers.sales.responseTime === "mas-48h") add("Tiempo de respuesta lento — el 50% de clientes elige al proveedor que responde primero", "high", 3);
-  if (answers.sales.conversionTracking === "none") add("Sin medicion de tasa de cierre — no hay visibilidad sobre donde se pierden las oportunidades", "high", 3);
+  if (answers.sales.conversionTracking === "none") add("Sin medición de tasa de cierre — no hay visibilidad sobre dónde se pierden las oportunidades", "high", 3);
   if (answers.sales.forecastLevel === "none") add("Sin forecast comercial — imposible planificar recursos y objetivos de negocio", "medium", 4);
-  if (!answers.sales.conversionRateKnown) add("Tasa de conversion desconocida — no hay referencia para mejorar el proceso de venta", "medium", 4);
+  if (!answers.sales.conversionRateKnown) add("Tasa de conversión desconocida — no hay referencia para mejorar el proceso de venta", "medium", 4);
 
   // --- Operations
-  if (answers.operations.automationLevel === "ninguna" && answers.operations.repetitionLevel === "alto") add("Alto volumen de tareas manuales repetitivas sin ninguna automatizacion — coste de oportunidad enorme", "critical", 1);
-  else if (answers.operations.automationLevel === "ninguna") add("Sin ninguna automatizacion — el equipo invierte tiempo en trabajo que puede delegarse a sistemas", "high", 3);
-  if (answers.operations.errorRate === "frecuente") add("Errores operativos frecuentes — impactan calidad, reputacion y satisfaccion del cliente", "high", 2);
-  if (!answers.operations.processDocumentation) add("Procesos sin documentar — el conocimiento critico esta en la cabeza de personas clave, no en el sistema", "medium", 4);
-  if (answers.operations.deliveryConsistency === "variable") add("Inconsistencia en tiempos de entrega — genera desconfianza y dificulta la retencion de clientes", "high", 3);
+  if (answers.operations.automationLevel === "ninguna" && answers.operations.repetitionLevel === "alto") add("Alto volumen de tareas manuales repetitivas sin ninguna automatización — coste de oportunidad enorme", "critical", 1);
+  else if (answers.operations.automationLevel === "ninguna") add("Sin ninguna automatización — el equipo invierte tiempo en trabajo que puede delegarse a sistemas", "high", 3);
+  if (answers.operations.errorRate === "frecuente") add("Errores operativos frecuentes — impactan calidad, reputación y satisfacción del cliente", "high", 2);
+  if (!answers.operations.processDocumentation) add("Procesos sin documentar — el conocimiento crítico está en la cabeza de personas clave, no en el sistema", "medium", 4);
+  if (answers.operations.deliveryConsistency === "variable") add("Inconsistencia en tiempos de entrega — genera desconfianza y dificulta la retención de clientes", "high", 3);
 
   // --- Customers
-  if (answers.customers.retentionTracking === "none") add("Sin seguimiento de retencion — no se sabe cuantos clientes se pierden ni por que", "high", 3);
-  if (answers.customers.feedbackLoop === "none") add("Sin medicion de satisfaccion — las mejoras son intuicion, no datos del cliente", "high", 3);
-  if (answers.customers.ltvKnown === false) add("LTV por cliente desconocido — imposible priorizar canales de captacion y rentabilidad real", "medium", 4);
-  if (answers.customers.referralProgram === "none") add("Sin programa de referidos — el boca-oreja mas potente no esta siendo sistematizado", "medium", 5);
-  if (answers.customers.supportResponseTime === "weeks") add("Soporte con respuesta en semanas — nivel de servicio que destruye retencion y reputacion", "critical", 1);
+  if (answers.customers.retentionTracking === "none") add("Sin seguimiento de retención — no se sabe cuántos clientes se pierden ni por qué", "high", 3);
+  if (answers.customers.feedbackLoop === "none") add("Sin medición de satisfacción — las mejoras son intuición, no datos del cliente", "high", 3);
+  if (answers.customers.ltvKnown === false) add("LTV por cliente desconocido — imposible priorizar canales de captación y rentabilidad real", "medium", 4);
+  if (answers.customers.referralProgram === "none") add("Sin programa de referidos — el boca-oreja más potente no está siendo sistematizado", "medium", 5);
+  if (answers.customers.supportResponseTime === "weeks") add("Soporte con respuesta en semanas — nivel de servicio que destruye retención y reputación", "critical", 1);
 
   // --- Data
   if (answers.data.kpiUsage === "none") add("Sin KPIs definidos — las decisiones de negocio se toman sin datos", "critical", 1);
-  if (answers.data.reportingFrequency === "nunca") add("Sin reporting periodico — no hay visibilidad del estado real del negocio", "high", 2);
-  if (answers.data.aiToolsUsage === "none" && scores.data < 40) add("Cero adopcion de IA — la competencia ya automatiza con IA lo que tu equipo hace manualmente", "medium", 4);
-  if (!answers.data.dashboardExists) add("Sin dashboard operativo — la informacion esta dispersa y el tiempo de decision se multiplica", "medium", 4);
+  if (answers.data.reportingFrequency === "nunca") add("Sin reporting periódico — no hay visibilidad del estado real del negocio", "high", 2);
+  if (answers.data.aiToolsUsage === "none" && scores.data < 40) add("Cero adopción de IA — la competencia ya automatiza con IA lo que tu equipo hace manualmente", "medium", 4);
+  if (!answers.data.dashboardExists) add("Sin dashboard operativo — la información está dispersa y el tiempo de decisión se multiplica", "medium", 4);
 
   // --- Finance
   if (answers.finance.marginVisibility === "unknown") add("Margen por servicio/producto desconocido — es imposible saber si el negocio es rentable de verdad", "critical", 1);
-  if (answers.finance.cashflowControl === "none") add("Sin control de tesoreria — el riesgo de insolvencia tecnica es real aunque el negocio sea rentable", "critical", 1);
-  if (answers.finance.profitPerClientKnown === false) add("Beneficio por cliente desconocido — sin esta metrica no se puede priorizar que clientes adquirir y retener", "high", 3);
-  if (answers.finance.financialForecasting === "none") add("Sin forecast financiero — las decisiones de inversion y contratacion se toman a ciegas", "high", 3);
+  if (answers.finance.cashflowControl === "none") add("Sin control de tesorería — el riesgo de insolvencia técnica es real aunque el negocio sea rentable", "critical", 1);
+  if (answers.finance.profitPerClientKnown === false) add("Beneficio por cliente desconocido — sin esta métrica no se puede priorizar qué clientes adquirir y retener", "high", 3);
+  if (answers.finance.financialForecasting === "none") add("Sin forecast financiero — las decisiones de inversión y contratación se toman a ciegas", "high", 3);
 
   // --- Risk
   const riskCount = [!answers.risk.backups, !answers.risk.accessControl, !answers.risk.rgpdBasics, !answers.risk.securityUpdates, !answers.risk.incidentResponse, !answers.risk.dataEncryption].filter(Boolean).length;
-  if (riskCount >= 4) add(`${riskCount} de 6 controles de seguridad ausentes — exposicion critica a brechas de datos y sanciones RGPD`, "critical", 1);
-  else if (!answers.risk.rgpdBasics) add("Cumplimiento RGPD insuficiente — riesgo de sanciones de hasta 20M€ o el 4% de facturacion global", "high", 2);
-  else if (!answers.risk.backups || !answers.risk.accessControl) add("Controles de seguridad basicos incompletos — backups o control de accesos pendientes", "medium", 4);
+  if (riskCount >= 4) add(`${riskCount} de 6 controles de seguridad ausentes — exposición crítica a brechas de datos y sanciones RGPD`, "critical", 1);
+  else if (!answers.risk.rgpdBasics) add("Cumplimiento RGPD insuficiente — riesgo de sanciones de hasta 20M€ o el 4% de facturación global", "high", 2);
+  else if (!answers.risk.backups || !answers.risk.accessControl) add("Controles de seguridad básicos incompletos — backups o control de accesos pendientes", "medium", 4);
 
   // Also add benchmark gaps for areas more than 15 pts below sector
   const areaKeys: Array<keyof Omit<AuditScores, "total">> = ["digital", "acquisition", "sales", "operations", "customers", "data", "finance", "risk"];
@@ -586,26 +586,26 @@ function buildQuickWins(answers: AuditAnswers): QuickWin[] {
     items.push({ text, timeframe, effort, impact, priority });
   };
 
-  if (answers.marketing.tracking === "none") add("Instalar GA4 y definir 3 eventos de conversion clave", "3 dias", "low", "high", 1);
-  if (!answers.digital.ctaClarity || answers.digital.websiteStatus === "basic") add("Reescribir headline y CTA principal de la web con una sola accion clara", "2-3 dias", "low", "high", 1);
-  if (answers.marketing.segmentClarity === "none") add("Definir ICP en 1 pagina: perfil, dolor, canal y propuesta de valor", "1 dia", "low", "high", 1);
-  if (answers.sales.leadTool === "manual" || answers.sales.leadTool === "spreadsheet") add("Migrar pipeline a CRM gratuito (HubSpot Free o Zoho) y definir etapas", "3 dias", "low", "high", 1);
-  if (answers.risk.backups === false || answers.risk.accessControl === false) add("Activar backups automaticos en nube y revisar permisos de acceso por usuario", "1 dia", "low", "high", 1);
-  if (answers.finance.marginVisibility === "unknown") add("Calcular margen bruto por servicio o SKU con hoja de calculo simple", "2 dias", "low", "high", 1);
-  if (answers.data.kpiUsage === "none") add("Definir 5 KPIs de negocio y crear reporte semanal en Google Sheets o Notion", "2 dias", "low", "high", 2);
-  if (answers.customers.feedbackLoop === "none") add("Lanzar encuesta NPS/CSAT de 2 preguntas al cierre de cada proyecto o venta", "1 dia", "low", "high", 2);
-  if (answers.marketing.emailMarketing === "none") add("Crear secuencia de bienvenida de 3 emails para nuevos leads (MailerLite Free)", "4 dias", "medium", "medium", 2);
-  if (!answers.risk.rgpdBasics) add("Revisar textos legales y banner de cookies segun RGPD con checklist basico", "2 dias", "low", "high", 2);
-  if (answers.sales.responseTime === "24-48h" || answers.sales.responseTime === "mas-48h") add("Crear plantillas de respuesta rapida y definir SLA de respuesta en menos de 4h", "1 dia", "low", "high", 2);
-  if (answers.operations.repetitionLevel === "alto" && answers.operations.automationLevel === "ninguna") add("Identificar la tarea manual mas repetitiva y automatizarla con Make o Zapier (gratis hasta 1000 operaciones/mes)", "5 dias", "medium", "high", 2);
-  if (answers.finance.cashflowControl === "none") add("Crear previsión de tesoreria a 90 dias en hoja de calculo con entradas y salidas fijas", "2 dias", "low", "high", 2);
-  if (!answers.customers.complaintResolution) add("Definir protocolo de atencion a quejas: 3 pasos y SLA de resolucion en 24h", "1 dia", "low", "medium", 3);
-  if (answers.digital.googlePresence === false) add("Completar y optimizar perfil de Google Business Profile con fotos, horario y respuestas", "2 dias", "low", "high", 3);
+  if (answers.marketing.tracking === "none") add("Instalar GA4 y definir 3 eventos de conversión clave", "3 días", "low", "high", 1);
+  if (!answers.digital.ctaClarity || answers.digital.websiteStatus === "basic") add("Reescribir headline y CTA principal de la web con una sola acción clara", "2-3 días", "low", "high", 1);
+  if (answers.marketing.segmentClarity === "none") add("Definir ICP en 1 página: perfil, dolor, canal y propuesta de valor", "1 día", "low", "high", 1);
+  if (answers.sales.leadTool === "manual" || answers.sales.leadTool === "spreadsheet") add("Migrar pipeline a CRM gratuito (HubSpot Free o Zoho) y definir etapas", "3 días", "low", "high", 1);
+  if (answers.risk.backups === false || answers.risk.accessControl === false) add("Activar backups automáticos en nube y revisar permisos de acceso por usuario", "1 día", "low", "high", 1);
+  if (answers.finance.marginVisibility === "unknown") add("Calcular margen bruto por servicio o SKU con hoja de cálculo simple", "2 días", "low", "high", 1);
+  if (answers.data.kpiUsage === "none") add("Definir 5 KPIs de negocio y crear reporte semanal en Google Sheets o Notion", "2 días", "low", "high", 2);
+  if (answers.customers.feedbackLoop === "none") add("Lanzar encuesta NPS/CSAT de 2 preguntas al cierre de cada proyecto o venta", "1 día", "low", "high", 2);
+  if (answers.marketing.emailMarketing === "none") add("Crear secuencia de bienvenida de 3 emails para nuevos leads (MailerLite Free)", "4 días", "medium", "medium", 2);
+  if (!answers.risk.rgpdBasics) add("Revisar textos legales y banner de cookies según RGPD con checklist básico", "2 días", "low", "high", 2);
+  if (answers.sales.responseTime === "24-48h" || answers.sales.responseTime === "mas-48h") add("Crear plantillas de respuesta rápida y definir SLA de respuesta en menos de 4h", "1 día", "low", "high", 2);
+  if (answers.operations.repetitionLevel === "alto" && answers.operations.automationLevel === "ninguna") add("Identificar la tarea manual más repetitiva y automatizarla con Make o Zapier (gratis hasta 1000 operaciones/mes)", "5 días", "medium", "high", 2);
+  if (answers.finance.cashflowControl === "none") add("Crear previsión de tesorería a 90 días en hoja de cálculo con entradas y salidas fijas", "2 días", "low", "high", 2);
+  if (!answers.customers.complaintResolution) add("Definir protocolo de atención a quejas: 3 pasos y SLA de resolución en 24h", "1 día", "low", "medium", 3);
+  if (answers.digital.googlePresence === false) add("Completar y optimizar perfil de Google Business Profile con fotos, horario y respuestas", "2 días", "low", "high", 3);
 
   const fallbacks: QuickWin[] = [
-    { text: "Revisar propuesta de valor y eliminar distracciones en la home", timeframe: "2 dias", effort: "low", impact: "medium" },
-    { text: "Crear pipeline visual con etapas claras para gestionar oportunidades", timeframe: "1 dia", effort: "low", impact: "medium" },
-    { text: "Hacer reunion semanal de 30min para revisar los 5 KPIs clave", timeframe: "Recurrente", effort: "low", impact: "medium" },
+    { text: "Revisar propuesta de valor y eliminar distracciones en la home", timeframe: "2 días", effort: "low", impact: "medium" },
+    { text: "Crear pipeline visual con etapas claras para gestionar oportunidades", timeframe: "1 día", effort: "low", impact: "medium" },
+    { text: "Hacer reunión semanal de 30min para revisar los 5 KPIs clave", timeframe: "Recurrente", effort: "low", impact: "medium" },
   ];
   let fi = 0;
   while (items.length < 5 && fi < fallbacks.length) {
@@ -627,31 +627,31 @@ function buildOpportunities(answers: AuditAnswers, scores: AuditScores): Opportu
   const add = (weight: number, opp: Opportunity) => candidates.push({ weight, ...opp });
 
   if (scores.acquisition < 45)
-    add(10, { title: "Motor de captacion consistente", description: "Definir ICP, activar analitica, optimizar el canal principal y lanzar un lead magnet o secuencia de email convierte una captacion fragmentada en un flujo predecible.", estimatedImpact: "+40-80% leads cualificados en 60 dias", timeframe: "45-60 dias" });
+    add(10, { title: "Motor de captación consistente", description: "Definir ICP, activar analítica, optimizar el canal principal y lanzar un lead magnet o secuencia de email convierte una captación fragmentada en un flujo predecible.", estimatedImpact: "+40-80% leads cualificados en 60 días", timeframe: "45-60 días" });
 
   if (scores.digital < 45 && (answers.vertical === "local" || answers.vertical === "ecommerce" || answers.vertical === "restaurante"))
-    add(9, { title: "Presencia digital y SEO local", description: "Optimizar web, CTA, Google Business y posicionamiento local genera trafico organico cualificado sin coste por clic.", estimatedImpact: "+30-50% trafico organico en 90 dias", timeframe: "60-90 dias" });
+    add(9, { title: "Presencia digital y SEO local", description: "Optimizar web, CTA, Google Business y posicionamiento local genera tráfico orgánico cualificado sin coste por clic.", estimatedImpact: "+30-50% tráfico orgánico en 90 días", timeframe: "60-90 días" });
 
   if (answers.operations.automationLevel === "ninguna" && answers.operations.repetitionLevel !== "bajo")
-    add(9, { title: "Automatizacion de operaciones criticas", description: "Automatizar los flujos repetitivos mas costosos libera tiempo del equipo para tareas de mayor valor y reduce errores operativos sistematicamente.", estimatedImpact: "15-25h/semana liberadas por persona", timeframe: "30-45 dias" });
+    add(9, { title: "Automatización de operaciones críticas", description: "Automatizar los flujos repetitivos más costosos libera tiempo del equipo para tareas de mayor valor y reduce errores operativos sistemáticamente.", estimatedImpact: "15-25h/semana liberadas por persona", timeframe: "30-45 días" });
 
   if (scores.customers < 45)
-    add(8, { title: "Programa de retencion y LTV", description: "Implementar feedback, mejorar soporte y activar un programa de referidos puede incrementar el LTV significativamente con la misma base de clientes.", estimatedImpact: "+35-55% LTV medio en 90 dias", timeframe: "60-90 dias" });
+    add(8, { title: "Programa de retención y LTV", description: "Implementar feedback, mejorar soporte y activar un programa de referidos puede incrementar el LTV significativamente con la misma base de clientes.", estimatedImpact: "+35-55% LTV medio en 90 días", timeframe: "60-90 días" });
 
   if (answers.data.aiToolsUsage === "none" || answers.data.aiToolsUsage === "casual")
-    add(8, { title: "Adopcion estrategica de IA", description: "Integrar herramientas de IA en atencion al cliente, generacion de contenido y analisis de datos multiplica la capacidad del equipo sin aumentar plantilla.", estimatedImpact: "2-4x productividad en tareas cognitivas", timeframe: "30-60 dias" });
+    add(8, { title: "Adopción estratégica de IA", description: "Integrar herramientas de IA en atención al cliente, generación de contenido y análisis de datos multiplica la capacidad del equipo sin aumentar plantilla.", estimatedImpact: "2-4x productividad en tareas cognitivas", timeframe: "30-60 días" });
 
   if (scores.finance < 45)
-    add(9, { title: "Control financiero y pricing", description: "Conocer el margen real por cliente, controlar el cashflow semanalmente y revisar precios con datos puede aumentar la rentabilidad sin incrementar ventas.", estimatedImpact: "+10-20% margen operativo en 90 dias", timeframe: "30-60 dias" });
+    add(9, { title: "Control financiero y pricing", description: "Conocer el margen real por cliente, controlar el cashflow semanalmente y revisar precios con datos puede aumentar la rentabilidad sin incrementar ventas.", estimatedImpact: "+10-20% margen operativo en 90 días", timeframe: "30-60 días" });
 
   if (scores.sales < 45)
-    add(9, { title: "Pipeline de ventas estructurado", description: "Implementar CRM, definir etapas, medir conversion por etapa y acelerar el tiempo de respuesta puede mejorar dramaticamente la tasa de cierre.", estimatedImpact: "+25-45% tasa de cierre en 60 dias", timeframe: "30-60 dias" });
+    add(9, { title: "Pipeline de ventas estructurado", description: "Implementar CRM, definir etapas, medir conversión por etapa y acelerar el tiempo de respuesta puede mejorar dramáticamente la tasa de cierre.", estimatedImpact: "+25-45% tasa de cierre en 60 días", timeframe: "30-60 días" });
 
   if (answers.marketing.emailMarketing === "none")
-    add(7, { title: "Canal de email marketing propio", description: "Construir una lista propia y activar secuencias automaticas es el canal de mayor ROI del marketing digital — completamente independiente de algoritmos.", estimatedImpact: "ROI medio 38:1 vs inversion", timeframe: "30-45 dias" });
+    add(7, { title: "Canal de email marketing propio", description: "Construir una lista propia y activar secuencias automáticas es el canal de mayor ROI del marketing digital — completamente independiente de algoritmos.", estimatedImpact: "ROI medio 38:1 vs inversión", timeframe: "30-45 días" });
 
   if (answers.operations.deliveryConsistency === "variable" && (answers.vertical === "clinica" || answers.vertical === "despacho"))
-    add(8, { title: "Estandarizacion del proceso de entrega", description: "Documentar y sistematizar el proceso de entrega reduce varianza, mejora la percepcion de calidad y permite escalar sin perder consistencia.", estimatedImpact: "+20-30% satisfaccion del cliente", timeframe: "30-60 dias" });
+    add(8, { title: "Estandarización del proceso de entrega", description: "Documentar y sistematizar el proceso de entrega reduce varianza, mejora la percepción de calidad y permite escalar sin perder consistencia.", estimatedImpact: "+20-30% satisfacción del cliente", timeframe: "30-60 días" });
 
   return candidates
     .sort((a, b) => b.weight - a.weight)
@@ -674,40 +674,40 @@ function buildRoadmap(
   const phase3Tasks: string[] = [];
 
   // Phase 1 — Foundations (0-30 days)
-  if (answers.marketing.tracking === "none") phase1Tasks.push("Instalar GA4 con 3 eventos de conversion y conectar Google Search Console");
+  if (answers.marketing.tracking === "none") phase1Tasks.push("Instalar GA4 con 3 eventos de conversión y conectar Google Search Console");
   if (!answers.digital.ctaClarity || answers.digital.websiteStatus === "basic") phase1Tasks.push("Reoptimizar hero, headline y CTA principal de la web");
   if (answers.marketing.segmentClarity === "none") phase1Tasks.push("Definir ICP (perfil de cliente ideal) con datos y validar con 5 entrevistas");
   if (answers.sales.leadTool === "manual" || answers.sales.leadTool === "spreadsheet") phase1Tasks.push(`Implementar CRM y migrar ${pipeline} actuales con estados de pipeline`);
-  if (!answers.risk.backups) phase1Tasks.push("Activar backups automaticos diarios en almacenamiento cloud");
-  if (answers.finance.marginVisibility === "unknown") phase1Tasks.push("Calcular margen bruto real por linea de producto/servicio");
-  if (answers.data.kpiUsage === "none") phase1Tasks.push("Definir cuadro de mando con 5 KPIs y reporte semanal automatico");
+  if (!answers.risk.backups) phase1Tasks.push("Activar backups automáticos diarios en almacenamiento cloud");
+  if (answers.finance.marginVisibility === "unknown") phase1Tasks.push("Calcular margen bruto real por línea de producto/servicio");
+  if (answers.data.kpiUsage === "none") phase1Tasks.push("Definir cuadro de mando con 5 KPIs y reporte semanal automático");
   if (!answers.risk.rgpdBasics) phase1Tasks.push("Auditar cumplimiento RGPD: cookies, formularios y textos legales");
-  while (phase1Tasks.length < 3) phase1Tasks.push(critical[phase1Tasks.length] ?? "Revisar propuesta de valor y canales de captacion activos");
+  while (phase1Tasks.length < 3) phase1Tasks.push(critical[phase1Tasks.length] ?? "Revisar propuesta de valor y canales de captación activos");
   phase1Tasks.splice(4);
 
   // Phase 2 — Growth systems (31-60 days)
   if (answers.operations.automationLevel === "ninguna") phase2Tasks.push("Automatizar top-3 tareas repetitivas con Make o Zapier");
   if (answers.marketing.emailMarketing === "none") phase2Tasks.push("Lanzar secuencia email de bienvenida (3 emails) para nuevos leads");
-  if (answers.customers.feedbackLoop === "none") phase2Tasks.push("Implementar NPS/CSAT automatico al cierre de cada cliente o venta");
-  if (!answers.operations.processDocumentation) phase2Tasks.push("Documentar los 5 procesos criticos del negocio en Notion o Confluence");
-  if (answers.sales.forecastLevel === "none") phase2Tasks.push("Crear forecast de ventas mensual con pipeline y tasa de cierre historica");
+  if (answers.customers.feedbackLoop === "none") phase2Tasks.push("Implementar NPS/CSAT automático al cierre de cada cliente o venta");
+  if (!answers.operations.processDocumentation) phase2Tasks.push("Documentar los 5 procesos críticos del negocio en Notion o Confluence");
+  if (answers.sales.forecastLevel === "none") phase2Tasks.push("Crear forecast de ventas mensual con pipeline y tasa de cierre histórica");
   if (answers.data.aiToolsUsage === "none") phase2Tasks.push("Evaluar e integrar 2-3 herramientas de IA en el flujo de trabajo del equipo");
-  while (phase2Tasks.length < 3) phase2Tasks.push("Optimizar la tasa de conversion en el paso critico del embudo identificado");
+  while (phase2Tasks.length < 3) phase2Tasks.push("Optimizar la tasa de conversión en el paso crítico del embudo identificado");
   phase2Tasks.splice(4);
 
   // Phase 3 — Scale & optimize (61-90 days)
   if (scores.data < 55) phase3Tasks.push("Crear dashboard ejecutivo con todos los KPIs en tiempo real (Looker Studio o Metabase)");
   if (answers.customers.referralProgram === "none") phase3Tasks.push("Lanzar programa de referidos con incentivo para clientes satisfechos");
   if (answers.finance.pricingReview === "no-review") phase3Tasks.push("Revisar estructura de precios con margen real, valor percibido y competencia");
-  if (scores.acquisition < 60) phase3Tasks.push("Escalar el canal de captacion principal con budget optimizado y A/B testing");
+  if (scores.acquisition < 60) phase3Tasks.push("Escalar el canal de captación principal con budget optimizado y A/B testing");
   if (answers.operations.deliveryConsistency !== "always") phase3Tasks.push("Implementar SLAs de entrega y sistema de alerta de desviaciones");
   while (phase3Tasks.length < 3) phase3Tasks.push("Revisar y optimizar la estructura de costes para mejorar margen operativo");
   phase3Tasks.splice(4);
 
   return [
-    { title: "Fase 1 · Dias 0-30", goal: "Medicion, ICP, herramientas basicas y eliminar riesgos criticos.", tasks: phase1Tasks },
-    { title: "Fase 2 · Dias 31-60", goal: "Sistemas de crecimiento, automatizacion y experiencia de cliente.", tasks: phase2Tasks },
-    { title: "Fase 3 · Dias 61-90", goal: "Escalar, optimizar margenes y consolidar ventajas competitivas.", tasks: phase3Tasks },
+    { title: "Fase 1 · Días 0-30", goal: "Medición, ICP, herramientas básicas y eliminar riesgos críticos.", tasks: phase1Tasks },
+    { title: "Fase 2 · Días 31-60", goal: "Sistemas de crecimiento, automatización y experiencia de cliente.", tasks: phase2Tasks },
+    { title: "Fase 3 · Días 61-90", goal: "Escalar, optimizar márgenes y consolidar ventajas competitivas.", tasks: phase3Tasks },
   ];
 }
 
@@ -716,11 +716,11 @@ function buildRoadmap(
 function buildImpactMatrix(answers: AuditAnswers, quickWins: QuickWin[]): AuditReport["impactMatrix"] {
   const highImpactLowEffort = quickWins.filter(q => q.impact === "high" && q.effort === "low").map(q => q.text);
   const highImpactHighEffort: string[] = [
-    "Implementar CRM integrado con automatizacion de seguimiento",
-    "Construir dashboard de KPIs en tiempo real para decision diaria",
+    "Implementar CRM integrado con automatización de seguimiento",
+    "Construir dashboard de KPIs en tiempo real para decisión diaria",
   ];
   if (answers.operations.automationLevel === "ninguna" && answers.operations.repetitionLevel === "alto") {
-    highImpactHighEffort.unshift("Automatizar el flujo completo de captacion a entrega");
+    highImpactHighEffort.unshift("Automatizar el flujo completo de captación a entrega");
   }
   const lowImpactLowEffort: string[] = [
     "Actualizar FAQs y textos de confianza en la web",
@@ -728,8 +728,8 @@ function buildImpactMatrix(answers: AuditAnswers, quickWins: QuickWin[]): AuditR
     "Organizar archivos y carpetas en la nube",
   ];
   const lowImpactHighEffort: string[] = [
-    "Redisenar la web completa sin optimizar el proceso de conversion primero",
-    "Migrar stack tecnologico sin plan de migracion de datos",
+    "Rediseñar la web completa sin optimizar el proceso de conversión primero",
+    "Migrar stack tecnológico sin plan de migración de datos",
   ];
 
   return [

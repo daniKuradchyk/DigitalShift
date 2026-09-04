@@ -1,17 +1,17 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 import Logo from "@/components/common/Logo";
+import Footer from "@/components/sections/Footer";
 import Calculator from "./Calculator";
 import FeedbackForm from "./FeedbackForm";
 import { canonical, openGraphImage, titleTemplate } from "@/lib/seo";
-import { faqJsonLd } from "@/lib/jsonld";
+import { breadcrumbJsonLd, faqJsonLd, softwareAppJsonLd } from "@/lib/jsonld";
 
 const pageTitle = "Estimador de cuota IRPF anual";
 const pageDescription =
-  "Estimador de cuota IRPF para cuenta ajena, autonomos y pluriactividad. Calcula cuota diferencial con desglose y avisos legales. No guarda datos.";
+  "Estimador de cuota IRPF para cuenta ajena, autónomos y pluriactividad. Calcula cuota diferencial con desglose y avisos legales. No guarda datos.";
 
 export const metadata: Metadata = {
   title: titleTemplate(pageTitle),
@@ -39,198 +39,291 @@ export const revalidate = 86400;
 
 const faqItems = [
   {
-    q: "Esto es asesoramiento fiscal?",
-    a: "No. Es una estimacion orientativa para entender tu situacion. Para casos complejos consulta a un asesor o la AEAT.",
+    q: "¿Esto es asesoramiento fiscal?",
+    a: "No. Es una estimación orientativa para entender tu situación. Para casos complejos consulta a un asesor o la AEAT.",
   },
   {
-    q: "Que regimen incluye el estimador?",
-    a: "Solo regimen comun (AEAT). Pais Vasco y Navarra no estan soportados.",
+    q: "¿Qué régimen incluye el estimador?",
+    a: "Solo régimen común (AEAT). País Vasco y Navarra no están soportados.",
   },
   {
-    q: "Se guardan mis datos?",
-    a: "No. Los calculos se hacen en tu navegador y no se almacenan datos personales.",
+    q: "¿Se guardan mis datos?",
+    a: "No. Los cálculos se hacen en tu navegador y no se almacenan datos personales.",
   },
 ];
 
+const heroFacts = [
+  { label: "Modo", value: "Estimador" },
+  { label: "Ejercicio", value: "2024-2025" },
+  { label: "Datos", value: "No guardados" },
+];
+
+const includedItems = [
+  "Cuenta ajena, autónomo (directa o módulos) y pluriactividad.",
+  "Escala general, ahorro y deducción 340 (2025).",
+  "Helpers para suministros y manutención.",
+];
+
+const methodItems = [
+  "Escala general progresiva + ahorro.",
+  "Reducciones trabajo y conjunta (si aplica).",
+  "Cuota líquida - retenciones y pagos a cuenta.",
+];
+
+const feedbackItems = [
+  "El paso donde viste el error (si lo sabes).",
+  "Una descripción breve con el caso.",
+  "Tu email solo si quieres respuesta.",
+];
+
+const sourceLinks = [
+  {
+    href: "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2024/11-determinacion-cuotas-gramen-impuesto/11_1-cuota-integra/11_1_1-base-liquidable-general/gravamen-estatal.html",
+    label: "Escala estatal base general (IRPF 2024)",
+  },
+  {
+    href: "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2024/11-determinacion-cuotas-gramen-impuesto/11_1-cuota-integra/11_1_1-base-liquidable-general/gravamen-autonomico.html",
+    label: "Gravamen autonómico (CCAA)",
+  },
+  {
+    href: "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2024/11-determinacion-cuotas-gramen-impuesto/11_1-cuota-integra/11_1_2-base-liquidable-ahorro/gravamen-base-liquidable-ahorro.html",
+    label: "Escala ahorro IRPF 2024",
+  },
+  {
+    href: "https://www.boe.es/buscar/act.php?id=BOE-A-2024-27403",
+    label: "Cambio 2025 ahorro (Ley 7/2024)",
+  },
+  {
+    href: "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2024/7-cumplimentacion-irpf/7_1-rendimientos-trabajo-personal/7_1_6-reduccion-obtencion-rendimientos-trabajo.html",
+    label: "Reducción rendimientos trabajo",
+  },
+  {
+    href: "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2024/7-cumplimentacion-irpf/7_4-rendimientos-actividades-economicas/7_4_2-regimen-estimacion-directa/7_4_2_2-rendimiento-neto-calculado-conforme-art-30/estimacion-directa-simplificada.html",
+    label: "Estimación directa simplificada",
+  },
+  {
+    href: "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2019/7-cumplimentacion-irpf/7_4-rendimientos-actividades-economicas/7_4_2-regimen-estimacion-directa/7_4_2_3-gastos-fiscalmente-deducibles/suministros.html",
+    label: "Suministros vivienda autónomo",
+  },
+  {
+    href: "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2024/7-cumplimentacion-irpf/7_4-rendimientos-actividades-economicas/7_4_2-regimen-estimacion-directa/7_4_2_3-gastos-fiscalmente-deducibles/gastos-manutencion-contribuyente.html",
+    label: "Gastos manutención autónomo",
+  },
+  {
+    href: "https://www.seg-social.es/descarga/es/Tabla_Autonomo",
+    label: "Tabla tramos cotización autónomos 2025",
+  },
+  {
+    href: "https://sede.agenciatributaria.gob.es/Sede/irpf/tengo-que-presentar-declaracion/declaracion-individual-conjunta/caracteristicas-tributacion-conjunta.html",
+    label: "Reducción tributación conjunta",
+  },
+  {
+    href: "https://www.boe.es/buscar/act.php?id=BOE-A-2025-15424",
+    label: "Deducción 340 desde 2025",
+  },
+  {
+    href: "https://sede.agenciatributaria.gob.es/Sede/irpf/novedades-impuesto/novedades-normativa-2025/principales-novedades-tributarias-introducidas-ley-julio.html",
+    label: "Novedades AEAT 2025",
+  },
+];
+
+const listItem = "py-3 text-sm leading-relaxed text-[#3D4046] first:pt-0 last:pb-0";
+const panelTitle = "text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]";
+
 export default function CalculatorPage() {
   const faqLd = faqJsonLd(faqItems);
+  const breadcrumbLd = breadcrumbJsonLd([
+    { name: "Inicio", url: canonical("/") },
+    { name: "Labs", url: canonical("/labs") },
+    { name: pageTitle, url: canonical("/herramientas/calculadora-irpf") },
+  ]);
+  const appLd = softwareAppJsonLd([
+    { title: pageTitle, desc: pageDescription, href: "/herramientas/calculadora-irpf" },
+  ])[0];
 
   return (
-    <main className="relative overflow-hidden py-12 sm:py-16 bg-gradient-to-br from-sky-50/40 via-white/20 to-sky-50/40 dark:from-slate-950/40 dark:via-slate-900/20 dark:to-slate-950/40">
-      <Script id="ld-faq-irpf" type="application/ld+json" strategy="afterInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute -left-24 top-12 h-72 w-72 rounded-full bg-sky-300/10 blur-3xl dark:bg-sky-500/10" />
-        <div className="absolute right-0 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-sky-500/10 blur-3xl dark:bg-sky-700/10" />
+    <>
+      {/* JSON-LD en el HTML del servidor: con <Script strategy="afterInteractive"> el
+          bloque sólo existía tras hidratar y no llegaba al HTML rastreado. */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(appLd) }} />
+      <main className="bg-white">
+
+      {/* Barra superior */}
+      <div className="border-b border-[#E4E6EA]">
+        <Container>
+          <div className="flex flex-wrap items-center justify-between gap-4 py-5">
+            <Link href="/" aria-label="Ir a inicio" className="inline-flex items-center">
+              <Logo className="origin-left" />
+            </Link>
+            <div className="flex flex-wrap items-center gap-3">
+              <Button as="a" href="/labs" variant="ghost" size="sm">Volver a Labs</Button>
+              <Button as="a" href="/#contacto" variant="primary" size="sm">Hablar con Qubelia</Button>
+            </div>
+          </div>
+        </Container>
       </div>
 
-      <Container>
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-          <Link href="/" aria-label="Ir a inicio" className="inline-flex items-center">
-            <Logo className="scale-90 origin-left" />
-          </Link>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button as="a" href="/labs" variant="ghost">Volver a Labs</Button>
-            <Button as="a" href="/#contacto" variant="shine">Hablar con Qubelia</Button>
-          </div>
-        </div>
+      {/* Hero */}
+      <section className="border-b border-[#E4E6EA]">
+        <Container>
+          <div className="grid gap-12 py-16 sm:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16 lg:py-24">
+            <div>
+              <p className="section-tag">Herramienta gratuita</p>
 
-        <section className="grid gap-8 sm:gap-10 lg:grid-cols-[1.1fr_0.9fr] items-start">
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full border border-sky-100 dark:border-sky-500/30 bg-sky-50/80 dark:bg-sky-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700 dark:text-sky-300">
-              Herramienta gratuita
-            </div>
-            <div className="max-w-xl space-y-3">
-              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">Estimador de cuota IRPF anual</h1>
-              <p className="text-slate-700 dark:text-slate-300">
-                Estimacion rapida para cuenta ajena, autonomo (directa o modulos) o pluriactividad. Incluye desglose por tramos, deducciones basicas
-                y avisos de precision.
+              <h1 className="mt-8 max-w-2xl text-h1">Estimador de cuota IRPF anual</h1>
+
+              <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#3D4046]">
+                Estimación rápida para cuenta ajena, autónomo (directa o módulos) o pluriactividad. Incluye desglose por tramos, deducciones básicas
+                y avisos de precisión.
               </p>
+
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                <Button as="a" href="#calculadora" variant="shine" size="lg" className="w-full sm:w-auto">Ir al estimador</Button>
+                <Button as="a" href="#metodologia" variant="ghost" size="lg" className="w-full sm:w-auto">Fuentes y metodología</Button>
+              </div>
+
+              <dl className="mt-12 grid grid-cols-1 divide-y divide-[#E4E6EA] border-t border-[#E4E6EA] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+                {heroFacts.map((fact) => (
+                  <div key={fact.label} className="py-6 sm:px-6 sm:first:pl-0 sm:last:pr-0">
+                    <dt className={panelTitle}>{fact.label}</dt>
+                    <dd className="mt-2 text-2xl font-semibold tracking-tight text-[#101014]">{fact.value}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <Button as="a" href="#calculadora" variant="shine" className="w-full sm:w-auto">Ir al estimador</Button>
-              <Button as="a" href="#metodologia" variant="ghost" className="w-full sm:w-auto">Fuentes y metodologia</Button>
+
+            <aside className="space-y-6 lg:border-l lg:border-[#E4E6EA] lg:pl-12">
+              <div className="border border-[#E4E6EA] bg-white p-6 rounded-[4px]">
+                <p className={panelTitle}>Incluye</p>
+                <ul className="mt-4 divide-y divide-[#E4E6EA]">
+                  {includedItems.map((item) => (
+                    <li key={item} className={listItem}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="border-l-2 border-brand-600 bg-[#F5F6F8] px-5 py-4 text-sm leading-relaxed text-[#3D4046]">
+                Régimen foral no soportado. Para País Vasco y Navarra consulta fuentes oficiales.
+              </div>
+
+              <div>
+                <p className={panelTitle}>Nota legal</p>
+                <p className="mt-3 text-sm leading-relaxed text-[#63666D]">
+                  Estimación orientativa. No sustituye asesoramiento profesional. Normativa cambia por año y CCAA.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </Container>
+      </section>
+
+      {/* Calculadora */}
+      <section id="calculadora" className="scroll-mt-24 border-b border-[#E4E6EA] bg-[#F5F6F8] py-16 sm:py-20 lg:py-24">
+        <Container>
+          <Calculator />
+        </Container>
+      </section>
+
+      {/* Fuentes y metodologia */}
+      <section id="metodologia" className="scroll-mt-24 border-b border-[#E4E6EA] py-16 sm:py-20 lg:py-24">
+        <Container>
+          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+            <div>
+              <p className="section-tag">Metodología</p>
+              <h2 className="mt-6 text-h2">Fuentes y metodología</h2>
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-[#3D4046]">
+                Los cálculos usan reglas parametrizadas por año. La escala combinada es una aproximación estatal x2 si no se elige CCAA.
+              </p>
+
+              <ul className="mt-8 divide-y divide-[#E4E6EA] border-y border-[#E4E6EA]">
+                {sourceLinks.map((source) => (
+                  <li key={source.href}>
+                    <a
+                      href={source.href}
+                      className="block py-3.5 text-sm font-medium text-[#101014] underline decoration-[#C9CCD3] underline-offset-4 transition-colors hover:decoration-brand-600 hover:text-brand-600"
+                    >
+                      {source.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="grid gap-3 sm:grid-cols-3">
-              {[
-                { label: "Modo", value: "Estimador" },
-                { label: "Ejercicio", value: "2024-2025" },
-                { label: "Datos", value: "No guardados" },
-              ].map((s) => (
-                <div key={s.label} className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white/80 dark:bg-white/[0.03] p-4 shadow-sm">
-                  <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">{s.label}</p>
-                  <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">{s.value}</p>
-                </div>
-              ))}
+
+            <div className="space-y-6 lg:border-l lg:border-[#E4E6EA] lg:pl-12">
+              <div className="border border-[#E4E6EA] bg-white p-6 rounded-[4px]">
+                <p className={panelTitle}>Cómo se calcula</p>
+                <ul className="mt-4 divide-y divide-[#E4E6EA]">
+                  {methodItems.map((item) => (
+                    <li key={item} className={listItem}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="border-l-2 border-brand-600 bg-[#F5F6F8] px-5 py-4 text-sm leading-relaxed text-[#3D4046]">
+                Si necesitas adaptar el estimador a un caso real o integrar tus datos, escríbenos desde el formulario de contacto.
+              </div>
             </div>
           </div>
+        </Container>
+      </section>
 
-          <aside className="space-y-4">
-            <div className="rounded-3xl border border-slate-200 dark:border-white/[0.07] bg-white/90 dark:bg-white/[0.03] p-4 sm:p-6 shadow-sm backdrop-blur-sm">
-              <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Incluye</p>
-              <ul className="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-300">
-                <li className="flex items-start gap-2">
-                  <span aria-hidden className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
-                  <span>Cuenta ajena, autonomo (directa o modulos) y pluriactividad.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span aria-hidden className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
-                  <span>Escala general, ahorro y deduccion 340 (2025).</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span aria-hidden className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
-                  <span>Helpers para suministros y manutencion.</span>
-                </li>
-              </ul>
-              <div className="mt-6 rounded-2xl border border-sky-100 dark:border-sky-500/40 bg-sky-50/80 dark:bg-sky-500/10 p-4 text-sm text-sky-700 dark:text-sky-300">
-                Regimen foral no soportado. Para Pais Vasco y Navarra consulta fuentes oficiales.
+      {/* Feedback */}
+      <section id="feedback" className="scroll-mt-24 border-b border-[#E4E6EA] bg-[#F5F6F8] py-16 sm:py-20 lg:py-24">
+        <Container>
+          <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-start lg:gap-16">
+            <div>
+              <p className="section-tag">Feedback</p>
+              <h2 className="mt-6 text-h2">Feedback para mejorar el estimador</h2>
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-[#3D4046]">
+                Si detectas un error en el cálculo o en los datos, cuéntanoslo aquí. Revisamos cada mensaje y ajustamos la herramienta.
+              </p>
+
+              <div className="mt-8 border border-[#E4E6EA] bg-white p-6 rounded-[4px]">
+                <p className={panelTitle}>Qué necesitamos</p>
+                <ul className="mt-4 divide-y divide-[#E4E6EA]">
+                  {feedbackItems.map((item) => (
+                    <li key={item} className={listItem}>{item}</li>
+                  ))}
+                </ul>
               </div>
             </div>
 
-            <div className="rounded-3xl border border-slate-200 dark:border-white/[0.07] bg-white/90 dark:bg-white/[0.03] p-4 sm:p-6 shadow-sm backdrop-blur-sm">
-              <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Nota legal</p>
-              <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">
-                Estimacion orientativa. No sustituye asesoramiento profesional. Normativa cambia por año y CCAA.
-              </p>
-            </div>
-          </aside>
-        </section>
-
-        <section id="calculadora" className="mt-12">
-          <Calculator />
-        </section>
-
-        <section id="metodologia" className="mt-12 grid gap-6 lg:grid-cols-[1.1fr_0.9fr] items-start">
-          <div className="space-y-3">
-            <h2 className="text-2xl font-bold tracking-tight">Fuentes y metodologia</h2>
-            <p className="text-sm text-slate-600 dark:text-slate-300">
-              Los calculos usan reglas parametrizadas por año. La escala combinada es una aproximacion estatal x2 si no se elige CCAA.
-            </p>
-            <ul className="mt-4 space-y-2 text-sm text-slate-700 dark:text-slate-300">
-              <li><a className="underline" href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2024/11-determinacion-cuotas-gramen-impuesto/11_1-cuota-integra/11_1_1-base-liquidable-general/gravamen-estatal.html">Escala estatal base general (IRPF 2024)</a></li>
-              <li><a className="underline" href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2024/11-determinacion-cuotas-gramen-impuesto/11_1-cuota-integra/11_1_1-base-liquidable-general/gravamen-autonomico.html">Gravamen autonomico (CCAA)</a></li>
-              <li><a className="underline" href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2024/11-determinacion-cuotas-gramen-impuesto/11_1-cuota-integra/11_1_2-base-liquidable-ahorro/gravamen-base-liquidable-ahorro.html">Escala ahorro IRPF 2024</a></li>
-              <li><a className="underline" href="https://www.boe.es/buscar/act.php?id=BOE-A-2024-27403">Cambio 2025 ahorro (Ley 7/2024)</a></li>
-              <li><a className="underline" href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2024/7-cumplimentacion-irpf/7_1-rendimientos-trabajo-personal/7_1_6-reduccion-obtencion-rendimientos-trabajo.html">Reduccion rendimientos trabajo</a></li>
-              <li><a className="underline" href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2024/7-cumplimentacion-irpf/7_4-rendimientos-actividades-economicas/7_4_2-regimen-estimacion-directa/7_4_2_2-rendimiento-neto-calculado-conforme-art-30/estimacion-directa-simplificada.html">Estimacion directa simplificada</a></li>
-              <li><a className="underline" href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2019/7-cumplimentacion-irpf/7_4-rendimientos-actividades-economicas/7_4_2-regimen-estimacion-directa/7_4_2_3-gastos-fiscalmente-deducibles/suministros.html">Suministros vivienda autonomo</a></li>
-              <li><a className="underline" href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2024/7-cumplimentacion-irpf/7_4-rendimientos-actividades-economicas/7_4_2-regimen-estimacion-directa/7_4_2_3-gastos-fiscalmente-deducibles/gastos-manutencion-contribuyente.html">Gastos manutencion autonomo</a></li>
-              <li><a className="underline" href="https://www.seg-social.es/descarga/es/Tabla_Autonomo">Tabla tramos cotizacion autonomos 2025</a></li>
-              <li><a className="underline" href="https://sede.agenciatributaria.gob.es/Sede/irpf/tengo-que-presentar-declaracion/declaracion-individual-conjunta/caracteristicas-tributacion-conjunta.html">Reduccion tributacion conjunta</a></li>
-              <li><a className="underline" href="https://www.boe.es/buscar/act.php?id=BOE-A-2025-15424">Deduccion 340 desde 2025</a></li>
-              <li><a className="underline" href="https://sede.agenciatributaria.gob.es/Sede/irpf/novedades-impuesto/novedades-normativa-2025/principales-novedades-tributarias-introducidas-ley-julio.html">Novedades AEAT 2025</a></li>
-            </ul>
+            <FeedbackForm />
           </div>
-          <div className="space-y-4">
-            <div className="rounded-3xl border border-slate-200 dark:border-white/[0.07] bg-white/90 dark:bg-white/[0.03] p-6 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Como se calcula</p>
-              <ul className="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-300">
-                <li className="flex items-start gap-2">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
-                  <span>Escala general progresiva + ahorro.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
-                  <span>Reducciones trabajo y conjunta (si aplica).</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
-                  <span>Cuota liquida - retenciones y pagos a cuenta.</span>
-                </li>
-              </ul>
-            </div>
-            <div className="rounded-3xl border border-sky-100 dark:border-sky-500/40 bg-sky-50/80 dark:bg-sky-500/10 p-4 sm:p-6 text-sm text-sky-700 dark:text-sky-300">
-              Si necesitas adaptar el estimador a un caso real o integrar tus datos, escribenos desde el formulario de contacto.
-            </div>
-          </div>
-        </section>
+        </Container>
+      </section>
 
-        <section id="feedback" className="mt-12 grid gap-6 lg:grid-cols-[1.05fr_0.95fr] items-start">
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <h2 className="text-2xl font-bold tracking-tight">Feedback para mejorar el estimador</h2>
-              <p className="text-sm text-slate-600 dark:text-slate-300">
-                Si detectas un error en el calculo o en los datos, cuentanoslo aqui. Revisamos cada mensaje y ajustamos la herramienta.
-              </p>
-            </div>
-            <div className="rounded-3xl border border-slate-200 dark:border-white/[0.07] bg-white/90 dark:bg-white/[0.03] p-4 sm:p-6 text-sm text-slate-700 dark:text-slate-200 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Que necesitamos</p>
-              <ul className="mt-3 space-y-2">
-                <li className="flex items-start gap-2">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
-                  <span>El paso donde viste el error (si lo sabes).</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
-                  <span>Una descripcion breve con el caso.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-sky-500/80" />
-                  <span>Tu email solo si quieres respuesta.</span>
-                </li>
-              </ul>
-            </div>
+      {/* FAQ */}
+      <section id="faq" className="scroll-mt-24 py-16 sm:py-20 lg:py-24">
+        <Container>
+          <div className="max-w-2xl">
+            <p className="section-tag">FAQ</p>
+            <h2 className="mt-6 text-h2">Preguntas frecuentes</h2>
+            <p className="mt-5 text-base leading-relaxed text-[#3D4046]">Respuestas rápidas sobre el alcance del estimador.</p>
           </div>
-          <FeedbackForm />
-        </section>
 
-        <section id="faq" className="mt-12">
-          <div className="space-y-2">
-            <h2 className="text-2xl font-bold tracking-tight">Preguntas frecuentes</h2>
-            <p className="text-sm text-slate-600 dark:text-slate-300">Respuestas rapidas sobre el alcance del estimador.</p>
-          </div>
-          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+          <div className="mt-10 divide-y divide-[#E4E6EA] border-y border-[#E4E6EA]">
             {faqItems.map((item) => (
-              <details
-                key={item.q}
-                className="rounded-2xl border border-slate-200 dark:border-white/[0.07] bg-white/80 dark:bg-white/[0.03] p-4 text-sm text-slate-700 dark:text-slate-200 shadow-sm"
-              >
-                <summary className="cursor-pointer font-semibold">{item.q}</summary>
-                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{item.a}</p>
+              <details key={item.q} className="group">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-base font-medium leading-snug text-[#101014] [&::-webkit-details-marker]:hidden">
+                  {item.q}
+                  <span aria-hidden className="flex-none text-[#101014]">
+                    <svg viewBox="0 0 20 20" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                      <path d="M10 4v12" className="group-open:hidden" />
+                      <path d="M4 10h12" />
+                    </svg>
+                  </span>
+                </summary>
+                <p className="max-w-3xl pb-5 text-sm leading-relaxed text-[#3D4046]">{item.a}</p>
               </details>
             ))}
           </div>
-        </section>
-      </Container>
-    </main>
+        </Container>
+      </section>
+      </main>
+      <Footer />
+    </>
   );
 }

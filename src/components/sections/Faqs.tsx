@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import Container from "@/components/common/Container";
 import { faqItems } from "@/content/faqs";
 
@@ -9,9 +10,6 @@ export { faqItems };
 
 /* ─── Shared easing (same across ALL sections) ─────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
-/* ─── Group FAQs by category ─────────────────────────────────────── */
-const CATEGORIES = Array.from(new Set(faqItems.map((f) => f.category)));
 
 /* ═══════════════════════════════════════════════════════════════════
    FAQ ACCORDION ITEM
@@ -21,269 +19,141 @@ function FaqItem({
   isOpen,
   onToggle,
   index,
-  inView,
 }: {
   faq: (typeof faqItems)[number];
   isOpen: boolean;
   onToggle: () => void;
   index: number;
-  inView: boolean;
 }) {
-  const delay = 0.08 + index * 0.04;
-
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 14 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: EASE }}
-      className="group"
+    <div
+      className="animate-fade-up"
+      style={{ animationDelay: `${Math.min(index, 8) * 40}ms` }}
     >
       <button
         type="button"
         onClick={onToggle}
-        className="w-full text-left flex items-start gap-4 py-4 sm:py-5 transition-all duration-300"
+        className="flex w-full items-start justify-between gap-6 py-5 text-left"
         aria-expanded={isOpen}
       >
-        {/* Animated icon */}
-        <span
-          className="flex-shrink-0 mt-1 w-6 h-6 rounded-md flex items-center justify-center transition-all duration-400"
-          style={{
-            background: isOpen ? "rgba(65,105,225,0.15)" : "rgba(65,105,225,0.05)",
-            border: `1px solid ${isOpen ? "rgba(65,105,225,0.3)" : "rgba(65,105,225,0.08)"}`,
-          }}
-        >
-          <svg
-            className="w-3 h-3 transition-transform duration-400"
-            style={{
-              transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
-              color: isOpen ? "rgb(96,165,250)" : "var(--text-muted)",
-            }}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2.5}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-          </svg>
-        </span>
-
-        <div className="flex-1 min-w-0">
-          <span
-            className="text-sm sm:text-[15px] font-semibold leading-snug transition-colors duration-300 block"
-            style={{ color: isOpen ? "var(--text-primary)" : "var(--text-secondary)" }}
-          >
-            {faq.q}
-          </span>
-
-          {/* Category tag */}
-          <span
-            className="inline-block mt-1.5 text-[9px] font-bold uppercase tracking-[0.15em] rounded-full px-2 py-0.5 transition-opacity duration-300"
-            style={{
-              background: "rgba(65,105,225,0.06)",
-              color: "rgba(96,165,250,0.5)",
-              opacity: isOpen ? 0 : 1,
-            }}
-          >
+        <span className="min-w-0 flex-1">
+          <span className="block text-xs font-semibold uppercase tracking-[0.14em] text-[#9DA0A6]">
             {faq.category}
           </span>
-        </div>
+          <span className="mt-1.5 block text-base font-medium leading-snug text-[#101014]">
+            {faq.q}
+          </span>
+        </span>
+
+        <ChevronDown
+          className={`mt-1 h-5 w-5 shrink-0 text-[#63666D] transition-transform duration-200 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+          strokeWidth={1.5}
+          aria-hidden
+        />
       </button>
 
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: EASE }}
+            transition={{ duration: 0.3, ease: EASE }}
             className="overflow-hidden"
           >
-            <div className="pl-10 pb-5 pr-4">
-              <p
-                className="text-sm leading-[1.8]"
-                style={{ color: "var(--text-secondary)" }}
-              >
-                {faq.a}
-              </p>
-            </div>
+            <p className="max-w-3xl pb-6 pr-10 text-[15px] leading-relaxed text-[#3D4046]">
+              {faq.a}
+            </p>
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Divider */}
-      <div
-        className="h-px transition-colors duration-400"
-        style={{
-          background: isOpen
-            ? "linear-gradient(90deg, rgba(65,105,225,0.2), rgba(65,105,225,0.06))"
-            : "rgba(65,105,225,0.05)",
-        }}
-      />
-    </motion.div>
+    </div>
   );
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   MAIN FAQ SECTION — Independent, professional
+   CIERRE — pregunta abierta
+   ═══════════════════════════════════════════════════════════════════ */
+function AskMore() {
+  return (
+    <>
+      <p className="text-[15px] text-[#3D4046]">¿Tienes otra pregunta?</p>
+      <a
+        href="#contacto"
+        className="group mt-2 inline-flex items-center gap-2 text-sm font-medium text-[#101014]"
+      >
+        <span className="border-b border-[#C9CCD3] transition-colors duration-200 group-hover:border-brand-600 group-hover:text-brand-600">
+          Escríbenos
+        </span>
+        <svg
+          className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+          aria-hidden
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MAIN FAQ SECTION
    ═══════════════════════════════════════════════════════════════════ */
 export default function Faqs() {
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
   const [openId, setOpenId] = useState<string>(faqItems[0].id);
-
-  /* Split FAQs into two columns */
-  const mid = Math.ceil(faqItems.length / 2);
-  const leftFaqs = faqItems.slice(0, mid);
-  const rightFaqs = faqItems.slice(mid);
 
   return (
     <section
-      ref={ref}
       id="faq"
       aria-labelledby="faqs-title"
-      className="relative scroll-mt-24 py-16 sm:py-20 md:py-28 lg:py-32 overflow-hidden"
+      className="scroll-mt-24 border-t border-[#E4E6EA] bg-[#F5F6F8] py-20 sm:py-24 md:py-28"
     >
-      {/* ── Background ── */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden>
-        <motion.div
-          className="absolute top-0 left-0 right-0 h-px"
-          initial={{ scaleX: 0 }}
-          animate={inView ? { scaleX: 1 } : {}}
-          transition={{ duration: 1.4, ease: EASE }}
-          style={{
-            transformOrigin: "center",
-            background: "linear-gradient(90deg, transparent, rgba(65,105,225,0.2), transparent)",
-          }}
-        />
-        {/* Subtle ambient glow */}
-        <div
-          className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full blur-[120px] opacity-[0.03]"
-          style={{ background: "rgba(65,105,225,1)" }}
-        />
-      </div>
+      <Container>
+        <div className="grid grid-cols-12 gap-8 lg:gap-12">
+          {/* ── Header ── */}
+          <div className="col-span-12 lg:col-span-4">
+            <div className="lg:sticky lg:top-28">
+              <div className="animate-fade-up">
+                <p className="section-tag mb-5 sm:mb-6">Preguntas frecuentes</p>
+              </div>
 
-      <Container className="relative">
-        {/* ── Header ── */}
-        <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease: EASE }}
-          >
-            <span className="section-tag mb-5">
-              <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-              Preguntas frecuentes
-            </span>
-          </motion.div>
+              <h2 id="faqs-title" className="text-h2 animate-fade-up delay-100">
+                Las dudas reales, sin marketing.
+              </h2>
 
-          <motion.h2
-            id="faqs-title"
-            className="text-h2 mt-4 mb-4"
-            style={{ color: "var(--text-primary)" }}
-            initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
-            animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
-            transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
-          >
-            Las dudas reales,{" "}
-            <span className="gradient-text-static">sin marketing</span>.
-          </motion.h2>
+              <p className="mt-5 max-w-xl text-[15px] sm:text-base leading-relaxed text-[#3D4046] animate-fade-up delay-200">
+                Lo que preguntan los directivos antes de firmar. IA, presupuesto,
+                plazos, propiedad del código. Respuestas directas, no folleto.
+              </p>
 
-          <motion.p
-            className="text-sm sm:text-base md:text-lg leading-relaxed max-w-xl mx-auto"
-            style={{ color: "var(--text-secondary)" }}
-            initial={{ opacity: 0, y: 14 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2, ease: EASE }}
-          >
-            Lo que preguntan los directivos antes de firmar. IA, presupuesto,
-            plazos, propiedad del código. Respuestas directas, no folleto.
-          </motion.p>
-
-          {/* Category pills */}
-          <motion.div
-            className="flex flex-wrap items-center justify-center gap-2 mt-6"
-            initial={{ opacity: 0, y: 10 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3, ease: EASE }}
-          >
-            {CATEGORIES.map((cat) => (
-              <span
-                key={cat}
-                className="inline-flex items-center rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em]"
-                style={{
-                  background: "rgba(65,105,225,0.05)",
-                  border: "1px solid rgba(65,105,225,0.1)",
-                  color: "rgba(96,165,250,0.6)",
-                }}
-              >
-                {cat}
-              </span>
-            ))}
-          </motion.div>
-        </div>
-
-        {/* ── Two-column FAQ grid ── */}
-        <div className="grid md:grid-cols-2 gap-x-8 lg:gap-x-14 gap-y-0 max-w-5xl mx-auto">
-          {/* Left column */}
-          <div>
-            {leftFaqs.map((faq, i) => (
-              <FaqItem
-                key={faq.id}
-                faq={faq}
-                isOpen={openId === faq.id}
-                onToggle={() => setOpenId(openId === faq.id ? "" : faq.id)}
-                index={i}
-                inView={inView}
-              />
-            ))}
+              <div className="mt-8 hidden border-t border-[#E4E6EA] pt-6 lg:block animate-fade-up delay-300">
+                <AskMore />
+              </div>
+            </div>
           </div>
 
-          {/* Right column */}
-          <div>
-            {rightFaqs.map((faq, i) => (
-              <FaqItem
-                key={faq.id}
-                faq={faq}
-                isOpen={openId === faq.id}
-                onToggle={() => setOpenId(openId === faq.id ? "" : faq.id)}
-                index={i + mid}
-                inView={inView}
-              />
-            ))}
+          {/* ── Acordeón ── */}
+          <div className="col-span-12 lg:col-span-8">
+            <div className="divide-y divide-[#E4E6EA] border-y border-[#E4E6EA]">
+              {faqItems.map((faq, i) => (
+                <FaqItem
+                  key={faq.id}
+                  faq={faq}
+                  isOpen={openId === faq.id}
+                  onToggle={() => setOpenId(openId === faq.id ? "" : faq.id)}
+                  index={i}
+                />
+              ))}
+            </div>
+
+            <div className="mt-8 lg:hidden animate-fade-up delay-300">
+              <AskMore />
+            </div>
           </div>
         </div>
-
-        {/* ── Bottom CTA ── */}
-        <motion.div
-          className="mt-12 sm:mt-16 text-center"
-          initial={{ opacity: 0, y: 16 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
-        >
-          <div
-            className="inline-flex items-center gap-3 rounded-full px-5 py-2.5 sm:px-6 sm:py-3"
-            style={{
-              background: "rgba(65,105,225,0.04)",
-              border: "1px solid rgba(65,105,225,0.1)",
-            }}
-          >
-            <span
-              className="text-sm sm:text-base font-medium"
-              style={{ color: "var(--text-secondary)" }}
-            >
-              ¿Tienes otra pregunta?
-            </span>
-            <a
-              href="#contacto"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors"
-            >
-              Escríbenos
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-              </svg>
-            </a>
-          </div>
-        </motion.div>
       </Container>
     </section>
   );

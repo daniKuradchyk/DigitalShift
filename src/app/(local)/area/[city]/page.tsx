@@ -12,7 +12,7 @@ import { getServices } from "@/content/services";
 
 type Params = { city: string };
 
-const cardClass = "surface-card rounded-3xl p-6";
+const cardClass = "rounded-[4px] border border-[#E4E6EA] bg-white p-6 sm:p-8";
 
 export function generateStaticParams(): Params[] {
   return AREAS.map((area) => ({ city: area.slug }));
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: any }): Promise<Met
 
   return buildMetadata({
     title: `Software a medida en ${area.name} | Qubelia`,
-    description: `Desarrollo de software a medida, web y automatización de procesos para empresas de ${area.name} y provincia. Trabajo ${area.mode}. Diagnóstico gratuito.`,
+    description: `Desarrollo de software a medida, web y automatización para empresas de ${area.name} y provincia. Trabajo ${area.mode}. Diagnóstico gratuito.`,
     path: `/area/${city}`,
   });
 }
@@ -54,8 +54,8 @@ export default async function CityPage({ params }: { params: any }) {
       description={area.intro}
       aside={
         <>
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-sky-400">Contacto</p>
-          <div className="mt-4 space-y-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]">Contacto</p>
+          <div className="mt-4 space-y-2 text-sm leading-relaxed text-[#3D4046]">
             <p>{CONTACT.phone}</p>
             <p>{CONTACT.email}</p>
             <p>Base en Sevilla · Trabajo {area.mode}</p>
@@ -66,10 +66,10 @@ export default async function CityPage({ params }: { params: any }) {
     >
       <div className="grid gap-6">
         <section className={cardClass}>
-          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+          <h2 className="text-xl font-semibold tracking-tight text-[#101014]">
             Situaciones que nos encontramos en {area.name}
           </h2>
-          <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-[#3D4046]">
             {area.scenarios.map((scenario) => (
               <li key={scenario}>{scenario}</li>
             ))}
@@ -78,37 +78,37 @@ export default async function CityPage({ params }: { params: any }) {
 
         <section className="grid gap-5 lg:grid-cols-2">
           <article className={cardClass}>
-            <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+            <h2 className="text-xl font-semibold tracking-tight text-[#101014]">
               Sectores con peso en la zona
             </h2>
             <ul className="mt-4 flex flex-wrap gap-2">
               {area.sectors.map((sector) => (
                 <li
                   key={sector}
-                  className="rounded-full border border-sky-500/20 bg-sky-500/[0.06] px-3 py-1 text-xs font-medium text-sky-300"
+                  className="rounded-[2px] border border-[#E4E6EA] bg-[#F5F6F8] px-3 py-1 text-xs font-medium text-[#3D4046]"
                 >
                   {sector}
                 </li>
               ))}
             </ul>
-            <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+            <p className="mt-4 text-sm leading-relaxed text-[#3D4046]">
               No hace falta que tu sector esté en la lista: lo que determina el encaje es que haya un
               proceso operativo concreto que hoy genera fricción, no la etiqueta sectorial.
             </p>
           </article>
 
           <article className={cardClass}>
-            <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Qué podemos construir</h2>
+            <h2 className="text-xl font-semibold tracking-tight text-[#101014]">Qué podemos construir</h2>
             <ul className="mt-4 space-y-2 text-sm leading-relaxed">
               {services.map((service) => (
                 <li key={service.slug}>
                   <Link
                     href={service.href}
-                    className="text-sky-400 transition-colors hover:text-sky-300"
+                    className="font-medium text-[#101014] underline decoration-[#C9CCD3] underline-offset-4 transition-colors hover:decoration-brand-600"
                   >
                     {service.shortTitle}
                   </Link>
-                  <span className="text-slate-600 dark:text-slate-300"> — {service.intent}</span>
+                  <span className="text-[#3D4046]"> — {service.intent}</span>
                 </li>
               ))}
             </ul>
@@ -116,8 +116,8 @@ export default async function CityPage({ params }: { params: any }) {
         </section>
 
         <section className={cardClass}>
-          <h2 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Siguiente paso razonable</h2>
-          <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          <h2 className="text-xl font-semibold tracking-tight text-[#101014]">Siguiente paso razonable</h2>
+          <p className="mt-3 text-sm leading-relaxed text-[#3D4046]">
             Un diagnóstico gratuito de 30 minutos para aterrizar el problema, el alcance y si merece la
             pena construir algo a medida — o si un SaaS bien configurado os resuelve. Si es lo segundo,
             también lo diremos.
@@ -125,13 +125,13 @@ export default async function CityPage({ params }: { params: any }) {
           <div className="mt-5 flex flex-wrap gap-3">
             <Link
               href="/#contacto"
-              className="inline-flex items-center justify-center rounded-full bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-sky-700"
+              className="inline-flex items-center justify-center rounded-[2px] bg-[#101014] px-6 py-3 text-sm font-medium tracking-tight text-white transition-colors duration-150 hover:bg-brand-600"
             >
               Agendar diagnóstico
             </Link>
             <Link
               href="/casos"
-              className="inline-flex items-center justify-center rounded-full border border-sky-500/25 px-5 py-2.5 text-sm font-semibold text-sky-300 transition-colors hover:bg-sky-500/10"
+              className="inline-flex items-center justify-center rounded-[2px] border border-[#C9CCD3] px-6 py-3 text-sm font-medium tracking-tight text-[#101014] transition-colors duration-150 hover:border-[#101014]"
             >
               Ver casos de éxito
             </Link>
@@ -159,6 +159,7 @@ export default async function CityPage({ params }: { params: any }) {
             name: `Software a medida en ${area.name}`,
             description: `Desarrollo de software a medida, web profesional y automatización de procesos para empresas de ${area.name} y provincia.`,
             areaName: area.name,
+            url: `${BASE_URL}/area/${city}`,
           })
         ),
       }}

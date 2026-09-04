@@ -28,43 +28,33 @@ type AnchorButtonProps = Omit<AnchorButton, "variant" | "size" | "className" | "
 type NativeButtonProps = Omit<NativeButton, "variant" | "size" | "className" | "children" | "as">;
 
 const base =
-  "group inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold tracking-tight transition-all duration-250 will-change-transform active:translate-y-0 disabled:opacity-50 disabled:pointer-events-none";
+  "group inline-flex items-center justify-center gap-2 rounded-[2px] px-6 py-3 text-sm font-medium tracking-tight transition-colors duration-150 disabled:opacity-50 disabled:pointer-events-none";
 
 const sizes: Record<Sizes, string> = {
-  sm: "px-3.5 py-1.5 text-xs",
-  md: "px-5 py-2.5 text-sm",
-  lg: "px-6 py-3 text-base",
+  sm: "px-4 py-2 text-xs",
+  md: "px-6 py-3 text-sm",
+  lg: "px-7 py-3.5 text-[15px]",
 };
 
 const variants: Record<Variants, string> = {
+  // Sólido tinta: la acción principal del sitio
   primary: cn(
-    "text-white",
-    "bg-[linear-gradient(135deg,#1E50C8_0%,#4169E1_50%,#5B8DEF_100%)] bg-[length:200%_100%]",
-    "hover:bg-[position:100%_0]",
-    "border border-brand-400/25",
-    "shadow-[0_0_20px_rgba(65,105,225,0.18),0_8px_32px_-8px_rgba(30,80,200,0.35)]",
-    "hover:shadow-[0_0_35px_rgba(65,105,225,0.30),0_12px_40px_-8px_rgba(30,80,200,0.50)]",
-    "hover:-translate-y-0.5",
-    "focus-visible:ring-2 focus-visible:ring-brand-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#060B1A]"
+    "text-white bg-[#101014]",
+    "hover:bg-brand-600",
+    "focus-visible:ring-2 focus-visible:ring-brand-600/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
   ),
+  // Contorno fino: acción secundaria
   ghost: cn(
-    "text-brand-200",
-    "bg-brand-500/[0.06] border border-brand-400/15",
-    "backdrop-blur-sm",
-    "shadow-sm",
-    "hover:-translate-y-0.5 hover:bg-brand-500/[0.12] hover:border-brand-400/30 hover:text-brand-100",
-    "hover:shadow-[0_0_20px_rgba(65,105,225,0.08)]",
-    "focus-visible:ring-2 focus-visible:ring-brand-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#060B1A]"
+    "text-[#101014] bg-transparent",
+    "border border-[#C9CCD3]",
+    "hover:border-[#101014]",
+    "focus-visible:ring-2 focus-visible:ring-brand-600/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
   ),
+  // Azul corporativo: CTA destacado
   shine: cn(
-    "relative text-white overflow-hidden",
-    "bg-[linear-gradient(135deg,#1E50C8_0%,#4169E1_30%,#5B8DEF_60%,#85A2FF_100%)] bg-[length:250%_100%]",
-    "hover:bg-[position:100%_0]",
-    "border border-brand-400/25",
-    "shadow-[0_0_24px_rgba(65,105,225,0.20),0_8px_32px_-8px_rgba(30,80,200,0.40)]",
-    "hover:shadow-[0_0_40px_rgba(65,105,225,0.35),0_12px_44px_-8px_rgba(91,141,239,0.50)]",
-    "hover:-translate-y-0.5",
-    "focus-visible:ring-2 focus-visible:ring-brand-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#060B1A]"
+    "text-white bg-brand-600",
+    "hover:bg-brand-700",
+    "focus-visible:ring-2 focus-visible:ring-brand-600/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
   ),
 };
 

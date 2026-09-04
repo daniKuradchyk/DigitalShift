@@ -3,9 +3,10 @@ import Link from "next/link";
 import Container from "@/components/common/Container";
 import Button from "@/components/common/Button";
 import Logo from "@/components/common/Logo";
+import Footer from "@/components/sections/Footer";
 import JsonLd from "@/components/marketing/JsonLd";
-import { softwareAppJsonLd } from "@/lib/jsonld";
-import { buildMetadata } from "@/lib/seo";
+import { breadcrumbJsonLd, softwareAppJsonLd } from "@/lib/jsonld";
+import { buildMetadata, canonical } from "@/lib/seo";
 import labs from "@/content/labs.json";
 
 export const revalidate = 86400;
@@ -19,53 +20,15 @@ export const metadata: Metadata = buildMetadata({
 
 type Lab = typeof labs[number];
 
-const accentMap: Record<string, { icon: string; badge: string; border: string; bg: string }> = {
-  "roi-automatizacion": {
-    icon: "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 border-indigo-200 dark:border-indigo-500/20",
-    badge: "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-500/20",
-    border: "border-indigo-200/80 dark:border-indigo-500/20",
-    bg: "hover:shadow-indigo-100 dark:hover:shadow-indigo-500/5",
-  },
-  "analisis-gratis": {
-    icon: "text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-500/10 border-sky-200 dark:border-sky-500/20",
-    badge: "bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-500/20",
-    border: "border-sky-200/80 dark:border-sky-500/20",
-    bg: "hover:shadow-sky-100 dark:hover:shadow-sky-500/5",
-  },
-  "calculadora-coste-software": {
-    icon: "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10 border-rose-200 dark:border-rose-500/20",
-    badge: "bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-500/20",
-    border: "border-rose-200/80 dark:border-rose-500/20",
-    bg: "hover:shadow-rose-100 dark:hover:shadow-rose-500/5",
-  },
-  "calculadora-irpf-autonomos": {
-    icon: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/20",
-    badge: "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/20",
-    border: "border-emerald-200/80 dark:border-emerald-500/20",
-    bg: "hover:shadow-emerald-100 dark:hover:shadow-emerald-500/5",
-  },
-  "generador-brief-proyecto": {
-    icon: "text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-500/10 border-violet-200 dark:border-violet-500/20",
-    badge: "bg-violet-50 dark:bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-200 dark:border-violet-500/20",
-    border: "border-violet-200/80 dark:border-violet-500/20",
-    bg: "",
-  },
-  "checklist-rgpd-basico": {
-    icon: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/20",
-    badge: "bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-500/20",
-    border: "border-amber-200/80 dark:border-amber-500/20",
-    bg: "",
-  },
-};
-
-function getAccent(slug: string) {
-  return accentMap[slug] ?? accentMap["analisis-gratis"];
+function labHref(t: Lab) {
+  const raw = (t as Record<string, unknown>).href;
+  return raw ? String(raw) : `/labs/${t.slug}`;
 }
 
 function LabIcon({ slug }: { slug: string }) {
   if (slug === "roi-automatizacion") {
     return (
-      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 3v18h18" />
         <path d="m6 16 4-6 4 4 5-8" />
         <circle cx="6" cy="16" r="1" fill="currentColor" stroke="none" />
@@ -77,24 +40,24 @@ function LabIcon({ slug }: { slug: string }) {
   }
   if (slug === "calculadora-irpf-autonomos") {
     return (
-      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="4" y="3" width="16" height="18" rx="2" />
+      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="4" y="3" width="16" height="18" rx="1" />
         <path d="M8 7h8M8 11h8M8 15h4" />
       </svg>
     );
   }
   if (slug === "calculadora-coste-software") {
     return (
-      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="5" y="3" width="14" height="18" rx="2" />
-        <rect x="8" y="6" width="8" height="3" rx="1" />
+      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="5" y="3" width="14" height="18" rx="1" />
+        <rect x="8" y="6" width="8" height="3" rx="0.5" />
         <path d="M8.5 13h.01M12 13h.01M15.5 13h.01M8.5 17h.01M12 17h.01M15.5 17h.01" />
       </svg>
     );
   }
   if (slug === "analisis-gratis") {
     return (
-      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 3v18h18" />
         <path d="m7 15 3-4 4 3 4-6" />
         <circle cx="10" cy="11" r="1" />
@@ -103,16 +66,16 @@ function LabIcon({ slug }: { slug: string }) {
   }
   if (slug === "generador-brief-proyecto") {
     return (
-      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7" />
         <path d="M14 3v4h4M8 13h8M8 17h6" />
       </svg>
     );
   }
   return (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M9 11l2 2 4-4" />
-      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <rect x="3" y="4" width="18" height="16" rx="1" />
     </svg>
   );
 }
@@ -133,21 +96,28 @@ export default function LabsPage() {
   }));
   const appSchemas = softwareAppJsonLd(toolsForSchema);
 
+  const heroStats = [
+    { value: String(available.length).padStart(2, "0"), label: "Herramientas" },
+    { value: "0 €", label: "Coste" },
+    { value: "Free", label: "Sin registro" },
+  ];
+
   return (
-    <main className="relative overflow-hidden min-h-screen bg-white dark:bg-[#050A14]">
+    <>
+      <main className="min-h-screen bg-white">
+      <JsonLd
+        id="ld-labs-breadcrumbs"
+        data={breadcrumbJsonLd([
+          { name: "Inicio", url: canonical("/") },
+          { name: "Labs", url: canonical("/labs") },
+        ])}
+      />
       {appSchemas.map((schema, i) => (
         <JsonLd key={`ld-lab-${i}`} id={`ld-lab-${i}`} data={schema} />
       ))}
-      {/* Ambient */}
-      <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute -left-20 top-20 h-96 w-96 rounded-full blur-3xl opacity-10 dark:opacity-20"
-          style={{ background: "rgba(56,189,248,0.4)" }} />
-        <div className="absolute -right-20 bottom-1/3 h-96 w-96 rounded-full blur-3xl opacity-10 dark:opacity-20"
-          style={{ background: "rgba(129,140,248,0.4)" }} />
-      </div>
 
       {/* Inline header */}
-      <header className="border-b border-slate-200/60 dark:border-white/[0.06] bg-white/90 dark:bg-[#050A14]/90 backdrop-blur-xl">
+      <header className="border-b border-[#E4E6EA] bg-white">
         <Container>
           <div className="flex h-16 items-center justify-between">
             <Link href="/" aria-label="Ir a inicio" className="flex items-center gap-2">
@@ -155,7 +125,7 @@ export default function LabsPage() {
             </Link>
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[#3D4046] transition-colors hover:text-brand-600"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                 <path d="M15 18l-6-6 6-6" />
@@ -166,122 +136,135 @@ export default function LabsPage() {
         </Container>
       </header>
 
-      <Container className="py-14">
-        {/* Hero */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <div className="section-tag mb-5 mx-auto w-fit">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" style={{ boxShadow: "0 0 8px rgba(52,211,153,0.6)" }} aria-hidden />
-            Laboratorio abierto
+      {/* Hero */}
+      <section className="border-b border-[#E4E6EA] bg-white">
+        <Container>
+          <div className="pt-20 pb-14 sm:pt-24 sm:pb-16">
+            <p className="section-tag">Laboratorio abierto</p>
+            <h1 className="mt-8 max-w-4xl text-h1">
+              Herramientas <span className="text-brand-600">gratuitas</span> para tu negocio
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#3D4046]">
+              Calculadoras, plantillas y análisis listos para usar. Sin registro, sin coste. Si necesitas adaptarlos a tu empresa,{" "}
+              <a
+                href="/#contacto"
+                className="font-medium text-[#101014] underline decoration-[#C9CCD3] underline-offset-4 transition-colors hover:decoration-brand-600"
+              >
+                hablamos
+              </a>
+              .
+            </p>
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight sm:text-4xl mb-4">
-            Herramientas{" "}
-            <span className="gradient-text-static">gratuitas</span>
-            {" "}para tu negocio
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400 mb-8">
-            Calculadoras, plantillas y análisis listos para usar. Sin registro, sin coste. Si necesitas adaptarlos a tu empresa,{" "}
-            <a href="/#contacto" className="text-sky-600 dark:text-sky-400 hover:underline">hablamos</a>.
-          </p>
 
-          {/* Stats */}
-          <div className="inline-flex items-center divide-x divide-slate-200 dark:divide-white/[0.08] border border-slate-200/80 dark:border-white/[0.07] rounded-2xl bg-white dark:bg-white/[0.02] overflow-hidden">
-            {[
-              { value: String(available.length).padStart(2, "0"), label: "Herramientas" },
-              { value: "0 €",  label: "Coste" },
-              { value: "Free", label: "Sin registro" },
-            ].map((s) => (
-              <div key={s.label} className="px-6 py-3 text-center">
-                <p className="text-lg font-extrabold text-sky-600 dark:text-sky-400">{s.value}</p>
-                <p className="text-[10px] text-slate-500 dark:text-slate-500 uppercase tracking-[0.14em]">{s.label}</p>
+          <dl className="grid grid-cols-3 divide-x divide-[#E4E6EA] border-t border-[#E4E6EA]">
+            {heroStats.map((s) => (
+              <div key={s.label} className="px-5 py-8 first:pl-0 sm:px-8 sm:py-10">
+                <dt className="sr-only">{s.label}</dt>
+                <dd>
+                  <span className="block text-3xl font-semibold tracking-tight text-[#101014] sm:text-4xl">
+                    {s.value}
+                  </span>
+                  <span className="mt-1.5 block text-sm text-[#63666D]">{s.label}</span>
+                </dd>
               </div>
             ))}
-          </div>
-        </div>
+          </dl>
+        </Container>
+      </section>
 
-        {/* Available tools */}
-        <section aria-labelledby="labs-available-title">
-          <h2 id="labs-available-title" className="text-sm font-bold uppercase tracking-[0.18em] text-slate-400 dark:text-slate-600 mb-6">
+      {/* Available tools */}
+      <section aria-labelledby="labs-available-title" className="bg-white py-20 sm:py-24">
+        <Container>
+          <h2
+            id="labs-available-title"
+            className="mb-10 text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]"
+          >
             Disponibles ahora
           </h2>
-          <ul className="grid gap-5 sm:grid-cols-2">
-            {available.map((t: Lab) => {
-              const acc = getAccent(t.slug);
-              return (
-                <li
-                  key={t.slug}
-                  className={`group relative overflow-hidden rounded-2xl border bg-white dark:bg-[#070D1C] p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-none ${acc.border}`}
-                >
-                  {/* Top accent line */}
-                  <div className="absolute top-0 left-0 right-0 h-0.5"
-                    style={{ background: "linear-gradient(90deg, rgba(56,189,248,0.6), rgba(129,140,248,0.4), transparent)" }} />
 
+          <ul className="grid gap-px bg-[#E4E6EA] sm:grid-cols-2">
+            {available.map((t: Lab) => (
+              <li key={t.slug} className="bg-white">
+                <div className="group flex h-full flex-col p-6 transition-colors sm:p-8">
                   <div className="flex items-start gap-4">
-                    <span className={`inline-flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl border ${acc.icon}`}>
+                    <span className="inline-flex h-10 w-10 flex-none items-center justify-center border border-[#E4E6EA] text-[#101014]">
                       <LabIcon slug={t.slug} />
                     </span>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between gap-3 mb-2">
-                        <h3 className="text-base font-bold text-slate-900 dark:text-white leading-snug">{t.title}</h3>
-                        <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[10px] font-semibold flex-shrink-0 ${acc.badge}`}>
-                          <span className="h-1 w-1 rounded-full bg-current" aria-hidden />
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-2 flex items-start justify-between gap-3">
+                        <h3 className="text-lg font-semibold leading-snug tracking-tight text-[#101014]">
+                          {t.title}
+                        </h3>
+                        <span className="flex-none border border-[#E4E6EA] px-2 py-0.5 text-[11px] font-medium uppercase tracking-[0.1em] text-[#63666D]">
                           Disponible
                         </span>
                       </div>
-                      <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{t.desc}</p>
+                      <p className="text-sm leading-relaxed text-[#3D4046]">{t.desc}</p>
                     </div>
                   </div>
 
                   {t.tags && t.tags.length > 0 && (
-                    <div className="mt-4 flex flex-wrap gap-1.5">
+                    <ul className="mt-5 flex flex-wrap gap-x-2 gap-y-2">
                       {t.tags.map((tag) => (
-                        <span
+                        <li
                           key={tag}
-                          className="inline-flex rounded-full border border-slate-200/80 dark:border-white/[0.08] px-2.5 py-0.5 text-[10px] font-medium text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-white/[0.03]"
+                          className="border border-[#E4E6EA] px-2.5 py-1 text-xs text-[#3D4046]"
                         >
-                          #{tag}
-                        </span>
+                          {tag}
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   )}
 
-                  <div className="mt-5 flex flex-wrap items-center gap-3">
-                    <Button as="a" href={t.href ?? `/labs/${t.slug}`} variant="shine" size="sm">
+                  <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-7">
+                    <Button as="a" href={labHref(t)} variant="primary" size="sm">
                       {t.cta}
                     </Button>
                     <a
-                      className="text-sm text-slate-500 dark:text-slate-400 hover:text-sky-600 dark:hover:text-sky-300 transition-colors"
+                      className="group/link inline-flex items-center gap-2 text-sm font-medium text-[#101014] transition-colors hover:text-brand-600"
                       href="/#contacto"
                     >
-                      Adaptar a mi empresa →
+                      <span className="border-b border-[#C9CCD3] transition-colors group-hover/link:border-brand-600">
+                        Adaptar a mi empresa
+                      </span>
+                      <svg className="h-4 w-4 transition-transform duration-200 group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
                     </a>
                   </div>
-                </li>
-              );
-            })}
+                </div>
+              </li>
+            ))}
           </ul>
-        </section>
+        </Container>
+      </section>
 
-        {/* Coming soon — oculto hasta que estén disponibles */}
+      {/* Coming soon — oculto hasta que estén disponibles */}
 
-        {/* CTA bottom */}
-        <div className="mt-16 rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-8 text-center">
-          <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-sky-600 dark:text-sky-400 mb-3">Soporte profesional</p>
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-            ¿Necesitas una versión a medida?
-          </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mb-6 max-w-md mx-auto">
-            Adaptamos cualquier herramienta a tu operativa real: integración con tus datos, automatización y seguimiento continuo.
-          </p>
-          <div className="flex flex-wrap gap-3 justify-center">
-            <Button as="a" href="/#contacto" variant="shine">
-              Hablar con Qubelia
-            </Button>
-            <Button as="a" href="/servicios" variant="ghost">
-              Ver todos los servicios
-            </Button>
+      {/* CTA bottom */}
+      <section className="border-t border-[#E4E6EA] bg-[#F5F6F8] py-20 sm:py-24">
+        <Container>
+          <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
+            <div className="lg:col-span-7">
+              <p className="section-tag">Soporte profesional</p>
+              <h2 className="mt-6 max-w-2xl text-h2">¿Necesitas una versión a medida?</h2>
+              <p className="mt-5 max-w-xl text-lg leading-relaxed text-[#3D4046]">
+                Adaptamos cualquier herramienta a tu operativa real: integración con tus datos, automatización y seguimiento continuo.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row lg:col-span-5 lg:items-end lg:justify-end">
+              <Button as="a" href="/#contacto" variant="primary" className="w-full sm:w-auto">
+                Hablar con Qubelia
+              </Button>
+              <Button as="a" href="/servicios" variant="ghost" className="w-full sm:w-auto">
+                Ver todos los servicios
+              </Button>
+            </div>
           </div>
-        </div>
-      </Container>
-    </main>
+        </Container>
+      </section>
+      </main>
+      <Footer />
+    </>
   );
 }

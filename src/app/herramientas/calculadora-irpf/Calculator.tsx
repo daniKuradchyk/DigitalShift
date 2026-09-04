@@ -26,24 +26,24 @@ type OtherPayer = {
 };
 
 const steps = [
-  { id: "A", title: "Situacion", summary: "Escenario y residencia fiscal" },
+  { id: "A", title: "Situación", summary: "Escenario y residencia fiscal" },
   { id: "B", title: "Ingresos", summary: "Rentas y retenciones" },
-  { id: "C", title: "Personal", summary: "Familia y situacion" },
+  { id: "C", title: "Personal", summary: "Familia y situación" },
   { id: "D", title: "Helpers", summary: "Gastos opcionales" },
-  { id: "E", title: "Resultado", summary: "Estimacion y desglose" },
+  { id: "E", title: "Resultado", summary: "Estimación y desglose" },
 ] as const;
 
 const ccaaOptions = [
   { value: "", label: "Sin seleccionar (escala combinada)" },
-  { value: "andalucia", label: "Andalucia" },
-  { value: "aragon", label: "Aragon" },
+  { value: "andalucia", label: "Andalucía" },
+  { value: "aragon", label: "Aragón" },
   { value: "asturias", label: "Asturias" },
   { value: "baleares", label: "Baleares" },
   { value: "canarias", label: "Canarias" },
   { value: "cantabria", label: "Cantabria" },
   { value: "castilla-la-mancha", label: "Castilla-La Mancha" },
-  { value: "castilla-y-leon", label: "Castilla y Leon" },
-  { value: "cataluna", label: "Cataluna" },
+  { value: "castilla-y-leon", label: "Castilla y León" },
+  { value: "cataluna", label: "Cataluña" },
   { value: "extremadura", label: "Extremadura" },
   { value: "galicia", label: "Galicia" },
   { value: "madrid", label: "Madrid" },
@@ -68,19 +68,19 @@ const CCAA_SCALES: Record<string, Bracket[] | undefined> = {};
 
 const Icons = {
   user: (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="8" r="4" />
       <path d="M4 20a8 8 0 0 1 16 0" />
     </svg>
   ),
   wallet: (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <rect x="3" y="6" width="18" height="12" rx="2" />
       <path d="M16 10h5v4h-5z" />
     </svg>
   ),
   users: (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="8" cy="8" r="3" />
       <circle cx="16" cy="8" r="3" />
       <path d="M2 20a6 6 0 0 1 12 0" />
@@ -88,66 +88,66 @@ const Icons = {
     </svg>
   ),
   tools: (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M14.5 7.5 20 3l1 1-4.5 5.5" />
       <path d="m3 21 9-9" />
       <path d="m9 9 6 6" />
     </svg>
   ),
   chart: (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 3v18h18" />
       <path d="m7 14 4-4 3 3 5-6" />
     </svg>
   ),
   briefcase: (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <rect x="3" y="7" width="18" height="12" rx="2" />
       <path d="M9 7V5a3 3 0 0 1 6 0v2" />
       <path d="M3 12h18" />
     </svg>
   ),
   bolt: (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M13 2 3 14h7l-1 8 10-12h-7z" />
     </svg>
   ),
   banknote: (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <rect x="3" y="6" width="18" height="12" rx="2" />
       <circle cx="12" cy="12" r="2.5" />
       <path d="M7 9h.01M17 15h.01" />
     </svg>
   ),
   home: (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 11 12 4l9 7" />
       <path d="M5 10v10h14V10" />
       <path d="M9 20v-6h6v6" />
     </svg>
   ),
   meal: (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M6 3v7a3 3 0 0 0 6 0V3" />
       <path d="M9 3v7" />
       <path d="M15 3h3a2 2 0 0 1 2 2v15" />
     </svg>
   ),
   list: (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M8 6h13M8 12h13M8 18h13" />
       <path d="M3 6h.01M3 12h.01M3 18h.01" />
     </svg>
   ),
   alert: (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="9" />
       <path d="M12 8v5" />
       <path d="M12 16h.01" />
     </svg>
   ),
   check: (
-    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg aria-hidden viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="m5 13 4 4L19 7" />
     </svg>
   ),
@@ -190,6 +190,18 @@ function createId() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
+/* ── Clases compartidas del sistema corporativo ───────────────── */
+const fieldLabel = "block text-sm font-medium text-[#101014]";
+const fieldInput = "h-10 w-full px-3 text-sm text-[#101014] disabled:opacity-50";
+const fieldHelp = "text-xs leading-relaxed text-[#63666D]";
+const eyebrow = "text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]";
+const panelCard = "rounded-[4px] border border-[#E4E6EA] bg-white p-5";
+const noteBlock = "border-l-2 border-brand-600 bg-[#F5F6F8] px-4 py-3 text-xs leading-relaxed text-[#3D4046]";
+const mutedBlock = "border border-[#E4E6EA] bg-[#F5F6F8] px-4 py-3 text-xs leading-relaxed text-[#63666D]";
+const chipBase = "rounded-[2px] border px-3 py-1.5 text-xs font-medium transition-colors";
+const chipOn = "border-[#101014] bg-[#101014] text-white";
+const chipOff = "border-[#C9CCD3] bg-white text-[#3D4046] hover:border-[#101014]";
+
 type NumberFieldProps = {
   id: string;
   label: string;
@@ -217,10 +229,10 @@ function NumberField({
 }: NumberFieldProps) {
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+      <label htmlFor={id} className={fieldLabel}>
         {label}
       </label>
-      <div className="relative flex h-10 items-center rounded-xl border border-slate-200 bg-white transition focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-500/20 dark:border-white/[0.07] dark:bg-white/[0.03]">
+      <div className="relative">
         <input
           id={id}
           type="number"
@@ -231,15 +243,15 @@ function NumberField({
           disabled={disabled}
           onChange={(event) => onChange(event.target.value)}
           placeholder={placeholder}
-          className="h-full w-full bg-transparent px-3 pr-10 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none disabled:opacity-50 dark:text-slate-100 dark:placeholder:text-slate-500"
+          className={`${fieldInput} ${suffix ? "pr-12" : ""}`}
         />
         {suffix ? (
-          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 dark:text-slate-500">
+          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#9DA0A6]">
             {suffix}
           </span>
         ) : null}
       </div>
-      {help ? <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{help}</p> : null}
+      {help ? <p className={fieldHelp}>{help}</p> : null}
     </div>
   );
 }
@@ -269,23 +281,21 @@ function TextField({
 }: TextFieldProps) {
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+      <label htmlFor={id} className={fieldLabel}>
         {label}
       </label>
-      <div className="relative flex h-10 items-center rounded-xl border border-slate-200 bg-white transition focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-500/20 dark:border-white/[0.07] dark:bg-white/[0.03]">
-        <input
-          id={id}
-          type="text"
-          inputMode={inputMode}
-          value={value}
-          disabled={disabled}
-          list={listId}
-          onChange={(event) => onChange(event.target.value)}
-          placeholder={placeholder}
-          className="h-full w-full bg-transparent px-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none disabled:opacity-50 dark:text-slate-100 dark:placeholder:text-slate-500"
-        />
-      </div>
-      {help ? <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{help}</p> : null}
+      <input
+        id={id}
+        type="text"
+        inputMode={inputMode}
+        value={value}
+        disabled={disabled}
+        list={listId}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        className={fieldInput}
+      />
+      {help ? <p className={fieldHelp}>{help}</p> : null}
     </div>
   );
 }
@@ -302,33 +312,29 @@ type SelectFieldProps = {
 function SelectField({ id, label, value, onChange, options, help }: SelectFieldProps) {
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">
+      <label htmlFor={id} className={fieldLabel}>
         {label}
       </label>
-      <div className="relative flex h-10 items-center rounded-xl border border-slate-200 bg-white transition focus-within:border-sky-400 focus-within:ring-2 focus-within:ring-sky-500/20 dark:border-white/[0.07] dark:bg-white/[0.03]">
+      <div className="relative">
         <select
           id={id}
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          className="h-full w-full appearance-none bg-transparent px-3 pr-10 text-sm text-slate-900 focus:outline-none dark:text-slate-100 dark:[color-scheme:dark]"
+          className={`${fieldInput} appearance-none pr-10`}
         >
           {options.map((option) => (
-            <option
-              key={option.value}
-              value={option.value}
-              style={{ color: "var(--select-option-color)", backgroundColor: "var(--select-option-bg)" }}
-            >
+            <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
         </select>
-        <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
+        <span aria-hidden className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#63666D]">
           <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
             <path d="m6 8 4 4 4-4" />
           </svg>
         </span>
       </div>
-      {help ? <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{help}</p> : null}
+      {help ? <p className={fieldHelp}>{help}</p> : null}
     </div>
   );
 }
@@ -345,23 +351,21 @@ type RadioCardProps = {
 
 function RadioCard({ name, value, checked, onChange, title, description, icon }: RadioCardProps) {
   return (
-    <label className={`group relative flex cursor-pointer items-start gap-3 overflow-hidden rounded-xl border p-4 text-sm transition-all focus-within:ring-2 focus-within:ring-sky-500/25 ${
-      checked
-        ? "border-sky-400 bg-sky-50/70 dark:border-sky-500/50 dark:bg-sky-500/[0.08]"
-        : "border-slate-200 bg-white hover:border-slate-300 dark:border-white/[0.07] dark:bg-white/[0.02] dark:hover:border-white/[0.12]"
+    <label className={`group relative flex cursor-pointer items-start gap-3 rounded-[4px] border p-4 text-sm transition-colors focus-within:ring-2 focus-within:ring-brand-600/40 ${
+      checked ? "border-[#101014] bg-[#F5F6F8]" : "border-[#E4E6EA] bg-white hover:border-[#101014]"
     }`}>
       <input type="radio" name={name} value={value} checked={checked} onChange={onChange} className="sr-only" />
-      <span className={`flex h-8 w-8 flex-none items-center justify-center rounded-lg transition-colors ${
-        checked ? "bg-sky-500 text-white" : "bg-slate-100 text-slate-500 dark:bg-white/[0.06] dark:text-slate-400"
+      <span className={`flex h-10 w-10 flex-none items-center justify-center border transition-colors ${
+        checked ? "border-[#101014] bg-[#101014] text-white" : "border-[#E4E6EA] text-[#101014]"
       }`}>{icon}</span>
       <div className="min-w-0 flex-1">
-        <span className={`block text-sm font-semibold ${checked ? "text-sky-700 dark:text-sky-200" : "text-slate-900 dark:text-slate-100"}`}>{title}</span>
-        <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{description}</span>
+        <span className="block text-sm font-semibold text-[#101014]">{title}</span>
+        <span className="mt-0.5 block text-xs leading-relaxed text-[#63666D]">{description}</span>
       </div>
       {checked && (
-        <span className="flex-none text-sky-500 dark:text-sky-400 mt-0.5">
-          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor">
-            <path fillRule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5z" clipRule="evenodd" />
+        <span aria-hidden className="mt-0.5 flex-none text-brand-600">
+          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="m4 10 4 4 8-8" />
           </svg>
         </span>
       )}
@@ -378,21 +382,19 @@ type ToggleProps = {
 
 function Toggle({ label, description, checked, onChange }: ToggleProps) {
   return (
-    <label className={`group flex cursor-pointer items-start justify-between gap-4 rounded-xl border p-4 text-sm transition focus-within:ring-2 focus-within:ring-sky-500/25 ${
-      checked
-        ? "border-sky-400/60 bg-sky-50/60 dark:border-sky-500/40 dark:bg-sky-500/[0.06]"
-        : "border-slate-200 bg-white hover:border-slate-300 dark:border-white/[0.07] dark:bg-white/[0.02] dark:hover:border-white/[0.12]"
+    <label className={`group flex cursor-pointer items-start justify-between gap-4 rounded-[4px] border p-4 text-sm transition-colors focus-within:ring-2 focus-within:ring-brand-600/40 ${
+      checked ? "border-[#101014] bg-[#F5F6F8]" : "border-[#E4E6EA] bg-white hover:border-[#101014]"
     }`}>
       <span className="min-w-0 flex-1">
-        <span className={`block font-semibold ${checked ? "text-sky-700 dark:text-sky-200" : "text-slate-800 dark:text-slate-100"}`}>{label}</span>
-        {description ? <span className="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{description}</span> : null}
+        <span className="block font-semibold text-[#101014]">{label}</span>
+        {description ? <span className="mt-0.5 block text-xs leading-relaxed text-[#63666D]">{description}</span> : null}
       </span>
-      <span aria-hidden className={`relative mt-0.5 h-5 w-9 flex-none rounded-full transition-colors ${
-        checked ? "bg-sky-500" : "bg-slate-200 dark:bg-white/[0.12]"
+      <span aria-hidden className={`mt-0.5 flex h-5 w-5 flex-none items-center justify-center border transition-colors ${
+        checked ? "border-[#101014] bg-[#101014] text-white" : "border-[#C9CCD3] bg-white text-transparent"
       }`}>
-        <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform ${
-          checked ? "translate-x-4" : "translate-x-0.5"
-        }`} />
+        <svg viewBox="0 0 20 20" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="m4 10 4 4 8-8" />
+        </svg>
       </span>
       <input type="checkbox" checked={checked} onChange={onChange} className="sr-only" />
     </label>
@@ -406,16 +408,16 @@ type SummaryRowProps = {
 
 function SummaryRow({ label, value }: SummaryRowProps) {
   return (
-    <div className="flex items-center justify-between gap-4 text-sm">
-      <span className="text-slate-600 dark:text-slate-300">{label}</span>
-      <span className="font-semibold text-slate-900 dark:text-slate-100">{value}</span>
+    <div className="flex items-center justify-between gap-4 py-2.5 text-sm first:pt-0 last:pb-0">
+      <span className="text-[#63666D]">{label}</span>
+      <span className="font-semibold tabular-nums text-[#101014]">{value}</span>
     </div>
   );
 }
 
 function IconBadge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-slate-100 text-slate-500 dark:bg-white/[0.07] dark:text-slate-400">
+    <span className="inline-flex h-10 w-10 flex-none items-center justify-center border border-[#E4E6EA] text-[#101014]">
       {children}
     </span>
   );
@@ -430,14 +432,16 @@ type StepHeaderProps = {
 
 function StepHeader({ stepId, title, description, icon }: StepHeaderProps) {
   return (
-    <div className="flex items-start gap-4 pb-5 border-b border-slate-100 dark:border-white/[0.06]">
-      <div className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-sky-500 text-white">
+    <div className="flex items-start gap-4 border-b border-[#E4E6EA] pb-5">
+      <div className="flex h-10 w-10 flex-none items-center justify-center border border-[#E4E6EA] text-brand-600">
         {icon}
       </div>
       <div className="min-w-0">
-        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500 mb-0.5">Paso {stepId}</p>
-        <h4 className="text-base font-bold text-slate-900 dark:text-white leading-snug">{title}</h4>
-        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{description}</p>
+        <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#63666D]">Paso {stepId}</p>
+        {/* h2, no h4: el encabezado anterior de la página es el h1 y no hay nivel intermedio.
+            Mismas clases, así que el aspecto no cambia. */}
+        <h2 className="text-lg font-semibold leading-snug tracking-tight text-[#101014]">{title}</h2>
+        <p className="mt-1.5 text-sm leading-relaxed text-[#3D4046]">{description}</p>
       </div>
     </div>
   );
@@ -718,7 +722,7 @@ export default function Calculator() {
   const warnings = useMemo(() => {
     const list: string[] = [];
     if (region !== "comun") {
-      list.push("Regimen foral no soportado. Este estimador solo cubre regimen comun (AEAT).");
+      list.push("Régimen foral no soportado. Este estimador solo cubre régimen común (AEAT).");
     }
     if (!ccaa) {
       list.push("CCAA no seleccionada: se usa escala combinada aproximada.");
@@ -726,14 +730,14 @@ export default function Calculator() {
       list.push("CCAA seleccionada sin tabla real: se usa escala combinada aproximada.");
     }
     if (isModulos) {
-      list.push("Modulo seleccionado: el rendimiento se estima por parametros, no por ingresos y gastos reales.");
+      list.push("Módulo seleccionado: el rendimiento se estima por parámetros, no por ingresos y gastos reales.");
       const totalIncome = toPositiveNumber(modulosIncomeTotal);
       const invoiceIncome = toPositiveNumber(modulosInvoiceTotal);
       if (totalIncome > 150000) {
-        list.push("Aviso: ingresos totales superiores a 150.000 EUR pueden excluir de modulos.");
+        list.push("Aviso: ingresos totales superiores a 150.000 EUR pueden excluir de módulos.");
       }
       if (invoiceIncome > 75000) {
-        list.push("Aviso: ingresos a empresas/profesionales superiores a 75.000 EUR pueden excluir de modulos.");
+        list.push("Aviso: ingresos a empresas/profesionales superiores a 75.000 EUR pueden excluir de módulos.");
       }
     }
     if (includeOffice || includeMeals) {
@@ -774,11 +778,11 @@ export default function Calculator() {
       }
       if (showAutonomo) {
         if (autonomoMode === "directa" && toPositiveNumber(autoIncome) <= 0) {
-          return "Introduce los ingresos anuales de autonomo.";
+          return "Introduce los ingresos anuales de autónomo.";
         }
         if (autonomoMode === "modulos") {
           if (modulosMode === "simple" && toPositiveNumber(modulosNetAnnual) <= 0) {
-            return "Introduce el rendimiento neto anual para modulos.";
+            return "Introduce el rendimiento neto anual para módulos.";
           }
           if (modulosMode === "asistido" && !modulosActivity) {
             return "Selecciona una actividad IAE para el modo asistido.";
@@ -788,7 +792,7 @@ export default function Calculator() {
     }
     if (current === 2) {
       if (toPositiveNumber(age) <= 0) {
-        return "Introduce una edad valida.";
+        return "Introduce una edad válida.";
       }
     }
     return null;
@@ -811,23 +815,23 @@ export default function Calculator() {
 
   const nextLabel = step === steps.length - 2 ? "Ver resultado" : "Siguiente";
   const progress = Math.round((step / (steps.length - 1)) * 100);
-  const autonomoLabel = autonomoMode === "modulos" ? "modulos" : "directa";
+  const autonomoLabel = autonomoMode === "modulos" ? "módulos" : "directa";
   const situationLabel =
     situation === "employee"
       ? "Cuenta ajena"
       : situation === "autonomo"
-        ? `Autonomo (${autonomoLabel})`
+        ? `Autónomo (${autonomoLabel})`
         : `Pluriactividad (${autonomoLabel})`;
 
   return (
     <div className="grid gap-5 sm:gap-6 xl:grid-cols-[220px_minmax(0,1fr)_340px] items-start">
       <nav className="order-1 min-w-0 xl:order-none">
-        <div className="overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02]">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-white/[0.05]">
-            <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-400 dark:text-slate-500">Pasos</p>
-            <span className="text-xs font-semibold tabular-nums text-slate-500 dark:text-slate-400">{progress}%</span>
+        <div className="rounded-[4px] border border-[#E4E6EA] bg-white">
+          <div className="flex items-center justify-between border-b border-[#E4E6EA] px-4 py-3">
+            <p className={eyebrow}>Pasos</p>
+            <span className="text-xs font-semibold tabular-nums text-[#63666D]">{progress}%</span>
           </div>
-          <ul className="py-1">
+          <ul className="divide-y divide-[#E4E6EA]">
             {steps.map((s, index) => {
               const isActive = index === step;
               const isDone = index < step;
@@ -836,19 +840,17 @@ export default function Calculator() {
                   <button
                     type="button"
                     onClick={() => setStep(index)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
-                      isActive
-                        ? "bg-sky-50 dark:bg-sky-500/[0.08]"
-                        : "hover:bg-slate-50 dark:hover:bg-white/[0.03]"
+                    className={`flex w-full items-center gap-3 px-4 py-3 text-left transition-colors ${
+                      isActive ? "bg-[#F5F6F8]" : "hover:bg-[#F5F6F8]"
                     }`}
                     aria-current={isActive ? "step" : undefined}
                   >
-                    <span className={`flex h-7 w-7 flex-none items-center justify-center rounded-full text-[11px] font-bold transition-colors ${
+                    <span className={`flex h-7 w-7 flex-none items-center justify-center border text-[11px] font-semibold transition-colors ${
                       isActive
-                        ? "bg-sky-500 text-white"
+                        ? "border-[#101014] bg-[#101014] text-white"
                         : isDone
-                          ? "bg-sky-100 text-sky-600 dark:bg-sky-500/20 dark:text-sky-300"
-                          : "bg-slate-100 text-slate-500 dark:bg-white/[0.06] dark:text-slate-400"
+                          ? "border-[#101014] text-[#101014]"
+                          : "border-[#E4E6EA] text-[#63666D]"
                     }`}>
                       {isDone ? (
                         <svg viewBox="0 0 20 20" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -857,8 +859,8 @@ export default function Calculator() {
                       ) : s.id}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className={`text-sm font-semibold truncate ${isActive ? "text-sky-700 dark:text-sky-300" : "text-slate-700 dark:text-slate-300"}`}>{s.title}</p>
-                      <p className="text-xs text-slate-400 dark:text-slate-500 truncate">{s.summary}</p>
+                      <p className={`truncate text-sm font-medium ${isActive ? "text-[#101014]" : "text-[#3D4046]"}`}>{s.title}</p>
+                      <p className="truncate text-xs text-[#63666D]">{s.summary}</p>
                     </div>
                   </button>
                 </li>
@@ -866,29 +868,23 @@ export default function Calculator() {
             })}
           </ul>
         </div>
-        <p className="mt-3 px-1 text-xs text-slate-400 dark:text-slate-500">Sin registro. Datos calculados en tu navegador.</p>
+        <p className="mt-3 text-xs leading-relaxed text-[#63666D]">Sin registro. Datos calculados en tu navegador.</p>
       </nav>
 
       <div className="order-2 min-w-0 xl:order-none">
-        <div className="overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02]">
-          {/* Panel header with progress */}
-          <div className="flex items-center justify-between gap-4 px-5 py-4 border-b border-slate-100 dark:border-white/[0.05]">
-            <div className="flex items-center gap-3 min-w-0">
-              <svg viewBox="0 0 36 36" className="h-9 w-9 flex-none -rotate-90" aria-hidden>
-                <circle cx="18" cy="18" r="15.5" fill="none" stroke="currentColor" strokeWidth="2" className="text-slate-100 dark:text-white/[0.06]" />
-                <circle
-                  cx="18" cy="18" r="15.5" fill="none" stroke="currentColor" strokeWidth="2.5"
-                  strokeDasharray={`${progress} 100`} strokeLinecap="round"
-                  className="text-sky-500 transition-all duration-300"
-                  style={{ strokeDasharray: `${(progress / 100) * 97.4} 97.4` }}
-                />
-              </svg>
+        <div className="rounded-[4px] border border-[#E4E6EA] bg-white">
+          {/* Cabecera del panel con progreso */}
+          <div className="border-b border-[#E4E6EA]">
+            <div className="flex items-center justify-between gap-4 px-5 py-4">
               <div className="min-w-0">
-                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Paso {steps[step].id} de {steps.length}</p>
-                <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{steps[step].title}</p>
+                <p className={eyebrow}>Paso {steps[step].id} de {steps.length}</p>
+                <p className="mt-1 truncate text-base font-semibold tracking-tight text-[#101014]">{steps[step].title}</p>
               </div>
+              <span className="flex-none text-xs font-semibold tabular-nums text-[#63666D]">{progress}%</span>
             </div>
-            <span className="text-xs font-semibold tabular-nums text-slate-500 dark:text-slate-400 flex-none">{progress}%</span>
+            <div aria-hidden className="h-0.5 w-full bg-[#E4E6EA]">
+              <div className="h-full bg-brand-600 transition-[width] duration-300" style={{ width: `${progress}%` }} />
+            </div>
           </div>
 
           <div className="p-5 sm:p-6 space-y-6">
@@ -897,8 +893,8 @@ export default function Calculator() {
             <div className="space-y-6">
               <StepHeader
                 stepId="A"
-                title="Situacion"
-                description="Define tu escenario fiscal y la residencia para orientar el calculo."
+                title="Situación"
+                description="Define tu escenario fiscal y la residencia para orientar el cálculo."
                 icon={Icons.user}
               />
               <fieldset className="grid gap-3 xl:grid-cols-3">
@@ -908,7 +904,7 @@ export default function Calculator() {
                   checked={situation === "employee"}
                   onChange={() => setSituation("employee")}
                   title="Cuenta ajena"
-                  description="Solo nomina y retenciones."
+                  description="Solo nómina y retenciones."
                   icon={Icons.briefcase}
                 />
                 <RadioCard
@@ -916,8 +912,8 @@ export default function Calculator() {
                   value="autonomo"
                   checked={situation === "autonomo"}
                   onChange={() => setSituation("autonomo")}
-                  title="Autonomo"
-                  description="Directa o modulos."
+                  title="Autónomo"
+                  description="Directa o módulos."
                   icon={Icons.bolt}
                 />
                 <RadioCard
@@ -926,7 +922,7 @@ export default function Calculator() {
                   checked={situation === "pluri"}
                   onChange={() => setSituation("pluri")}
                   title="Pluriactividad"
-                  description="Combina nomina y actividad."
+                  description="Combina nómina y actividad."
                   icon={Icons.users}
                 />
               </fieldset>
@@ -948,8 +944,8 @@ export default function Calculator() {
                   value={region}
                   onChange={setRegion}
                   options={[
-                    { value: "comun", label: "Regimen comun (AEAT)" },
-                    { value: "foral", label: "Pais Vasco / Navarra (no soportado)" },
+                    { value: "comun", label: "Régimen común (AEAT)" },
+                    { value: "foral", label: "País Vasco / Navarra (no soportado)" },
                   ]}
                 />
               </div>
@@ -957,8 +953,8 @@ export default function Calculator() {
               <SelectField id="ccaa" label="CCAA (opcional)" value={ccaa} onChange={setCcaa} options={ccaaOptions} />
 
               {region !== "comun" ? (
-                <div className="rounded-2xl border border-amber-200 bg-amber-50/80 p-4 text-sm text-amber-700 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
-                  Regimen foral no soportado. La herramienta esta preparada solo para regimen comun.
+                <div className="border-l-2 border-brand-600 bg-[#F5F6F8] px-4 py-3 text-sm leading-relaxed text-[#3D4046]">
+                  Régimen foral no soportado. La herramienta está preparada solo para régimen común.
                 </div>
               ) : null}
             </div>
@@ -968,22 +964,22 @@ export default function Calculator() {
               <StepHeader
                 stepId="B"
                 title="Ingresos y retenciones"
-                description="Completa los importes anuales. Si un campo no aplica, dejalo en blanco."
+                description="Completa los importes anuales. Si un campo no aplica, déjalo en blanco."
                 icon={Icons.wallet}
               />
 
               <div className={`grid gap-4 ${showWork && showAutonomo ? "xl:grid-cols-2" : ""}`}>
                 {showWork ? (
-                  <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-[0_16px_40px_-30px_rgba(14,29,74,0.45)] dark:border-white/[0.07] dark:bg-white/[0.02]">
+                  <div className={panelCard}>
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-start gap-3">
                       <IconBadge>{Icons.briefcase}</IconBadge>
                       <div>
-                        <h5 className="text-base font-semibold text-slate-900 dark:text-slate-100">Cuenta ajena</h5>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">Incluye nomina principal y otros pagadores.</p>
+                        <h5 className="text-base font-semibold tracking-tight text-[#101014]">Cuenta ajena</h5>
+                        <p className="mt-0.5 text-xs leading-relaxed text-[#63666D]">Incluye nómina principal y otros pagadores.</p>
                       </div>
                     </div>
-                    <span className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-600 dark:text-sky-200">Nomina</span>
+                    <span className={eyebrow}>Nómina</span>
                   </div>
 
                     <div className="mt-4 grid gap-4 xl:grid-cols-2">
@@ -996,22 +992,22 @@ export default function Calculator() {
                         value={workExpenses}
                         onChange={setWorkExpenses}
                         placeholder={String(rules.defaultWorkExpense)}
-                        help="Si lo dejas vacio, se usan 2000 EUR por defecto."
+                        help="Si lo dejas vacío, se usan 2000 EUR por defecto."
                         suffix="EUR"
                       />
                     </div>
 
                     <div className="mt-5 space-y-3">
                       <div className="flex items-center justify-between gap-3">
-                        <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">Otros pagadores (opcional)</p>
+                        <p className="text-sm font-semibold text-[#101014]">Otros pagadores (opcional)</p>
                         <Button variant="ghost" size="sm" onClick={addOtherPayer}>
                           {Icons.plus}
                           Agregar pagador
                         </Button>
                       </div>
                       {otherPayers.length === 0 ? (
-                        <p className="text-xs text-slate-500 dark:text-slate-400">
-                        Usa esta seccion si tuviste mas de un pagador durante el año.
+                        <p className="text-xs leading-relaxed text-[#63666D]">
+                        Usa esta sección si tuviste más de un pagador durante el año.
                         </p>
                       ) : (
                         <div className="space-y-3">
@@ -1041,7 +1037,7 @@ export default function Calculator() {
                               <button
                                 type="button"
                                 onClick={() => removeOtherPayer(payer.id)}
-                                className="h-11 rounded-full border border-slate-200 px-3 text-xs font-semibold text-slate-600 hover:border-sky-300 hover:text-sky-700 dark:border-white/[0.07] dark:text-slate-300"
+                                className="h-10 rounded-[2px] border border-[#C9CCD3] px-3 text-xs font-medium text-[#3D4046] transition-colors hover:border-[#101014] hover:text-[#101014]"
                               >
                                 Quitar
                               </button>
@@ -1052,7 +1048,7 @@ export default function Calculator() {
                     </div>
 
                     {otherPayers.length > 0 ? (
-                      <div className="mt-4 rounded-2xl border border-dashed border-slate-200 bg-white/85 px-4 py-3 text-xs text-slate-600 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300">
+                      <div className={`mt-4 ${mutedBlock}`}>
                         Totales extras: {formatCurrency(otherTotals.gross)} bruto, {formatCurrency(otherTotals.withhold)} retenciones, {formatCurrency(otherTotals.ss)} SS.
                       </div>
                     ) : null}
@@ -1060,29 +1056,25 @@ export default function Calculator() {
                 ) : null}
 
                 {showAutonomo ? (
-                  <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-[0_16px_40px_-30px_rgba(14,29,74,0.45)] dark:border-white/[0.07] dark:bg-white/[0.02]">
+                  <div className={panelCard}>
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-start gap-3">
                       <IconBadge>{Icons.bolt}</IconBadge>
                       <div>
-                        <h5 className="text-base font-semibold text-slate-900 dark:text-slate-100">Autonomo</h5>
-                        <p className="text-xs text-slate-500 dark:text-slate-400">Selecciona si tributas en estimacion directa o por modulos.</p>
+                        <h5 className="text-base font-semibold tracking-tight text-[#101014]">Autónomo</h5>
+                        <p className="mt-0.5 text-xs leading-relaxed text-[#63666D]">Selecciona si tributas en estimación directa o por módulos.</p>
                       </div>
                     </div>
-                    <span className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-600 dark:text-sky-200">Actividad</span>
+                    <span className={eyebrow}>Actividad</span>
                   </div>
 
                   <div className="mt-4 flex flex-wrap gap-2">
                     <button
                       type="button"
                       onClick={() => setAutonomoMode("directa")}
-                      className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                        autonomoMode === "directa"
-                          ? "border-sky-400 bg-sky-50/80 text-sky-700 dark:border-sky-400/60 dark:bg-sky-500/10 dark:text-sky-200"
-                          : "border-slate-200 bg-white/70 text-slate-600 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300"
-                      }`}
+                      className={`${chipBase} ${autonomoMode === "directa" ? chipOn : chipOff}`}
                     >
-                      Estimacion directa
+                      Estimación directa
                     </button>
                     <button
                       type="button"
@@ -1091,20 +1083,16 @@ export default function Calculator() {
                         setIncludeOffice(false);
                         setIncludeMeals(false);
                       }}
-                      className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                        autonomoMode === "modulos"
-                          ? "border-sky-400 bg-sky-50/80 text-sky-700 dark:border-sky-400/60 dark:bg-sky-500/10 dark:text-sky-200"
-                          : "border-slate-200 bg-white/70 text-slate-600 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300"
-                      }`}
+                      className={`${chipBase} ${autonomoMode === "modulos" ? chipOn : chipOff}`}
                     >
-                      Modulos (estimacion objetiva)
+                      Módulos (estimación objetiva)
                     </button>
                   </div>
 
                   {autonomoMode === "directa" ? (
                     <div className="mt-4 space-y-4">
                       <div className="grid gap-4 xl:grid-cols-2">
-                        <NumberField id="auto-income" label="Ingresos integros (sin IVA)" value={autoIncome} onChange={setAutoIncome} suffix="EUR" />
+                        <NumberField id="auto-income" label="Ingresos íntegros (sin IVA)" value={autoIncome} onChange={setAutoIncome} suffix="EUR" />
                         <NumberField
                           id="auto-expenses"
                           label="Gastos deducibles (total anual)"
@@ -1119,27 +1107,19 @@ export default function Calculator() {
 
                       <div className="grid gap-3 xl:grid-cols-2">
                         <div className="space-y-2">
-                          <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Cuota RETA</p>
+                          <p className="text-sm font-semibold text-[#101014]">Cuota RETA</p>
                           <div className="flex flex-wrap gap-2">
                             <button
                               type="button"
                               onClick={() => setRetaMode("annual")}
-                              className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                                retaMode === "annual"
-                                  ? "border-sky-400 bg-sky-50/80 text-sky-700 dark:border-sky-400/60 dark:bg-sky-500/10 dark:text-sky-200"
-                                  : "border-slate-200 bg-white/70 text-slate-600 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300"
-                              }`}
+                              className={`${chipBase} ${retaMode === "annual" ? chipOn : chipOff}`}
                             >
                               Total anual
                             </button>
                             <button
                               type="button"
                               onClick={() => setRetaMode("monthly")}
-                              className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                                retaMode === "monthly"
-                                  ? "border-sky-400 bg-sky-50/80 text-sky-700 dark:border-sky-400/60 dark:bg-sky-500/10 dark:text-sky-200"
-                                  : "border-slate-200 bg-white/70 text-slate-600 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300"
-                              }`}
+                              className={`${chipBase} ${retaMode === "monthly" ? chipOn : chipOff}`}
                             >
                               Estimar con cuota mensual
                             </button>
@@ -1159,51 +1139,43 @@ export default function Calculator() {
                         )}
                       </div>
 
-                      <div className="rounded-2xl border border-sky-100 bg-sky-50/70 px-4 py-3 text-xs text-sky-700 dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-200">
+                      <div className={noteBlock}>
                         Gastos totales con helpers aplicados: {formatCurrency(autoExpensesTotal)}.
                       </div>
                     </div>
                   ) : (
                     <div className="mt-4 space-y-4">
-                      <div className="rounded-2xl border border-sky-100 bg-sky-50/70 px-4 py-3 text-xs text-sky-700 dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-200">
-                        En modulos, el beneficio se calcula por parametros objetivos. El 1% en factura es una retencion a cuenta, no el impuesto final.
+                      <div className={noteBlock}>
+                        En módulos, el beneficio se calcula por parámetros objetivos. El 1% en factura es una retención a cuenta, no el impuesto final.
                       </div>
 
                       <div className="grid gap-4 xl:grid-cols-2">
                         <SelectField
                           id="modulos-year"
-                          label="Año fiscal (modulos)"
+                          label="Año fiscal (módulos)"
                           value={String(modulosYear)}
                           onChange={(value) => setModulosYear(Number(value) as ModulosYear)}
                           options={[{ value: "2025", label: "2025" }]}
                         />
                         <div className="space-y-2">
-                          <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Modo de entrada</p>
+                          <p className="text-sm font-semibold text-[#101014]">Modo de entrada</p>
                           <div className="flex flex-wrap gap-2">
                             <button
                               type="button"
                               onClick={() => setModulosMode("simple")}
-                              className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                                modulosMode === "simple"
-                                  ? "border-sky-400 bg-sky-50/80 text-sky-700 dark:border-sky-400/60 dark:bg-sky-500/10 dark:text-sky-200"
-                                  : "border-slate-200 bg-white/70 text-slate-600 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300"
-                              }`}
+                              className={`${chipBase} ${modulosMode === "simple" ? chipOn : chipOff}`}
                             >
                               Simple (recomendado)
                             </button>
                             <button
                               type="button"
                               onClick={() => setModulosMode("asistido")}
-                              className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-                                modulosMode === "asistido"
-                                  ? "border-sky-400 bg-sky-50/80 text-sky-700 dark:border-sky-400/60 dark:bg-sky-500/10 dark:text-sky-200"
-                                  : "border-slate-200 bg-white/70 text-slate-600 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300"
-                              }`}
+                              className={`${chipBase} ${modulosMode === "asistido" ? chipOn : chipOff}`}
                             >
                               Asistido
                             </button>
                           </div>
-                          <p className="text-xs text-slate-500 dark:text-slate-400">El modo simple usa tu rendimiento anual del Modelo 131.</p>
+                          <p className={fieldHelp}>El modo simple usa tu rendimiento anual del Modelo 131.</p>
                         </div>
                       </div>
 
@@ -1219,15 +1191,15 @@ export default function Calculator() {
                             />
                             <NumberField
                               id="modulos-days"
-                              label="Dias de actividad en el año"
+                              label="Días de actividad en el año"
                               value={modulosDays}
                               onChange={setModulosDays}
                               step="1"
                             />
                           </div>
                           <Toggle
-                            label="El rendimiento ya esta prorrateado por dias"
-                            description="Si es asi, no se prorratea de nuevo."
+                            label="El rendimiento ya está prorrateado por días"
+                            description="Si es así, no se prorratea de nuevo."
                             checked={modulosNetProrated}
                             onChange={() => setModulosNetProrated((prev) => !prev)}
                           />
@@ -1241,7 +1213,7 @@ export default function Calculator() {
                             onChange={handleModulosActivityChange}
                             listId="modulos-activity-list"
                             placeholder="Ej: 659.4 - Quioscos"
-                            help="Selecciona un epigrafe para desplegar los modulos."
+                            help="Selecciona un epígrafe para desplegar los módulos."
                           />
                           <datalist id="modulos-activity-list">
                             {modulosActivityOptions.map((option) => (
@@ -1303,7 +1275,7 @@ export default function Calculator() {
                               <div className="grid gap-4 xl:grid-cols-2">
                                 <NumberField
                                   id="modulos-days-assisted"
-                                  label="Dias de actividad en el año"
+                                  label="Días de actividad en el año"
                                   value={modulosDays}
                                   onChange={setModulosDays}
                                   step="1"
@@ -1318,16 +1290,16 @@ export default function Calculator() {
                               </div>
                             </div>
                           ) : (
-                            <div className="rounded-2xl border border-dashed border-slate-200 bg-white/85 px-4 py-3 text-xs text-slate-600 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300">
-                              Selecciona una actividad para mostrar los modulos. El listado es parcial y ampliable en el dataset.
+                            <div className={mutedBlock}>
+                              Selecciona una actividad para mostrar los módulos. El listado es parcial y ampliable en el dataset.
                             </div>
                           )}
                         </div>
                       )}
 
-                      <div className="rounded-2xl border border-slate-200 bg-white/85 p-4 shadow-[0_14px_34px_-26px_rgba(14,29,74,0.35)] dark:border-white/[0.07] dark:bg-white/[0.03]">
+                      <div className="rounded-[4px] border border-[#E4E6EA] bg-white p-4">
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">Pagos a cuenta</span>
+                          <span className={eyebrow}>Pagos a cuenta</span>
                         </div>
                         <div className="mt-3 grid gap-4 xl:grid-cols-2">
                           <NumberField
@@ -1336,7 +1308,7 @@ export default function Calculator() {
                             value={modulosPayments131}
                             onChange={setModulosPayments131}
                             suffix="EUR"
-                            help="Si lo dejas vacio, se estiman segun el rendimiento."
+                            help="Si lo dejas vacío, se estiman según el rendimiento."
                           />
                           <NumberField
                             id="modulos-retentions"
@@ -1358,7 +1330,7 @@ export default function Calculator() {
 
                         <div className="mt-3">
                           <Toggle
-                            label="Mi actividad aplica retencion del 1% en modulos"
+                            label="Mi actividad aplica retención del 1% en módulos"
                             description="Solo algunas actividades empresariales."
                             checked={modulosWithholdingApplies}
                             onChange={() => setModulosWithholdingApplies((prev) => !prev)}
@@ -1368,7 +1340,7 @@ export default function Calculator() {
                         <div className="mt-3 grid gap-4 xl:grid-cols-2">
                           <TextField
                             id="modulos-withholding-search"
-                            label="Buscar actividad con retencion 1% (opcional)"
+                            label="Buscar actividad con retención 1% (opcional)"
                             value={modulosWithholdingSearch}
                             onChange={setModulosWithholdingSearch}
                             listId="modulos-withholding-list"
@@ -1377,7 +1349,7 @@ export default function Calculator() {
                           {modulosWithholdingApplies ? (
                             <NumberField
                               id="modulos-withholding-base"
-                              label="Base facturada sujeta a retencion 1%"
+                              label="Base facturada sujeta a retención 1%"
                               value={modulosWithholdingBase}
                               onChange={setModulosWithholdingBase}
                               suffix="EUR"
@@ -1391,14 +1363,14 @@ export default function Calculator() {
                         </datalist>
 
                         {modulosWithholdingMatches.length > 0 ? (
-                          <div className="mt-3 rounded-2xl border border-dashed border-slate-200 bg-white/85 px-3 py-2 text-xs text-slate-600 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300">
+                          <div className={`mt-3 ${mutedBlock}`}>
                             Coincidencias:{" "}
                             {modulosWithholdingMatches.map((item) => `${item.iaeGroupOrEpigrafe} ${item.name}`).join(" | ")}
                           </div>
                         ) : null}
                         {modulosActivityHasWithholding ? (
-                          <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50/80 px-3 py-2 text-xs text-amber-700 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
-                            Esta actividad aparece en la lista de retencion 1%. Activa la retencion si aplica a tu facturacion.
+                          <div className={`mt-3 ${noteBlock}`}>
+                            Esta actividad aparece en la lista de retención 1%. Activa la retención si aplica a tu facturación.
                           </div>
                         ) : null}
                       </div>
@@ -1420,7 +1392,7 @@ export default function Calculator() {
                         />
                       </div>
 
-                      <div className="rounded-2xl border border-sky-100 bg-sky-50/70 px-4 py-3 text-xs text-sky-700 dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-200">
+                      <div className={noteBlock}>
                         Rendimiento estimado: {formatCurrency(modulosNetValue)}. Pagos 131 estimados: {formatCurrency(modulosPaymentsManualProvided ? modulosPaymentsManual : modulosPaymentsEstimate)}.
                       </div>
                     </div>
@@ -1429,12 +1401,12 @@ export default function Calculator() {
                 ) : null}
               </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-[0_16px_40px_-30px_rgba(14,29,74,0.45)] dark:border-white/[0.07] dark:bg-white/[0.02]">
+              <div className={panelCard}>
                 <div className="flex items-start gap-3">
                   <IconBadge>{Icons.banknote}</IconBadge>
                   <div>
-                    <h5 className="text-base font-semibold text-slate-900 dark:text-slate-100">Rentas del ahorro (opcional)</h5>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">Intereses, dividendos, fondos o plusvalias.</p>
+                    <h5 className="text-base font-semibold tracking-tight text-[#101014]">Rentas del ahorro (opcional)</h5>
+                    <p className="mt-0.5 text-xs leading-relaxed text-[#63666D]">Intereses, dividendos, fondos o plusvalías.</p>
                   </div>
                 </div>
                 <div className="mt-3">
@@ -1447,8 +1419,8 @@ export default function Calculator() {
             <div className="space-y-6">
               <StepHeader
                 stepId="C"
-                title="Familia y situacion personal"
-                description="Datos basicos para minimo personal y reducciones."
+                title="Familia y situación personal"
+                description="Datos básicos para mínimo personal y reducciones."
                 icon={Icons.users}
               />
 
@@ -1456,7 +1428,7 @@ export default function Calculator() {
                 <NumberField id="age" label="Edad" value={age} onChange={setAge} step="1" suffix="años" />
                 <SelectField
                   id="joint"
-                  label="Tributacion"
+                  label="Tributación"
                   value={jointType}
                   onChange={setJointType}
                   options={[
@@ -1465,7 +1437,7 @@ export default function Calculator() {
                     { value: "singleParent", label: "Conjunta (monoparental)" },
                   ]}
                 />
-                <NumberField id="dependents" label="Numero de descendientes (0-4)" value={dependents} onChange={setDependents} step="1" />
+                <NumberField id="dependents" label="Número de descendientes (0-4)" value={dependents} onChange={setDependents} step="1" />
                 <NumberField
                   id="dependents-under3"
                   label="Descendientes menores de 3 años"
@@ -1477,11 +1449,11 @@ export default function Calculator() {
 
               <NumberField
                 id="other-income"
-                label="Otras rentas no trabajo (estimacion)"
+                label="Otras rentas no trabajo (estimación)"
                 value={otherIncome}
                 onChange={setOtherIncome}
                 suffix="EUR"
-                help="Solo se usa para validar reduccion por rendimientos del trabajo."
+                help="Solo se usa para validar reducción por rendimientos del trabajo."
               />
             </div>
           )}
@@ -1490,31 +1462,31 @@ export default function Calculator() {
               <StepHeader
                 stepId="D"
                 title="Gastos helper (opcional)"
-                description="Helpers rapidos para gastos deducibles."
+                description="Helpers rápidos para gastos deducibles."
                 icon={Icons.tools}
               />
 
               {!showAutonomo ? (
-                <div className="rounded-2xl border border-dashed border-slate-200 bg-white/85 p-4 text-sm text-slate-600 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300">
-                  Los helpers aplican solo a autonomo. Puedes avanzar sin completar esta seccion.
+                <div className="border border-[#E4E6EA] bg-[#F5F6F8] px-4 py-3 text-sm leading-relaxed text-[#3D4046]">
+                  Los helpers aplican solo a autónomo. Puedes avanzar sin completar esta sección.
                 </div>
               ) : null}
 
               {isModulos ? (
-                <div className="rounded-2xl border border-dashed border-slate-200 bg-white/85 p-4 text-sm text-slate-600 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300">
-                  Los helpers no aplican al regimen de modulos. Puedes continuar al siguiente paso.
+                <div className="border border-[#E4E6EA] bg-[#F5F6F8] px-4 py-3 text-sm leading-relaxed text-[#3D4046]">
+                  Los helpers no aplican al régimen de módulos. Puedes continuar al siguiente paso.
                 </div>
               ) : null}
 
               {showAutonomo && !isModulos ? (
                 <>
                   <div className="grid gap-4 xl:grid-cols-2">
-                    <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-[0_16px_40px_-30px_rgba(14,29,74,0.45)] dark:border-white/[0.07] dark:bg-white/[0.02]">
+                    <div className={panelCard}>
                       <div className="flex items-start gap-3">
                         <IconBadge>{Icons.home}</IconBadge>
                         <div>
-                          <h5 className="text-base font-semibold text-slate-900 dark:text-slate-100">Oficina en casa</h5>
-                          <p className="text-xs text-slate-500 dark:text-slate-400">
+                          <h5 className="text-base font-semibold tracking-tight text-[#101014]">Oficina en casa</h5>
+                          <p className="mt-0.5 text-xs leading-relaxed text-[#63666D]">
                             Deducible = suministros x (m2 afectos / m2 vivienda) x 30%.
                           </p>
                         </div>
@@ -1530,65 +1502,65 @@ export default function Calculator() {
                           suffix="EUR"
                         />
                       </div>
-                      <div className="mt-3 rounded-2xl border border-dashed border-slate-200 bg-white/85 px-3 py-2 text-xs text-slate-600 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300">
+                      <div className={`mt-3 ${mutedBlock}`}>
                         Deducible estimado: {formatCurrency(officeDeduction)}.
                       </div>
                       <div className="mt-3">
                         <Toggle
                           label="Incluir oficina en gastos deducibles"
-                          description="Se suma al total de gastos de autonomo."
+                          description="Se suma al total de gastos de autónomo."
                           checked={includeOffice}
                           onChange={() => setIncludeOffice((prev) => !prev)}
                         />
                       </div>
                     </div>
 
-                    <div className="rounded-2xl border border-slate-200 bg-white/90 p-5 shadow-[0_16px_40px_-30px_rgba(14,29,74,0.45)] dark:border-white/[0.07] dark:bg-white/[0.02]">
+                    <div className={panelCard}>
                       <div className="flex items-start gap-3">
                         <IconBadge>{Icons.meal}</IconBadge>
                         <div>
-                          <h5 className="text-base font-semibold text-slate-900 dark:text-slate-100">Manutencion (maximos)</h5>
-                          <p className="text-xs text-slate-500 dark:text-slate-400">
-                            Calcula el limite deducible segun dias y pernocta.
+                          <h5 className="text-base font-semibold tracking-tight text-[#101014]">Manutención (máximos)</h5>
+                          <p className="mt-0.5 text-xs leading-relaxed text-[#63666D]">
+                            Calcula el límite deducible según días y pernocta.
                           </p>
                         </div>
                       </div>
                       <div className="mt-3 grid gap-3 xl:grid-cols-2">
                         <NumberField
                           id="meals-spain-no"
-                          label="Dias sin pernocta (Espana)"
+                          label="Días sin pernocta (España)"
                           value={mealsSpainNoOvernight}
                           onChange={setMealsSpainNoOvernight}
                           step="1"
                         />
                         <NumberField
                           id="meals-spain-yes"
-                          label="Dias con pernocta (Espana)"
+                          label="Días con pernocta (España)"
                           value={mealsSpainOvernight}
                           onChange={setMealsSpainOvernight}
                           step="1"
                         />
                         <NumberField
                           id="meals-abroad-no"
-                          label="Dias sin pernocta (Extranjero)"
+                          label="Días sin pernocta (Extranjero)"
                           value={mealsAbroadNoOvernight}
                           onChange={setMealsAbroadNoOvernight}
                           step="1"
                         />
                         <NumberField
                           id="meals-abroad-yes"
-                          label="Dias con pernocta (Extranjero)"
+                          label="Días con pernocta (Extranjero)"
                           value={mealsAbroadOvernight}
                           onChange={setMealsAbroadOvernight}
                           step="1"
                         />
                       </div>
-                      <div className="mt-3 rounded-2xl border border-dashed border-slate-200 bg-white/85 px-3 py-2 text-xs text-slate-600 dark:border-white/[0.07] dark:bg-white/[0.02] dark:text-slate-300">
-                        Limite deducible: {formatCurrency(mealsDeduction)}.
+                      <div className={`mt-3 ${mutedBlock}`}>
+                        Límite deducible: {formatCurrency(mealsDeduction)}.
                       </div>
                       <div className="mt-3">
                         <Toggle
-                          label="Incluir manutencion en gastos deducibles"
+                          label="Incluir manutención en gastos deducibles"
                           description="Solo si cumple requisitos de factura y medio de pago."
                           checked={includeMeals}
                           onChange={() => setIncludeMeals((prev) => !prev)}
@@ -1597,8 +1569,8 @@ export default function Calculator() {
                     </div>
                   </div>
 
-                  <div className="rounded-2xl border border-sky-100 bg-sky-50/70 px-4 py-3 text-xs text-sky-700 dark:border-sky-500/40 dark:bg-sky-500/10 dark:text-sky-200">
-                    Total helpers aplicados: {formatCurrency(helpersTotal)}. Gastos totales de autonomo: {formatCurrency(autoExpensesTotal)}.
+                  <div className={noteBlock}>
+                    Total helpers aplicados: {formatCurrency(helpersTotal)}. Gastos totales de autónomo: {formatCurrency(autoExpensesTotal)}.
                   </div>
                 </>
               ) : null}
@@ -1609,131 +1581,129 @@ export default function Calculator() {
               <StepHeader
                 stepId="E"
                 title="Resultado"
-                description="Estimacion orientativa basada en los datos introducidos."
+                description="Estimación orientativa basada en los datos introducidos."
                 icon={Icons.chart}
               />
 
               {!canCalculate ? (
-                <div className="rounded-2xl border border-amber-200 bg-amber-50/80 p-4 text-sm text-amber-700 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
-                  Completa los datos de ingresos para obtener la estimacion. El calculo esta bloqueado si seleccionas regimen foral.
+                <div className="border-l-2 border-brand-600 bg-[#F5F6F8] px-4 py-3 text-sm leading-relaxed text-[#3D4046]">
+                  Completa los datos de ingresos para obtener la estimación. El cálculo está bloqueado si seleccionas régimen foral.
                 </div>
               ) : null}
 
               {canCalculate && result ? (
-                <div className="space-y-4">
-                  {/* Hero result */}
-                  <div className={`overflow-hidden rounded-2xl border p-6 ${
-                    result.cuotaDiferencial >= 0
-                      ? "border-amber-200 bg-amber-50/60 dark:border-amber-500/30 dark:bg-amber-500/[0.06]"
-                      : "border-emerald-200 bg-emerald-50/60 dark:border-emerald-500/30 dark:bg-emerald-500/[0.06]"
-                  }`}>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500 mb-3">
-                      Cuota diferencial
-                    </p>
-                    <div className="flex flex-wrap items-baseline gap-3">
-                      <span className={`text-5xl font-black tabular-nums leading-none ${
-                        result.cuotaDiferencial >= 0
-                          ? "text-amber-600 dark:text-amber-400"
-                          : "text-emerald-600 dark:text-emerald-400"
-                      }`}>
+                <div className="space-y-6">
+                  {/* Resultado principal */}
+                  <div className="border border-[#E4E6EA] bg-[#F5F6F8] p-6 sm:p-8">
+                    <p className={eyebrow}>Cuota diferencial</p>
+                    <div className="mt-4 flex flex-wrap items-baseline gap-4">
+                      <span className="text-4xl sm:text-5xl font-semibold tabular-nums leading-none tracking-tight text-[#101014]">
                         {formatCurrency(Math.abs(result.cuotaDiferencial))}
                       </span>
-                      <span className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] ${
+                      <span className={`px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.12em] ${
                         result.cuotaDiferencial >= 0
-                          ? "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300"
-                          : "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300"
+                          ? "border border-[#101014] text-[#101014]"
+                          : "border border-brand-600 text-brand-600"
                       }`}>
                         {result.cuotaDiferencial >= 0 ? "A pagar" : "A devolver"}
                       </span>
                     </div>
-                    <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
-                      Cuota liquida ({formatCurrency(result.cuotaLiquida)}) − retenciones y pagos ({formatCurrency(result.totalWithheld)})
+                    <p className="mt-4 text-xs leading-relaxed text-[#63666D]">
+                      Cuota líquida ({formatCurrency(result.cuotaLiquida)}) − retenciones y pagos ({formatCurrency(result.totalWithheld)})
                     </p>
                   </div>
 
-                  {/* 4-cell breakdown */}
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="overflow-hidden rounded-xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-4">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Base general</p>
-                      <p className="mt-1.5 text-xl font-bold tabular-nums text-slate-900 dark:text-white">{formatCurrency(result.baseGeneralAfterJoint)}</p>
-                      <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Cuota: {formatCurrency(result.quotaGeneral)}</p>
+                  {/* Desglose en cuatro bloques */}
+                  <div className="grid border-t border-[#E4E6EA] sm:grid-cols-2">
+                    <div className="border-b border-[#E4E6EA] py-5 sm:border-r sm:pr-6">
+                      <p className={eyebrow}>Base general</p>
+                      <p className="mt-2 text-2xl font-semibold tabular-nums tracking-tight text-[#101014]">{formatCurrency(result.baseGeneralAfterJoint)}</p>
+                      <p className="mt-1 text-xs text-[#63666D]">Cuota: {formatCurrency(result.quotaGeneral)}</p>
                     </div>
-                    <div className="overflow-hidden rounded-xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-4">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Base ahorro</p>
-                      <p className="mt-1.5 text-xl font-bold tabular-nums text-slate-900 dark:text-white">{formatCurrency(result.baseSavingsAfterJoint)}</p>
-                      <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Cuota: {formatCurrency(result.quotaSavings)}</p>
+                    <div className="border-b border-[#E4E6EA] py-5 sm:pl-6">
+                      <p className={eyebrow}>Base ahorro</p>
+                      <p className="mt-2 text-2xl font-semibold tabular-nums tracking-tight text-[#101014]">{formatCurrency(result.baseSavingsAfterJoint)}</p>
+                      <p className="mt-1 text-xs text-[#63666D]">Cuota: {formatCurrency(result.quotaSavings)}</p>
                     </div>
-                    <div className="overflow-hidden rounded-xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-4">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Deducciones</p>
-                      <p className="mt-1.5 text-xl font-bold tabular-nums text-slate-900 dark:text-white">{formatCurrency(result.deduccion340)}</p>
-                      <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Cuota integra: {formatCurrency(result.cuotaIntegra)}</p>
+                    <div className="border-b border-[#E4E6EA] py-5 sm:border-r sm:pr-6">
+                      <p className={eyebrow}>Deducciones</p>
+                      <p className="mt-2 text-2xl font-semibold tabular-nums tracking-tight text-[#101014]">{formatCurrency(result.deduccion340)}</p>
+                      <p className="mt-1 text-xs text-[#63666D]">Cuota íntegra: {formatCurrency(result.cuotaIntegra)}</p>
                     </div>
-                    <div className="overflow-hidden rounded-xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02] p-4">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Pagos a cuenta</p>
-                      <p className="mt-1.5 text-xl font-bold tabular-nums text-slate-900 dark:text-white">{formatCurrency(result.totalWithheld)}</p>
-                      <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Retenciones + fraccionados</p>
+                    <div className="border-b border-[#E4E6EA] py-5 sm:pl-6">
+                      <p className={eyebrow}>Pagos a cuenta</p>
+                      <p className="mt-2 text-2xl font-semibold tabular-nums tracking-tight text-[#101014]">{formatCurrency(result.totalWithheld)}</p>
+                      <p className="mt-1 text-xs text-[#63666D]">Retenciones + fraccionados</p>
                     </div>
                   </div>
 
-                  {/* Detail accordion */}
-                  <details className="group overflow-hidden rounded-xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02]">
-                    <summary className="flex cursor-pointer items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-700 dark:text-slate-200 select-none">
-                      Detalle del calculo
-                      <span className="text-slate-400 transition-transform group-open:rotate-180">
-                        <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="m6 8 4 4 4-4" /></svg>
-                      </span>
-                    </summary>
-                    <div className="border-t border-slate-100 dark:border-white/[0.05] px-4 py-3 space-y-2.5">
-                      <SummaryRow label="Rendimiento neto trabajo" value={formatCurrency(result.workNet)} />
-                      <SummaryRow label="Reduccion trabajo" value={formatCurrency(result.workReduction)} />
-                      <SummaryRow label="Rendimiento actividad" value={formatCurrency(result.autonomoNet)} />
-                      <SummaryRow label="Gasto dificil justificacion" value={formatCurrency(result.difficultJustification)} />
-                      <SummaryRow label="Reduccion conjunta aplicada" value={formatCurrency(result.jointReductionApplied)} />
-                      <SummaryRow label="Minimo personal aplicado" value={formatCurrency(result.personalMinimumApplied)} />
-                    </div>
-                  </details>
+                  {/* Detalle del calculo */}
+                  <div className="divide-y divide-[#E4E6EA] border-y border-[#E4E6EA]">
+                    <details className="group">
+                      <summary className="flex cursor-pointer select-none list-none items-center justify-between gap-3 py-4 text-sm font-medium text-[#101014] [&::-webkit-details-marker]:hidden">
+                        Detalle del cálculo
+                        <span aria-hidden className="flex-none text-[#101014]">
+                          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+                            <path d="M10 4v12" className="group-open:hidden" />
+                            <path d="M4 10h12" />
+                          </svg>
+                        </span>
+                      </summary>
+                      <div className="divide-y divide-[#E4E6EA] pb-4">
+                        <SummaryRow label="Rendimiento neto trabajo" value={formatCurrency(result.workNet)} />
+                        <SummaryRow label="Reducción trabajo" value={formatCurrency(result.workReduction)} />
+                        <SummaryRow label="Rendimiento actividad" value={formatCurrency(result.autonomoNet)} />
+                        <SummaryRow label="Gasto difícil justificación" value={formatCurrency(result.difficultJustification)} />
+                        <SummaryRow label="Reducción conjunta aplicada" value={formatCurrency(result.jointReductionApplied)} />
+                        <SummaryRow label="Mínimo personal aplicado" value={formatCurrency(result.personalMinimumApplied)} />
+                      </div>
+                    </details>
 
-                  <details className="group overflow-hidden rounded-xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02]">
-                    <summary className="flex cursor-pointer items-center justify-between gap-3 px-4 py-3 text-sm font-semibold text-slate-700 dark:text-slate-200 select-none">
-                      Desglose por tramos
-                      <span className="text-slate-400 transition-transform group-open:rotate-180">
-                        <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="m6 8 4 4 4-4" /></svg>
-                      </span>
-                    </summary>
-                    <div className="border-t border-slate-100 dark:border-white/[0.05] px-4 py-3 space-y-4">
-                      <div>
-                        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-2">Base general</p>
-                        <div className="space-y-1.5">
-                          {result.generalScale.breakdown.map((item, index) => (
-                            <div key={`general-${index}`} className="flex items-center justify-between gap-3 text-xs">
-                              <span className="text-slate-500 dark:text-slate-400 tabular-nums">
-                                {formatNumber(item.from)} — {item.to ? formatNumber(item.to) : "∞"}
-                              </span>
-                              <span className="text-slate-500 dark:text-slate-400">{formatPercent(item.rate)}</span>
-                              <span className="font-semibold text-slate-700 dark:text-slate-200 tabular-nums">{formatCurrency(item.tax)}</span>
-                            </div>
-                          ))}
+                    <details className="group">
+                      <summary className="flex cursor-pointer select-none list-none items-center justify-between gap-3 py-4 text-sm font-medium text-[#101014] [&::-webkit-details-marker]:hidden">
+                        Desglose por tramos
+                        <span aria-hidden className="flex-none text-[#101014]">
+                          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+                            <path d="M10 4v12" className="group-open:hidden" />
+                            <path d="M4 10h12" />
+                          </svg>
+                        </span>
+                      </summary>
+                      <div className="space-y-6 pb-5">
+                        <div>
+                          <p className={eyebrow}>Base general</p>
+                          <div className="mt-2 divide-y divide-[#E4E6EA]">
+                            {result.generalScale.breakdown.map((item, index) => (
+                              <div key={`general-${index}`} className="flex items-center justify-between gap-3 py-2 text-xs">
+                                <span className="tabular-nums text-[#63666D]">
+                                  {formatNumber(item.from)} — {item.to ? formatNumber(item.to) : "∞"}
+                                </span>
+                                <span className="tabular-nums text-[#63666D]">{formatPercent(item.rate)}</span>
+                                <span className="font-semibold tabular-nums text-[#101014]">{formatCurrency(item.tax)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <p className={eyebrow}>Base ahorro</p>
+                          <div className="mt-2 divide-y divide-[#E4E6EA]">
+                            {result.savingsScale.breakdown.map((item, index) => (
+                              <div key={`savings-${index}`} className="flex items-center justify-between gap-3 py-2 text-xs">
+                                <span className="tabular-nums text-[#63666D]">
+                                  {formatNumber(item.from)} — {item.to ? formatNumber(item.to) : "∞"}
+                                </span>
+                                <span className="tabular-nums text-[#63666D]">{formatPercent(item.rate)}</span>
+                                <span className="font-semibold tabular-nums text-[#101014]">{formatCurrency(item.tax)}</span>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
-                      <div>
-                        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 mb-2">Base ahorro</p>
-                        <div className="space-y-1.5">
-                          {result.savingsScale.breakdown.map((item, index) => (
-                            <div key={`savings-${index}`} className="flex items-center justify-between gap-3 text-xs">
-                              <span className="text-slate-500 dark:text-slate-400 tabular-nums">
-                                {formatNumber(item.from)} — {item.to ? formatNumber(item.to) : "∞"}
-                              </span>
-                              <span className="text-slate-500 dark:text-slate-400">{formatPercent(item.rate)}</span>
-                              <span className="font-semibold text-slate-700 dark:text-slate-200 tabular-nums">{formatCurrency(item.tax)}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </details>
+                    </details>
+                  </div>
 
-                  <p className="text-xs text-slate-400 dark:text-slate-500 px-1">
-                    Estimacion orientativa. No sustituye asesoramiento profesional. Normativa cambia por año y CCAA.
+                  <p className="text-xs leading-relaxed text-[#63666D]">
+                    Estimación orientativa. No sustituye asesoramiento profesional. Normativa cambia por año y CCAA.
                   </p>
                 </div>
               ) : null}
@@ -1742,12 +1712,12 @@ export default function Calculator() {
         </div>
 
         {error ? (
-          <div className="rounded-xl border border-amber-200 bg-amber-50/80 px-4 py-3 text-sm text-amber-700 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-200">
+          <div role="alert" className="border-l-2 border-[#101014] bg-[#F5F6F8] px-4 py-3 text-sm leading-relaxed text-[#101014]">
             {error}
           </div>
         ) : null}
 
-        <div className="flex flex-col gap-3 pt-4 border-t border-slate-100 dark:border-white/[0.05] sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 border-t border-[#E4E6EA] pt-4 sm:flex-row sm:items-center sm:justify-between">
           <Button variant="ghost" onClick={goBack} disabled={step === 0} className="w-full sm:w-auto">
             ← Anterior
           </Button>
@@ -1762,20 +1732,18 @@ export default function Calculator() {
   </div>
 
       <aside className="order-3 min-w-0 space-y-4 lg:sticky lg:top-24 xl:order-none">
-        {/* Summary card */}
-        <div className="overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02]">
-          <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-100 dark:border-white/[0.05]">
-            <span className="h-1.5 w-1.5 rounded-full bg-sky-500" />
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Resumen</p>
+        {/* Resumen */}
+        <div className="rounded-[4px] border border-[#E4E6EA] bg-white">
+          <div className="border-b border-[#E4E6EA] px-4 py-3">
+            <p className={eyebrow}>Resumen</p>
           </div>
-          <div className="px-4 py-3 space-y-2.5">
-            <SummaryRow label="Situacion" value={situationLabel} />
+          <div className="divide-y divide-[#E4E6EA] px-4 py-1">
+            <SummaryRow label="Situación" value={situationLabel} />
             <SummaryRow label="Año fiscal" value={String(year)} />
-            <SummaryRow label="Residencia" value={region === "comun" ? "Comun (AEAT)" : "Foral"} />
+            <SummaryRow label="Residencia" value={region === "comun" ? "Común (AEAT)" : "Foral"} />
             <SummaryRow label="Paso" value={`${steps[step].id} / ${steps.length - 1}`} />
             {result && (
               <>
-                <div className="h-px bg-slate-100 dark:bg-white/[0.05]" />
                 <SummaryRow label="Base general" value={formatCurrency(result.baseGeneralAfterJoint)} />
                 <SummaryRow label="Cuota diferencial" value={formatCurrency(result.cuotaDiferencial)} />
               </>
@@ -1783,26 +1751,25 @@ export default function Calculator() {
           </div>
         </div>
 
-        {/* Warnings card */}
-        <div className="overflow-hidden rounded-2xl border border-slate-200/80 dark:border-white/[0.07] bg-white dark:bg-white/[0.02]">
-          <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-100 dark:border-white/[0.05]">
-            <span className={`h-1.5 w-1.5 rounded-full ${warnings.length > 0 ? "bg-amber-400" : "bg-emerald-500"}`} />
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-400 dark:text-slate-500">Avisos</p>
+        {/* Avisos */}
+        <div className="rounded-[4px] border border-[#E4E6EA] bg-white">
+          <div className="border-b border-[#E4E6EA] px-4 py-3">
+            <p className={eyebrow}>Avisos</p>
           </div>
-          <ul className="px-4 py-3 space-y-2 text-sm">
+          <ul className="divide-y divide-[#E4E6EA] px-4">
             {warnings.length === 0 ? (
-              <li className="text-slate-500 dark:text-slate-400 text-xs">Sin avisos relevantes.</li>
+              <li className="py-3 text-xs text-[#63666D]">Sin avisos relevantes.</li>
             ) : (
               warnings.map((warning, index) => (
-                <li key={`${warning}-${index}`} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300">
-                  <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-amber-400" />
+                <li key={`${warning}-${index}`} className="flex items-start gap-2.5 py-3 text-xs leading-relaxed text-[#3D4046]">
+                  <span aria-hidden className="mt-1.5 h-px w-3 flex-none bg-brand-600" />
                   <span>{warning}</span>
                 </li>
               ))
             )}
           </ul>
-          <div className="px-4 py-3 border-t border-slate-100 dark:border-white/[0.05] text-xs text-slate-400 dark:text-slate-500">
-            Calculo en tu navegador. Sin almacenamiento de datos.
+          <div className="border-t border-[#E4E6EA] px-4 py-3 text-xs leading-relaxed text-[#63666D]">
+            Cálculo en tu navegador. Sin almacenamiento de datos.
           </div>
         </div>
       </aside>

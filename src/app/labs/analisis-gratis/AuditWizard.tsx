@@ -19,46 +19,46 @@ import {
   type QuickWin,
   type Opportunity,
 } from "@/lib/labs/audit";
-import AuditReportPdf from "./AuditReportPdf";
-import { pdf } from "@react-pdf/renderer";
+// @react-pdf/renderer (pdfkit + yoga-layout, ~526 kB gz) se carga bajo demanda dentro
+// de handlePdfDownload: sólo lo descarga quien pulsa "Descargar informe PDF".
 
 // ── Step definitions ───────────────────────────────────────────────────────────
 
 const steps = [
   { id: "1",  title: "Perfil",           summary: "Tipo y tamaño de negocio" },
   { id: "2",  title: "Presencia Digital", summary: "Web, SEO y marca" },
-  { id: "3",  title: "Marketing",         summary: "Captacion y canales" },
+  { id: "3",  title: "Marketing",         summary: "Captación y canales" },
   { id: "4",  title: "Ventas",            summary: "Pipeline y seguimiento" },
-  { id: "5",  title: "Operaciones",       summary: "Procesos y automatizacion" },
-  { id: "6",  title: "Clientes",          summary: "Retencion y satisfaccion" },
+  { id: "5",  title: "Operaciones",       summary: "Procesos y automatización" },
+  { id: "6",  title: "Clientes",          summary: "Retención y satisfacción" },
   { id: "7",  title: "Datos e IA",        summary: "KPIs, reporting e inteligencia" },
   { id: "8",  title: "Finanzas",          summary: "Margen, cashflow y pricing" },
   { id: "9",  title: "Seguridad",         summary: "Compliance y riesgos" },
   { id: "10", title: "Informe",           summary: "Recibir por email (opcional)" },
-  { id: "11", title: "Resultado",         summary: "Diagnostico completo" },
+  { id: "11", title: "Resultado",         summary: "Diagnóstico completo" },
 ] as const;
 
 // ── Vertical / Goal / option labels ───────────────────────────────────────────
 
-const VERTICAL_CONFIG: Array<{ value: AuditVertical; emoji: string; label: string; desc: string }> = [
-  { value: "local",        emoji: "🏪", label: "Pyme local",         desc: "Negocio local con foco en zona geografica" },
-  { value: "ecommerce",    emoji: "🛍️", label: "E-commerce",         desc: "Ventas online, pedidos y logistica" },
-  { value: "despacho",     emoji: "⚖️", label: "Despacho profesional", desc: "Servicios legales, contables o consultoria" },
-  { value: "clinica",      emoji: "🏥", label: "Clinica / Salud",    desc: "Centros medicos, dentales, fisioterapia" },
-  { value: "restaurante",  emoji: "🍽️", label: "Restauracion",       desc: "Restaurantes, bares y hosteleria" },
-  { value: "saas",         emoji: "💻", label: "SaaS / Tech",        desc: "Software, apps y productos digitales" },
-  { value: "inmobiliaria", emoji: "🏠", label: "Inmobiliaria",       desc: "Agencias, promotoras y gestion de activos" },
-  { value: "educacion",    emoji: "🎓", label: "Educacion",          desc: "Academias, formacion y e-learning" },
+const VERTICAL_CONFIG: Array<{ value: AuditVertical; label: string; desc: string }> = [
+  { value: "local",        label: "Pyme local",           desc: "Negocio local con foco en zona geográfica" },
+  { value: "ecommerce",    label: "E-commerce",           desc: "Ventas online, pedidos y logística" },
+  { value: "despacho",     label: "Despacho profesional", desc: "Servicios legales, contables o consultoría" },
+  { value: "clinica",      label: "Clínica / Salud",      desc: "Centros médicos, dentales, fisioterapia" },
+  { value: "restaurante",  label: "Restauración",         desc: "Restaurantes, bares y hostelería" },
+  { value: "saas",         label: "SaaS / Tech",          desc: "Software, apps y productos digitales" },
+  { value: "inmobiliaria", label: "Inmobiliaria",         desc: "Agencias, promotoras y gestión de activos" },
+  { value: "educacion",    label: "Educación",            desc: "Academias, formación y e-learning" },
 ];
 
-const GOAL_CONFIG: Array<{ value: AuditGoal; emoji: string; label: string; desc: string }> = [
-  { value: "captar-leads",   emoji: "🎯", label: "Captar mas leads",       desc: "Aumentar el volumen de clientes potenciales" },
-  { value: "vender-mas",     emoji: "📈", label: "Vender mas",             desc: "Mejorar conversion y ticket medio" },
-  { value: "ahorrar-tiempo", emoji: "⚡", label: "Ahorrar tiempo",         desc: "Eliminar tareas manuales y ganar eficiencia" },
-  { value: "reducir-errores",emoji: "🛡️", label: "Reducir errores",        desc: "Aumentar calidad y consistencia operativa" },
-  { value: "mejorar-control",emoji: "📊", label: "Mejorar control",        desc: "Mas visibilidad y datos para decidir mejor" },
-  { value: "escalar",        emoji: "🚀", label: "Escalar el negocio",     desc: "Crecer sin aumentar costes en la misma proporcion" },
-  { value: "digitalizar",    emoji: "🔄", label: "Digitalizar procesos",   desc: "Llevar el negocio al siguiente nivel tecnologico" },
+const GOAL_CONFIG: Array<{ value: AuditGoal; label: string; desc: string }> = [
+  { value: "captar-leads",    label: "Captar más leads",     desc: "Aumentar el volumen de clientes potenciales" },
+  { value: "vender-mas",      label: "Vender más",           desc: "Mejorar conversión y ticket medio" },
+  { value: "ahorrar-tiempo",  label: "Ahorrar tiempo",       desc: "Eliminar tareas manuales y ganar eficiencia" },
+  { value: "reducir-errores", label: "Reducir errores",      desc: "Aumentar calidad y consistencia operativa" },
+  { value: "mejorar-control", label: "Mejorar control",      desc: "Más visibilidad y datos para decidir mejor" },
+  { value: "escalar",         label: "Escalar el negocio",   desc: "Crecer sin aumentar costes en la misma proporción" },
+  { value: "digitalizar",     label: "Digitalizar procesos", desc: "Llevar el negocio al siguiente nivel tecnologico" },
 ];
 
 const VERTICAL_LABELS: Record<AuditVertical, string> = Object.fromEntries(
@@ -72,7 +72,7 @@ const GOAL_LABELS: Record<AuditGoal, string> = Object.fromEntries(
 
 const RADAR_AREAS: Array<{ key: keyof Omit<typeof AREA_LABELS, never>; label: string }> = [
   { key: "digital",     label: "Digital" },
-  { key: "acquisition", label: "Captacion" },
+  { key: "acquisition", label: "Captación" },
   { key: "sales",       label: "Ventas" },
   { key: "operations",  label: "Operaciones" },
   { key: "customers",   label: "Clientes" },
@@ -82,7 +82,7 @@ const RADAR_AREAS: Array<{ key: keyof Omit<typeof AREA_LABELS, never>; label: st
 ] as const;
 
 const AREA_LABELS = {
-  digital: "Digital", acquisition: "Captacion", sales: "Ventas", operations: "Operaciones",
+  digital: "Digital", acquisition: "Captación", sales: "Ventas", operations: "Operaciones",
   customers: "Clientes", data: "Datos", finance: "Finanzas", risk: "Seguridad",
 };
 
@@ -102,16 +102,16 @@ function RadarChart({ scores, benchmarks }: { scores: RadarScores; benchmarks: R
   const scoreVals = RADAR_AREAS.map(a => scores[a.key] ?? 0);
   return (
     <svg viewBox="0 0 160 164" className="w-full" aria-hidden>
-      {gridLines.map(g => <polygon key={g} points={toPoly(Array(n).fill(g))} fill="none" stroke="rgba(255,255,255,0.055)" strokeWidth="0.7" />)}
-      {RADAR_AREAS.map((_, i) => { const p = radarPt(100, i, n, r, cx, cy); return <line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="rgba(255,255,255,0.07)" strokeWidth="0.7" />; })}
-      <polygon points={toPoly(benchVals)} fill="rgba(99,102,241,0.10)" stroke="rgba(99,102,241,0.30)" strokeWidth="1" strokeDasharray="2,2" />
-      <polygon points={toPoly(scoreVals)} fill="rgba(14,165,233,0.18)" stroke="rgba(14,165,233,0.75)" strokeWidth="1.5" />
-      {scoreVals.map((s, i) => { const p = radarPt(s, i, n, r, cx, cy); return <circle key={i} cx={p.x} cy={p.y} r={s > 0 ? 2.5 : 0} fill="rgba(14,165,233,0.9)" />; })}
+      {gridLines.map(g => <polygon key={g} points={toPoly(Array(n).fill(g))} fill="none" stroke="#E4E6EA" strokeWidth="0.7" />)}
+      {RADAR_AREAS.map((_, i) => { const p = radarPt(100, i, n, r, cx, cy); return <line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="#E4E6EA" strokeWidth="0.7" />; })}
+      <polygon points={toPoly(benchVals)} fill="none" stroke="#C9CCD3" strokeWidth="1" strokeDasharray="2,2" />
+      <polygon points={toPoly(scoreVals)} fill="rgba(44,75,196,0.10)" stroke="#2C4BC4" strokeWidth="1.5" />
+      {scoreVals.map((s, i) => { const p = radarPt(s, i, n, r, cx, cy); return <circle key={i} cx={p.x} cy={p.y} r={s > 0 ? 2.5 : 0} fill="#2C4BC4" />; })}
       {RADAR_AREAS.map((a, i) => {
         const p = radarPt(115, i, n, lr, cx, cy);
         return (
           <text key={a.key} x={p.x} y={p.y} textAnchor="middle" dominantBaseline="middle"
-            fontSize="7.5" fill="rgba(148,163,184,0.85)" fontFamily="system-ui,sans-serif" fontWeight="500">
+            fontSize="7.5" fill="#63666D" fontFamily="system-ui,sans-serif" fontWeight="500">
             {a.label}
           </text>
         );
@@ -146,34 +146,27 @@ function RadioGrid({ children }: { children: React.ReactNode }) {
   return <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">{children}</div>;
 }
 
+const FIELD_LABEL = "block text-sm font-medium text-[#101014]";
+const FIELD_HINT  = "text-[13px] leading-snug text-[#63666D]";
+const FIELD_CTRL  = "w-full border border-[#C9CCD3] bg-white px-3 py-2.5 text-sm text-[#101014]";
+
 type RadioCardProps = {
   name: string; value: string; checked: boolean; onChange: () => void;
-  emoji?: string; title: string; description?: string;
+  title: string; description?: string;
 };
-function RadioCard({ name, value, checked, onChange, emoji, title, description }: RadioCardProps) {
+function RadioCard({ name, value, checked, onChange, title, description }: RadioCardProps) {
   return (
-    <label className={`group relative flex cursor-pointer items-center gap-3 overflow-hidden rounded-xl border p-3.5 text-sm transition-all duration-150 focus-within:ring-2 focus-within:ring-sky-500/25 ${
+    <label className={`relative flex cursor-pointer items-start gap-3 border p-4 text-sm transition-colors ${
       checked
-        ? "border-sky-400/70 bg-sky-500/[0.09] shadow-[0_0_0_1px_rgba(14,165,233,0.25)]"
-        : "border-white/[0.07] bg-white/[0.025] hover:border-white/[0.12] hover:bg-white/[0.04]"
+        ? "border-[#101014] bg-[#F5F6F8]"
+        : "border-[#E4E6EA] bg-white hover:border-[#C9CCD3]"
     }`}>
       <input type="radio" name={name} value={value} checked={checked} onChange={onChange} className="sr-only" />
-      {emoji && (
-        <span className={`flex h-9 w-9 flex-none items-center justify-center rounded-lg text-lg transition-colors ${
-          checked ? "bg-sky-500/20" : "bg-white/[0.05]"
-        }`}>{emoji}</span>
-      )}
-      <div className="min-w-0 flex-1">
-        <span className={`block text-sm font-semibold leading-snug ${checked ? "text-sky-200" : "text-slate-100"}`}>{title}</span>
-        {description && <span className="block text-[11px] text-slate-400 mt-0.5 leading-snug">{description}</span>}
-      </div>
-      {checked && (
-        <span className="flex-none text-sky-400 ml-1">
-          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor" aria-hidden>
-            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
-          </svg>
-        </span>
-      )}
+      <span aria-hidden className={`mt-1 h-2 w-2 flex-none ${checked ? "bg-brand-600" : "bg-[#C9CCD3]"}`} />
+      <span className="min-w-0 flex-1">
+        <span className="block text-sm font-medium leading-snug text-[#101014]">{title}</span>
+        {description && <span className="mt-1 block text-[13px] leading-snug text-[#63666D]">{description}</span>}
+      </span>
     </label>
   );
 }
@@ -182,15 +175,15 @@ type SelectFieldProps = { id: string; label: string; hint?: string; value: strin
 function SelectField({ id, label, hint, value, onChange, options }: SelectFieldProps) {
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="block text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">{label}</label>
-      {hint && <p className="text-[11px] text-slate-500 leading-snug">{hint}</p>}
+      <label htmlFor={id} className={FIELD_LABEL}>{label}</label>
+      {hint && <p className={FIELD_HINT}>{hint}</p>}
       <div className="relative">
         <select id={id} value={value} onChange={e => onChange(e.target.value)}
-          className="w-full appearance-none rounded-xl border border-white/[0.08] bg-white/[0.04] px-3.5 py-2.5 pr-9 text-sm text-slate-100 transition-colors focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 [color-scheme:dark]">
+          className={`${FIELD_CTRL} appearance-none pr-9`}>
           {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
         </select>
-        <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-500">
-          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="m6 8 4 4 4-4" /></svg>
+        <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#63666D]">
+          <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden><path d="m6 8 4 4 4-4" /></svg>
         </span>
       </div>
     </div>
@@ -200,15 +193,15 @@ function SelectField({ id, label, hint, value, onChange, options }: SelectFieldP
 type ToggleCardProps = { label: string; description?: string; checked: boolean; onChange: () => void };
 function ToggleCard({ label, description, checked, onChange }: ToggleCardProps) {
   return (
-    <label className={`flex cursor-pointer items-center justify-between gap-4 rounded-xl border px-4 py-3.5 transition-colors ${
-      checked ? "border-sky-400/50 bg-sky-500/[0.07]" : "border-white/[0.07] bg-white/[0.025] hover:bg-white/[0.04]"
+    <label className={`flex cursor-pointer items-center justify-between gap-4 border px-4 py-3.5 transition-colors ${
+      checked ? "border-[#101014] bg-[#F5F6F8]" : "border-[#E4E6EA] bg-white hover:border-[#C9CCD3]"
     }`}>
       <span className="min-w-0">
-        <span className={`block text-sm font-semibold ${checked ? "text-slate-100" : "text-slate-200"}`}>{label}</span>
-        {description && <span className="block text-[11px] text-slate-400 mt-0.5">{description}</span>}
+        <span className="block text-sm font-medium text-[#101014]">{label}</span>
+        {description && <span className="mt-1 block text-[13px] leading-snug text-[#63666D]">{description}</span>}
       </span>
-      <span aria-hidden className={`relative h-5 w-9 flex-none rounded-full transition-colors duration-200 ${checked ? "bg-sky-500" : "bg-white/[0.10]"}`}>
-        <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition-transform duration-200 ${checked ? "translate-x-4" : "translate-x-0.5"}`} />
+      <span aria-hidden className={`relative h-5 w-9 flex-none rounded-full transition-colors duration-200 ${checked ? "bg-brand-600" : "bg-[#C9CCD3]"}`}>
+        <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform duration-200 ${checked ? "translate-x-4" : "translate-x-0.5"}`} />
       </span>
       <input type="checkbox" checked={checked} onChange={onChange} className="sr-only" />
     </label>
@@ -219,11 +212,11 @@ type TextInputProps = { id: string; label: string; hint?: string; value: string;
 function TextInput({ id, label, hint, value, onChange, placeholder, inputMode = "text" }: TextInputProps) {
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="block text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">{label}</label>
-      {hint && <p className="text-[11px] text-slate-500">{hint}</p>}
+      <label htmlFor={id} className={FIELD_LABEL}>{label}</label>
+      {hint && <p className={FIELD_HINT}>{hint}</p>}
       <input id={id} type="text" inputMode={inputMode} value={value} onChange={e => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-600 transition-colors focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20" />
+        className={FIELD_CTRL} />
     </div>
   );
 }
@@ -231,22 +224,24 @@ function TextInput({ id, label, hint, value, onChange, placeholder, inputMode = 
 function TextAreaInput({ id, label, hint, value, onChange, placeholder }: TextInputProps) {
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="block text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">{label}</label>
-      {hint && <p className="text-[11px] text-slate-500">{hint}</p>}
+      <label htmlFor={id} className={FIELD_LABEL}>{label}</label>
+      {hint && <p className={FIELD_HINT}>{hint}</p>}
       <textarea id={id} value={value} onChange={e => onChange(e.target.value)} rows={3} placeholder={placeholder}
-        className="w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3.5 py-2.5 text-sm text-slate-100 placeholder:text-slate-600 transition-colors focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/20 resize-none" />
+        className={`${FIELD_CTRL} resize-none`} />
     </div>
   );
 }
 
-function StepHeader({ step, title, description, icon }: { step: string; title: string; description: string; icon: string }) {
+function StepHeader({ step, title, description }: { step: string; title: string; description: string }) {
   return (
-    <div className="flex items-start gap-3 pb-5 border-b border-white/[0.06]">
-      <div className="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-sky-500/20 text-xl">{icon}</div>
+    <div className="flex items-start gap-4 border-b border-[#E4E6EA] pb-5">
+      <span className="flex h-10 w-10 flex-none items-center justify-center border border-[#E4E6EA] text-sm font-medium tabular-nums text-[#101014]">
+        {String(step).padStart(2, "0")}
+      </span>
       <div>
-        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500 mb-0.5">Paso {step} de 9</p>
-        <h4 className="text-base font-bold text-white leading-snug">{title}</h4>
-        <p className="text-xs text-slate-400 mt-0.5">{description}</p>
+        <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Paso {step} de 9</p>
+        <h4 className="text-lg font-semibold leading-snug tracking-tight text-[#101014]">{title}</h4>
+        <p className="mt-1 text-[13px] leading-relaxed text-[#3D4046]">{description}</p>
       </div>
     </div>
   );
@@ -259,36 +254,35 @@ function SectionGrid({ children }: { children: React.ReactNode }) {
 // ── Result components ──────────────────────────────────────────────────────────
 
 function ScoreBar({ label, value, benchmark }: { label: string; value: number; benchmark: number }) {
-  const color = value >= 70 ? "bg-emerald-400" : value >= 45 ? "bg-sky-400" : "bg-amber-400";
   const diff = value - benchmark;
   return (
     <div>
-      <div className="flex items-center justify-between mb-1.5">
-        <span className="text-xs font-medium text-slate-300 truncate">{label}</span>
-        <div className="flex items-center gap-2 ml-2 flex-none">
-          <span className={`text-[10px] font-semibold ${diff >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
+      <div className="flex items-center justify-between mb-2">
+        <span className="truncate text-sm text-[#3D4046]">{label}</span>
+        <div className="ml-2 flex flex-none items-center gap-3">
+          <span className={`text-xs font-medium tabular-nums ${diff >= 0 ? "text-brand-600" : "text-[#9DA0A6]"}`}>
             {diff >= 0 ? "+" : ""}{diff}
           </span>
-          <span className="text-xs font-bold tabular-nums text-slate-200">{value}</span>
+          <span className="text-sm font-semibold tabular-nums text-[#101014]">{value}</span>
         </div>
       </div>
-      <div className="relative h-2 w-full overflow-hidden rounded-full bg-white/[0.06]">
-        <motion.div className={`h-full rounded-full ${color}`} initial={{ width: 0 }} animate={{ width: `${value}%` }} transition={{ duration: 0.8, ease: "easeOut" }} />
-        <div className="absolute top-0 h-full w-px bg-indigo-400/50" style={{ left: `${benchmark}%` }} title={`Media sector: ${benchmark}`} />
+      <div className="relative h-1.5 w-full overflow-hidden bg-[#E4E6EA]">
+        <motion.div className="h-full bg-brand-600" initial={{ width: 0 }} animate={{ width: `${value}%` }} transition={{ duration: 0.7, ease: "easeOut" }} />
+        <div className="absolute top-0 h-full w-px bg-[#101014]" style={{ left: `${benchmark}%` }} title={`Media sector: ${benchmark}`} />
       </div>
-      <p className="mt-0.5 text-[10px] text-slate-600">Media sector: {benchmark}</p>
+      <p className="mt-1.5 text-xs text-[#63666D]">Media sector: {benchmark}</p>
     </div>
   );
 }
 
 function SeverityBadge({ severity }: { severity: WeakPoint["severity"] }) {
   const cfg = {
-    critical: { label: "Crítico", cls: "bg-rose-500/15 text-rose-300 border-rose-500/25" },
-    high:     { label: "Alto",    cls: "bg-amber-500/15 text-amber-300 border-amber-500/25" },
-    medium:   { label: "Medio",   cls: "bg-slate-500/15 text-slate-300 border-slate-500/25" },
+    critical: { label: "Crítico", cls: "border-[#101014] text-[#101014]" },
+    high:     { label: "Alto",    cls: "border-[#C9CCD3] text-[#3D4046]" },
+    medium:   { label: "Medio",   cls: "border-[#E4E6EA] text-[#63666D]" },
   }[severity];
   return (
-    <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${cfg.cls}`}>
+    <span className={`inline-flex flex-none items-center border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${cfg.cls}`}>
       {cfg.label}
     </span>
   );
@@ -296,37 +290,36 @@ function SeverityBadge({ severity }: { severity: WeakPoint["severity"] }) {
 
 function EffortBadge({ effort }: { effort: QuickWin["effort"] }) {
   return (
-    <span className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ${effort === "low" ? "bg-emerald-500/10 text-emerald-400" : "bg-amber-500/10 text-amber-400"}`}>
-      {effort === "low" ? "↗ Facil" : "⚙ Medio"}
+    <span className="inline-flex flex-none items-center border border-[#E4E6EA] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#63666D]">
+      {effort === "low" ? "Fácil" : "Medio"}
     </span>
   );
 }
 
 function OpportunityCard({ opp, index }: { opp: Opportunity; index: number }) {
-  const colors = ["from-sky-500/10 to-sky-500/5 border-sky-500/20", "from-violet-500/10 to-violet-500/5 border-violet-500/20", "from-emerald-500/10 to-emerald-500/5 border-emerald-500/20"];
-  const accentColors = ["text-sky-300", "text-violet-300", "text-emerald-300"];
   return (
     <motion.div
-      className={`rounded-2xl border bg-gradient-to-br p-5 ${colors[index % 3]}`}
-      initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1 }}
+      className="border border-[#E4E6EA] bg-white p-5"
+      initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: index * 0.08 }}
     >
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <h5 className={`text-sm font-bold leading-snug ${accentColors[index % 3]}`}>{opp.title}</h5>
-        <span className="text-[10px] font-bold text-slate-400 whitespace-nowrap">{opp.timeframe}</span>
+      <p className="mb-3 text-sm font-medium tabular-nums text-[#9DA0A6]">{String(index + 1).padStart(2, "0")}</p>
+      <div className="mb-3 flex items-start justify-between gap-3">
+        <h5 className="text-sm font-semibold leading-snug tracking-tight text-[#101014]">{opp.title}</h5>
+        <span className="whitespace-nowrap text-xs text-[#63666D]">{opp.timeframe}</span>
       </div>
-      <p className="text-xs text-slate-300 leading-relaxed mb-3">{opp.description}</p>
-      <div className="rounded-lg bg-white/[0.05] px-3 py-2">
-        <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-0.5">Impacto estimado</p>
-        <p className={`text-sm font-bold ${accentColors[index % 3]}`}>{opp.estimatedImpact}</p>
+      <p className="mb-4 text-[13px] leading-relaxed text-[#3D4046]">{opp.description}</p>
+      <div className="border-t border-[#E4E6EA] pt-3">
+        <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Impacto estimado</p>
+        <p className="text-sm font-semibold text-brand-600">{opp.estimatedImpact}</p>
       </div>
     </motion.div>
   );
 }
 
-function MaturityInfo(score: number): { label: string; description: string; color: string; glow: string } {
-  if (score >= 65) return { label: "Avanzado", description: "Base sólida para escalar.", color: "text-emerald-300 border-emerald-500/30 bg-emerald-500/[0.08]", glow: "shadow-emerald-500/10" };
-  if (score >= 45) return { label: "En progreso", description: "Prioridades claras y accionables.", color: "text-sky-300 border-sky-500/30 bg-sky-500/[0.08]", glow: "shadow-sky-500/10" };
-  return { label: "Base", description: "Refuerza fundamentos clave.", color: "text-amber-300 border-amber-500/30 bg-amber-500/[0.08]", glow: "shadow-amber-500/10" };
+function MaturityInfo(score: number): { label: string; description: string; color: string } {
+  if (score >= 65) return { label: "Avanzado", description: "Base sólida para escalar.", color: "border-[#101014] text-[#101014]" };
+  if (score >= 45) return { label: "En progreso", description: "Prioridades claras y accionables.", color: "border-[#C9CCD3] text-[#101014]" };
+  return { label: "Base", description: "Refuerza fundamentos clave.", color: "border-[#E4E6EA] text-[#101014]" };
 }
 
 // ── Draft type ────────────────────────────────────────────────────────────────
@@ -406,7 +399,7 @@ export default function AuditWizard() {
 
   const scoreCards = result ? [
     { label: "Presencia Digital",  value: result.scores.digital,     bench: benchmarks["digital"] ?? 0 },
-    { label: "Marketing / Captacion", value: result.scores.acquisition, bench: benchmarks["acquisition"] ?? 0 },
+    { label: "Marketing / Captación", value: result.scores.acquisition, bench: benchmarks["acquisition"] ?? 0 },
     { label: "Ventas y Pipeline",  value: result.scores.sales,       bench: benchmarks["sales"] ?? 0 },
     { label: "Operaciones",        value: result.scores.operations,  bench: benchmarks["operations"] ?? 0 },
     { label: "Experiencia Cliente",value: result.scores.customers,   bench: benchmarks["customers"] ?? 0 },
@@ -433,7 +426,7 @@ export default function AuditWizard() {
         submit(answers, calc);
       } catch (e) {
         console.error(e);
-        setError("Error al calcular el analisis. Comprueba tus respuestas.");
+        setError("Error al calcular el análisis. Comprueba tus respuestas.");
         return;
       }
     }
@@ -460,6 +453,11 @@ export default function AuditWizard() {
     if (!result || pdfStatus === "loading") return;
     setPdfStatus("loading");
     try {
+      const [{ pdf }, { default: AuditReportPdf }] = await Promise.all([
+        import("@react-pdf/renderer"),
+        import("./AuditReportPdf"),
+      ]);
+
       let logoSrc: string | undefined;
       try {
         const res = await fetch("/brand/logo-qubelia-512-dark.png");
@@ -492,34 +490,36 @@ export default function AuditWizard() {
     <div ref={wizardRef} className="grid grid-cols-1 lg:grid-cols-[220px_1fr_200px] xl:grid-cols-[240px_1fr_220px] gap-6 xl:gap-8 items-start">
 
       {/* ── LEFT: Step tracker + Radar ───────────────────────────────── */}
-      <aside className="order-2 lg:order-none lg:sticky lg:top-24 space-y-4">
+      <aside className="order-2 lg:order-none lg:sticky lg:top-24 space-y-6">
         {/* Steps */}
-        <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4">
-          <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500 mb-3">Progreso</p>
-          <div className="space-y-1">
+        <div className="border border-[#E4E6EA] bg-white p-5">
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Progreso</p>
+          <ol className="divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
             {steps.slice(0, 10).map((s, i) => {
               const done = i < step;
               const active = i === step;
               return (
-                <div key={s.id} className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 transition-colors ${active ? "bg-sky-500/10" : ""}`}>
-                  <div className={`h-5 w-5 flex-none rounded-full flex items-center justify-center text-[9px] font-bold transition-colors ${done ? "bg-emerald-500 text-white" : active ? "bg-sky-500 text-white" : "bg-white/[0.06] text-slate-500"}`}>
-                    {done ? "✓" : s.id}
-                  </div>
-                  <span className={`text-[11px] leading-tight ${active ? "text-sky-300 font-semibold" : done ? "text-slate-400" : "text-slate-500"}`}>{s.title}</span>
-                </div>
+                <li key={s.id} className="flex items-center gap-3 py-2.5">
+                  <span className={`flex h-5 w-5 flex-none items-center justify-center text-[10px] font-medium tabular-nums transition-colors ${
+                    done ? "bg-[#101014] text-white" : active ? "bg-brand-600 text-white" : "border border-[#E4E6EA] text-[#9DA0A6]"
+                  }`}>
+                    {s.id}
+                  </span>
+                  <span className={`text-xs leading-tight ${active ? "font-semibold text-[#101014]" : done ? "text-[#3D4046]" : "text-[#9DA0A6]"}`}>{s.title}</span>
+                </li>
               );
             })}
-          </div>
+          </ol>
         </div>
 
         {/* Live Radar */}
         {draft.vertical && (
-          <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500 mb-2">Tu diagnóstico en tiempo real</p>
+          <div className="border border-[#E4E6EA] bg-white p-5">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Tu diagnóstico en tiempo real</p>
             <RadarChart scores={partialScores} benchmarks={benchmarks} />
-            <div className="flex items-center gap-3 mt-1">
-              <div className="flex items-center gap-1.5"><span className="inline-block w-3 h-0.5 bg-sky-400 rounded" /><span className="text-[9px] text-slate-500">Tu negocio</span></div>
-              <div className="flex items-center gap-1.5"><span className="inline-block w-3 h-0.5 border-t border-dashed border-indigo-400" /><span className="text-[9px] text-slate-500">Media sector</span></div>
+            <div className="mt-2 flex items-center gap-4">
+              <div className="flex items-center gap-2"><span className="inline-block h-0.5 w-3 bg-brand-600" /><span className="text-[11px] text-[#63666D]">Tu negocio</span></div>
+              <div className="flex items-center gap-2"><span className="inline-block w-3 border-t border-dashed border-[#C9CCD3]" /><span className="text-[11px] text-[#63666D]">Media sector</span></div>
             </div>
           </div>
         )}
@@ -527,48 +527,50 @@ export default function AuditWizard() {
 
       {/* ── CENTER: Main form ─────────────────────────────────────────── */}
       <main className="order-1 lg:order-none min-w-0">
-        <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] overflow-hidden">
+        <div className="border border-[#E4E6EA] bg-white">
           {/* Progress bar */}
-          <div className="h-1 bg-white/[0.04]">
-            <motion.div className="h-full bg-sky-500 rounded-r-full" animate={{ width: `${progress}%` }} transition={{ duration: 0.4 }} />
+          <div className="h-1 bg-[#E4E6EA]">
+            <motion.div className="h-full bg-brand-600" animate={{ width: `${progress}%` }} transition={{ duration: 0.4 }} />
           </div>
 
-          <div className="p-6 space-y-6">
+          <div className="p-6 space-y-6 sm:p-8">
             <AnimatePresence mode="wait">
-              <motion.div key={step} initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -12 }} transition={{ duration: 0.2 }}>
+              <motion.div key={step} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
 
                 {/* ── STEP 0: Perfil ──────────────────────────────────── */}
                 {step === 0 && (
-                  <div className="space-y-7">
+                  <div className="space-y-8">
                     <div>
-                      <h3 className="text-xl font-bold text-white mb-1">Cuéntanos sobre tu negocio</h3>
-                      <p className="text-sm text-slate-400">El análisis se personaliza según tu sector y objetivo. Solo tarda 5-8 minutos.</p>
+                      {/* h2, no h3: el encabezado anterior de la página es el h1.
+                          La clase text-h3 mantiene la tipografía intacta. */}
+                      <h2 className="text-h3 mb-2">Cuéntanos sobre tu negocio</h2>
+                      <p className="text-[15px] leading-relaxed text-[#3D4046]">El análisis se personaliza según tu sector y objetivo. Solo tarda 5-8 minutos.</p>
                     </div>
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400 mb-3">Tipo de negocio *</p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]">Tipo de negocio *</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {VERTICAL_CONFIG.map(v => (
                           <RadioCard key={v.value} name="vertical" value={v.value} checked={draft.vertical === v.value}
-                            onChange={() => setDraft(p => ({ ...p, vertical: v.value }))} emoji={v.emoji} title={v.label} description={v.desc} />
+                            onChange={() => setDraft(p => ({ ...p, vertical: v.value }))} title={v.label} description={v.desc} />
                         ))}
                       </div>
                     </div>
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400 mb-3">Objetivo principal *</p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]">Objetivo principal *</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {GOAL_CONFIG.map(g => (
                           <RadioCard key={g.value} name="goal" value={g.value} checked={draft.goal === g.value}
-                            onChange={() => setDraft(p => ({ ...p, goal: g.value }))} emoji={g.emoji} title={g.label} description={g.desc} />
+                            onChange={() => setDraft(p => ({ ...p, goal: g.value }))} title={g.label} description={g.desc} />
                         ))}
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3.5">
                       <SelectField id="companySize" label="Tamaño del equipo" value={draft.companySize}
                         onChange={v => setDraft(p => ({ ...p, companySize: v as AuditAnswers["companySize"] }))}
-                        options={[{ value: "solo", label: "Solo / freelance" }, { value: "2-5", label: "2-5 personas" }, { value: "6-20", label: "6-20 personas" }, { value: "20+", label: "Mas de 20" }]} />
+                        options={[{ value: "solo", label: "Solo / freelance" }, { value: "2-5", label: "2-5 personas" }, { value: "6-20", label: "6-20 personas" }, { value: "20+", label: "Más de 20" }]} />
                       <SelectField id="years" label="Años en activo" value={draft.yearsInBusiness}
                         onChange={v => setDraft(p => ({ ...p, yearsInBusiness: v as AuditAnswers["yearsInBusiness"] }))}
-                        options={[{ value: "menos-1", label: "Menos de 1 año" }, { value: "1-3", label: "1-3 años" }, { value: "3-10", label: "3-10 años" }, { value: "10+", label: "Mas de 10 años" }]} />
+                        options={[{ value: "menos-1", label: "Menos de 1 año" }, { value: "1-3", label: "1-3 años" }, { value: "3-10", label: "3-10 años" }, { value: "10+", label: "Más de 10 años" }]} />
                     </div>
                   </div>
                 )}
@@ -576,18 +578,18 @@ export default function AuditWizard() {
                 {/* ── STEP 1: Presencia Digital ────────────────────────── */}
                 {step === 1 && (
                   <div className="space-y-5">
-                    <StepHeader step="1" title="Presencia Digital" description="Web, SEO y marca. La vitrina de tu negocio en internet." icon="🌐" />
+                    <StepHeader step="1" title="Presencia Digital" description="Web, SEO y marca. La vitrina de tu negocio en internet." />
                     <SectionGrid>
                       <SelectField id="webStatus" label="Estado de la web"
                         hint="¿Tienes web y convierte visitas en contactos?"
                         value={draft.digital.websiteStatus}
                         onChange={v => setDraft(p => ({ ...p, digital: { ...p.digital, websiteStatus: v as AuditAnswers["digital"]["websiteStatus"] } }))}
-                        options={[{ value: "none", label: "Sin web" }, { value: "basic", label: "Web básica (informativa)" }, { value: "ok", label: "Web funcional con CTA" }, { value: "optimized", label: "Web optimizada para conversion" }]} />
+                        options={[{ value: "none", label: "Sin web" }, { value: "basic", label: "Web básica (informativa)" }, { value: "ok", label: "Web funcional con CTA" }, { value: "optimized", label: "Web optimizada para conversión" }]} />
                       <SelectField id="webSpeed" label="Velocidad de carga"
                         hint="Google penaliza las webs lentas (Core Web Vitals)."
                         value={draft.digital.websiteSpeed}
                         onChange={v => setDraft(p => ({ ...p, digital: { ...p.digital, websiteSpeed: v as AuditAnswers["digital"]["websiteSpeed"] } }))}
-                        options={[{ value: "slow", label: "Lenta (mas de 3 seg)" }, { value: "ok", label: "Normal (1-3 seg)" }, { value: "fast", label: "Rápida (menos de 1 seg)" }]} />
+                        options={[{ value: "slow", label: "Lenta (más de 3 seg)" }, { value: "ok", label: "Normal (1-3 seg)" }, { value: "fast", label: "Rápida (menos de 1 seg)" }]} />
                       <SelectField id="seoStrategy" label="Estrategia SEO"
                         hint="¿Recibes visitas orgánicas de Google de forma consistente?"
                         value={draft.digital.seoStrategy}
@@ -615,7 +617,7 @@ export default function AuditWizard() {
                 {/* ── STEP 2: Marketing ────────────────────────────────── */}
                 {step === 2 && (
                   <div className="space-y-5">
-                    <StepHeader step="2" title="Marketing y Captación" description="Cómo atraes nuevos clientes y qué volumen genera tu sistema actual." icon="🎯" />
+                    <StepHeader step="2" title="Marketing y Captación" description="Cómo atraes nuevos clientes y qué volumen genera tu sistema actual." />
                     <SectionGrid>
                       <SelectField id="mainChannel" label="Canal principal de captación"
                         hint="¿Por qué vía llegan la mayoría de tus clientes nuevos?"
@@ -659,7 +661,7 @@ export default function AuditWizard() {
                 {/* ── STEP 3: Ventas ───────────────────────────────────── */}
                 {step === 3 && (
                   <div className="space-y-5">
-                    <StepHeader step="3" title="Ventas y Pipeline" description="Cómo gestionas oportunidades desde el primer contacto hasta el cierre." icon="📈" />
+                    <StepHeader step="3" title="Ventas y Pipeline" description="Cómo gestionas oportunidades desde el primer contacto hasta el cierre." />
                     <SectionGrid>
                       <SelectField id="leadTool" label="Herramienta de seguimiento de leads"
                         hint="¿Dónde vives el estado de cada oportunidad comercial?"
@@ -680,7 +682,7 @@ export default function AuditWizard() {
                         hint="¿Sabes en qué etapa del proceso se caen más oportunidades?"
                         value={draft.sales.conversionTracking}
                         onChange={v => setDraft(p => ({ ...p, sales: { ...p.sales, conversionTracking: v as AuditAnswers["sales"]["conversionTracking"] } }))}
-                        options={[{ value: "none", label: "No se mide" }, { value: "basic", label: "Medición básica de cierres" }, { value: "optimized", label: "Conversion medida y optimizada por etapa" }]} />
+                        options={[{ value: "none", label: "No se mide" }, { value: "basic", label: "Medición básica de cierres" }, { value: "optimized", label: "Conversión medida y optimizada por etapa" }]} />
                       <SelectField id="forecastLevel" label="Forecast de ventas"
                         hint="¿Proyectas cuánto vas a facturar el próximo mes y trimestre?"
                         value={draft.sales.forecastLevel}
@@ -703,7 +705,7 @@ export default function AuditWizard() {
                 {/* ── STEP 4: Operaciones ──────────────────────────────── */}
                 {step === 4 && (
                   <div className="space-y-5">
-                    <StepHeader step="4" title="Operaciones y Procesos" description="Eficiencia interna, automatización y calidad en la entrega." icon="⚙️" />
+                    <StepHeader step="4" title="Operaciones y Procesos" description="Eficiencia interna, automatización y calidad en la entrega." />
                     <SectionGrid>
                       <SelectField id="repetition" label="Nivel de tareas repetitivas"
                         hint="¿Qué proporción del trabajo diario es siempre lo mismo?"
@@ -741,7 +743,7 @@ export default function AuditWizard() {
                 {/* ── STEP 5: Clientes ─────────────────────────────────── */}
                 {step === 5 && (
                   <div className="space-y-5">
-                    <StepHeader step="5" title="Clientes y Retención" description="Qué tan bien cuidas a los clientes que ya tienes — el activo más valioso." icon="🤝" />
+                    <StepHeader step="5" title="Clientes y Retención" description="Qué tan bien cuidas a los clientes que ya tienes — el activo más valioso." />
                     <SectionGrid>
                       <SelectField id="retentionTracking" label="Seguimiento de retención de clientes"
                         hint="¿Sabes cuántos clientes repiten y cuántos no vuelven?"
@@ -776,7 +778,7 @@ export default function AuditWizard() {
                 {/* ── STEP 6: Datos e IA ───────────────────────────────── */}
                 {step === 6 && (
                   <div className="space-y-5">
-                    <StepHeader step="6" title="Datos e Inteligencia" description="KPIs, reporting y adopción de IA — la brecha competitiva más rápida de ampliar." icon="📊" />
+                    <StepHeader step="6" title="Datos e Inteligencia" description="KPIs, reporting y adopción de IA — la brecha competitiva más rápida de ampliar." />
                     <SectionGrid>
                       <SelectField id="kpiUsage" label="Uso de KPIs de negocio"
                         hint="¿Tienes métricas clave definidas que revisas de forma regular?"
@@ -812,7 +814,7 @@ export default function AuditWizard() {
                 {/* ── STEP 7: Finanzas ─────────────────────────────────── */}
                 {step === 7 && (
                   <div className="space-y-5">
-                    <StepHeader step="7" title="Finanzas y Rentabilidad" description="Control de márgenes, cashflow y estructura de precios." icon="💰" />
+                    <StepHeader step="7" title="Finanzas y Rentabilidad" description="Control de márgenes, cashflow y estructura de precios." />
                     <SectionGrid>
                       <SelectField id="marginVis" label="Visibilidad del margen por producto/servicio"
                         hint="¿Sabes qué línea de negocio gana y cuál pierde dinero?"
@@ -853,8 +855,8 @@ export default function AuditWizard() {
                 {/* ── STEP 8: Seguridad ────────────────────────────────── */}
                 {step === 8 && (
                   <div className="space-y-5">
-                    <StepHeader step="8" title="Seguridad y Cumplimiento" description="Protección de datos, continuidad del negocio y cumplimiento legal." icon="🛡️" />
-                    <div className="rounded-xl border border-amber-500/20 bg-amber-500/[0.06] px-4 py-3 text-xs text-amber-300 mb-2">
+                    <StepHeader step="8" title="Seguridad y Cumplimiento" description="Protección de datos, continuidad del negocio y cumplimiento legal." />
+                    <div className="mb-2 border-l-2 border-brand-600 bg-[#F5F6F8] px-4 py-3 text-[13px] leading-relaxed text-[#3D4046]">
                       El 60% de las pymes que sufren un ciberataque serio cierran en 6 meses. El RGPD puede suponer sanciones de hasta el 4% de la facturación global. Estos controles básicos son no negociables.
                     </div>
                     <div className="grid gap-2.5 sm:grid-cols-2">
@@ -878,8 +880,8 @@ export default function AuditWizard() {
                 {step === 9 && (
                   <div className="space-y-6">
                     <div>
-                      <h3 className="text-xl font-bold text-white mb-1">Análisis completado 🎉</h3>
-                      <p className="text-sm text-slate-400">Puedes ver el resultado en pantalla ahora mismo. Si quieres recibirlo por email en PDF, rellena los datos opcionales.</p>
+                      <h2 className="text-h3 mb-2">Análisis completado</h2>
+                      <p className="text-[15px] leading-relaxed text-[#3D4046]">Puedes ver el resultado en pantalla ahora mismo. Si quieres recibirlo por email en PDF, rellena los datos opcionales.</p>
                     </div>
                     <ToggleCard label="Quiero recibir el informe completo por email (PDF)"
                       description="Sin registro. Solo si quieres conservarlo o compartirlo."
@@ -893,16 +895,16 @@ export default function AuditWizard() {
                           <TextInput id="website" label="Web" value={draft.contact.website ?? ""} onChange={v => setDraft(p => ({ ...p, contact: { ...p.contact, website: v } }))} placeholder="miempresa.es" />
                           <TextInput id="phone" label="Teléfono" value={draft.contact.phone ?? ""} onChange={v => setDraft(p => ({ ...p, contact: { ...p.contact, phone: v } }))} placeholder="+34 600 000 000" inputMode="tel" />
                         </div>
-                        <label className="flex items-start gap-2.5 cursor-pointer">
-                          <input type="checkbox" checked={draft.contact.consent} onChange={e => setDraft(p => ({ ...p, contact: { ...p.contact, consent: e.target.checked } }))} className="mt-1 h-4 w-4 accent-sky-500" />
-                          <span className="text-xs text-slate-400 leading-relaxed">
-                            He leído y acepto la <a href="/legal/privacidad" className="text-sky-400 underline">Política de privacidad</a>. Qubelia usará estos datos solo para enviarme el informe y contactar si lo solicito.
+                        <label className="flex items-start gap-3 cursor-pointer">
+                          <input type="checkbox" checked={draft.contact.consent} onChange={e => setDraft(p => ({ ...p, contact: { ...p.contact, consent: e.target.checked } }))} className="mt-1 h-4 w-4" />
+                          <span className="text-[13px] leading-relaxed text-[#3D4046]">
+                            He leído y acepto la <a href="/legal/privacidad" className="font-medium text-[#101014] underline decoration-[#C9CCD3] underline-offset-4 transition-colors hover:decoration-brand-600">Política de privacidad</a>. Qubelia usará estos datos solo para enviarme el informe y contactar si lo solicito.
                           </span>
                         </label>
                       </div>
                     )}
-                    <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-4 text-xs text-slate-500 leading-relaxed">
-                      🔒 Sin PII en analytics. Email opcional y nunca obligatorio. El informe está disponible en pantalla sin registro.
+                    <div className="border border-[#E4E6EA] bg-[#F5F6F8] p-4 text-[13px] leading-relaxed text-[#3D4046]">
+                      Sin PII en analytics. Email opcional y nunca obligatorio. El informe está disponible en pantalla sin registro.
                     </div>
                   </div>
                 )}
@@ -910,10 +912,7 @@ export default function AuditWizard() {
                 {/* ── STEP 10: Resultado ───────────────────────────────── */}
                 {step === 10 && !result && (
                   <div className="flex items-center justify-center py-16">
-                    <div className="text-center space-y-2">
-                      <div className="text-3xl animate-pulse">⚡</div>
-                      <p className="text-slate-400 text-sm">Generando tu análisis...</p>
-                    </div>
+                    <p className="text-sm text-[#63666D]">Generando tu análisis...</p>
                   </div>
                 )}
 
@@ -921,47 +920,45 @@ export default function AuditWizard() {
                   <div className="space-y-6">
                     {/* Hero score */}
                     <motion.div
-                      className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.03] to-white/[0.01] p-6"
-                      initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}
+                      className="border border-[#E4E6EA] bg-white p-6"
+                      initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-br from-sky-500/[0.06] to-indigo-500/[0.04] pointer-events-none" />
-                      <div className="relative flex flex-wrap items-start justify-between gap-6">
+                      <div className="flex flex-wrap items-start justify-between gap-6">
                         <div>
-                          <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500 mb-2">Puntuación global</p>
-                          <div className="flex items-baseline gap-3">
-                            <span className="text-6xl font-black tabular-nums text-white">
+                          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Puntuación global</p>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-6xl font-semibold tabular-nums tracking-tight text-[#101014]">
                               <AnimatedCounter target={result.scores.total} />
                             </span>
-                            <span className="text-2xl font-bold text-white/20">/100</span>
+                            <span className="text-2xl font-semibold text-[#9DA0A6]">/100</span>
                           </div>
-                          <p className="text-xs text-slate-400 mt-1.5">{verticalLabel} · {goalLabel}</p>
+                          <p className="mt-2 text-sm text-[#63666D]">{verticalLabel} · {goalLabel}</p>
                         </div>
                         {maturity && (
-                          <div className={`rounded-xl border px-4 py-3 ${maturity.color}`}>
-                            <p className="text-[10px] font-bold uppercase tracking-[0.18em] mb-1 opacity-70">Nivel de madurez</p>
-                            <p className="text-lg font-black">{maturity.label}</p>
-                            <p className="text-xs opacity-70 mt-0.5">{maturity.description}</p>
+                          <div className={`border px-4 py-3 ${maturity.color}`}>
+                            <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Nivel de madurez</p>
+                            <p className="text-lg font-semibold tracking-tight">{maturity.label}</p>
+                            <p className="mt-0.5 text-xs text-[#63666D]">{maturity.description}</p>
                           </div>
                         )}
                         <div className="w-full sm:w-52">
                           <RadarChart scores={result.scores} benchmarks={benchmarks} />
                         </div>
                       </div>
-                      <div className="mt-4 h-2.5 w-full overflow-hidden rounded-full bg-white/[0.06]">
+                      <div className="mt-6 h-1.5 w-full overflow-hidden bg-[#E4E6EA]">
                         <motion.div
-                          className="h-full rounded-full bg-gradient-to-r from-sky-400 to-indigo-400"
-                          initial={{ width: 0 }} animate={{ width: `${result.scores.total}%` }} transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
+                          className="h-full bg-brand-600"
+                          initial={{ width: 0 }} animate={{ width: `${result.scores.total}%` }} transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
                         />
                       </div>
                     </motion.div>
 
                     {/* Summary */}
-                    <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500 mb-3">Resumen ejecutivo</p>
-                      <ul className="space-y-2.5">
+                    <div className="border border-[#E4E6EA] bg-white p-6">
+                      <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Resumen ejecutivo</p>
+                      <ul className="divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
                         {result.report.summary.map((item, i) => (
-                          <motion.li key={i} className="flex gap-2.5 text-sm text-slate-300 leading-relaxed" initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.08 }}>
-                            <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-sky-400" />
+                          <motion.li key={i} className="py-3 text-sm leading-relaxed text-[#3D4046]" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: i * 0.06 }}>
                             {item}
                           </motion.li>
                         ))}
@@ -969,12 +966,12 @@ export default function AuditWizard() {
                     </div>
 
                     {/* Score breakdown */}
-                    <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5">
-                      <div className="flex items-center justify-between mb-4">
-                        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500">Puntuación por área vs media del sector</p>
-                        <span className="text-[10px] text-slate-600">Línea = media sectorial</span>
+                    <div className="border border-[#E4E6EA] bg-white p-6">
+                      <div className="mb-5 flex flex-wrap items-baseline justify-between gap-2">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Puntuación por área vs media del sector</p>
+                        <span className="text-xs text-[#9DA0A6]">Línea = media sectorial</span>
                       </div>
-                      <div className="space-y-4">
+                      <div className="space-y-5">
                         {scoreCards.map(item => (
                           <ScoreBar key={item.label} label={item.label} value={item.value} benchmark={item.bench} />
                         ))}
@@ -983,12 +980,11 @@ export default function AuditWizard() {
 
                     {/* Strengths */}
                     {result.report.strengths.length > 0 && (
-                      <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.05] p-5">
-                        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-emerald-400 mb-3">✦ Puntos fuertes detectados</p>
-                        <ul className="space-y-2.5">
+                      <div className="border border-[#E4E6EA] bg-white p-6">
+                        <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Puntos fuertes detectados</p>
+                        <ul className="divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
                           {result.report.strengths.map((item, i) => (
-                            <li key={i} className="flex gap-2.5 text-sm text-slate-300 leading-relaxed">
-                              <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-emerald-400" />
+                            <li key={i} className="py-3 text-sm leading-relaxed text-[#3D4046]">
                               {item}
                             </li>
                           ))}
@@ -997,15 +993,13 @@ export default function AuditWizard() {
                     )}
 
                     {/* Weak points */}
-                    <div className="rounded-2xl border border-rose-500/15 bg-rose-500/[0.04] p-5">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-rose-300 mb-3">⚠ Brechas identificadas por prioridad</p>
-                      <ul className="space-y-3">
+                    <div className="border border-[#E4E6EA] bg-white p-6">
+                      <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Brechas identificadas por prioridad</p>
+                      <ul className="divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
                         {result.report.weakPoints.map((item, i) => (
-                          <motion.li key={i} className="flex items-start gap-3" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.06 }}>
-                            <span className="inline-flex h-5 w-5 flex-none items-center justify-center rounded-full bg-white/[0.06] text-[9px] font-bold text-slate-400 mt-0.5">{i + 1}</span>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm text-slate-300 leading-snug">{item.text}</p>
-                            </div>
+                          <motion.li key={i} className="flex items-start gap-4 py-3.5" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: i * 0.05 }}>
+                            <span className="mt-0.5 flex-none text-sm font-medium tabular-nums text-[#9DA0A6]">{String(i + 1).padStart(2, "0")}</span>
+                            <p className="min-w-0 flex-1 text-sm leading-snug text-[#3D4046]">{item.text}</p>
                             <SeverityBadge severity={item.severity} />
                           </motion.li>
                         ))}
@@ -1014,8 +1008,8 @@ export default function AuditWizard() {
 
                     {/* Opportunities */}
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500 mb-3">🚀 Top 3 oportunidades de crecimiento</p>
-                      <div className="grid gap-3 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3">
+                      <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Top 3 oportunidades de crecimiento</p>
+                      <div className="grid gap-4 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3">
                         {result.report.opportunities.map((opp, i) => (
                           <OpportunityCard key={i} opp={opp} index={i} />
                         ))}
@@ -1023,15 +1017,15 @@ export default function AuditWizard() {
                     </div>
 
                     {/* Quick wins */}
-                    <div className="rounded-2xl border border-sky-500/20 bg-sky-500/[0.04] p-5">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-sky-400 mb-3">⚡ Quick wins — acciones para esta semana</p>
-                      <ul className="space-y-3">
+                    <div className="border border-[#E4E6EA] bg-white p-6">
+                      <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Quick wins — acciones para esta semana</p>
+                      <ul className="divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
                         {result.report.quickWins.map((item, i) => (
-                          <li key={i} className="flex items-start gap-3">
-                            <span className="inline-flex h-5 w-5 flex-none items-center justify-center rounded-full bg-sky-500/20 text-[9px] font-bold text-sky-300 mt-0.5">{i + 1}</span>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm text-slate-300 leading-snug">{item.text}</p>
-                              <p className="text-[10px] text-slate-500 mt-0.5">{item.timeframe}</p>
+                          <li key={i} className="flex items-start gap-4 py-3.5">
+                            <span className="mt-0.5 flex-none text-sm font-medium tabular-nums text-[#9DA0A6]">{String(i + 1).padStart(2, "0")}</span>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-sm leading-snug text-[#3D4046]">{item.text}</p>
+                              <p className="mt-1 text-xs text-[#63666D]">{item.timeframe}</p>
                             </div>
                             <EffortBadge effort={item.effort} />
                           </li>
@@ -1040,78 +1034,85 @@ export default function AuditWizard() {
                     </div>
 
                     {/* Roadmap */}
-                    <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500 mb-4">🗺 Hoja de ruta 90 días</p>
-                      <div className="space-y-5">
-                        {result.report.roadmap.map((phase, pi) => {
-                          const phaseColors = ["text-amber-300", "text-sky-300", "text-emerald-300"];
-                          const phaseBg = ["border-amber-500/20 bg-amber-500/[0.05]", "border-sky-500/20 bg-sky-500/[0.05]", "border-emerald-500/20 bg-emerald-500/[0.05]"];
-                          return (
-                            <div key={pi} className={`rounded-xl border p-4 ${phaseBg[pi % 3]}`}>
-                              <p className={`text-[10px] font-bold uppercase tracking-[0.18em] mb-1 ${phaseColors[pi % 3]}`}>{phase.title}</p>
-                              <p className="text-xs text-slate-400 mb-2.5">{phase.goal}</p>
+                    <div className="border border-[#E4E6EA] bg-white p-6">
+                      <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Hoja de ruta 90 días</p>
+                      <div className="divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
+                        {result.report.roadmap.map((phase, pi) => (
+                          <div key={pi} className="flex gap-5 py-5">
+                            <span className="flex-none text-2xl font-light leading-none tabular-nums text-[#9DA0A6]">
+                              {String(pi + 1).padStart(2, "0")}
+                            </span>
+                            <div className="min-w-0">
+                              <p className="text-sm font-semibold tracking-tight text-[#101014]">{phase.title}</p>
+                              <p className="mt-1 mb-3 text-[13px] text-[#63666D]">{phase.goal}</p>
                               <ul className="space-y-1.5">
                                 {phase.tasks.map((task, ti) => (
-                                  <li key={ti} className="flex gap-2 text-xs text-slate-300">
-                                    <span className="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-white/20" />
-                                    {task}
+                                  <li key={ti} className="flex gap-2 text-[13px] leading-snug text-[#3D4046]">
+                                    <span aria-hidden className="text-brand-600">·</span>
+                                    <span>{task}</span>
                                   </li>
                                 ))}
                               </ul>
                             </div>
-                          );
-                        })}
+                          </div>
+                        ))}
                       </div>
                     </div>
 
                     {/* Impact matrix */}
-                    <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-5">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-slate-500 mb-4">Matriz impacto vs esfuerzo</p>
-                      <div className="grid gap-2.5 sm:grid-cols-2">
-                        {result.report.impactMatrix.map(group => {
-                          const styles = { green: "border-emerald-500/20 bg-emerald-500/[0.05]", blue: "border-sky-500/20 bg-sky-500/[0.05]", amber: "border-amber-500/20 bg-amber-500/[0.05]", red: "border-rose-500/20 bg-rose-500/[0.05]" };
-                          const labelStyles = { green: "text-emerald-400", blue: "text-sky-400", amber: "text-amber-400", red: "text-rose-400" };
-                          return (
-                            <div key={group.label} className={`rounded-xl border p-3.5 ${styles[group.color]}`}>
-                              <p className={`text-[10px] font-bold uppercase tracking-[0.14em] mb-2 ${labelStyles[group.color]}`}>{group.label}</p>
-                              <ul className="space-y-1.5">
-                                {group.items.map(item => (
-                                  <li key={item} className="flex gap-2 text-[11px] text-slate-300 leading-snug">
-                                    <span className="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-white/15" />
-                                    {item}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          );
-                        })}
+                    <div className="border border-[#E4E6EA] bg-white p-6">
+                      <p className="mb-5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Matriz impacto vs esfuerzo</p>
+                      <div className="grid gap-px bg-[#E4E6EA] sm:grid-cols-2">
+                        {result.report.impactMatrix.map(group => (
+                          <div key={group.label} className="bg-white p-4">
+                            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#101014]">{group.label}</p>
+                            <ul className="space-y-1.5">
+                              {group.items.map(item => (
+                                <li key={item} className="flex gap-2 text-[13px] leading-snug text-[#3D4046]">
+                                  <span aria-hidden className="text-[#9DA0A6]">·</span>
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
                       </div>
                     </div>
 
                     {/* Personalized CTA */}
                     <motion.div
-                      className="rounded-2xl border border-indigo-500/25 bg-gradient-to-br from-indigo-500/10 to-sky-500/[0.05] p-6"
-                      initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+                      className="band-dark p-6 sm:p-8"
+                      initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
                     >
-                      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-indigo-300 mb-2">Siguiente paso recomendado</p>
-                      <p className="text-base font-bold text-white mb-2">
+                      <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/50">Siguiente paso recomendado</p>
+                      <p className="mb-3 text-lg font-semibold leading-snug tracking-tight text-white">
                         {result.scores.total < 45
                           ? "Tu negocio tiene un potencial enorme sin explotar. En 90 días podemos transformar las brechas críticas en ventajas competitivas."
                           : result.scores.total < 65
                           ? "Estás más cerca de donde quieres estar de lo que crees. El plan está claro — necesitas el equipo que lo ejecute."
                           : "Base sólida. El siguiente nivel requiere sistemas, datos e IA bien integrados para escalar sin fricción."}
                       </p>
-                      <p className="text-sm text-slate-400 mb-4">Agenda una llamada de 45 min con nuestro equipo — sin compromiso. Revisamos tu caso y te dejamos un plan accionable.</p>
-                      <div className="flex flex-col sm:flex-row gap-3">
-                        <Button as="a" href="/#contacto" variant="shine">Agendar diagnóstico gratuito →</Button>
-                        <Button variant="ghost" onClick={handlePdfDownload} disabled={pdfStatus === "loading"}>
-                          {pdfStatus === "loading" ? "Generando PDF…" : pdfStatus === "done" ? "PDF descargado ✓" : "Descargar informe PDF"}
-                        </Button>
+                      <p className="mb-6 text-sm leading-relaxed text-white/70">Agenda una llamada de 45 min con nuestro equipo — sin compromiso. Revisamos tu caso y te dejamos un plan accionable.</p>
+                      <div className="flex flex-col gap-3 sm:flex-row">
+                        <a
+                          href="/#contacto"
+                          className="inline-flex items-center justify-center rounded-[2px] bg-white px-6 py-3 text-sm font-medium tracking-tight text-[#101014] transition-colors hover:bg-white/90"
+                        >
+                          Agendar diagnóstico gratuito
+                        </a>
+                        <button
+                          type="button"
+                          onClick={handlePdfDownload}
+                          disabled={pdfStatus === "loading"}
+                          className="inline-flex items-center justify-center rounded-[2px] border border-white/30 px-6 py-3 text-sm font-medium tracking-tight text-white transition-colors hover:border-white disabled:pointer-events-none disabled:opacity-50"
+                        >
+                          {pdfStatus === "loading" ? "Generando PDF…" : pdfStatus === "done" ? "PDF descargado" : "Descargar informe PDF"}
+                        </button>
                       </div>
                     </motion.div>
 
-                    {submitStatus === "saved" && <p className="text-xs text-sky-400">Análisis guardado.{emailSent ? " PDF enviado a tu email." : ""}</p>}
-                    {submitStatus === "error" && <p className="text-xs text-amber-400">No se pudo guardar el análisis. El PDF sigue disponible en pantalla.</p>}
+                    {submitStatus === "saved" && <p className="text-xs text-[#63666D]">Análisis guardado.{emailSent ? " PDF enviado a tu email." : ""}</p>}
+                    {submitStatus === "error" && <p className="text-xs text-[#63666D]">No se pudo guardar el análisis. El PDF sigue disponible en pantalla.</p>}
                   </div>
                 )}
 
@@ -1120,14 +1121,14 @@ export default function AuditWizard() {
 
             {/* Error */}
             {error && (
-              <div className="rounded-xl border border-amber-500/30 bg-amber-500/[0.08] px-4 py-3 text-sm text-amber-300">{error}</div>
+              <div className="border-l-2 border-brand-600 bg-[#F5F6F8] px-4 py-3 text-sm text-[#101014]">{error}</div>
             )}
 
             {/* Navigation */}
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-4 border-t border-white/[0.05]">
-              <Button variant="ghost" onClick={goBack} disabled={step === 0} className="w-full sm:w-auto">← Anterior</Button>
+            <div className="flex flex-col gap-3 border-t border-[#E4E6EA] pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <Button variant="ghost" onClick={goBack} disabled={step === 0} className="w-full sm:w-auto">Anterior</Button>
               {step < steps.length - 1 ? (
-                <Button variant="shine" onClick={goNext} className="w-full sm:w-auto">{nextLabel} →</Button>
+                <Button variant="primary" onClick={goNext} className="w-full sm:w-auto">{nextLabel}</Button>
               ) : (
                 <Button variant="ghost" onClick={() => { setStep(0); setResult(null); setDraft(initialDraft); setSubmitStatus("idle"); }} className="w-full sm:w-auto">Repetir análisis</Button>
               )}
@@ -1137,44 +1138,43 @@ export default function AuditWizard() {
       </main>
 
       {/* ── RIGHT: Summary + CTA ─────────────────────────────────────── */}
-      <aside className="order-3 lg:order-none space-y-4 lg:sticky lg:top-24">
-        <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4">
-          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-500 mb-3">Tu análisis</p>
-          <div className="space-y-2.5">
+      <aside className="order-3 lg:order-none space-y-6 lg:sticky lg:top-24">
+        <div className="border border-[#E4E6EA] bg-white p-5">
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Tu análisis</p>
+          <dl className="divide-y divide-[#E4E6EA] border-t border-[#E4E6EA]">
             {[
               { label: "Sector", value: verticalLabel },
               { label: "Objetivo", value: goalLabel },
               { label: "Paso", value: `${steps[step]?.id ?? "?"} / ${steps.length}` },
               { label: "Score", value: result ? `${result.scores.total}/100` : "—" },
             ].map(row => (
-              <div key={row.label} className="flex items-center justify-between gap-2 text-xs">
-                <span className="text-slate-500">{row.label}</span>
-                <span className="font-semibold text-slate-200 truncate text-right max-w-[120px]">{row.value}</span>
+              <div key={row.label} className="flex items-center justify-between gap-2 py-2.5 text-xs">
+                <dt className="text-[#63666D]">{row.label}</dt>
+                <dd className="max-w-[120px] truncate text-right font-medium text-[#101014]">{row.value}</dd>
               </div>
             ))}
-          </div>
-          <div className="mt-3.5">
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[0.06]">
-              <motion.div className="h-full rounded-full bg-sky-500" animate={{ width: `${progress}%` }} transition={{ duration: 0.4 }} />
+          </dl>
+          <div className="mt-5">
+            <div className="h-1 w-full overflow-hidden bg-[#E4E6EA]">
+              <motion.div className="h-full bg-brand-600" animate={{ width: `${progress}%` }} transition={{ duration: 0.4 }} />
             </div>
-            <p className="mt-1.5 text-[10px] text-slate-600">{progress}% completado</p>
+            <p className="mt-2 text-xs text-[#63666D]">{progress}% completado</p>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4">
-          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-500 mb-2">Privacidad</p>
-          <p className="text-[11px] text-slate-400 leading-relaxed mb-2.5">Sin registro. Email opcional. Tus datos no se usan en analytics sin consentimiento.</p>
-          <div className="flex items-start gap-2 rounded-xl border border-sky-500/20 bg-sky-500/[0.06] px-3 py-2.5">
-            <span className="text-sky-400 mt-0.5">✓</span>
-            <p className="text-[10px] text-sky-300">Sin PII en eventos analíticos</p>
-          </div>
+        <div className="border border-[#E4E6EA] bg-white p-5">
+          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">Privacidad</p>
+          <p className="mb-4 text-[13px] leading-relaxed text-[#3D4046]">Sin registro. Email opcional. Tus datos no se usan en analytics sin consentimiento.</p>
+          <p className="border-l-2 border-brand-600 bg-[#F5F6F8] px-3 py-2.5 text-xs text-[#3D4046]">
+            Sin PII en eventos analíticos
+          </p>
         </div>
 
         {step < 10 && (
-          <div className="rounded-2xl border border-white/[0.07] bg-white/[0.025] p-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-slate-500 mb-2">¿Prefieres hablar?</p>
-            <p className="text-[11px] text-slate-400 leading-relaxed mb-3">45 min con nuestro equipo. Dejamos un plan accionable — sin compromiso.</p>
-            <Button as="a" href="/#contacto" variant="shine" size="sm" className="w-full">Agendar ahora</Button>
+          <div className="border border-[#E4E6EA] bg-white p-5">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">¿Prefieres hablar?</p>
+            <p className="mb-5 text-[13px] leading-relaxed text-[#3D4046]">45 min con nuestro equipo. Dejamos un plan accionable — sin compromiso.</p>
+            <Button as="a" href="/#contacto" variant="primary" size="sm" className="w-full">Agendar ahora</Button>
           </div>
         )}
       </aside>

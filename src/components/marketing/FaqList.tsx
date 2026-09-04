@@ -1,54 +1,39 @@
 "use client";
 
-import { motion, AnimatePresence, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { Minus, Plus } from "lucide-react";
 import type { ServiceFaq } from "@/content/services";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 export default function FaqList({ items }: { items: ServiceFaq[] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <div ref={ref} className="space-y-3">
+    <div className="divide-y divide-[#E4E6EA] border-y border-[#E4E6EA]">
       {items.map((item, i) => {
         const isOpen = openIndex === i;
 
         return (
-          <motion.div
+          <div
             key={item.q}
-            className="group card-glass overflow-hidden rounded-2xl transition-all"
-            style={{ borderColor: isOpen ? "rgba(65,105,225,0.20)" : undefined }}
-            initial={{ opacity: 0, y: 16 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: i * 0.06, ease: EASE }}
+            className="animate-fade-up"
+            style={{ animationDelay: `${i * 50}ms` }}
           >
-            {/* Accent line top */}
-            <div
-              className="h-px transition-opacity duration-300"
-              style={{
-                background: "linear-gradient(90deg, transparent, rgba(65,105,225,0.40), transparent)",
-                opacity: isOpen ? 1 : 0,
-              }}
-            />
-
             <button
-              className="flex w-full cursor-pointer items-center justify-between gap-4 p-5 text-left"
+              className="flex w-full cursor-pointer items-center justify-between gap-4 py-5 text-left"
               onClick={() => setOpenIndex(isOpen ? null : i)}
               aria-expanded={isOpen}
             >
-              <span className="text-base font-semibold leading-snug" style={{ color: "var(--text-primary)" }}>
+              <span className="text-base font-medium leading-snug text-[#101014]">
                 {item.q}
               </span>
-              <motion.span
-                className="shrink-0 flex h-6 w-6 items-center justify-center rounded-full border border-blue-400/20 text-blue-400 text-sm"
-                animate={{ rotate: isOpen ? 45 : 0 }}
-                transition={{ duration: 0.3, ease: EASE }}
-              >
-                +
-              </motion.span>
+              {isOpen ? (
+                <Minus className="h-5 w-5 shrink-0 text-[#101014]" aria-hidden />
+              ) : (
+                <Plus className="h-5 w-5 shrink-0 text-[#101014]" aria-hidden />
+              )}
             </button>
 
             <AnimatePresence initial={false}>
@@ -57,16 +42,16 @@ export default function FaqList({ items }: { items: ServiceFaq[] }) {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.35, ease: EASE }}
+                  transition={{ duration: 0.3, ease: EASE }}
                   className="overflow-hidden"
                 >
-                  <p className="px-5 pb-5 max-w-3xl text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                  <p className="max-w-3xl pb-5 text-sm leading-relaxed text-[#3D4046]">
                     {item.a}
                   </p>
                 </motion.div>
               )}
             </AnimatePresence>
-          </motion.div>
+          </div>
         );
       })}
     </div>

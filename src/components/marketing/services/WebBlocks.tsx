@@ -4,6 +4,8 @@
  * stack visible. Todo Server Component.
  */
 
+const LABEL = "text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]";
+
 /* ────────────────────────────────────────────────────────────────
    LIGHTHOUSE PANEL — métrica grande con barras y diff
    ──────────────────────────────────────────────────────────────── */
@@ -16,100 +18,59 @@ export function WebLighthousePanel() {
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
-      <div className="lg:col-span-4 animate-fade-up">
-        <p
-          className="font-mono text-[11px] uppercase tracking-[0.18em] mb-3"
-          style={{ color: "var(--accent-light)" }}
-        >
-          Métricas reales · no sintéticas
-        </p>
-        <p
-          className="text-base leading-relaxed"
-          style={{ color: "var(--text-secondary)" }}
-        >
+    <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
+      <div className="animate-fade-up lg:col-span-4">
+        <p className={LABEL}>Métricas reales · no sintéticas</p>
+        <p className="mt-4 text-base leading-relaxed text-[#3D4046]">
           Los Core Web Vitals son lo que Google mide para decidir si tu web
           posiciona. Una plantilla WordPress típica falla en los cuatro.
           Una web a medida no debería.
         </p>
-        <div className="mt-6 grid grid-cols-2 gap-3">
-          <div
-            className="rounded-lg border p-3"
-            style={{
-              background: "rgba(91,141,239,0.06)",
-              borderColor: "rgba(91,141,239,0.2)",
-            }}
-          >
-            <div className="font-mono text-[10px] uppercase tracking-wider text-blue-300">
+
+        <div className="mt-8 grid grid-cols-2 divide-x divide-[#E4E6EA] border border-[#E4E6EA]">
+          <div className="bg-white p-4">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-600">
               Qubelia
             </div>
-            <div className="text-2xl font-black tracking-tight mt-1" style={{ color: "var(--text-primary)" }}>
-              98<span className="text-blue-300/60 text-base">/100</span>
+            <div className="mt-1.5 text-3xl font-semibold tracking-tight tabular-nums text-[#101014]">
+              98<span className="text-base font-normal text-[#9DA0A6]">/100</span>
             </div>
           </div>
-          <div
-            className="rounded-lg border p-3"
-            style={{
-              background: "rgba(173,193,255,0.02)",
-              borderColor: "rgba(173,193,255,0.12)",
-            }}
-          >
-            <div
-              className="font-mono text-[10px] uppercase tracking-wider"
-              style={{ color: "var(--text-muted)" }}
-            >
-              Plantilla
-            </div>
-            <div
-              className="text-2xl font-black tracking-tight mt-1"
-              style={{ color: "var(--text-muted)" }}
-            >
-              38<span className="text-base">/100</span>
+          <div className="bg-[#F5F6F8] p-4">
+            <div className={LABEL}>Plantilla</div>
+            <div className="mt-1.5 text-3xl font-semibold tracking-tight tabular-nums text-[#63666D]">
+              38<span className="text-base font-normal text-[#9DA0A6]">/100</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="lg:col-span-8 space-y-5">
-        {metrics.map((m, i) => (
-          <div
-            key={m.name}
-            className="animate-fade-up"
-            style={{ animationDelay: `${i * 100}ms` }}
-          >
-            <div className="flex items-baseline justify-between mb-2">
-              <div className="flex items-baseline gap-3">
-                <span className="font-mono font-bold text-blue-300 text-sm">
-                  {m.name}
-                </span>
-                <span
-                  className="font-mono text-[10px] uppercase tracking-wider"
-                  style={{ color: "var(--text-muted)" }}
-                >
-                  objetivo {m.target}
-                </span>
-              </div>
-              <div className="flex items-baseline gap-3 font-mono text-xs tabular-nums">
-                <span className="text-blue-300 font-bold">{m.ours}</span>
-                <span style={{ color: "var(--text-muted)" }}>vs {m.theirs}</span>
-              </div>
-            </div>
-            <div
-              className="h-2 rounded-full overflow-hidden"
-              style={{ background: "rgba(91,141,239,0.08)" }}
+      <div className="lg:col-span-8">
+        <ul className="divide-y divide-[#E4E6EA] border-y border-[#E4E6EA]">
+          {metrics.map((m, i) => (
+            <li
+              key={m.name}
+              className="animate-fade-up py-5"
+              style={{ animationDelay: `${i * 80}ms` }}
             >
-              <div
-                className="h-full rounded-full bar-grow"
-                style={{
-                  background:
-                    "linear-gradient(90deg, rgba(91,141,239,0.7), rgba(133,162,255,0.5))",
-                  ["--bar-w" as never]: `${m.pct}%`,
-                  animationDelay: `${300 + i * 100}ms`,
-                }}
-              />
-            </div>
-          </div>
-        ))}
+              <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                <div className="flex items-baseline gap-3">
+                  <span className="text-sm font-semibold text-[#101014]">{m.name}</span>
+                  <span className="text-[11px] uppercase tracking-[0.12em] text-[#63666D]">
+                    objetivo {m.target}
+                  </span>
+                </div>
+                <div className="flex items-baseline gap-3 text-xs tabular-nums">
+                  <span className="font-semibold text-brand-600">{m.ours}</span>
+                  <span className="text-[#63666D]">vs {m.theirs}</span>
+                </div>
+              </div>
+              <div className="h-1.5 w-full bg-[#E4E6EA]">
+                <div className="h-full bg-brand-600" style={{ width: `${m.pct}%` }} />
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
@@ -139,34 +100,23 @@ export function WebStackSnapshot() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-px overflow-hidden rounded-xl border"
-      style={{
-        background: "rgba(91,141,239,0.08)",
-        borderColor: "rgba(91,141,239,0.15)",
-      }}
-    >
+    <div className="grid grid-cols-1 gap-px border border-[#E4E6EA] bg-[#E4E6EA] md:grid-cols-2">
       {groups.map((g, i) => (
         <div
           key={g.label}
-          className="p-6 sm:p-7 animate-fade-up"
-          style={{ background: "var(--bg-page)", animationDelay: `${i * 80}ms` }}
+          className="animate-fade-up bg-white p-6 sm:p-8"
+          style={{ animationDelay: `${i * 70}ms` }}
         >
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-blue-300 mb-3">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-600">
             {g.label}
           </p>
-          <ul className="space-y-2">
+          <ul className="mt-4 divide-y divide-[#E4E6EA]">
             {g.items.map((it) => (
               <li
                 key={it}
-                className="text-sm leading-relaxed flex gap-2.5"
-                style={{ color: "var(--text-secondary)" }}
+                className="py-2.5 text-sm leading-relaxed text-[#3D4046] first:pt-0 last:pb-0"
               >
-                <span
-                  className="mt-2 h-1 w-1.5 shrink-0 rounded-full"
-                  style={{ background: "rgba(91,141,239,0.55)" }}
-                  aria-hidden
-                />
-                <span>{it}</span>
+                {it}
               </li>
             ))}
           </ul>
@@ -209,80 +159,47 @@ export function WebVsTemplate() {
   ];
 
   return (
-    <div className="overflow-hidden rounded-xl border"
-      style={{ borderColor: "rgba(91,141,239,0.15)" }}
-    >
-      <div className="grid grid-cols-12 gap-px"
-        style={{ background: "rgba(91,141,239,0.12)" }}
-      >
-        <div
-          className="col-span-4 px-4 py-3"
-          style={{ background: "var(--bg-page)" }}
-        >
-          <span
-            className="font-mono text-[10px] uppercase tracking-[0.2em]"
-            style={{ color: "var(--text-muted)" }}
-          >
-            Eje
-          </span>
-        </div>
-        <div
-          className="col-span-4 px-4 py-3"
-          style={{ background: "var(--bg-page)" }}
-        >
-          <span
-            className="font-mono text-[10px] uppercase tracking-[0.2em]"
-            style={{ color: "var(--text-muted)" }}
-          >
-            Plantilla / WordPress
-          </span>
-        </div>
-        <div
-          className="col-span-4 px-4 py-3"
-          style={{ background: "rgba(91,141,239,0.08)" }}
-        >
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-blue-300">
-            Web a medida
-          </span>
+    <div className="overflow-x-auto border border-[#E4E6EA]">
+      <div className="min-w-[560px]">
+        <div className="grid grid-cols-12 border-b border-[#E4E6EA] bg-[#F5F6F8]">
+          <div className="col-span-4 px-4 py-3 sm:px-5">
+            <span className={LABEL}>Eje</span>
+          </div>
+          <div className="col-span-4 px-4 py-3 sm:px-5">
+            <span className={LABEL}>Plantilla / WordPress</span>
+          </div>
+          <div className="col-span-4 px-4 py-3 sm:px-5">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-600">
+              Web a medida
+            </span>
+          </div>
         </div>
 
-        {rows.map((r, i) => (
-          <div key={r.axis} className="contents">
-            <div
-              className="col-span-4 px-4 py-4 animate-fade-up"
-              style={{ background: "var(--bg-page)", animationDelay: `${i * 70}ms` }}
+        <ul className="divide-y divide-[#E4E6EA]">
+          {rows.map((r, i) => (
+            <li
+              key={r.axis}
+              className="grid animate-fade-up grid-cols-12"
+              style={{ animationDelay: `${i * 60}ms` }}
             >
-              <span
-                className="text-sm font-semibold"
-                style={{ color: "var(--text-primary)" }}
-              >
-                {r.axis}
-              </span>
-            </div>
-            <div
-              className="col-span-4 px-4 py-4 animate-fade-up"
-              style={{ background: "var(--bg-page)", animationDelay: `${i * 70 + 30}ms` }}
-            >
-              <span
-                className="text-sm leading-relaxed"
-                style={{ color: "var(--text-muted)" }}
-              >
-                {r.theirs}
-              </span>
-            </div>
-            <div
-              className="col-span-4 px-4 py-4 animate-fade-up"
-              style={{ background: "rgba(91,141,239,0.04)", animationDelay: `${i * 70 + 60}ms` }}
-            >
-              <span
-                className="text-sm leading-relaxed"
-                style={{ color: "var(--text-secondary)" }}
-              >
-                {r.ours}
-              </span>
-            </div>
-          </div>
-        ))}
+              <div className="col-span-4 px-4 py-4 sm:px-5 sm:py-5">
+                <span className="text-[13px] font-medium text-[#101014] sm:text-sm">
+                  {r.axis}
+                </span>
+              </div>
+              <div className="col-span-4 px-4 py-4 sm:px-5 sm:py-5">
+                <span className="text-[13px] leading-relaxed text-[#63666D] sm:text-sm">
+                  {r.theirs}
+                </span>
+              </div>
+              <div className="col-span-4 bg-[#F5F6F8] px-4 py-4 sm:px-5 sm:py-5">
+                <span className="text-[13px] leading-relaxed text-[#3D4046] sm:text-sm">
+                  {r.ours}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
@@ -306,19 +223,17 @@ export function WebSeoChecklist() {
   ];
 
   return (
-    <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+    <ul className="grid grid-cols-1 border-t border-[#E4E6EA] md:grid-cols-2 md:gap-x-12">
       {items.map((it, i) => (
         <li
           key={it}
-          className="flex gap-3 text-sm leading-relaxed animate-fade-up"
-          style={{ color: "var(--text-secondary)", animationDelay: `${i * 50}ms` }}
+          className="flex animate-fade-up gap-4 border-b border-[#E4E6EA] py-4"
+          style={{ animationDelay: `${i * 40}ms` }}
         >
-          <span
-            className="mt-1.5 font-mono text-[10px] tabular-nums shrink-0 text-blue-300"
-          >
+          <span className="mt-0.5 shrink-0 text-[11px] font-medium tabular-nums text-[#9DA0A6]">
             {String(i + 1).padStart(2, "0")}
           </span>
-          <span>{it}</span>
+          <span className="text-sm leading-relaxed text-[#3D4046]">{it}</span>
         </li>
       ))}
     </ul>

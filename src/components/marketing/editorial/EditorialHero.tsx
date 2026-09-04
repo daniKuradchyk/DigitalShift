@@ -15,7 +15,8 @@ type Props = {
 };
 
 /**
- * Server Component. Reveal vía CSS (animate-fade-up + delay-*).
+ * Server Component. Hero editorial de servicio: blanco, tipografía grande,
+ * datos en fila dividida por líneas finas. Reveal vía CSS (animate-fade-up).
  */
 export default function EditorialHero({
   slug,
@@ -27,83 +28,44 @@ export default function EditorialHero({
   metaPills,
 }: Props) {
   return (
-    <section className="relative overflow-hidden pt-28 pb-20 sm:pt-32 sm:pb-24">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 50% at 75% 30%, rgba(65,105,225,0.10), transparent 60%)",
-        }}
-      />
-
-      <Container className="relative">
+    <section className="bg-white pt-28 pb-16 sm:pt-32 sm:pb-20">
+      <Container>
         <Breadcrumbs items={breadcrumbs} />
 
-        <div className="grid gap-12 lg:grid-cols-[1fr_auto] lg:items-start lg:gap-16">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-16">
           <div className="max-w-3xl">
-            <div className="animate-fade-up">
-              <span className="section-tag mb-6">
-                <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-breathe" aria-hidden />
-                {eyebrow}
-              </span>
-            </div>
+            <p className="section-tag animate-fade-up">{eyebrow}</p>
 
-            <h1
-              className="font-bold animate-fade-up delay-100"
-              style={{
-                color: "var(--text-primary)",
-                fontSize: "clamp(2rem, 5.5vw, 4rem)",
-                lineHeight: 1.05,
-                letterSpacing: "-0.035em",
-              }}
-            >
-              {title}
-            </h1>
+            <h1 className="text-h1 mt-6 animate-fade-up delay-100">{title}</h1>
 
-            <p
-              className="mt-6 text-lg sm:text-xl leading-relaxed max-w-2xl animate-fade-up delay-200"
-              style={{ color: "var(--text-secondary)" }}
-            >
+            <p className="mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-[#3D4046] animate-fade-up delay-200">
               {subtitle}
             </p>
 
-            <div
-              className="mt-7 pl-4 border-l-2 animate-fade-up delay-300"
-              style={{ borderColor: "rgba(91,141,239,0.35)" }}
-            >
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-blue-400 mb-1.5">
+            <div className="mt-8 border-l-2 border-brand-600 pl-5 animate-fade-up delay-300">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#63666D]">
                 Lo que también te diremos
               </p>
-              <p
-                className="text-[15px] leading-relaxed italic"
-                style={{ color: "var(--text-muted)" }}
-              >
+              <p className="mt-2 text-[15px] leading-relaxed text-[#3D4046]">
                 {honestyLine}
               </p>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 animate-fade-up delay-400">
+            <dl className="mt-10 grid grid-cols-2 gap-x-8 gap-y-6 border-t border-[#E4E6EA] pt-6 sm:grid-cols-4 animate-fade-up delay-400">
               {metaPills.map((p) => (
-                <div key={p.label} className="flex flex-col">
-                  <span
-                    className="font-mono text-[10px] uppercase tracking-[0.18em]"
-                    style={{ color: "var(--text-muted)" }}
-                  >
+                <div key={p.label}>
+                  <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#63666D]">
                     {p.label}
-                  </span>
-                  <span
-                    className="font-bold text-base sm:text-lg mt-0.5"
-                    style={{ color: "var(--accent-light)" }}
-                  >
+                  </dt>
+                  <dd className="mt-1.5 text-base font-semibold tracking-tight text-[#101014]">
                     {p.value}
-                  </span>
+                  </dd>
                 </div>
               ))}
-            </div>
+            </dl>
 
             <div className="mt-10 flex flex-wrap gap-3 animate-fade-up delay-500">
-              <Button as="a" href="/#contacto" variant="shine">
+              <Button as="a" href="/#contacto" variant="primary">
                 Diagnóstico gratuito
               </Button>
               <Button as="a" href="/servicios" variant="ghost">
@@ -112,7 +74,7 @@ export default function EditorialHero({
             </div>
           </div>
 
-          <div className="lg:sticky lg:top-28 lg:self-start animate-fade-up delay-200">
+          <div className="lg:sticky lg:top-28 lg:self-start">
             <HeroSignature slug={slug} />
           </div>
         </div>
