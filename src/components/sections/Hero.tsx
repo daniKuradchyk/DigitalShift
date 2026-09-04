@@ -14,24 +14,24 @@ export default function Hero() {
     <section aria-labelledby="hero-title" className="bg-white">
       <Container>
         <div className="pt-20 sm:pt-24 lg:pt-32 pb-16 sm:pb-20">
-          <p className="section-tag animate-fade-up">
+          <p className="section-tag">
             Ingeniería de software B2B
           </p>
 
           <h1
             id="hero-title"
-            className="mt-8 max-w-5xl text-display animate-fade-up delay-100"
+            className="mt-8 max-w-5xl text-display"
           >
             Software a medida que mueve
             <br className="hidden sm:block" /> resultados, no expectativas.
           </h1>
 
-          <p className="mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-[#3D4046] animate-fade-up delay-200">
+          <p className="mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-[#3D4046]">
             Desarrollo, automatización y sistemas internos para empresas españolas
             que necesitan resultados operativos. Con IA cuando aporta, sin IA cuando no.
           </p>
 
-          <div className="mt-10 flex flex-col sm:flex-row gap-3 animate-fade-up delay-300">
+          <div className="mt-10 flex flex-col sm:flex-row gap-3">
             <Button as="a" href="/#contacto" variant="primary" size="lg" className="w-full sm:w-auto">
               Diagnóstico gratuito de 30 min
             </Button>
@@ -42,7 +42,7 @@ export default function Hero() {
         </div>
 
         {/* Fila de datos de prueba, separada por línea fina */}
-        <div className="border-t border-[#E4E6EA] animate-fade-up delay-400">
+        <div className="border-t border-[#E4E6EA]">
           <dl className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-[#E4E6EA]">
             {PROOF_POINTS.map((point) => (
               <div key={point.label} className="py-6 sm:py-8 sm:px-8 first:sm:pl-0 last:sm:pr-0">
@@ -59,7 +59,7 @@ export default function Hero() {
         </div>
 
         {/* Logos: estáticos, en gris, sin marquee */}
-        <div className="border-t border-[#E4E6EA] py-10 sm:py-12 animate-fade-up delay-500">
+        <div className="border-t border-[#E4E6EA] py-10 sm:py-12">
           <p className="text-xs font-medium uppercase tracking-[0.14em] text-[#9DA0A6]">
             Experiencia del equipo en proyectos para
           </p>

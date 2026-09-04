@@ -45,3 +45,6 @@ scripts/setup-scheduler.bat
 
 # Helper local de desarrollo (rutas absolutas de la máquina)
 .claude/dev-server.cmd
+
+# Informes locales de Lighthouse
+lh-*.json
